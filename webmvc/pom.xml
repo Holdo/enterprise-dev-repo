@@ -33,6 +33,11 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.basex</groupId>
+            <artifactId>basex</artifactId>
+            <version>${basex.version}</version>
+        </dependency>
 
         <!-- Tests -->
         <dependency>

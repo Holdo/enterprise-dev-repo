@@ -20,6 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>4.3.0.RC2</spring.version>
         <spring.boot.version>1.4.0.BUILD-SNAPSHOT</spring.boot.version>
+        <basex.version>8.5-SNAPSHOT</basex.version>
     </properties>
 
     <build>
@@ -76,6 +77,16 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
+        </repository>
+        <repository>
+            <id>basex</id>
+            <name>BaseX Maven Repository</name>
+            <url>http://files.basex.org/maven</url>
+        </repository>
+        <repository>
+            <id>xqj</id>
+            <name>XQJ Maven Repository</name>
+            <url>http://xqj.net/maven</url>
         </repository>
     </repositories>
     <pluginRepositories>

@@ -1,6 +1,7 @@
 package cz.muni.fi.pb138.service;
 
 import cz.muni.fi.pb138.api.BinaryService;
+import org.basex.BaseXClient;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -17,6 +17,32 @@
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.basex</groupId>
+            <artifactId>basex-api</artifactId>
+            <version>${basex.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>net.xqj</groupId>
+            <artifactId>basex-xqj</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.xqj2</groupId>
+            <artifactId>xqj2</artifactId>
+            <version>0.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.xquery</groupId>
+            <artifactId>xqj-api</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
 </project>
