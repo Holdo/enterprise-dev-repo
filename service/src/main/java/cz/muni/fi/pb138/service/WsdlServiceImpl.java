@@ -31,7 +31,7 @@ public class WsdlServiceImpl implements WsdlService {
     }
 
     @Override
-    public List<WsdlFile> GetAllWsdlFiles() {
+    public List<String> GetAllWsdlFileNames() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -66,17 +66,17 @@ public class WsdlServiceImpl implements WsdlService {
     }
 
     @Override
-    public List<WsdlFile> GetWsdlFilesByOperation(String operation) {
+    public List<String> GetWsdlFileNamesByOperation(String operation) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<WsdlFile> GetWsdlFilesByRequest(String request) {
+    public List<String> GetWsdlFileNamesByRequest(String request) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<WsdlFile> GetWsdlFilesByResponses(String responses) {
+    public List<String> GetWsdlFileNamesByResponses(String responses) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

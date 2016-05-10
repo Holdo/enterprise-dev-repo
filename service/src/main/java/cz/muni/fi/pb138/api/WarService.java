@@ -19,7 +19,7 @@ public interface WarService {
     public void SaveWarFile(String name, byte[] fileBytes);
     public void DeleteWarFile(String name);
     public WarFile GetWarFileByName(String name);
-    public List<WarFile> GetAllWarFiles();
+    public List<String> GetAllWarFileNames();
     
     
     // THESE can wait
@@ -32,8 +32,8 @@ public interface WarService {
     
     
     // DO NOT implement these methods FOR NOW
-    public List<WarFile> GetWarFileByListener(String listener);
-    public List<WarFile> GetWarFileByFilter(String listener);
-    public List<WarFile> GetWarFileByWebXml(String webXml);
+    public List<String> GetWarFileNamesByListener(String listener);
+    public List<String> GetWarFileNamesByFilter(String listener);
+    public List<String> GetWarFileNamesByWebXml(String webXml);
     
 }

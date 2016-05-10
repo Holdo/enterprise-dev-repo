@@ -18,7 +18,7 @@ public interface XsdService {
     public void SaveXsdFile(String name, String textFile);
     public void DeleteXsdFile(String name);
     public XsdFile GetXsdFileByName(String name);
-    public List<XsdFile> GetAllXsdFiles();
+    public List<String> GetAllXsdFileNames();
     
     // THESE can wait
     public List<String> GetAllElements();
@@ -32,8 +32,8 @@ public interface XsdService {
     
     
     // DO NOT implement these methods FOR NOW
-    public List<XsdFile> GetXsdFilesBySimpleType(String simpleType);
-    public List<XsdFile> GetXsdFilesByComplexType(String complexType);
-    public List<XsdFile> GetXsdFilesByAttribute(String attribute);
-    public List<XsdFile> GetXsdFilesByElement(String element);
+    public List<String> GetXsdFileNamesBySimpleType(String simpleType);
+    public List<String> GetXsdFileNamesByComplexType(String complexType);
+    public List<String> GetXsdFileNamesByAttribute(String attribute);
+    public List<String> GetXsdFileNamesByElement(String element);
 }

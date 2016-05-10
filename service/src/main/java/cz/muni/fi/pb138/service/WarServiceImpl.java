@@ -31,7 +31,7 @@ public class WarServiceImpl implements WarService {
     }
 
     @Override
-    public List<WarFile> GetAllWarFiles() {
+    public List<String> GetAllWarFileNames() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -66,21 +66,20 @@ public class WarServiceImpl implements WarService {
     }
 
     @Override
-    public List<WarFile> GetWarFileByListener(String listener) {
+    public List<String> GetWarFileNamesByListener(String listener) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<WarFile> GetWarFileByFilter(String listener) {
+    public List<String> GetWarFileNamesByFilter(String listener) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<WarFile> GetWarFileByWebXml(String webXml) {
+    public List<String> GetWarFileNamesByWebXml(String webXml) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-   
    
     
 }

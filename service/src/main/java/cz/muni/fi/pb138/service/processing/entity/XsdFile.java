@@ -16,7 +16,7 @@ public class XsdFile {
     
     private String fileName;
     private String fileText;
-    private List<String> simpleTypse;
+    private List<String> simpleTypes;
     private List<String> complexTypes;
     private HashMap<String, List<String>> elementAttributesMap;
 
@@ -26,7 +26,7 @@ public class XsdFile {
     public XsdFile(String fileName, String fileText, List<String> simpleTypse, List<String> complexTypes, HashMap<String, List<String>> elementAttributesMap) {
         this.fileName = fileName;
         this.fileText = fileText;
-        this.simpleTypse = simpleTypse;
+        this.simpleTypes = simpleTypse;
         this.complexTypes = complexTypes;
         this.elementAttributesMap = elementAttributesMap;
     }
@@ -49,11 +49,11 @@ public class XsdFile {
     }
 
     public List<String> getSimpleTypse() {
-        return simpleTypse;
+        return simpleTypes;
     }
 
-    public void setSimpleTypse(List<String> simpleTypse) {
-        this.simpleTypse = simpleTypse;
+    public void setSimpleTypes(List<String> simpleTypse) {
+        this.simpleTypes = simpleTypse;
     }
 
     public List<String> getComplexTypes() {

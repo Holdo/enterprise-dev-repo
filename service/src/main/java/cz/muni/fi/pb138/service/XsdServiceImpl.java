@@ -31,7 +31,7 @@ public class XsdServiceImpl implements XsdService{
     }
 
     @Override
-    public List<XsdFile> GetAllXsdFiles() {
+    public List<String> GetAllXsdFileNames() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -76,24 +76,26 @@ public class XsdServiceImpl implements XsdService{
     }
 
     @Override
-    public List<XsdFile> GetXsdFilesBySimpleType(String simpleType) {
+    public List<String> GetXsdFileNamesBySimpleType(String simpleType) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<XsdFile> GetXsdFilesByComplexType(String complexType) {
+    public List<String> GetXsdFileNamesByComplexType(String complexType) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<XsdFile> GetXsdFilesByAttribute(String attribute) {
+    public List<String> GetXsdFileNamesByAttribute(String attribute) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<XsdFile> GetXsdFilesByElement(String element) {
+    public List<String> GetXsdFileNamesByElement(String element) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    
 
     
 }

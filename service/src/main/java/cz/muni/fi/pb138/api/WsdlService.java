@@ -18,7 +18,7 @@ public interface WsdlService {
     public void SaveWsdlFile(String name, String textFile);
     public void DeleteWsdlFile(String name);
     public WsdlFile GetWsdlFileByName(String name);
-    public List<WsdlFile> GetAllWsdlFiles();
+    public List<String> GetAllWsdlFileNames();
     
     // THESE can wait
     public List<String> GetAllOperations();
@@ -30,7 +30,7 @@ public interface WsdlService {
     
     
     // DO NOT implement these methods FOR NOW
-    public List<WsdlFile> GetWsdlFilesByOperation(String operation);
-    public List<WsdlFile> GetWsdlFilesByRequest(String request);
-    public List<WsdlFile> GetWsdlFilesByResponses(String responses);
+    public List<String> GetWsdlFileNamesByOperation(String operation);
+    public List<String> GetWsdlFileNamesByRequest(String request);
+    public List<String> GetWsdlFileNamesByResponses(String responses);
 }

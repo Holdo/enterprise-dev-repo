@@ -21,18 +21,55 @@ public class FileProcessorImpl implements FileProcessor {
 
     @Override
     public WarFile ProcessWar(String fileName, byte[] file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        WarExtractor warExtractor = new WarExtractor();
+        
+        WarFile warFile = new WarFile();
+        warFile.setFileName(fileName);
+        warFile.setFileBytes(file);
+        warFile.setFilterList(warExtractor.ExractFilters(file));
+        warFile.setListenerList(warExtractor.ExtractListeners(file));
+        warFile.setWebXmlFile(warExtractor.ExtraxtWebXml(file));
+        
+        return warFile;
     }
 
     @Override
     public XsdFile ProcessXsd(String fileName, String file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        XsdExtractor xsdExtractor = new XsdExtractor();
+        
+        XsdFile xsdFile = new XsdFile();
+        xsdFile.setFileName(fileName);
+        xsdFile.setFileText(file);
+        xsdFile.setSimpleTypes(xsdExtractor.ExtractSimpleTypes(file));
+        xsdFile.setComplexTypes(xsdExtractor.ExtractComplexTypes(file));
+        xsdFile.setElementAttributesMap(xsdExtractor.ExtractElementsAndAttributes(file));
+        
+        return xsdFile;
     }
 
     @Override
     public WsdlFile ProcessWsdl(String fileName, String file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        WsdlExtractor wsdlExtractor = new WsdlExtractor();
+        
+        WsdlFile wsdlFile = new WsdlFile();
+        wsdlFile.setFileName(fileName);
+        wsdlFile.setFileText(file);
+        wsdlFile.setOperations(wsdlExtractor.ExtractOperations(file));
+        wsdlFile.setOperationRequestMap(wsdlExtractor.ExtractRequests(file,wsdlFile.getOperations()));
+        wsdlFile.setOperationResponseMap(wsdlExtractor.ExtractResponses(file,wsdlFile.getOperations()));
+        
+        return wsdlFile;
     }
+
+   
+
+    
+    
+    
+   
 
    
 }
