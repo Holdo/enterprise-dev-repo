@@ -37,14 +37,8 @@ public class FileProcessorImpl implements FileProcessor {
     @Override
     public XsdFile ProcessXsd(String fileName, String file) {
         
-        XsdExtractor xsdExtractor = new XsdExtractor();
-        
-        XsdFile xsdFile = new XsdFile();
-        xsdFile.setFileName(fileName);
-        xsdFile.setFileText(file);
-        xsdFile.setSimpleTypes(xsdExtractor.ExtractSimpleTypes(file));
-        xsdFile.setComplexTypes(xsdExtractor.ExtractComplexTypes(file));
-        xsdFile.setElementAttributesMap(xsdExtractor.ExtractElementsAndAttributes(file));
+        XsdExtractor xsdExtractor = new XsdExtractor(file, fileName);
+        XsdFile xsdFile = xsdExtractor.GetXsdFile();
         
         return xsdFile;
     }

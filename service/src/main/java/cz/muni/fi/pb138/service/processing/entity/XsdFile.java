@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pb138.service.processing.entity;
 
+import cz.muni.fi.pb138.service.processing.entity.xsd.ComplexType;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,24 +15,23 @@ import java.util.List;
  */
 public class XsdFile {
     
+    private int version;
     private String fileName;
     private String fileText;
     private List<String> simpleTypes;
-    private List<String> complexTypes;
-    private HashMap<String, List<String>> elementAttributesMap;
+    private List<ComplexType> complexTypes;
 
     public XsdFile() {
     }
 
-    public XsdFile(String fileName, String fileText, List<String> simpleTypse, List<String> complexTypes, HashMap<String, List<String>> elementAttributesMap) {
-        this.fileName = fileName;
-        this.fileText = fileText;
-        this.simpleTypes = simpleTypse;
-        this.complexTypes = complexTypes;
-        this.elementAttributesMap = elementAttributesMap;
+    public int getVersion() {
+        return version;
     }
-    
-    
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
     public String getFileName() {
         return fileName;
     }
@@ -48,28 +48,20 @@ public class XsdFile {
         this.fileText = fileText;
     }
 
-    public List<String> getSimpleTypse() {
+    public List<String> getSimpleTypes() {
         return simpleTypes;
     }
 
-    public void setSimpleTypes(List<String> simpleTypse) {
-        this.simpleTypes = simpleTypse;
+    public void setSimpleTypes(List<String> simpleTypes) {
+        this.simpleTypes = simpleTypes;
     }
 
-    public List<String> getComplexTypes() {
+    public List<ComplexType> getComplexTypes() {
         return complexTypes;
     }
 
-    public void setComplexTypes(List<String> complexTypes) {
+    public void setComplexTypes(List<ComplexType> complexTypes) {
         this.complexTypes = complexTypes;
-    }
-
-    public HashMap<String, List<String>> getElementAttributesMap() {
-        return elementAttributesMap;
-    }
-
-    public void setElementAttributesMap(HashMap<String, List<String>> elementAttributesMap) {
-        this.elementAttributesMap = elementAttributesMap;
     }
 
 }
