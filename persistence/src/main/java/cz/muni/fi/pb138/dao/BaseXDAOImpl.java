@@ -1,6 +1,7 @@
 package cz.muni.fi.pb138.dao;
 
 import cz.muni.fi.pb138.basex.BaseXClient;
+import cz.muni.fi.pb138.basex.BaseXSessionSingleton;
 
 import java.io.IOException;
 
@@ -10,14 +11,12 @@ import java.io.IOException;
 public class BaseXDaoImpl implements BaseXDao {
 
 	public void createDatabase(String name) throws IOException {
-		try (final BaseXClient session = new BaseXClient("localhost", 1984, "admin", "admin")) {
-			session.execute("create db " + name);
-		}
+		BaseXClient session = BaseXSessionSingleton.getSession();
+		session.execute("create db " + name);
 	}
 
 	public void dropDatabase(String name) throws IOException {
-		try (final BaseXClient session = new BaseXClient("localhost", 1984, "admin", "admin")) {
-			session.execute("drop db " + name);
-		}
+		BaseXClient session = BaseXSessionSingleton.getSession();
+		session.execute("drop db " + name);
 	}
 }
