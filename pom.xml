@@ -12,7 +12,6 @@
         <module>webmvc</module>
         <module>service</module>
         <module>persistence</module>
-    <module>WebsocketAPI</module>
   </modules>
 
     <properties>
