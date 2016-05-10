@@ -12,6 +12,7 @@ import java.util.List;
  * @author gasior
  */
 public class ComplexType {
+    
     private final String name;
     private final List<ComplexTypeElement> elements;
     private final List<ComplexTypeAttribute> attributes;

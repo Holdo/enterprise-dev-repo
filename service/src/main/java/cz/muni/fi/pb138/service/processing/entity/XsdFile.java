@@ -6,7 +6,6 @@
 package cz.muni.fi.pb138.service.processing.entity;
 
 import cz.muni.fi.pb138.service.processing.entity.xsd.ComplexType;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -15,29 +14,33 @@ import java.util.List;
  */
 public class XsdFile {
     
-    private int version;
-    private String fileName;
+    private NameVersionPair nameVersionPair;
     private String fileText;
+    private List<String> elements;
+    private List<String> attributes;
     private List<String> simpleTypes;
     private List<ComplexType> complexTypes;
 
     public XsdFile() {
     }
 
-    public int getVersion() {
-        return version;
+    public XsdFile(NameVersionPair nameVersionPair, String fileText, List<String> elements, List<String> attributes, List<String> simpleTypes, List<ComplexType> complexTypes) {
+        this.nameVersionPair = nameVersionPair;
+        this.fileText = fileText;
+        this.elements = elements;
+        this.attributes = attributes;
+        this.simpleTypes = simpleTypes;
+        this.complexTypes = complexTypes;
     }
 
-    public void setVersion(int version) {
-        this.version = version;
+    
+    
+    public NameVersionPair getNameVersionPair() {
+        return nameVersionPair;
     }
 
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setNameVersionPair(NameVersionPair nameVersionPair) {
+        this.nameVersionPair = nameVersionPair;
     }
 
     public String getFileText() {
@@ -46,6 +49,22 @@ public class XsdFile {
 
     public void setFileText(String fileText) {
         this.fileText = fileText;
+    }
+
+    public List<String> getElements() {
+        return elements;
+    }
+
+    public void setElements(List<String> elements) {
+        this.elements = elements;
+    }
+
+    public List<String> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(List<String> attributes) {
+        this.attributes = attributes;
     }
 
     public List<String> getSimpleTypes() {
@@ -63,5 +82,7 @@ public class XsdFile {
     public void setComplexTypes(List<ComplexType> complexTypes) {
         this.complexTypes = complexTypes;
     }
+
+   
 
 }

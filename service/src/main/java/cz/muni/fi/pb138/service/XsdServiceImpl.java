@@ -6,6 +6,7 @@
 package cz.muni.fi.pb138.service;
 
 import cz.muni.fi.pb138.api.XsdService;
+import cz.muni.fi.pb138.service.processing.entity.NameVersionPair;
 import cz.muni.fi.pb138.service.processing.entity.XsdFile;
 import cz.muni.fi.pb138.service.processing.entity.xsd.ComplexType;
 import java.util.List;
@@ -52,12 +53,37 @@ public class XsdServiceImpl implements XsdService{
     }
 
     @Override
-    public List<String> GetAllSimpleTypes() {
+    public List<String> GetAllElements() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<ComplexType> GetAllComplexTypes() {
+    public List<String> GetElementsByFileName(String name) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<String> GetElementsByFileName(String name, int version) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<String> GetAllAttributes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<String> GetAttributesByFileName(String name) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<String> GetAttributesByFileName(String name, int version) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<String> GetAllSimpleTypes() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -72,6 +98,11 @@ public class XsdServiceImpl implements XsdService{
     }
 
     @Override
+    public List<ComplexType> GetAllComplexTypes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public List<ComplexType> GetComplexTypesByFileName(String name) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -82,13 +113,23 @@ public class XsdServiceImpl implements XsdService{
     }
 
     @Override
-    public List<String> GetXsdFileNamesBySimpleType(String simpleTypeName) {
+    public List<NameVersionPair> GetXsdFileNamesBySimpleType(String simpleTypeName) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<String> GetXsdFileNamesByComplexType(String complexTypeName) {
+    public List<NameVersionPair> GetXsdFileNamesByAttribute(String attributeName) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-  
+
+    @Override
+    public List<NameVersionPair> GetXsdFileNamesByElement(String elementName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<NameVersionPair> GetXsdFileNamesByComplexType(String complexTypeName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
