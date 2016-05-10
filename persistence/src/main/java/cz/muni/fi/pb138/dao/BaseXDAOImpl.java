@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * Created by Michal Holic on 10/05/2016
  */
-public class BaseXDAOImpl implements BaseXDAO {
+public class BaseXDaoImpl implements BaseXDao {
 
 	public void createDatabase(String name) throws IOException {
 		try (final BaseXClient session = new BaseXClient("localhost", 1984, "admin", "admin")) {
