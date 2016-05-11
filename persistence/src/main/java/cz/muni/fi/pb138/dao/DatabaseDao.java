@@ -36,15 +36,6 @@ public interface DatabaseDao {
 	String dropDatabase(String name) throws IOException;
 
 	/**
-	 * Deletes the whole directory or a single file in the currently opened database
-	 *
-	 * @param fullPath to delete
-	 * @return result
-	 * @throws IOException
-	 */
-	String deleteFileOrDirectory(String fullPath) throws IOException;
-
-	/**
 	 * Runs XQuery on the currently opened database
 	 *
 	 * @param xQuery as String
@@ -52,4 +43,23 @@ public interface DatabaseDao {
 	 * @throws BaseXException
 	 */
 	String runXQuery(String xQuery) throws BaseXException;
+
+	/**
+	 * Lists files in specified database in specified path
+	 *
+	 * @param database to use
+	 * @param path to use
+	 * @return result
+	 * @throws BaseXException
+	 */
+	String listDirectory(String database, String path) throws BaseXException;
+
+	/**
+	 * Deletes the whole directory or a single file in the currently opened database
+	 *
+	 * @param fullPath to delete
+	 * @return result
+	 * @throws IOException
+	 */
+	String deleteFileOrDirectory(String fullPath) throws IOException;
 }

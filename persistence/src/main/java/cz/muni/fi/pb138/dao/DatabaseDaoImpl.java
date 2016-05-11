@@ -29,11 +29,15 @@ public class DatabaseDaoImpl implements DatabaseDao {
 		return new DropDB(name).execute(dbCtx.getContext());
 	}
 
-	public String deleteFileOrDirectory(String fullPath) throws IOException {
-		return new Delete(fullPath).execute(dbCtx.getContext());
-	}
-
 	public String runXQuery(String xQuery) throws BaseXException {
 		return new XQuery(xQuery).execute(dbCtx.getContext());
+	}
+
+	public String listDirectory(String database, String path) throws BaseXException {
+		return new List(database, path).execute(dbCtx.getContext());
+	}
+
+	public String deleteFileOrDirectory(String fullPath) throws IOException {
+		return new Delete(fullPath).execute(dbCtx.getContext());
 	}
 }
