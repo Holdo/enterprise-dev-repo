@@ -54,10 +54,11 @@ public interface FileService {
     public byte[] getFileByFullPathAndVersion(String fullPath, int version) throws IOException;
     /**
      * 
+     * @param namespace - all files "/" like this, or you can get some subset 
      * @return - all file names including namespace and extension
      * @throws java.io.IOException
      */
-    public List<String> getAllFileFullPaths() throws IOException;
+    public List<String> getAllFileFullPathsInNamespace(String namespace) throws IOException;
     /**
      * 
      * @param fullPath - fullpath to file (namespace/file.xxx)

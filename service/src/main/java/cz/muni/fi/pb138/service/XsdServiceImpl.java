@@ -7,7 +7,6 @@ package cz.muni.fi.pb138.service;
 
 import cz.muni.fi.pb138.api.XsdService;
 import cz.muni.fi.pb138.service.processing.entity.NameVersionPair;
-import cz.muni.fi.pb138.service.processing.entity.xsd.ComplexType;
 import java.util.List;
 
 /**
@@ -67,17 +66,17 @@ public class XsdServiceImpl implements XsdService{
     }
 
     @Override
-    public List<ComplexType> getAllComplexTypes() {
+    public List<String> getAllComplexTypes() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<ComplexType> getComplexTypesByFileFullPath(String fullPath) {
+    public List<String> getComplexTypesByFileFullPath(String fullPath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<ComplexType> getComplexTypesByFileFullPath(String fullPath, int version) {
+    public List<String> getComplexTypesByFileFullPath(String fullPath, int version) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -100,6 +99,8 @@ public class XsdServiceImpl implements XsdService{
     public List<NameVersionPair> getXsdFileFullPathsByComplexType(String complexTypeFullPath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+  
 
 
 }

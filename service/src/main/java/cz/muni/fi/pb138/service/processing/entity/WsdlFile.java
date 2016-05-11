@@ -5,7 +5,6 @@
  */
 package cz.muni.fi.pb138.service.processing.entity;
 
-import cz.muni.fi.pb138.service.processing.entity.wsdl.Operation;
 import java.util.List;
 
 /**
@@ -14,42 +13,42 @@ import java.util.List;
  */
 public class WsdlFile implements FileBase {
     
-    private String fullPath;
+    
+    private NameVersionPair nameVersionPair;
     private byte[] file;
-    private List<Operation> operations;
+    private List<String> operations;
     private List<String> responses;
     private List<String> requests;
 
     public WsdlFile() {
     }
 
-    public WsdlFile(String fullPath, byte[] file, List<Operation> operations, List<String> responses, List<String> requests) {
-        this.fullPath = fullPath;
+    public WsdlFile(NameVersionPair nameVersionPair, byte[] file, List<String> operations, List<String> responses, List<String> requests) {
+        this.nameVersionPair = nameVersionPair;
         this.file = file;
         this.operations = operations;
         this.responses = responses;
         this.requests = requests;
     }
 
-    public String getFullPath() {
-        return fullPath;
+    public NameVersionPair getNameVersionPair() {
+        return nameVersionPair;
     }
 
-    public void setFullPath(String fullPath) {
-        this.fullPath = fullPath;
+    public void setNameVersionPair(NameVersionPair nameVersionPair) {
+        this.nameVersionPair = nameVersionPair;
     }
 
-    
 
     public void setFile(byte[] file) {
         this.file = file;
     }
 
-    public List<Operation> getOperations() {
+    public List<String> getOperations() {
         return operations;
     }
 
-    public void setOperations(List<Operation> operations) {
+    public void setOperations(List<String> operations) {
         this.operations = operations;
     }
 
@@ -76,6 +75,16 @@ public class WsdlFile implements FileBase {
     @Override
     public byte[] getFile() {
         return file;
+    }
+
+    @Override
+    public String getFilePath() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getMetaPath() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
  
     

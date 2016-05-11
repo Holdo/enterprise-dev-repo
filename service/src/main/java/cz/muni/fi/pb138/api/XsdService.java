@@ -6,7 +6,6 @@
 package cz.muni.fi.pb138.api;
 
 import cz.muni.fi.pb138.service.processing.entity.NameVersionPair;
-import cz.muni.fi.pb138.service.processing.entity.xsd.ComplexType;
 import java.util.List;
 
 /**
@@ -31,9 +30,9 @@ public interface XsdService {
     public List<String> getSimpleTypesByFileFullPath(String FullPath);
     public List<String> getSimpleTypesByFileFullPath(String fullPath, int version);
     
-    public List<ComplexType> getAllComplexTypes();
-    public List<ComplexType> getComplexTypesByFileFullPath(String fullPath);
-    public List<ComplexType> getComplexTypesByFileFullPath(String fullPath, int version);
+    public List<String> getAllComplexTypes();
+    public List<String> getComplexTypesByFileFullPath(String fullPath);
+    public List<String> getComplexTypesByFileFullPath(String fullPath, int version);
   
     public List<NameVersionPair> getXsdFileFullPathsBySimpleType(String simpleTypeFullPath);
     public List<NameVersionPair> getXsdFileFullPathsByAttribute(String attributeFullPath);

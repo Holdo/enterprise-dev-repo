@@ -5,10 +5,19 @@
  */
 package cz.muni.fi.pb138.service.processing;
 
+import cz.muni.fi.pb138.service.processing.entity.NameVersionPair;
 import cz.muni.fi.pb138.service.processing.entity.WsdlFile;
-import cz.muni.fi.pb138.service.processing.entity.XsdFile;
-import java.util.HashMap;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -24,12 +33,14 @@ public class WsdlExtractor {
     public WsdlExtractor(byte[] file, String fullPath) {
        this.file = file;
        this.fullPath = fullPath;
+       
        wsdlFile = new WsdlFile();
-       wsdlFile.setFullPath(fullPath);
+       wsdlFile.setNameVersionPair(new NameVersionPair(fullPath));
        wsdlFile.setFile(file);
-       extractOperations();
-       extractRequests();
-       extractResponses();
+       wsdlFile.setOperations(extract("operation"));
+       wsdlFile.setRequests(extract("request"));
+       wsdlFile.setResponses(extract("response"));
+       
     }
 
 
@@ -37,16 +48,29 @@ public class WsdlExtractor {
         return wsdlFile;
     }
 
-    private void extractOperations() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     private List<String> extract(String extractedName) {
+        List<String> extracted = new ArrayList<>();
+        try {
+            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+            Document doc;
+
+            doc = docBuilder.parse(new ByteArrayInputStream(file));
+
+            NodeList list = doc.getElementsByTagNameNS("*", extractedName);
+
+            for (int i = 0; i < list.getLength(); i++) {
+                Element element = (Element) list.item(i);
+                if (element.hasAttribute("name")) {
+                    extracted.add(element.getAttribute("name"));
+                }
+            }
+        } catch (SAXException | IOException | ParserConfigurationException ex) {
+            System.err.println(ex.getMessage() + " : " + extractedName + " extraction failed for : " + fullPath);
+        }
+        return extracted;
     }
 
-    private void extractRequests() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void extractResponses() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
     
 }

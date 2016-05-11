@@ -13,12 +13,22 @@ import cz.muni.fi.pb138.service.processing.entity.WarFile;
  */
 public class WarExtractor {
 
-    WarExtractor(byte[] file, String fullPath) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    private final WarFile warFile;
+    private final byte[] file;
+    private final String fullPath;
 
-    WarFile getWarFile() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public WarExtractor(byte[] file, String fullPath) {
+        this.file = file;
+        this.fullPath = fullPath;
+        
+        warFile = new WarFile();
+    }
+    
+    
+    
+    
+    public WarFile getWarFile() {
+        return warFile;
     }
  
    

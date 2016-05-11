@@ -14,7 +14,8 @@ import java.util.List;
 public class WarFile implements FileBase {
     
     
-    private String fileName;
+    
+    private NameVersionPair nameVersionPair;
     private byte[] file;
     private String webXmlFile;
     private List<String> listenerList;
@@ -23,23 +24,22 @@ public class WarFile implements FileBase {
     public WarFile() {
     }
 
-    public WarFile(String fileName, byte[] file, String webXmlFile, List<String> listenerList, List<String> filterList) {
-        this.fileName = fileName;
+    public WarFile(NameVersionPair nameVersionPair, byte[] file, String webXmlFile, List<String> listenerList, List<String> filterList) {
+        this.nameVersionPair = nameVersionPair;
         this.file = file;
         this.webXmlFile = webXmlFile;
         this.listenerList = listenerList;
         this.filterList = filterList;
     }
 
-    public String getFileName() {
-        return fileName;
+    public NameVersionPair getNameVersionPair() {
+        return nameVersionPair;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setNameVersionPair(NameVersionPair nameVersionPair) {
+        this.nameVersionPair = nameVersionPair;
     }
-
-
+    
     public void setFile(byte[] file) {
         this.file = file;
     }
@@ -75,6 +75,16 @@ public class WarFile implements FileBase {
 
     @Override
     public byte[] getMeta() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getFilePath() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getMetaPath() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
    

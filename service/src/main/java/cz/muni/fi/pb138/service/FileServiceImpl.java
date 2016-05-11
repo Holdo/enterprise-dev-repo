@@ -6,15 +6,13 @@
 package cz.muni.fi.pb138.service;
 
 import cz.muni.fi.pb138.api.FileService;
-import cz.muni.fi.pb138.dao.BaseXDao;
 import cz.muni.fi.pb138.dao.BinaryDao;
+import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.service.processing.FileProcessor;
 import cz.muni.fi.pb138.service.processing.entity.FileBase;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -24,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class FileServiceImpl implements FileService {
 
     @Autowired
-    private BaseXDao baseXDao;
+    private DatabaseDao databaseDao;
     @Autowired
     private BinaryDao binaryDao;
     @Autowired
@@ -32,16 +30,9 @@ public class FileServiceImpl implements FileService {
 
     public final String FILE_DATABASE_NAME = "artifacts";
     public final String META_DATABASE_NAME = "metadata";
+    public final String META_FILE_SUFFIX = ".xml";
 
-    public FileServiceImpl() {
-        try {
-            baseXDao.createDatabase(FILE_DATABASE_NAME);
-            baseXDao.createDatabase(META_DATABASE_NAME);
-        } catch (IOException ex) {
-            Logger.getLogger(FileServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
+   
     @Override
     public void saveFile(String fullPath, byte[] fileBytes) throws IOException {
         FileBase file = null;
@@ -59,45 +50,58 @@ public class FileServiceImpl implements FileService {
         if (null == file) {
             throw new IOException("Invalid file: " + fullPath);
         }
-      //  binaryDao.saveBinaryFile(file.getFile(), file.getFilePath(), FILE_DATABASE_NAME);
-      //  binaryDao.saveBinaryFile(file.getMeta(), file.getMetaPath(), META_DATABASE_NAME);
+          databaseDao.openDatabase(FILE_DATABASE_NAME);
+          binaryDao.saveBinaryFile(file.getFile(), file.getFilePath());
+          databaseDao.closeDatabase();
+          databaseDao.openDatabase(META_DATABASE_NAME);
+          binaryDao.saveBinaryFile(file.getMeta(), file.getMetaPath());
+          databaseDao.closeDatabase();
 
     }
 
     @Override
     public void deleteFile(String fullPath) throws IOException {
-     //   binaryDao.deleteBinaryFile(getArtifactPath(fullPath), FILE_DATABASE_NAME);
-      //  binaryDao.deleteBinaryFile(getMetadataPath(fullPath), FILE_DATABASE_NAME);
+          deleteFile(fullPath, getLastVersion(fullPath));
     }
 
     @Override
     public void deleteFile(String fullPath, int version) throws IOException {
-
-      //  binaryDao.deleteBinaryFile(getArtifactPath(fullPath), FILE_DATABASE_NAME);
-       // binaryDao.deleteBinaryFile(getMetadataPath(fullPath), FILE_DATABASE_NAME);
+          databaseDao.openDatabase(FILE_DATABASE_NAME);
+          databaseDao.deleteFileOrDirectory(getFullPathWithVersion(fullPath, version));
+          databaseDao.closeDatabase();
+          databaseDao.openDatabase(META_DATABASE_NAME);
+          databaseDao.deleteFileOrDirectory(getFullPathWithVersion(fullPath, version)+META_FILE_SUFFIX);
+          databaseDao.closeDatabase();
+     
     }
 
     @Override
     public byte[] getFileByFullPath(String fullPath) throws IOException {
-       // return binaryDao.retrieveBinaryFile(fullPath, FILE_DATABASE_NAME);
-         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    
+          return getFileByFullPathAndVersion(fullPath,getLastVersion(fullPath));
     }
 
     @Override
     public byte[] getFileByFullPathAndVersion(String fullPath, int version) throws IOException {
-     //   return binaryDao.retrieveBinaryFile(fullPath, FILE_DATABASE_NAME);
-         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    
+        databaseDao.openDatabase(FILE_DATABASE_NAME);
+        byte[] output = binaryDao.retrieveBinaryFile(getFullPathWithVersion(fullPath, version));
+        databaseDao.closeDatabase();
+        return output;
     }
-
+    
     @Override
-    public List<String> getAllFileFullPaths() throws IOException {
+    public List<Integer> getFileVersions(String fullPath) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Integer> getFileVersions(String fullPath) throws IOException {
+    public List<String> getAllFileFullPathsInNamespace(String namespace) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private int getLastVersion(String fullPath) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    private String getFullPathWithVersion(String fullPath, int version) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

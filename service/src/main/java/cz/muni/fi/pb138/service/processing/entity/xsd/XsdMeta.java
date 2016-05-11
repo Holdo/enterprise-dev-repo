@@ -21,9 +21,9 @@ public class XsdMeta {
     private final List<String> elements;
     private final List<String> attributes;
     private final List<String> simpleTypes;
-    private final List<ComplexType> complexTypes;
+    private final List<String> complexTypes;
 
-    public XsdMeta(NameVersionPair nameVersionPair, List<String> elements, List<String> attributes, List<String> simpleTypes, List<ComplexType> complexTypes) {
+    public XsdMeta(NameVersionPair nameVersionPair, List<String> elements, List<String> attributes, List<String> simpleTypes, List<String> complexTypes) {
         this.nameVersionPair = nameVersionPair;
         this.elements = elements;
         this.attributes = attributes;
@@ -47,7 +47,7 @@ public class XsdMeta {
         return simpleTypes;
     }
 
-    public List<ComplexType> getComplexTypes() {
+    public List<String> getComplexTypes() {
         return complexTypes;
     }
 

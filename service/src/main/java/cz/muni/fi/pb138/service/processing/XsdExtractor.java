@@ -7,11 +7,9 @@ package cz.muni.fi.pb138.service.processing;
 
 import cz.muni.fi.pb138.service.processing.entity.NameVersionPair;
 import cz.muni.fi.pb138.service.processing.entity.XsdFile;
-import cz.muni.fi.pb138.service.processing.entity.xsd.ComplexType;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,7 +18,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import cz.muni.fi.pb138.service.processing.entity.xsd.*;
 
 /**
  *
@@ -39,18 +36,18 @@ public class XsdExtractor {
         xsdFile = new XsdFile();
         xsdFile.setNameVersionPair(new NameVersionPair(fullPath));
         xsdFile.setFile(file);
-        extractSimpleTypes();
-        extractElements();
-        extractAttributes();
-        extractComplexTypes();
+        xsdFile.setSimpleTypes(extract("simpleType"));
+        xsdFile.setElements(extract("element"));
+        xsdFile.setAttributes(extract("attribute"));
+        xsdFile.setComplexTypes(extract("complexType"));
     }
 
-   
     public XsdFile getXsdFile() {
         return xsdFile;
     }
-    private void extractSimpleTypes() {
-        List<String> simpleTypes = new ArrayList<>();
+    
+    private List<String> extract(String extractedName) {
+        List<String> extracted = new ArrayList<>();
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -58,132 +55,18 @@ public class XsdExtractor {
 
             doc = docBuilder.parse(new ByteArrayInputStream(file));
 
-            NodeList list = doc.getElementsByTagNameNS("*", "simpleType");
+            NodeList list = doc.getElementsByTagNameNS("*", extractedName);
 
             for (int i = 0; i < list.getLength(); i++) {
                 Element element = (Element) list.item(i);
                 if (element.hasAttribute("name")) {
-                    simpleTypes.add(element.getAttribute("name"));
+                    extracted.add(element.getAttribute("name"));
                 }
             }
         } catch (SAXException | IOException | ParserConfigurationException ex) {
-            System.err.println(ex.getMessage() + " : Simple type extraction failed for : " + fullPath);
+            System.err.println(ex.getMessage() + " : " + extractedName + " extraction failed for : " + fullPath);
         }
-        xsdFile.setSimpleTypes(simpleTypes);
-    }
-
-    private void extractComplexTypes() {
-
-        List<String> complexTypes = new ArrayList<>();
-        HashMap<String, List<ComplexTypeElement>> typeElementsMap = new HashMap<>();
-        HashMap<String, List<ComplexTypeAttribute>> typeAttributesMap = new HashMap<>();
-
-        try {
-            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc;
-
-            doc = docBuilder.parse(new ByteArrayInputStream(file));
-
-            NodeList list = doc.getElementsByTagNameNS("*", "complexType");
-
-            for (int i = 0; i < list.getLength(); i++) {
-                Element type = (Element) list.item(i);
-                if (type.hasAttribute("name")) {
-                    complexTypes.add(type.getAttribute("name"));
-                    typeElementsMap.put(type.getAttribute("name"), new ArrayList<>());
-                    typeAttributesMap.put(type.getAttribute("name"), new ArrayList<>());
-
-                    NodeList elementList = type.getElementsByTagNameNS("*", "element");
-                    for (int j = 0; j < elementList.getLength(); j++) {
-                        Element element = (Element) list.item(j);
-                        String elementName = "";
-                        String elementType = "";
-                        if (element.hasAttribute("name")) {
-                            elementName = element.getAttribute("name");
-                        }
-                        if (element.hasAttribute("type")) {
-                            elementType = element.getAttribute("type");
-                        }
-                        typeElementsMap.get(type.getAttribute("name")).add(new ComplexTypeElement(elementName,elementType));
-                       
-                    }
-                    NodeList attributeList = type.getElementsByTagNameNS("*", "attribute");
-                    for (int k = 0; k < attributeList.getLength(); k++) {
-                        Element attribute = (Element) attributeList.item(k);
-                        String attributeName = "";
-                        String attributeType = "";
-                        if (attribute.hasAttribute("name")) {
-                            attributeName = attribute.getAttribute("name");
-                        }
-                        if (attribute.hasAttribute("type")) {
-                            attributeType = attribute.getAttribute("type");
-                        }
-                       typeAttributesMap.get(type.getAttribute("name")).add(new ComplexTypeAttribute(attributeName,attributeType));
-                       
-                    }
-                }
-
-            }
-        } catch (SAXException | IOException | ParserConfigurationException ex) {
-            System.err.println(ex.getMessage() + " : Complex type extraction failed for : " + fullPath);
-        }
-        List<ComplexType> types = new ArrayList<>();
-        complexTypes.stream().forEach((complexType) -> {
-            types.add(new ComplexType(complexType, typeElementsMap.get(complexType), typeAttributesMap.get(complexType)));
-        });
-          
-        xsdFile.setComplexTypes(types);
-     
-    }
-
-  
-
-    private void extractElements() {
-        List<String> elements = new ArrayList<>();
-        try {
-            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc;
-
-            doc = docBuilder.parse(new ByteArrayInputStream(file));
-
-            NodeList list = doc.getElementsByTagNameNS("*", "element");
-
-            for (int i = 0; i < list.getLength(); i++) {
-                Element element = (Element) list.item(i);
-                if (element.hasAttribute("name")) {
-                    elements.add(element.getAttribute("name"));
-                }
-            }
-        } catch (SAXException | IOException | ParserConfigurationException ex) {
-            System.err.println(ex.getMessage() + " : Element extraction failed for : " + fullPath);
-        }
-        xsdFile.setElements(elements);
-    }
-
-    private void extractAttributes() {
-        
-    List<String> attributes = new ArrayList<>();
-        try {
-            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc;
-
-            doc = docBuilder.parse(new ByteArrayInputStream(file));
-
-            NodeList list = doc.getElementsByTagNameNS("*", "attribute");
-
-            for (int i = 0; i < list.getLength(); i++) {
-                Element element = (Element) list.item(i);
-                if (element.hasAttribute("name")) {
-                    attributes.add(element.getAttribute("name"));
-                }
-            }
-        } catch (SAXException | IOException | ParserConfigurationException ex) {
-            System.err.println(ex.getMessage() + " : Attribute extraction failed for : " + fullPath);
-        }
-        xsdFile.setElements(attributes);
+        return extracted;
     }
 
 }

@@ -5,9 +5,7 @@
  */
 package cz.muni.fi.pb138.service.processing.entity;
 
-import cz.muni.fi.pb138.service.processing.entity.xsd.ComplexType;
 import cz.muni.fi.pb138.service.processing.entity.xsd.XsdMeta;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,10 +15,6 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 /**
  * Pro XSD schémata se vyextrahuje seznam typů (simple a complex) a seznam
@@ -35,12 +29,12 @@ public class XsdFile implements FileBase {
     private List<String> elements;
     private List<String> attributes;
     private List<String> simpleTypes;
-    private List<ComplexType> complexTypes;
+    private List<String> complexTypes;
 
     public XsdFile() {
     }
 
-    public XsdFile(NameVersionPair nameVersionPair, byte[] file, List<String> elements, List<String> attributes, List<String> simpleTypes, List<ComplexType> complexTypes) {
+    public XsdFile(NameVersionPair nameVersionPair, byte[] file, List<String> elements, List<String> attributes, List<String> simpleTypes, List<String> complexTypes) {
         this.nameVersionPair = nameVersionPair;
         this.file = file;
         this.elements = elements;
@@ -85,11 +79,11 @@ public class XsdFile implements FileBase {
         this.simpleTypes = simpleTypes;
     }
 
-    public List<ComplexType> getComplexTypes() {
+    public List<String> getComplexTypes() {
         return complexTypes;
     }
 
-    public void setComplexTypes(List<ComplexType> complexTypes) {
+    public void setComplexTypes(List<String> complexTypes) {
         this.complexTypes = complexTypes;
     }
 
@@ -116,6 +110,16 @@ public class XsdFile implements FileBase {
     @Override
     public byte[] getFile() {
         return file;
+    }
+
+    @Override
+    public String getFilePath() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getMetaPath() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

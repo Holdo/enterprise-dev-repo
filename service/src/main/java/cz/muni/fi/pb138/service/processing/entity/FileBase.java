@@ -13,4 +13,6 @@ public interface FileBase {
     
     public byte[] getFile();
     public byte[] getMeta();
+    public String getFilePath();
+    public String getMetaPath();
 }
