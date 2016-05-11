@@ -5,9 +5,12 @@
  */
 package cz.muni.fi.pb138.service.processing;
 
+import cz.muni.fi.pb138.dao.BinaryDao;
+import cz.muni.fi.pb138.service.processing.entity.FileBase;
 import cz.muni.fi.pb138.service.processing.entity.WarFile;
 import cz.muni.fi.pb138.service.processing.entity.WsdlFile;
 import cz.muni.fi.pb138.service.processing.entity.XsdFile;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -18,43 +21,33 @@ import cz.muni.fi.pb138.service.processing.entity.XsdFile;
  * @author gasior
  */
 public class FileProcessorImpl implements FileProcessor {
-
+    
+    @Autowired
+    private BinaryDao BinaryDao;
+    
     @Override
-    public WarFile ProcessWar(String fileName, byte[] file) {
+    public FileBase processWar(String fullPath, byte[] file) {
         
-        WarExtractor warExtractor = new WarExtractor();
-        
-        WarFile warFile = new WarFile();
-        warFile.setFileName(fileName);
-        warFile.setFileBytes(file);
-        warFile.setFilterList(warExtractor.ExractFilters(file));
-        warFile.setListenerList(warExtractor.ExtractListeners(file));
-        warFile.setWebXmlFile(warExtractor.ExtraxtWebXml(file));
+        WarExtractor warExtractor = new WarExtractor(file, fullPath);
+        FileBase warFile = warExtractor.getWarFile();
         
         return warFile;
     }
 
     @Override
-    public XsdFile ProcessXsd(String fileName, String file) {
+    public FileBase processXsd(String fullPath, byte[] file) {
         
-        XsdExtractor xsdExtractor = new XsdExtractor(file, fileName);
-        XsdFile xsdFile = xsdExtractor.GetXsdFile();
+        XsdExtractor xsdExtractor = new XsdExtractor(file, fullPath);
+        FileBase xsdFile = xsdExtractor.getXsdFile();
         
         return xsdFile;
     }
 
     @Override
-    public WsdlFile ProcessWsdl(String fileName, String file) {
+    public FileBase processWsdl(String fullPath, byte[] file) {
         
-        WsdlExtractor wsdlExtractor = new WsdlExtractor();
-        
-        WsdlFile wsdlFile = new WsdlFile();
-        wsdlFile.setFileName(fileName);
-        wsdlFile.setFileText(file);
-        wsdlFile.setOperations(wsdlExtractor.ExtractOperations(file));
-        wsdlFile.setOperationRequestMap(wsdlExtractor.ExtractRequests(file,wsdlFile.getOperations()));
-        wsdlFile.setOperationResponseMap(wsdlExtractor.ExtractResponses(file,wsdlFile.getOperations()));
-        
+        WsdlExtractor wsdlExtractor = new WsdlExtractor(file, fullPath);
+        FileBase wsdlFile = wsdlExtractor.getWsdlFile();
         return wsdlFile;
     }
 

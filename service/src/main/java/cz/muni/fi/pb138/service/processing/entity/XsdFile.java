@@ -6,16 +6,32 @@
 package cz.muni.fi.pb138.service.processing.entity;
 
 import cz.muni.fi.pb138.service.processing.entity.xsd.ComplexType;
+import cz.muni.fi.pb138.service.processing.entity.xsd.XsdMeta;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 /**
- * Pro XSD schémata se vyextrahuje seznam typů (simple a complex) a seznam elementů a atributů
+ * Pro XSD schémata se vyextrahuje seznam typů (simple a complex) a seznam
+ * elementů a atributů
+ *
  * @author gasior
  */
-public class XsdFile {
-    
+public class XsdFile implements FileBase {
+
     private NameVersionPair nameVersionPair;
-    private String fileText;
+    private byte[] file;
     private List<String> elements;
     private List<String> attributes;
     private List<String> simpleTypes;
@@ -24,17 +40,15 @@ public class XsdFile {
     public XsdFile() {
     }
 
-    public XsdFile(NameVersionPair nameVersionPair, String fileText, List<String> elements, List<String> attributes, List<String> simpleTypes, List<ComplexType> complexTypes) {
+    public XsdFile(NameVersionPair nameVersionPair, byte[] file, List<String> elements, List<String> attributes, List<String> simpleTypes, List<ComplexType> complexTypes) {
         this.nameVersionPair = nameVersionPair;
-        this.fileText = fileText;
+        this.file = file;
         this.elements = elements;
         this.attributes = attributes;
         this.simpleTypes = simpleTypes;
         this.complexTypes = complexTypes;
     }
 
-    
-    
     public NameVersionPair getNameVersionPair() {
         return nameVersionPair;
     }
@@ -43,12 +57,8 @@ public class XsdFile {
         this.nameVersionPair = nameVersionPair;
     }
 
-    public String getFileText() {
-        return fileText;
-    }
-
-    public void setFileText(String fileText) {
-        this.fileText = fileText;
+    public void setFile(byte[] file) {
+        this.file = file;
     }
 
     public List<String> getElements() {
@@ -83,6 +93,29 @@ public class XsdFile {
         this.complexTypes = complexTypes;
     }
 
-   
+    @Override
+    public byte[] getMeta() {
+        JAXBContext jc;
+        Marshaller marshaller;
+        File xml = null;
+        try {
+            jc = JAXBContext.newInstance(XsdMeta.class);
+            marshaller = jc.createMarshaller();
+            marshaller.marshal(new XsdMeta(nameVersionPair, elements, attributes, simpleTypes, complexTypes), xml);
+        } catch (JAXBException ex) {
+            Logger.getLogger(XsdFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            return Files.readAllBytes(xml.toPath());
+        } catch (IOException ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public byte[] getFile() {
+        return file;
+    }
 
 }

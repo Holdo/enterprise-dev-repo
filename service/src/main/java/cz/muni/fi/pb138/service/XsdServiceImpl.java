@@ -7,7 +7,6 @@ package cz.muni.fi.pb138.service;
 
 import cz.muni.fi.pb138.api.XsdService;
 import cz.muni.fi.pb138.service.processing.entity.NameVersionPair;
-import cz.muni.fi.pb138.service.processing.entity.XsdFile;
 import cz.muni.fi.pb138.service.processing.entity.xsd.ComplexType;
 import java.util.List;
 
@@ -18,118 +17,89 @@ import java.util.List;
 public class XsdServiceImpl implements XsdService{
 
     @Override
-    public void SaveXsdFile(String name, String textFile) {
+    public List<String> getAllXsdFileFullPaths() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void DeleteXsdFile(String name) {
+    public List<String> getAllElements() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public XsdFile GetXsdFileByName(String name) {
+    public List<String> getElementsByFileFullPath(String FullPath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<String> GetAllXsdFileNames() {
+    public List<String> getElementsByFileFullPath(String FullPath, int version) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Integer> GetXsdFileVersions(String name) {
+    public List<String> getAllAttributes() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void DeleteXsdFile(String name, int version) {
+    public List<String> getAttributesByFileFullPath(String FullPath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public XsdFile GetXsdFileByNameAndVersion(String name, int version) {
+    public List<String> getAttributesByFileFullPath(String FullPath, int version) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<String> GetAllElements() {
+    public List<String> getAllSimpleTypes() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<String> GetElementsByFileName(String name) {
+    public List<String> getSimpleTypesByFileFullPath(String FullPath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<String> GetElementsByFileName(String name, int version) {
+    public List<String> getSimpleTypesByFileFullPath(String fullPath, int version) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<String> GetAllAttributes() {
+    public List<ComplexType> getAllComplexTypes() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<String> GetAttributesByFileName(String name) {
+    public List<ComplexType> getComplexTypesByFileFullPath(String fullPath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<String> GetAttributesByFileName(String name, int version) {
+    public List<ComplexType> getComplexTypesByFileFullPath(String fullPath, int version) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<String> GetAllSimpleTypes() {
+    public List<NameVersionPair> getXsdFileFullPathsBySimpleType(String simpleTypeFullPath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<String> GetSimpleTypesByFileName(String name) {
+    public List<NameVersionPair> getXsdFileFullPathsByAttribute(String attributeFullPath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<String> GetSimpleTypesByFileName(String name, int version) {
+    public List<NameVersionPair> getXsdFileFullPathsByElement(String elementFullPath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<ComplexType> GetAllComplexTypes() {
+    public List<NameVersionPair> getXsdFileFullPathsByComplexType(String complexTypeFullPath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public List<ComplexType> GetComplexTypesByFileName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<ComplexType> GetComplexTypesByFileName(String name, int version) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<NameVersionPair> GetXsdFileNamesBySimpleType(String simpleTypeName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<NameVersionPair> GetXsdFileNamesByAttribute(String attributeName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<NameVersionPair> GetXsdFileNamesByElement(String elementName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<NameVersionPair> GetXsdFileNamesByComplexType(String complexTypeName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }

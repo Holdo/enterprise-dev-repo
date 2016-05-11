@@ -10,7 +10,6 @@ import cz.muni.fi.pb138.service.processing.entity.XsdFile;
 import cz.muni.fi.pb138.service.processing.entity.xsd.ComplexType;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,32 +29,34 @@ import cz.muni.fi.pb138.service.processing.entity.xsd.*;
 public class XsdExtractor {
 
     private final XsdFile xsdFile;
-    private final String file;
-    private final String fileName;
+    private final byte[] file;
+    private final String fullPath;
 
-    public XsdExtractor(String file, String fileName) {
+    public XsdExtractor(byte[] file, String fullPath) {
         this.file = file;
-        this.fileName = fileName;
+        this.fullPath = fullPath;
 
         xsdFile = new XsdFile();
-        xsdFile.setNameVersionPair(new NameVersionPair(fileName));
-        xsdFile.setFileText(file);
-        ExtractSimpleTypes();
-        ExtractElements();
-        ExtractAttributes();
-        ExtractComplexTypes();
+        xsdFile.setNameVersionPair(new NameVersionPair(fullPath));
+        xsdFile.setFile(file);
+        extractSimpleTypes();
+        extractElements();
+        extractAttributes();
+        extractComplexTypes();
     }
-    public XsdFile GetXsdFile() {
+
+   
+    public XsdFile getXsdFile() {
         return xsdFile;
     }
-    private void ExtractSimpleTypes() {
+    private void extractSimpleTypes() {
         List<String> simpleTypes = new ArrayList<>();
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             Document doc;
 
-            doc = docBuilder.parse(new ByteArrayInputStream(file.getBytes(Charset.defaultCharset())));
+            doc = docBuilder.parse(new ByteArrayInputStream(file));
 
             NodeList list = doc.getElementsByTagNameNS("*", "simpleType");
 
@@ -66,12 +67,12 @@ public class XsdExtractor {
                 }
             }
         } catch (SAXException | IOException | ParserConfigurationException ex) {
-            System.err.println(ex.getMessage() + " : Simple type extraction failed for : " + fileName);
+            System.err.println(ex.getMessage() + " : Simple type extraction failed for : " + fullPath);
         }
         xsdFile.setSimpleTypes(simpleTypes);
     }
 
-    private void ExtractComplexTypes() {
+    private void extractComplexTypes() {
 
         List<String> complexTypes = new ArrayList<>();
         HashMap<String, List<ComplexTypeElement>> typeElementsMap = new HashMap<>();
@@ -82,7 +83,7 @@ public class XsdExtractor {
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             Document doc;
 
-            doc = docBuilder.parse(new ByteArrayInputStream(file.getBytes(Charset.defaultCharset())));
+            doc = docBuilder.parse(new ByteArrayInputStream(file));
 
             NodeList list = doc.getElementsByTagNameNS("*", "complexType");
 
@@ -125,7 +126,7 @@ public class XsdExtractor {
 
             }
         } catch (SAXException | IOException | ParserConfigurationException ex) {
-            System.err.println(ex.getMessage() + " : Complex type extraction failed for : " + fileName);
+            System.err.println(ex.getMessage() + " : Complex type extraction failed for : " + fullPath);
         }
         List<ComplexType> types = new ArrayList<>();
         complexTypes.stream().forEach((complexType) -> {
@@ -138,14 +139,14 @@ public class XsdExtractor {
 
   
 
-    private void ExtractElements() {
+    private void extractElements() {
         List<String> elements = new ArrayList<>();
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             Document doc;
 
-            doc = docBuilder.parse(new ByteArrayInputStream(file.getBytes(Charset.defaultCharset())));
+            doc = docBuilder.parse(new ByteArrayInputStream(file));
 
             NodeList list = doc.getElementsByTagNameNS("*", "element");
 
@@ -156,12 +157,12 @@ public class XsdExtractor {
                 }
             }
         } catch (SAXException | IOException | ParserConfigurationException ex) {
-            System.err.println(ex.getMessage() + " : Element extraction failed for : " + fileName);
+            System.err.println(ex.getMessage() + " : Element extraction failed for : " + fullPath);
         }
         xsdFile.setElements(elements);
     }
 
-    private void ExtractAttributes() {
+    private void extractAttributes() {
         
     List<String> attributes = new ArrayList<>();
         try {
@@ -169,7 +170,7 @@ public class XsdExtractor {
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             Document doc;
 
-            doc = docBuilder.parse(new ByteArrayInputStream(file.getBytes(Charset.defaultCharset())));
+            doc = docBuilder.parse(new ByteArrayInputStream(file));
 
             NodeList list = doc.getElementsByTagNameNS("*", "attribute");
 
@@ -180,7 +181,7 @@ public class XsdExtractor {
                 }
             }
         } catch (SAXException | IOException | ParserConfigurationException ex) {
-            System.err.println(ex.getMessage() + " : Attribute extraction failed for : " + fileName);
+            System.err.println(ex.getMessage() + " : Attribute extraction failed for : " + fullPath);
         }
         xsdFile.setElements(attributes);
     }

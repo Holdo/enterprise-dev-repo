@@ -5,9 +5,7 @@
  */
 package cz.muni.fi.pb138.service.processing;
 
-import cz.muni.fi.pb138.service.processing.entity.WarFile;
-import cz.muni.fi.pb138.service.processing.entity.WsdlFile;
-import cz.muni.fi.pb138.service.processing.entity.XsdFile;
+import cz.muni.fi.pb138.service.processing.entity.FileBase;
 
 
 /**
@@ -16,8 +14,8 @@ import cz.muni.fi.pb138.service.processing.entity.XsdFile;
  */
 public interface FileProcessor {
     
-    public WarFile ProcessWar(String fileName, byte[] file);
-    public XsdFile ProcessXsd(String fileName, String file);
-    public WsdlFile ProcessWsdl(String fileName, String file);
+    public FileBase processWar(String fullPath, byte[] file);
+    public FileBase processXsd(String fullPath, byte[] file);
+    public FileBase processWsdl(String fullPath, byte[] file);
     
 }

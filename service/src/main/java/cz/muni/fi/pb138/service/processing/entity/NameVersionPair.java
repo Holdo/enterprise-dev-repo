@@ -11,27 +11,25 @@ package cz.muni.fi.pb138.service.processing.entity;
  */
 public class NameVersionPair {
     
-    private String fileName;
+    private String fullPath;
     private int version;
 
-    public NameVersionPair(String fileName, int version) {
-        this.fileName = fileName;
+    public NameVersionPair(String fullPath, int version) {
+        this.fullPath = fullPath;
         this.version = version;
     }
-    
-    public NameVersionPair(String fileName) {
-        this.fileName = fileName;
+
+    public NameVersionPair(String fullPath) {
+        this.fullPath = fullPath;
         this.version = 1;
     }
-    public NameVersionPair() {
+
+    public String getFullPath() {
+        return fullPath;
     }
 
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setFullPath(String fullPath) {
+        this.fullPath = fullPath;
     }
 
     public int getVersion() {
@@ -41,6 +39,7 @@ public class NameVersionPair {
     public void setVersion(int version) {
         this.version = version;
     }
+    
     
     
 }

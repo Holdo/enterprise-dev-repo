@@ -11,11 +11,11 @@ import java.util.List;
  * Pro WAR archivy se vytáhne web.xml a bude k náhledu. Dále se vyextrahuje seznam listenerů a filtrů.
  * @author gasior
  */
-public class WarFile {
+public class WarFile implements FileBase {
     
     
     private String fileName;
-    private byte[] fileBytes;
+    private byte[] file;
     private String webXmlFile;
     private List<String> listenerList;
     private List<String> filterList;
@@ -23,9 +23,9 @@ public class WarFile {
     public WarFile() {
     }
 
-    public WarFile(String fileName, byte[] fileBytes, String webXmlFile, List<String> listenerList, List<String> filterList) {
+    public WarFile(String fileName, byte[] file, String webXmlFile, List<String> listenerList, List<String> filterList) {
         this.fileName = fileName;
-        this.fileBytes = fileBytes;
+        this.file = file;
         this.webXmlFile = webXmlFile;
         this.listenerList = listenerList;
         this.filterList = filterList;
@@ -39,12 +39,9 @@ public class WarFile {
         this.fileName = fileName;
     }
 
-    public byte[] getFileBytes() {
-        return fileBytes;
-    }
 
-    public void setFileBytes(byte[] fileBytes) {
-        this.fileBytes = fileBytes;
+    public void setFile(byte[] file) {
+        this.file = file;
     }
 
     public String getWebXmlFile() {
@@ -69,6 +66,16 @@ public class WarFile {
 
     public void setFilterList(List<String> filterList) {
         this.filterList = filterList;
+    }
+
+    @Override
+    public byte[] getFile() {
+        return file;
+    }
+
+    @Override
+    public byte[] getMeta() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
    
     

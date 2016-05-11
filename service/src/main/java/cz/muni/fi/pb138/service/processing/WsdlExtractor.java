@@ -5,6 +5,8 @@
  */
 package cz.muni.fi.pb138.service.processing;
 
+import cz.muni.fi.pb138.service.processing.entity.WsdlFile;
+import cz.muni.fi.pb138.service.processing.entity.XsdFile;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,16 +15,37 @@ import java.util.List;
  * @author gasior
  */
 public class WsdlExtractor {
+    
+    
+    private final WsdlFile wsdlFile;
+    private final byte[] file;
+    private final String fullPath;
+    
+    public WsdlExtractor(byte[] file, String fullPath) {
+       this.file = file;
+       this.fullPath = fullPath;
+       wsdlFile = new WsdlFile();
+       wsdlFile.setFullPath(fullPath);
+       wsdlFile.setFile(file);
+       extractOperations();
+       extractRequests();
+       extractResponses();
+    }
 
-    List<String> ExtractOperations(String file) {
+
+    public WsdlFile getWsdlFile() {
+        return wsdlFile;
+    }
+
+    private void extractOperations() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    HashMap<String, List<String>> ExtractRequests(String file, List<String> operations) {
+    private void extractRequests() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    HashMap<String, List<String>> ExtractResponses(String file, List<String> operations) {
+    private void extractResponses() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

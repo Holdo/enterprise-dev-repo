@@ -5,23 +5,21 @@
  */
 package cz.muni.fi.pb138.service.processing;
 
-import java.util.List;
+import cz.muni.fi.pb138.service.processing.entity.WarFile;
 
 /**
  *
  * @author gasior
  */
 public class WarExtractor {
+
+    WarExtractor(byte[] file, String fullPath) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    WarFile getWarFile() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
  
-    public List<String> ExtractListeners(byte[] file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public List<String> ExractFilters(byte[] file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public String ExtraxtWebXml(byte[] file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 }

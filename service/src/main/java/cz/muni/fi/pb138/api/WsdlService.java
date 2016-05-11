@@ -5,7 +5,7 @@
  */
 package cz.muni.fi.pb138.api;
 
-import cz.muni.fi.pb138.service.processing.entity.WsdlFile;
+import cz.muni.fi.pb138.service.processing.entity.NameVersionPair;
 import java.util.List;
 
 /**
@@ -14,23 +14,23 @@ import java.util.List;
  */
 public interface WsdlService {
     
-     // THESE methods should be implemented to 13.05.
-    public void SaveWsdlFile(String name, String textFile);
-    public void DeleteWsdlFile(String name);
-    public WsdlFile GetWsdlFileByName(String name);
-    public List<String> GetAllWsdlFileNames();
+    public List<String> getAllWsdlFileFullPaths();
     
-    // THESE can wait
-    public List<String> GetAllOperations();
-    public List<String> GetOperationsByFileName(String name);
-    public List<String> GetAllRequests();
-    public List<String> GetRequestsByFileName(String name);
-    public List<String> GetAllResponses();
-    public List<String> GetResponsesByFileName(String name);
+    public List<String> getAllOperations();
+    public List<String> getOperationsByFileFullPath(String name);
+    public List<String> getOperationsByFileFullPathAndVersion(String name, int version);
+    
+    public List<String> getAllRequests();
+    public List<String> getRequestsByFileFullPath(String name);
+    public List<String> getRequestsByFileFullPathAndVersion(String name, int version);
+    
+    public List<String> getAllResponses();
+    public List<String> getResponsesByFileFullPath(String name);
+    public List<String> getResponsesByFileFullPathAndVersion(String name, int version);
     
     
-    // DO NOT implement these methods FOR NOW
-    public List<String> GetWsdlFileNamesByOperation(String operation);
-    public List<String> GetWsdlFileNamesByRequest(String request);
-    public List<String> GetWsdlFileNamesByResponses(String responses);
+    public List<NameVersionPair> getWsdlFileFullPathsByOperation(String operation);
+    public List<NameVersionPair> getWsdlFileFullPathsByRequest(String request);
+    public List<NameVersionPair> getWsdlFileFullPathsByResponses(String responses);
+   
 }

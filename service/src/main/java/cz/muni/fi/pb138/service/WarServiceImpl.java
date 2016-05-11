@@ -6,7 +6,7 @@
 package cz.muni.fi.pb138.service;
 
 import cz.muni.fi.pb138.api.WarService;
-import cz.muni.fi.pb138.service.processing.entity.WarFile;
+import cz.muni.fi.pb138.service.processing.entity.NameVersionPair;
 import java.util.List;
 
 /**
@@ -16,70 +16,51 @@ import java.util.List;
 public class WarServiceImpl implements WarService {
 
     @Override
-    public void SaveWarFile(String name, byte[] fileBytes) {
+    public List<String> getAllWarFileFullPaths() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void DeleteWarFile(String name) {
+    public List<byte[]> getAllWebXmls() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public WarFile GetWarFileByName(String name) {
+    public byte[] getWebXmlByFileFullPath(String FullPath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<String> GetAllWarFileNames() {
+    public List<String> getAllFilters() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<String> GetAllWebXmls() {
+    public List<String> getFiltersByFileFullPath(String FullPath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String GetWebXmlByFileName(String name) {
+    public List<String> getAllListeners() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<String> GetAllFilters() {
+    public List<String> getListenersByFileFullPath(String FullPath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<String> GetFiltersByFileName(String name) {
+    public List<NameVersionPair> getWarFileFullPathsByListener(String listener) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<String> GetAllListeners() {
+    public List<NameVersionPair> getWarFileFullPathsByFilter(String listener) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public List<String> GetListenersByFileName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<String> GetWarFileNamesByListener(String listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<String> GetWarFileNamesByFilter(String listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<String> GetWarFileNamesByWebXml(String webXml) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
    
     
 }
