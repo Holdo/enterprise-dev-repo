@@ -13,7 +13,7 @@ public interface BinaryDao {
 	 * @param fullPath full path of file, for example project/main.war
 	 * @return binary file
 	 * @throws IOException
-	 * @see BaseXDao for opening and closing the database
+	 * @see DatabaseDao for opening and closing the database
 	 */
 	byte[] retrieveBinaryFile(String fullPath) throws IOException;
 
@@ -23,7 +23,7 @@ public interface BinaryDao {
 	 * @param bytes binary file
 	 * @param fullPath full path of file, for example project/main.war
 	 * @throws IOException
-	 * @see BaseXDao for opening and closing the database
+	 * @see DatabaseDao for opening and closing the database
 	 */
 	void saveBinaryFile(byte[] bytes, String fullPath) throws IOException;
 }

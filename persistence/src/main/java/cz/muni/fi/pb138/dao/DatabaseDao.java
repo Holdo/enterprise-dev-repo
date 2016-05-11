@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  * Created by Michal Holic on 10/05/2016
  */
-public interface BaseXDao {
+public interface DatabaseDao {
 
 	/**
 	 * Opens database
