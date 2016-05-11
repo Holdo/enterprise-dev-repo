@@ -1,7 +1,9 @@
 package cz.muni.fi.pb138.dao;
 
-import cz.muni.fi.pb138.basex.BaseXClient;
-import cz.muni.fi.pb138.basex.BaseXSessionSingleton;
+import cz.muni.fi.pb138.basex.BaseXContext;
+import org.basex.core.cmd.Retrieve;
+import org.basex.core.cmd.Store;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.ByteArrayInputStream;
@@ -15,27 +17,27 @@ import java.util.logging.Logger;
 @Repository
 public class BinaryDaoImpl implements BinaryDao {
 
+	@Autowired
+	private BaseXContext dbCtx;
+
 	private static final Logger log = Logger.getLogger(BinaryDao.class.getName());
 
 	public byte[] retrieveBinaryFile(String fullPath) throws IOException {
-		BaseXClient session = BaseXSessionSingleton.getSession();
-
 		byte[] binaryFile = null;
 
 		try (final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-			session.execute("retrieve " + fullPath, baos);
+			new Retrieve(fullPath).execute(dbCtx.getContext(), baos);
 			binaryFile = baos.toByteArray();
 		}
 
 		return binaryFile;
 	}
 
-	public void saveBinaryFile(byte[] bytes, String fullPath) throws IOException {
-		BaseXClient session = BaseXSessionSingleton.getSession();
-
+	public String saveBinaryFile(byte[] bytes, String fullPath) throws IOException {
 		try (final ByteArrayInputStream bais = new ByteArrayInputStream(bytes)) {
-			session.store(fullPath, bais);
-			log.info(session.info());
+			Store store = new Store(fullPath);
+			store.setInput(bais);
+			return store.execute(dbCtx.getContext());
 		}
 	}
 }

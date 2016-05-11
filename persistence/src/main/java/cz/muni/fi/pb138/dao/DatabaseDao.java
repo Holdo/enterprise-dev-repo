@@ -1,5 +1,7 @@
 package cz.muni.fi.pb138.dao;
 
+import org.basex.core.BaseXException;
+
 import java.io.IOException;
 
 /**
@@ -32,4 +34,22 @@ public interface DatabaseDao {
 	 * @throws IOException
 	 */
 	String dropDatabase(String name) throws IOException;
+
+	/**
+	 * Deletes the whole directory or a single file in the currently opened database
+	 *
+	 * @param fullPath to delete
+	 * @return result
+	 * @throws IOException
+	 */
+	String deleteFileOrDirectory(String fullPath) throws IOException;
+
+	/**
+	 * Runs XQuery on the currently opened database
+	 *
+	 * @param xQuery as String
+	 * @return result
+	 * @throws BaseXException
+	 */
+	String runXQuery(String xQuery) throws BaseXException;
 }

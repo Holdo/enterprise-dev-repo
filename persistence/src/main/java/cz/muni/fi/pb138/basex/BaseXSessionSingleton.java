@@ -5,6 +5,7 @@ import java.io.IOException;
 /**
  * Created by Michal Holic on 10/05/2016
  */
+@Deprecated
 public class BaseXSessionSingleton {
 
 	private static BaseXClient session = null;

@@ -22,8 +22,9 @@ public interface BinaryDao {
 	 *
 	 * @param bytes binary file
 	 * @param fullPath full path of file, for example project/main.war
+	 * @return result
 	 * @throws IOException
 	 * @see DatabaseDao for opening and closing the database
 	 */
-	void saveBinaryFile(byte[] bytes, String fullPath) throws IOException;
+	String saveBinaryFile(byte[] bytes, String fullPath) throws IOException;
 }

@@ -16,6 +16,7 @@ import java.util.ArrayList;
  *
  * (C) BaseX Team 2005-16, BSD License
  */
+@Deprecated
 public final class BaseXClient implements Closeable {
 	/** UTF-8 charset. */
 	private static final Charset UTF8 = Charset.forName("UTF-8");

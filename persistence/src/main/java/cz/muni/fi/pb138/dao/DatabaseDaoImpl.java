@@ -1,7 +1,9 @@
 package cz.muni.fi.pb138.dao;
 
-import cz.muni.fi.pb138.basex.BaseXClient;
-import cz.muni.fi.pb138.basex.BaseXSessionSingleton;
+import cz.muni.fi.pb138.basex.BaseXContext;
+import org.basex.core.BaseXException;
+import org.basex.core.cmd.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -12,18 +14,26 @@ import java.io.IOException;
 @Repository
 public class DatabaseDaoImpl implements DatabaseDao {
 
+	@Autowired
+	private BaseXContext dbCtx;
+
 	public String openDatabase(String name) throws IOException {
-		BaseXClient session = BaseXSessionSingleton.getSession();
-		return session.execute("open " + name);
+		return new Open(name).execute(dbCtx.getContext());
 	}
 
 	public String closeDatabase() throws IOException {
-		BaseXClient session = BaseXSessionSingleton.getSession();
-		return session.execute("close");
+		return new Close().execute(dbCtx.getContext());
 	}
 
 	public String dropDatabase(String name) throws IOException {
-		BaseXClient session = BaseXSessionSingleton.getSession();
-		return session.execute("drop db " + name);
+		return new DropDB(name).execute(dbCtx.getContext());
+	}
+
+	public String deleteFileOrDirectory(String fullPath) throws IOException {
+		return new Delete(fullPath).execute(dbCtx.getContext());
+	}
+
+	public String runXQuery(String xQuery) throws BaseXException {
+		return new XQuery(xQuery).execute(dbCtx.getContext());
 	}
 }
