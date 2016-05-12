@@ -24,7 +24,7 @@ import javax.xml.bind.Marshaller;
  */
 public class XsdFile implements FileBase {
 
-    private NameVersionPair nameVersionPair;
+    private PathVersionPair nameVersionPair;
     private byte[] file;
     private List<String> elements;
     private List<String> attributes;
@@ -34,7 +34,7 @@ public class XsdFile implements FileBase {
     public XsdFile() {
     }
 
-    public XsdFile(NameVersionPair nameVersionPair, byte[] file, List<String> elements, List<String> attributes, List<String> simpleTypes, List<String> complexTypes) {
+    public XsdFile(PathVersionPair nameVersionPair, byte[] file, List<String> elements, List<String> attributes, List<String> simpleTypes, List<String> complexTypes) {
         this.nameVersionPair = nameVersionPair;
         this.file = file;
         this.elements = elements;
@@ -43,11 +43,11 @@ public class XsdFile implements FileBase {
         this.complexTypes = complexTypes;
     }
 
-    public NameVersionPair getNameVersionPair() {
+    public PathVersionPair getNameVersionPair() {
         return nameVersionPair;
     }
 
-    public void setNameVersionPair(NameVersionPair nameVersionPair) {
+    public void setNameVersionPair(PathVersionPair nameVersionPair) {
         this.nameVersionPair = nameVersionPair;
     }
 

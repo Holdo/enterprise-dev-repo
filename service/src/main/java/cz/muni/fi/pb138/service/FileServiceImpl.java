@@ -6,10 +6,12 @@
 package cz.muni.fi.pb138.service;
 
 import cz.muni.fi.pb138.api.FileService;
+import cz.muni.fi.pb138.api.FileType;
 import cz.muni.fi.pb138.dao.BinaryDao;
 import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.service.processing.FileProcessor;
 import cz.muni.fi.pb138.service.processing.entity.FileBase;
+import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -92,12 +94,12 @@ public class FileServiceImpl implements FileService {
     public List<Integer> getFileVersions(String fullPath) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
-    public List<String> getAllFileFullPathsInNamespace(String namespace) throws IOException {
+    public List<PathVersionPair> getAllFilesByFileType(FileType fileType, String namespace) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     private int getLastVersion(String fullPath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

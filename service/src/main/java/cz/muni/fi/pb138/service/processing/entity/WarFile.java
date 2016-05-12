@@ -15,7 +15,7 @@ public class WarFile implements FileBase {
     
     
     
-    private NameVersionPair nameVersionPair;
+    private PathVersionPair nameVersionPair;
     private byte[] file;
     private String webXmlFile;
     private List<String> listenerList;
@@ -24,7 +24,7 @@ public class WarFile implements FileBase {
     public WarFile() {
     }
 
-    public WarFile(NameVersionPair nameVersionPair, byte[] file, String webXmlFile, List<String> listenerList, List<String> filterList) {
+    public WarFile(PathVersionPair nameVersionPair, byte[] file, String webXmlFile, List<String> listenerList, List<String> filterList) {
         this.nameVersionPair = nameVersionPair;
         this.file = file;
         this.webXmlFile = webXmlFile;
@@ -32,11 +32,11 @@ public class WarFile implements FileBase {
         this.filterList = filterList;
     }
 
-    public NameVersionPair getNameVersionPair() {
+    public PathVersionPair getNameVersionPair() {
         return nameVersionPair;
     }
 
-    public void setNameVersionPair(NameVersionPair nameVersionPair) {
+    public void setNameVersionPair(PathVersionPair nameVersionPair) {
         this.nameVersionPair = nameVersionPair;
     }
     

@@ -9,19 +9,16 @@ package cz.muni.fi.pb138.service.processing.entity;
  *
  * @author gasior
  */
-public class NameVersionPair {
+public class MetaFilePathVersionTriplet {
     
     private String fullPath;
+    private byte[] file;
     private int version;
 
-    public NameVersionPair(String fullPath, int version) {
+    public MetaFilePathVersionTriplet(String fullPath, byte[] file, int version) {
         this.fullPath = fullPath;
+        this.file = file;
         this.version = version;
-    }
-
-    public NameVersionPair(String fullPath) {
-        this.fullPath = fullPath;
-        this.version = 1;
     }
 
     public String getFullPath() {
@@ -32,6 +29,14 @@ public class NameVersionPair {
         this.fullPath = fullPath;
     }
 
+    public byte[] getFile() {
+        return file;
+    }
+
+    public void setFile(byte[] file) {
+        this.file = file;
+    }
+
     public int getVersion() {
         return version;
     }
@@ -39,7 +44,6 @@ public class NameVersionPair {
     public void setVersion(int version) {
         this.version = version;
     }
-    
     
     
 }

@@ -5,7 +5,7 @@
  */
 package cz.muni.fi.pb138.service.processing;
 
-import cz.muni.fi.pb138.service.processing.entity.NameVersionPair;
+import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import cz.muni.fi.pb138.service.processing.entity.XsdFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class XsdExtractor {
         this.fullPath = fullPath;
 
         xsdFile = new XsdFile();
-        xsdFile.setNameVersionPair(new NameVersionPair(fullPath));
+        xsdFile.setNameVersionPair(new PathVersionPair(fullPath));
         xsdFile.setFile(file);
         xsdFile.setSimpleTypes(extract("simpleType"));
         xsdFile.setElements(extract("element"));

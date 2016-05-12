@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pb138.api;
 
+import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -54,11 +55,12 @@ public interface FileService {
     public byte[] getFileByFullPathAndVersion(String fullPath, int version) throws IOException;
     /**
      * 
-     * @param namespace - all files "/" like this, or you can get some subset 
-     * @return - all file names including namespace and extension
-     * @throws java.io.IOException
+     * @param fileType - One of supported file types like WAR, XSD, WSDL
+     * @param namespace - "/" for ALL, specify namaspace to filter 
+     * @return 
+     * @throws java.io.IOException 
      */
-    public List<String> getAllFileFullPathsInNamespace(String namespace) throws IOException;
+    public List<PathVersionPair> getAllFilesByFileType(FileType fileType, String namespace) throws IOException;
     /**
      * 
      * @param fullPath - fullpath to file (namespace/file.xxx)

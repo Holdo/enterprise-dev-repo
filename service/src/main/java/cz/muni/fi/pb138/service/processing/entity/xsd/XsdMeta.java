@@ -5,7 +5,7 @@
  */
 package cz.muni.fi.pb138.service.processing.entity.xsd;
 
-import cz.muni.fi.pb138.service.processing.entity.NameVersionPair;
+import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -17,22 +17,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class XsdMeta {
     
     
-    private final NameVersionPair nameVersionPair;
+    private final PathVersionPair pathVersionPair;
     private final List<String> elements;
     private final List<String> attributes;
     private final List<String> simpleTypes;
     private final List<String> complexTypes;
 
-    public XsdMeta(NameVersionPair nameVersionPair, List<String> elements, List<String> attributes, List<String> simpleTypes, List<String> complexTypes) {
-        this.nameVersionPair = nameVersionPair;
+    public XsdMeta(PathVersionPair pathVersionPair, List<String> elements, List<String> attributes, List<String> simpleTypes, List<String> complexTypes) {
+        this.pathVersionPair = pathVersionPair;
         this.elements = elements;
         this.attributes = attributes;
         this.simpleTypes = simpleTypes;
         this.complexTypes = complexTypes;
     }
 
-    public NameVersionPair getNameVersionPair() {
-        return nameVersionPair;
+    public PathVersionPair getPathVersionPair() {
+        return pathVersionPair;
     }
 
     public List<String> getElements() {

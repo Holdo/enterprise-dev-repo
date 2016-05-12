@@ -5,7 +5,7 @@
  */
 package cz.muni.fi.pb138.service.processing;
 
-import cz.muni.fi.pb138.service.processing.entity.NameVersionPair;
+import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import cz.muni.fi.pb138.service.processing.entity.WsdlFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class WsdlExtractor {
        this.fullPath = fullPath;
        
        wsdlFile = new WsdlFile();
-       wsdlFile.setNameVersionPair(new NameVersionPair(fullPath));
+       wsdlFile.setNameVersionPair(new PathVersionPair(fullPath));
        wsdlFile.setFile(file);
        wsdlFile.setOperations(extract("operation"));
        wsdlFile.setRequests(extract("request"));

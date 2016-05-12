@@ -14,7 +14,7 @@ import java.util.List;
 public class WsdlFile implements FileBase {
     
     
-    private NameVersionPair nameVersionPair;
+    private PathVersionPair nameVersionPair;
     private byte[] file;
     private List<String> operations;
     private List<String> responses;
@@ -23,7 +23,7 @@ public class WsdlFile implements FileBase {
     public WsdlFile() {
     }
 
-    public WsdlFile(NameVersionPair nameVersionPair, byte[] file, List<String> operations, List<String> responses, List<String> requests) {
+    public WsdlFile(PathVersionPair nameVersionPair, byte[] file, List<String> operations, List<String> responses, List<String> requests) {
         this.nameVersionPair = nameVersionPair;
         this.file = file;
         this.operations = operations;
@@ -31,11 +31,11 @@ public class WsdlFile implements FileBase {
         this.requests = requests;
     }
 
-    public NameVersionPair getNameVersionPair() {
+    public PathVersionPair getNameVersionPair() {
         return nameVersionPair;
     }
 
-    public void setNameVersionPair(NameVersionPair nameVersionPair) {
+    public void setNameVersionPair(PathVersionPair nameVersionPair) {
         this.nameVersionPair = nameVersionPair;
     }
 
