@@ -11,6 +11,8 @@ import cz.muni.fi.pb138.api.MetaParameterType;
 import cz.muni.fi.pb138.api.MetaService;
 import cz.muni.fi.pb138.service.processing.entity.MetaFilePathVersionTriplet;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
+import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import java.util.List;
  *
  * @author gasior
  */
+@Service
 public class MetaServiceImpl implements MetaService {
 
     @Override

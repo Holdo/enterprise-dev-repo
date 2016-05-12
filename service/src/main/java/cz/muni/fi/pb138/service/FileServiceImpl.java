@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pb138.service;
 
 import cz.muni.fi.pb138.api.FileService;
@@ -16,11 +11,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author gasior
  */
+@Service
 public class FileServiceImpl implements FileService {
 
     @Autowired

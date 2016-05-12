@@ -1,8 +1,12 @@
 package cz.muni.fi.pb138.webmvc;
 
+import cz.muni.fi.pb138.api.FileService;
+import cz.muni.fi.pb138.api.FileType;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
@@ -16,10 +20,18 @@ import java.nio.charset.Charset;
 import java.util.zip.GZIPInputStream;
 
 @RunWith(SpringRunner.class)
-//@ContextConfiguration(classes = UndertowApplication.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @DirtiesContext
 public class UndertowApplicationTests {
+
+	@Autowired
+	private FileService fileService;
+
+	@Test
+	@Ignore
+	public void exampleTest() throws Exception {
+		System.out.println(fileService.getAllFilesByFileType(FileType.WAR, "/"));
+	}
 
 	@Test
 	public void testHome() throws Exception {

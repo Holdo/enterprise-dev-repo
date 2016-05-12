@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
  *
  * @author gasior
  */
-@Service
 public interface FileService {
     
     /**

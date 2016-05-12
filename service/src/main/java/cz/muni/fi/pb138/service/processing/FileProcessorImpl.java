@@ -11,6 +11,7 @@ import cz.muni.fi.pb138.service.processing.entity.WarFile;
 import cz.muni.fi.pb138.service.processing.entity.WsdlFile;
 import cz.muni.fi.pb138.service.processing.entity.XsdFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 
  * @author gasior
  */
+@Service
 public class FileProcessorImpl implements FileProcessor {
     
     @Autowired
