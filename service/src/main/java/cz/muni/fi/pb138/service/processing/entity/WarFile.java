@@ -5,29 +5,42 @@
  */
 package cz.muni.fi.pb138.service.processing.entity;
 
+import cz.muni.fi.pb138.api.MetaFileType;
+import cz.muni.fi.pb138.service.processing.entity.war.WarMeta;
+import cz.muni.fi.pb138.service.processing.entity.wsdl.WsdlMeta;
+import cz.muni.fi.pb138.service.processing.entity.xsd.XsdMeta;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /** 
  * Pro WAR archivy se vytáhne web.xml a bude k náhledu. Dále se vyextrahuje seznam listenerů a filtrů.
  * @author gasior
  */
 public class WarFile implements FileBase {
-    
-    
-    
-    private PathVersionPair nameVersionPair;
+
     private byte[] file;
-    private String webXmlFile;
+    private HashMap<MetaFileType, byte[]> typeMetaFileMap;
+    private PathVersionPair nameVersionPair;
     private List<String> listenerList;
     private List<String> filterList;
 
     public WarFile() {
+        typeMetaFileMap = new HashMap<>();
     }
 
-    public WarFile(PathVersionPair nameVersionPair, byte[] file, String webXmlFile, List<String> listenerList, List<String> filterList) {
+    public WarFile(HashMap<MetaFileType, byte[]> typeMetaFileMap, PathVersionPair nameVersionPair, byte[] file, List<String> listenerList, List<String> filterList) {
+        this.typeMetaFileMap = typeMetaFileMap;
         this.nameVersionPair = nameVersionPair;
         this.file = file;
-        this.webXmlFile = webXmlFile;
         this.listenerList = listenerList;
         this.filterList = filterList;
     }
@@ -39,17 +52,17 @@ public class WarFile implements FileBase {
     public void setNameVersionPair(PathVersionPair nameVersionPair) {
         this.nameVersionPair = nameVersionPair;
     }
-    
+
+    public HashMap<MetaFileType, byte[]> getTypeMetaFileMap() {
+        return typeMetaFileMap;
+    }
+
+    public void setTypeMetaFileMap(HashMap<MetaFileType, byte[]> typeMetaFileMap) {
+        this.typeMetaFileMap = typeMetaFileMap;
+    }
+
     public void setFile(byte[] file) {
         this.file = file;
-    }
-
-    public String getWebXmlFile() {
-        return webXmlFile;
-    }
-
-    public void setWebXmlFile(String webXmlFile) {
-        this.webXmlFile = webXmlFile;
     }
 
     public List<String> getListenerList() {
@@ -75,17 +88,42 @@ public class WarFile implements FileBase {
 
     @Override
     public byte[] getMeta() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JAXBContext jc;
+        Marshaller marshaller;
+        File xml = null;
+        try {
+            jc = JAXBContext.newInstance(XsdMeta.class);
+            marshaller = jc.createMarshaller();
+            marshaller.marshal(new WarMeta(nameVersionPair, listenerList, filterList), xml);
+        } catch (JAXBException ex) {
+            Logger.getLogger(XsdFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            return Files.readAllBytes(xml.toPath());
+        } catch (IOException ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public HashMap<MetaFileType, byte[]> getMetaFiles() {
+        return typeMetaFileMap;
+    }
+
+    @Override
+    public String getMetaFilePath(MetaFileType metaFileType) {
+        return nameVersionPair.getFullPath() + metaFileType.name();
     }
 
     @Override
     public String getFilePath() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return nameVersionPair.getFullPath();
     }
 
     @Override
     public String getMetaPath() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return nameVersionPair.getFullPath() + ".xml";
     }
    
     

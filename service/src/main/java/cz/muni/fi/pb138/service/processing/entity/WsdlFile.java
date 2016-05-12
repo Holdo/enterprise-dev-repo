@@ -5,7 +5,20 @@
  */
 package cz.muni.fi.pb138.service.processing.entity;
 
+import cz.muni.fi.pb138.api.MetaFileType;
+import cz.muni.fi.pb138.service.processing.entity.wsdl.WsdlMeta;
+import cz.muni.fi.pb138.service.processing.entity.xsd.XsdMeta;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Pro WSDL dokumenty se vyextrahuje seznam operací spolu s informací o requestu a response zprávách
@@ -70,8 +83,34 @@ public class WsdlFile implements FileBase {
 
     @Override
     public byte[] getMeta() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JAXBContext jc;
+        Marshaller marshaller;
+        File xml = null;
+        try {
+            jc = JAXBContext.newInstance(XsdMeta.class);
+            marshaller = jc.createMarshaller();
+            marshaller.marshal(new WsdlMeta(nameVersionPair, operations, responses, requests), xml);
+        } catch (JAXBException ex) {
+            Logger.getLogger(XsdFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            return Files.readAllBytes(xml.toPath());
+        } catch (IOException ex) {
+            return null;
+        }
     }
+
+    @Override
+    public HashMap<MetaFileType, byte[]> getMetaFiles() {
+        return new HashMap<>();
+    }
+
+    @Override
+    public String getMetaFilePath(MetaFileType metaFileType) {
+        return null;
+    }
+
     @Override
     public byte[] getFile() {
         return file;
@@ -79,12 +118,12 @@ public class WsdlFile implements FileBase {
 
     @Override
     public String getFilePath() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return nameVersionPair.getFullPath();
     }
 
     @Override
     public String getMetaPath() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return nameVersionPair.getFullPath() + ".xml";
     }
  
     

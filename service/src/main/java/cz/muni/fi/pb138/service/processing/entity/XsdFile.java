@@ -5,10 +5,12 @@
  */
 package cz.muni.fi.pb138.service.processing.entity;
 
+import cz.muni.fi.pb138.api.MetaFileType;
 import cz.muni.fi.pb138.service.processing.entity.xsd.XsdMeta;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -87,6 +89,8 @@ public class XsdFile implements FileBase {
         this.complexTypes = complexTypes;
     }
 
+
+
     @Override
     public byte[] getMeta() {
         JAXBContext jc;
@@ -105,21 +109,31 @@ public class XsdFile implements FileBase {
         } catch (IOException ex) {
             return null;
         }
+
     }
 
     @Override
     public byte[] getFile() {
         return file;
     }
+    @Override
+    public HashMap<MetaFileType, byte[]> getMetaFiles() {
+        return new HashMap<>();
+    }
+
+    @Override
+    public String getMetaFilePath(MetaFileType type) {
+        return null;
+    }
 
     @Override
     public String getFilePath() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return nameVersionPair.getFullPath();
     }
 
     @Override
     public String getMetaPath() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return nameVersionPair.getFullPath() + ".xml";
     }
 
 }
