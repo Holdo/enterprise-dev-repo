@@ -2,6 +2,7 @@ package cz.muni.fi.pb138.webmvc;
 
 import cz.muni.fi.pb138.api.FileService;
 import cz.muni.fi.pb138.api.FileType;
+import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.zip.GZIPInputStream;
 
 @RunWith(SpringRunner.class)
@@ -30,7 +32,8 @@ public class UndertowApplicationTests {
 	@Test
 	@Ignore
 	public void exampleTest() throws Exception {
-		System.out.println(fileService.getAllFilesByFileType(FileType.WAR, "/"));
+		List<PathVersionPair> allFilesByFileType = fileService.getAllFilesByFileType(FileType.WAR, "/");
+		Assert.assertNotNull(allFilesByFileType);
 	}
 
 	@Test
