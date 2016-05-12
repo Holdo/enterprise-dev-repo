@@ -3,9 +3,8 @@ package cz.muni.fi.pb138.webmvc;
 import cz.muni.fi.pb138.api.FileService;
 import cz.muni.fi.pb138.api.FileType;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.basex.BaseXServer;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -17,6 +16,7 @@ import org.springframework.util.StreamUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
@@ -28,6 +28,16 @@ public class UndertowApplicationTests {
 
 	@Autowired
 	private FileService fileService;
+
+	@BeforeClass
+	public static void setUp() {
+		BaseXServer.main(new String[]{});
+	}
+
+	@AfterClass
+	public static void tearDown() throws IOException {
+		BaseXServer.stop("localhost", 1984);
+	}
 
 	@Test
 	@Ignore
