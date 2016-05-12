@@ -21,6 +21,10 @@ public class MetaFilePathVersionTriplet {
         this.version = version;
     }
 
+    public MetaFilePathVersionTriplet() {
+
+    }
+
     public String getFullPath() {
         return fullPath;
     }

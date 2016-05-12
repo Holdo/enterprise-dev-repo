@@ -7,6 +7,7 @@ import cz.muni.fi.pb138.dao.BinaryDao;
 import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.dao.DocumentDao;
 import cz.muni.fi.pb138.service.processing.FileProcessor;
+import cz.muni.fi.pb138.service.processing.QueryFactory;
 import cz.muni.fi.pb138.service.processing.entity.FileBase;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 
@@ -33,6 +34,9 @@ public class FileServiceImpl implements FileService {
     private DocumentDao documentDao;
     @Autowired
     private FileProcessor fileProcessor;
+    @Autowired
+    private QueryFactory queryFactory;
+
 
     public final String FILE_DATABASE_NAME = "artifacts";
     public final String META_DATABASE_NAME = "metadata";

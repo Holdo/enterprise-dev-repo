@@ -5,6 +5,9 @@
  */
 package cz.muni.fi.pb138.service.processing.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author gasior
@@ -39,7 +42,13 @@ public class PathVersionPair {
     public void setVersion(int version) {
         this.version = version;
     }
-    
-    
-    
+
+
+    public static List<PathVersionPair> getListFromXml(String rawOutput) {
+
+        List<PathVersionPair> output = new ArrayList<>();
+
+        //TODO
+        return output;
+    }
 }
