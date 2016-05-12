@@ -8,7 +8,6 @@ package cz.muni.fi.pb138.api;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import java.io.IOException;
 import java.util.List;
-import org.springframework.stereotype.Service;
 
 /**
  * CRUD operations with files
