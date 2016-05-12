@@ -35,9 +35,9 @@ public class BinaryDaoImpl implements BinaryDao {
 
 	public String saveBinaryFile(byte[] bytes, String fullPath) throws IOException {
 		try (final ByteArrayInputStream bais = new ByteArrayInputStream(bytes)) {
-			Store store = new Store(fullPath);
-			store.setInput(bais);
-			return store.execute(dbCtx.getContext());
+			Store storeCmd = new Store(fullPath);
+			storeCmd.setInput(bais);
+			return storeCmd.execute(dbCtx.getContext());
 		}
 	}
 }

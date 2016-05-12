@@ -10,7 +10,7 @@ public interface BinaryDao {
 	/**
 	 * Retrieves binary file from currently opened database
 	 *
-	 * @param fullPath full path of file, for example project/main.war
+	 * @param fullPath full path where to store the file, for example project/main.war
 	 * @return binary file
 	 * @throws IOException
 	 * @see DatabaseDao for opening and closing the database
@@ -21,7 +21,7 @@ public interface BinaryDao {
 	 * Saves binary file to a currently opened database
 	 *
 	 * @param bytes binary file
-	 * @param fullPath full path of file, for example project/main.war
+	 * @param fullPath full path where to store the file, for example project/main.war
 	 * @return result
 	 * @throws IOException
 	 * @see DatabaseDao for opening and closing the database
