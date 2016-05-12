@@ -26,44 +26,8 @@ public class WebSocketController {
     public void createUpdate(Message<byte[]> binaryMessage) throws Exception {
 
         StompHeaderAccessor headerAccessor = MessageHeaderAccessor.getAccessor(binaryMessage, StompHeaderAccessor.class);
-        String sessionId = headerAccessor.getSessionId();
-
-        if (retrievedFileMap.getMyMap().containsKey(sessionId)) {
-            retrievedFileMap.getMyMap().get(sessionId).setBinaryMessage(binaryMessage.getPayload());
-        } else {
-            RetrievedFile retrievedFile = new RetrievedFile();
-            retrievedFile.setBinaryMessage(binaryMessage.getPayload());
-            retrievedFileMap.getMyMap().put(sessionId, retrievedFile);
-        }
-
-        if (retrievedFileMap.getMyMap().get(sessionId).getName() != null) {
-            FileService fileService = new FileServiceImpl();
-            String name = retrievedFileMap.getMyMap().get(sessionId).getName();
-            String[] splitedName = name.split(":");
-            fileService.saveFile(name, binaryMessage.getPayload());
-        }
+        String fullPath = (String) headerAccessor.getMessageHeaders().get("fileName");
+        FileService fileService = new FileServiceImpl();
+        fileService.saveFile(fullPath, binaryMessage.getPayload());
     }
-
-    @MessageMapping("/fileName")
-    public void createUpdateName(Message<String> fileName) throws Exception {
-
-        StompHeaderAccessor headerAccessor = MessageHeaderAccessor.getAccessor(fileName, StompHeaderAccessor.class);
-        String sessionId = headerAccessor.getSessionId();
-
-        if (retrievedFileMap.getMyMap().containsKey(sessionId)) {
-            retrievedFileMap.getMyMap().get(sessionId).setName(fileName.getPayload());
-        } else {
-            RetrievedFile retrievedFile = new RetrievedFile();
-            retrievedFile.setName(fileName.getPayload());
-            retrievedFileMap.getMyMap().put(sessionId, retrievedFile);
-        }
-
-        if (retrievedFileMap.getMyMap().get(sessionId).getBinaryMessage().length != 0) {
-            FileService fileService = new FileServiceImpl();
-            byte[] binaryMessage = retrievedFileMap.getMyMap().get(sessionId).getBinaryMessage();
-            String[] fileNameSplited = fileName.getPayload().split(":");
-            fileService.saveFile(fileNameSplited[0], binaryMessage);
-        }
-    }
-
 }
