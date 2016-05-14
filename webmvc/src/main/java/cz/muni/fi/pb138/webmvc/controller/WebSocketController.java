@@ -17,17 +17,31 @@ public class WebSocketController {
     @Autowired
     private RetrievedFileMap retrievedFileMap;
 
+    @Autowired
+    private FileService fileService;
+
     /**
      *
      * @param binaryMessage
      * @throws Exception
      */
-    @MessageMapping("/binaryFile")
+    @MessageMapping("/saveFile")
     public void createUpdate(Message<byte[]> binaryMessage) throws Exception {
 
         StompHeaderAccessor headerAccessor = MessageHeaderAccessor.getAccessor(binaryMessage, StompHeaderAccessor.class);
         String fullPath = (String) headerAccessor.getMessageHeaders().get("fileName");
-        FileService fileService = new FileServiceImpl();
         fileService.saveFile(fullPath, binaryMessage.getPayload());
+    }
+
+    @MessageMapping("/getOrDeleteFile")
+    public void getFile(FileRequest fileRequest) throws Exception {
+        switch (fileRequest.getCommand()) {
+            case "get":
+                fileService.getFileByFullPath(fileRequest.getFullPath());
+                break;
+            case "delete":
+                fileService.deleteFile(fileRequest.getFullPath());
+                break;
+        }
     }
 }

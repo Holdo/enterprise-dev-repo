@@ -19,8 +19,8 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/binaryFile").withSockJS();
-                registry.addEndpoint("/fileName").withSockJS();
+		registry.addEndpoint("/saveFile").withSockJS();
+                registry.addEndpoint("/getOrDeleteFile").withSockJS();
 	}
 
 }
