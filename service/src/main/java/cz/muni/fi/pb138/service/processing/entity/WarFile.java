@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pb138.service.processing.entity;
 
+import cz.muni.fi.pb138.api.FileType;
 import cz.muni.fi.pb138.api.MetaFileType;
 import cz.muni.fi.pb138.service.processing.entity.war.WarMeta;
 import cz.muni.fi.pb138.service.processing.entity.wsdl.WsdlMeta;
@@ -32,18 +33,13 @@ public class WarFile implements FileBase {
     private PathVersionPair nameVersionPair;
     private List<String> listenerList;
     private List<String> filterList;
-
+    private FileType type;
     public WarFile() {
         typeMetaFileMap = new HashMap<>();
+        type = FileType.WAR;
     }
 
-    public WarFile(HashMap<MetaFileType, byte[]> typeMetaFileMap, PathVersionPair nameVersionPair, byte[] file, List<String> listenerList, List<String> filterList) {
-        this.typeMetaFileMap = typeMetaFileMap;
-        this.nameVersionPair = nameVersionPair;
-        this.file = file;
-        this.listenerList = listenerList;
-        this.filterList = filterList;
-    }
+
 
     public PathVersionPair getNameVersionPair() {
         return nameVersionPair;
@@ -107,26 +103,15 @@ public class WarFile implements FileBase {
     }
 
     @Override
+    public FileType getType() {
+        return type;
+    }
+
+    @Override
     public HashMap<MetaFileType, byte[]> getMetaFiles() {
         return typeMetaFileMap;
     }
 
-    @Override
-    public String getMetaFilePath(MetaFileType metaFileType) {
-        return nameVersionPair.getFullPath() + metaFileType.name();
-    }
 
-    @Override
-    public String getFilePath() {
-        return nameVersionPair.getFullPath();
-    }
-
-    @Override
-    public String getMetaPath() {
-        return nameVersionPair.getFullPath() + ".xml";
-    }
-   
-    
-    
     
 }

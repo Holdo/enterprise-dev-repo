@@ -32,6 +32,7 @@ public class UndertowApplicationTests {
 	@BeforeClass
 	public static void setUp() {
 		BaseXServer.main(new String[]{});
+
 	}
 
 	@AfterClass

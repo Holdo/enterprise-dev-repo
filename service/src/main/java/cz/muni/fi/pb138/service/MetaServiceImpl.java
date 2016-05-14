@@ -13,6 +13,7 @@ import cz.muni.fi.pb138.dao.BinaryDao;
 import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.dao.DocumentDao;
 import cz.muni.fi.pb138.service.processing.FileProcessor;
+import cz.muni.fi.pb138.service.processing.PathFinder;
 import cz.muni.fi.pb138.service.processing.QueryFactory;
 import cz.muni.fi.pb138.service.processing.entity.MetaFilePathVersionTriplet;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
@@ -40,6 +41,8 @@ public class MetaServiceImpl implements MetaService {
     private FileProcessor fileProcessor;
     @Autowired
     private QueryFactory queryFactory;
+    @Autowired
+    private PathFinder pathFinder;
 
     public final String FILE_DATABASE_NAME = "artifacts";
     public final String META_DATABASE_NAME = "metadata";

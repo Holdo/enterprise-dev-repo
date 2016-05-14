@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pb138.service.processing.entity;
 
+import cz.muni.fi.pb138.api.FileType;
 import cz.muni.fi.pb138.api.MetaFileType;
 
 import java.util.HashMap;
@@ -14,11 +15,12 @@ import java.util.HashMap;
  * @author gasior
  */
 public interface FileBase {
-    
+
     byte[] getFile();
+
     byte[] getMeta();
-    HashMap<MetaFileType,byte[]> getMetaFiles();
-    String getMetaFilePath(MetaFileType type);
-    String getFilePath();
-    String getMetaPath();
+
+    FileType getType();
+
+    HashMap<MetaFileType, byte[]> getMetaFiles();
 }

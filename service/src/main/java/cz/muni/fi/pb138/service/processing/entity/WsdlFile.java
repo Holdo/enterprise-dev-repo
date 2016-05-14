@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pb138.service.processing.entity;
 
+import cz.muni.fi.pb138.api.FileType;
 import cz.muni.fi.pb138.api.MetaFileType;
 import cz.muni.fi.pb138.service.processing.entity.wsdl.WsdlMeta;
 import cz.muni.fi.pb138.service.processing.entity.xsd.XsdMeta;
@@ -32,17 +33,12 @@ public class WsdlFile implements FileBase {
     private List<String> operations;
     private List<String> responses;
     private List<String> requests;
-
+    private FileType type;
     public WsdlFile() {
+        type = FileType.WSDL;
     }
 
-    public WsdlFile(PathVersionPair nameVersionPair, byte[] file, List<String> operations, List<String> responses, List<String> requests) {
-        this.nameVersionPair = nameVersionPair;
-        this.file = file;
-        this.operations = operations;
-        this.responses = responses;
-        this.requests = requests;
-    }
+
 
     public PathVersionPair getNameVersionPair() {
         return nameVersionPair;
@@ -102,29 +98,20 @@ public class WsdlFile implements FileBase {
     }
 
     @Override
+    public FileType getType() {
+        return type;
+    }
+
+    @Override
     public HashMap<MetaFileType, byte[]> getMetaFiles() {
         return new HashMap<>();
     }
 
-    @Override
-    public String getMetaFilePath(MetaFileType metaFileType) {
-        return null;
-    }
 
     @Override
     public byte[] getFile() {
         return file;
     }
 
-    @Override
-    public String getFilePath() {
-        return nameVersionPair.getFullPath();
-    }
 
-    @Override
-    public String getMetaPath() {
-        return nameVersionPair.getFullPath() + ".xml";
-    }
- 
-    
 }

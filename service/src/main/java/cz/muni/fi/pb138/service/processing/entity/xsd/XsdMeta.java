@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author gasior
  */
-@XmlRootElement( name = "xsdMeta")
+@XmlRootElement( name = "xsdmeta")
 public class XsdMeta {
     
     

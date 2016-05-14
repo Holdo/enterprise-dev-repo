@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pb138.service.processing.entity;
 
+import cz.muni.fi.pb138.api.FileType;
 import cz.muni.fi.pb138.api.MetaFileType;
 import cz.muni.fi.pb138.service.processing.entity.xsd.XsdMeta;
 import java.io.File;
@@ -32,18 +33,12 @@ public class XsdFile implements FileBase {
     private List<String> attributes;
     private List<String> simpleTypes;
     private List<String> complexTypes;
-
+    private FileType type;
     public XsdFile() {
+        type = FileType.XSD;
     }
 
-    public XsdFile(PathVersionPair nameVersionPair, byte[] file, List<String> elements, List<String> attributes, List<String> simpleTypes, List<String> complexTypes) {
-        this.nameVersionPair = nameVersionPair;
-        this.file = file;
-        this.elements = elements;
-        this.attributes = attributes;
-        this.simpleTypes = simpleTypes;
-        this.complexTypes = complexTypes;
-    }
+
 
     public PathVersionPair getNameVersionPair() {
         return nameVersionPair;
@@ -96,6 +91,7 @@ public class XsdFile implements FileBase {
         JAXBContext jc;
         Marshaller marshaller;
         File xml = null;
+        // TODO
         try {
             jc = JAXBContext.newInstance(XsdMeta.class);
             marshaller = jc.createMarshaller();
@@ -113,6 +109,11 @@ public class XsdFile implements FileBase {
     }
 
     @Override
+    public FileType getType() {
+        return type;
+    }
+
+    @Override
     public byte[] getFile() {
         return file;
     }
@@ -121,19 +122,5 @@ public class XsdFile implements FileBase {
         return new HashMap<>();
     }
 
-    @Override
-    public String getMetaFilePath(MetaFileType type) {
-        return null;
-    }
-
-    @Override
-    public String getFilePath() {
-        return nameVersionPair.getFullPath();
-    }
-
-    @Override
-    public String getMetaPath() {
-        return nameVersionPair.getFullPath() + ".xml";
-    }
 
 }

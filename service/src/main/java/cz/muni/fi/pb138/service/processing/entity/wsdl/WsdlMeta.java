@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author gasior
  */
-@XmlRootElement( name = "wsdlMeta")
+@XmlRootElement( name = "wsdlmeta")
 public class WsdlMeta {
     private PathVersionPair nameVersionPair;
     private List<String> operations;

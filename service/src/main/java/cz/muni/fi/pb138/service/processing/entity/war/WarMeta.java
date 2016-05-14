@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author gasior
  */
-@XmlRootElement( name = "warMeta")
+@XmlRootElement( name = "warmeta")
 public class WarMeta {
     private PathVersionPair nameVersionPair;
     private List<String> listenerList;
