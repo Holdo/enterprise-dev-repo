@@ -30,7 +30,7 @@ public class WsdlExtractor {
     private final byte[] file;
     private final String fullPath;
     
-    public WsdlExtractor(byte[] file, String fullPath) {
+    public WsdlExtractor(byte[] file, String fullPath) throws IOException, SAXException, ParserConfigurationException {
        this.file = file;
        this.fullPath = fullPath;
        
@@ -48,29 +48,25 @@ public class WsdlExtractor {
         return wsdlFile;
     }
 
-     private List<String> extract(String extractedName) {
-        List<String> extracted = new ArrayList<>();
-        try {
-            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc;
+     private List<String> extract(String extractedName) throws ParserConfigurationException, IOException, SAXException {
+         List<String> extracted = new ArrayList<>();
+         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+         Document doc;
 
-            doc = docBuilder.parse(new ByteArrayInputStream(file));
+         doc = docBuilder.parse(new ByteArrayInputStream(file));
 
-            NodeList list = doc.getElementsByTagNameNS("*", extractedName);
+         NodeList list = doc.getElementsByTagNameNS("*", extractedName);
 
-            for (int i = 0; i < list.getLength(); i++) {
-                Element element = (Element) list.item(i);
-                if (element.hasAttribute("name")) {
-                    extracted.add(element.getAttribute("name"));
-                }
-            }
-        } catch (SAXException | IOException | ParserConfigurationException ex) {
-            System.err.println(ex.getMessage() + " : " + extractedName + " extraction failed for : " + fullPath);
-        }
-        return extracted;
-    }
+         for (int i = 0; i < list.getLength(); i++) {
+             Element element = (Element) list.item(i);
+             if (element.hasAttribute("name")) {
+                 extracted.add(element.getAttribute("name"));
 
-    
+                 return extracted;
+             }
+         }
+         return extracted;
+     }
     
 }

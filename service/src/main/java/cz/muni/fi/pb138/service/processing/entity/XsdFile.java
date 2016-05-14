@@ -121,6 +121,9 @@ public class XsdFile implements FileBase {
     public HashMap<MetaFileType, byte[]> getMetaFiles() {
         return new HashMap<>();
     }
-
+    @Override
+    public void setVersion(int version) {
+        nameVersionPair.setVersion(version);
+    }
 
 }

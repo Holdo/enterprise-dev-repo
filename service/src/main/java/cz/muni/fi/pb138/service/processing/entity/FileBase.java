@@ -23,4 +23,6 @@ public interface FileBase {
     FileType getType();
 
     HashMap<MetaFileType, byte[]> getMetaFiles();
+
+    void setVersion(int version);
 }

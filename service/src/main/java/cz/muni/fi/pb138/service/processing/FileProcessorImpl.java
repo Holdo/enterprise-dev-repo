@@ -9,6 +9,11 @@ import cz.muni.fi.pb138.dao.BinaryDao;
 import cz.muni.fi.pb138.service.processing.entity.FileBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.util.zip.DataFormatException;
 
 /**
  *
@@ -25,29 +30,26 @@ public class FileProcessorImpl implements FileProcessor {
     private BinaryDao BinaryDao;
     
     @Override
-    public FileBase processWar(String fullPath, byte[] file) {
+    public FileBase processWar(String fullPath, byte[] file) throws DataFormatException, ParserConfigurationException, SAXException, IOException {
         
         WarExtractor warExtractor = new WarExtractor(file, fullPath);
-        FileBase warFile = warExtractor.getWarFile();
-        
-        return warFile;
+
+        return warExtractor.getWarFile();
     }
 
     @Override
-    public FileBase processXsd(String fullPath, byte[] file) {
+    public FileBase processXsd(String fullPath, byte[] file) throws ParserConfigurationException, SAXException, IOException {
         
         XsdExtractor xsdExtractor = new XsdExtractor(file, fullPath);
-        FileBase xsdFile = xsdExtractor.getXsdFile();
-        
-        return xsdFile;
+
+        return xsdExtractor.getXsdFile();
     }
 
     @Override
-    public FileBase processWsdl(String fullPath, byte[] file) {
+    public FileBase processWsdl(String fullPath, byte[] file) throws ParserConfigurationException, SAXException, IOException {
         
         WsdlExtractor wsdlExtractor = new WsdlExtractor(file, fullPath);
-        FileBase wsdlFile = wsdlExtractor.getWsdlFile();
-        return wsdlFile;
+        return wsdlExtractor.getWsdlFile();
     }
 
    

@@ -8,18 +8,20 @@ import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.dao.DocumentDao;
 import cz.muni.fi.pb138.service.processing.FileProcessor;
 import cz.muni.fi.pb138.service.processing.PathFinder;
-import cz.muni.fi.pb138.service.processing.QueryFactory;
 import cz.muni.fi.pb138.service.processing.entity.FileBase;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 import cz.muni.fi.pb138.service.processing.entity.WarFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * @author gasior
@@ -36,8 +38,6 @@ public class FileServiceImpl implements FileService {
     @Autowired
     private FileProcessor fileProcessor;
     @Autowired
-    private QueryFactory queryFactory;
-    @Autowired
     private PathFinder pathFinder;
 
     public final String FILE_DATABASE_NAME = "artifacts";
@@ -46,7 +46,7 @@ public class FileServiceImpl implements FileService {
     public final String PATHFINDER_LOCATION = "/pathfinder.xml";
 
     @Override
-    public void saveFile(String fullPath, byte[] fileBytes) throws IOException {
+    public void saveFile(String fullPath, byte[] fileBytes) throws IOException, SAXException, ParserConfigurationException, DataFormatException {
         FileBase file = null;
         HashMap<String, FileBase> supportedFiles = new HashMap<>();
         supportedFiles.put(".war", fileProcessor.processWar(fullPath, fileBytes));
@@ -62,7 +62,9 @@ public class FileServiceImpl implements FileService {
         if (null == file) {
             throw new IOException("Invalid file: " + fullPath);
         }
+
         String savePath = pathFinder.addFile(fullPath, file.getType());
+        file.setVersion(pathFinder.getLastestVersion(fullPath));
         databaseDao.openDatabase(FILE_DATABASE_NAME);
         binaryDao.saveBinaryFile(pathFinder.getMeta(),PATHFINDER_LOCATION);
         binaryDao.saveBinaryFile(file.getFile(),savePath);

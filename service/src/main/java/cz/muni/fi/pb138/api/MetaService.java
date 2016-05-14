@@ -25,7 +25,7 @@ public interface MetaService {
      * @return 
      * @throws java.io.IOException 
      */
-    public List<PathVersionPair> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String namespace, String parameterName) throws IOException;
+     List<PathVersionPair> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String namespace, String parameterName) throws IOException;
     /**
      * 
      * @param parameterType -  One of parameter types like COMPLEXTYPE, OPERATION ...
@@ -33,7 +33,7 @@ public interface MetaService {
      * @return 
      * @throws java.io.IOException 
      */
-    public List<PathVersionPair> getAllMetaParametersByMetaParameterType(MetaParameterType parameterType, String namespace) throws IOException;   
+    List<PathVersionPair> getAllMetaParametersByMetaParameterType(MetaParameterType parameterType, String namespace) throws IOException;
     /**
      * 
      * @param metaFileType - One of meta file types like WEBXML, god knows what else in future...
@@ -41,7 +41,7 @@ public interface MetaService {
      * @return 
      * @throws java.io.IOException 
      */
-    public List<MetaFilePathVersionTriplet> getAllMetaFilesByMetaFileType(MetaFileType metaFileType, String namespace) throws IOException;
+    List<MetaFilePathVersionTriplet> getAllMetaFilesByMetaFileType(MetaFileType metaFileType, String namespace) throws IOException;
    
     /**
      * 
@@ -51,7 +51,7 @@ public interface MetaService {
      * @return
      * @throws IOException 
      */
-    public MetaFilePathVersionTriplet getMetaFileByFileFullPath(MetaFileType metaFileType, String fullPath, String version) throws IOException;
+    MetaFilePathVersionTriplet getMetaFileByFileFullPath(MetaFileType metaFileType, String fullPath, int version) throws IOException;
     
     /**
      * 
@@ -61,6 +61,6 @@ public interface MetaService {
      * @return - for example fullpath namespace/foo.xsd, version 2, parameter type COMPLEXTYPE will return all complex types of foo.xsd in version 2
      * @throws IOException 
      */
-    public List<PathVersionPair> getMetaParametersByFileFullPath(MetaParameterType parameterType, String fullPath, String version) throws IOException;
+    List<PathVersionPair> getMetaParametersByFileFullPath(MetaParameterType parameterType, String fullPath, String version) throws IOException;
 
 }

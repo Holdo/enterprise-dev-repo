@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pb138.service.processing.entity.war;
 
+import cz.muni.fi.pb138.api.FileType;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -19,12 +20,13 @@ public class WarMeta {
     private PathVersionPair nameVersionPair;
     private List<String> listenerList;
     private List<String> filterList;
-
+    private FileType type;
 
     public WarMeta(PathVersionPair nameVersionPair, List<String> listenerList, List<String> filterList) {
         this.nameVersionPair = nameVersionPair;
         this.listenerList = listenerList;
         this.filterList = filterList;
+        type = FileType.WAR;
     }
 
     public PathVersionPair getNameVersionPair() {
@@ -45,6 +47,14 @@ public class WarMeta {
 
     public List<String> getFilterList() {
         return filterList;
+    }
+
+    public FileType getType() {
+        return type;
+    }
+
+    public void setType(FileType type) {
+        this.type = type;
     }
 
     public void setFilterList(List<String> filterList) {

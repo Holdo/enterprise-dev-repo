@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pb138.service.processing.entity.wsdl;
 
+import cz.muni.fi.pb138.api.FileType;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 @XmlRootElement( name = "wsdlmeta")
 public class WsdlMeta {
+    private final FileType type;
     private PathVersionPair nameVersionPair;
     private List<String> operations;
     private List<String> responses;
@@ -26,6 +28,7 @@ public class WsdlMeta {
         this.operations = operations;
         this.responses = responses;
         this.requests = requests;
+        type = FileType.WSDL;
 
     }
 
@@ -51,6 +54,10 @@ public class WsdlMeta {
 
     public void setResponses(List<String> responses) {
         this.responses = responses;
+    }
+
+    public FileType getType() {
+        return type;
     }
 
     public List<String> getRequests() {

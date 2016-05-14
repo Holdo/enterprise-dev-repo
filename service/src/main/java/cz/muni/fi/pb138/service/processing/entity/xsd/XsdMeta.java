@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pb138.service.processing.entity.xsd;
 
+import cz.muni.fi.pb138.api.FileType;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,6 +23,7 @@ public class XsdMeta {
     private final List<String> attributes;
     private final List<String> simpleTypes;
     private final List<String> complexTypes;
+    private final FileType type;
 
     public XsdMeta(PathVersionPair pathVersionPair, List<String> elements, List<String> attributes, List<String> simpleTypes, List<String> complexTypes) {
         this.pathVersionPair = pathVersionPair;
@@ -29,6 +31,7 @@ public class XsdMeta {
         this.attributes = attributes;
         this.simpleTypes = simpleTypes;
         this.complexTypes = complexTypes;
+        type = FileType.XSD;
     }
 
     public PathVersionPair getPathVersionPair() {
@@ -51,6 +54,7 @@ public class XsdMeta {
         return complexTypes;
     }
 
-    
-    
+
+
+
 }

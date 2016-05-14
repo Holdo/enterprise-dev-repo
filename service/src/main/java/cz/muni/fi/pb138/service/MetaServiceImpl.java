@@ -14,7 +14,6 @@ import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.dao.DocumentDao;
 import cz.muni.fi.pb138.service.processing.FileProcessor;
 import cz.muni.fi.pb138.service.processing.PathFinder;
-import cz.muni.fi.pb138.service.processing.QueryFactory;
 import cz.muni.fi.pb138.service.processing.entity.MetaFilePathVersionTriplet;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +39,6 @@ public class MetaServiceImpl implements MetaService {
     @Autowired
     private FileProcessor fileProcessor;
     @Autowired
-    private QueryFactory queryFactory;
-    @Autowired
     private PathFinder pathFinder;
 
     public final String FILE_DATABASE_NAME = "artifacts";
@@ -51,55 +48,57 @@ public class MetaServiceImpl implements MetaService {
     public List<PathVersionPair> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String namespace, String parameterName) throws IOException {
 
 
-        String query = queryFactory.getFilesFullPathsByMetaParameterQuery(fileType,parameterType,namespace,parameterName);
-
-        databaseDao.openDatabase(FILE_DATABASE_NAME);
-        String rawOutput = databaseDao.runXQuery(query);
-
         // TODO
 
-        return PathVersionPair.getListFromXml(rawOutput);
+
+        return null;
     }
 
     @Override
     public List<PathVersionPair> getAllMetaParametersByMetaParameterType(MetaParameterType parameterType, String namespace) throws IOException {
 
-        String query = queryFactory.getAllMetaParametersByMetaParameterTypeQuery(parameterType,namespace);
 
-        databaseDao.openDatabase(META_DATABASE_NAME);
-        String rawOutput = databaseDao.runXQuery(query);
 
         // TODO
 
-        return PathVersionPair.getListFromXml(rawOutput);
+        return null;
 
     }
 
     @Override
     public List<MetaFilePathVersionTriplet> getAllMetaFilesByMetaFileType(MetaFileType metaFileType, String namespace) throws IOException {
         List<MetaFilePathVersionTriplet> output = new ArrayList<>();
-        String query = queryFactory.getAllMetaFilesByMetaFileTypeQuery(metaFileType,namespace);
-
-        // TODO
-
+        databaseDao.openDatabase(META_DATABASE_NAME);
+        if(metaFileType == MetaFileType.WEBXML) {
+            for (PathVersionPair path : pathFinder.getAllFilesByFileType(FileType.WAR, namespace)) {
+                MetaFilePathVersionTriplet triplet = new MetaFilePathVersionTriplet();
+                byte[] metaFile = binaryDao.retrieveBinaryFile(pathFinder.getVersionedPath(path.getFullPath(),path.getVersion())+metaFileType.name());
+                triplet.setVersion(path.getVersion());
+                triplet.setFullPath(path.getFullPath());
+                triplet.setFile(metaFile);
+            }
+        }
+        databaseDao.closeDatabase();
 
         return output;
     }
 
     @Override
-    public MetaFilePathVersionTriplet getMetaFileByFileFullPath(MetaFileType metaFileType, String fullPath, String version) throws IOException {
+    public MetaFilePathVersionTriplet getMetaFileByFileFullPath(MetaFileType metaFileType, String fullPath, int version) throws IOException {
         MetaFilePathVersionTriplet output = new MetaFilePathVersionTriplet();
-        String query = queryFactory.getMetaFileByFileFullPathQuery( metaFileType,fullPath,version);
+        databaseDao.openDatabase(META_DATABASE_NAME);
+        byte[] metaFile = binaryDao.retrieveBinaryFile(pathFinder.getVersionedPath(fullPath,version)+metaFileType.name());
+        databaseDao.closeDatabase();
 
-        // TODO
-
+        output.setVersion(version);
+        output.setFullPath(fullPath);
+        output.setFile(metaFile);
         return output;
     }
 
     @Override
     public List<PathVersionPair> getMetaParametersByFileFullPath(MetaParameterType parameterType, String fullPath, String version) throws IOException {
         List<PathVersionPair> output = new ArrayList<>();
-        String query = queryFactory.getMetaParametersByFileFullPathQuery(parameterType,fullPath,version);
 
 
 

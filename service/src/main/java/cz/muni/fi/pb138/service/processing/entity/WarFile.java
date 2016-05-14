@@ -112,6 +112,10 @@ public class WarFile implements FileBase {
         return typeMetaFileMap;
     }
 
+    @Override
+    public void setVersion(int version) {
+        nameVersionPair.setVersion(version);
+    }
 
-    
+
 }

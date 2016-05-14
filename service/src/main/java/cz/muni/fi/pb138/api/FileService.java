@@ -6,8 +6,12 @@
 package cz.muni.fi.pb138.api;
 
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 /**
  * CRUD operations with files
@@ -22,27 +26,27 @@ public interface FileService {
      * @param fileBytes - binary representation of file
      * @throws java.io.IOException
      */
-    public void saveFile(String fullPath, byte[] fileBytes)  throws IOException ; 
+    void saveFile(String fullPath, byte[] fileBytes) throws IOException, SAXException, ParserConfigurationException, DataFormatException;
     /**
      * 
      * @param fullPath - fullpath to file (namespace/file.xxx)
      * @throws java.io.IOException
      */
-    public void deleteFile(String fullPath) throws IOException ;
+    void deleteFile(String fullPath) throws IOException ;
     /**
      * 
      * @param fullPath - fullpath to file (namespace/file.xxx)
      * @param version - number higher than 0, specifies version to be deleted
      * @throws java.io.IOException
      */
-    public void deleteFile(String fullPath, int version) throws IOException ;
+    void deleteFile(String fullPath, int version) throws IOException ;
     /**
      * 
      * @param fullPath - fullpath to file (namespace/file.xxx)
      * @return - binary representation of LAST VERSION of required file
      * @throws java.io.IOException
      */
-    public byte[] getFileByFullPath(String fullPath)  throws IOException;
+    byte[] getFileByFullPath(String fullPath)  throws IOException;
     /**
      * 
      * @param fullPath - fullpath to file (namespace/file.xxx)
@@ -50,7 +54,7 @@ public interface FileService {
      * @return - binary representation required of file
      * @throws java.io.IOException
      */
-    public byte[] getFileByFullPathAndVersion(String fullPath, int version) throws IOException;
+    byte[] getFileByFullPathAndVersion(String fullPath, int version) throws IOException;
     /**
      * 
      * @param fileType - One of supported file types like WAR, XSD, WSDL
@@ -58,12 +62,12 @@ public interface FileService {
      * @return 
      * @throws java.io.IOException 
      */
-    public List<PathVersionPair> getAllFilesByFileType(FileType fileType, String namespace) throws IOException;
+    List<PathVersionPair> getAllFilesByFileType(FileType fileType, String namespace) throws IOException;
     /**
      * 
      * @param fullPath - fullpath to file (namespace/file.xxx)
      * @return - versions of fullpath specified file
      * @throws java.io.IOException
      */
-    public List<Integer> getFileVersions(String fullPath) throws IOException; 
+    List<Integer> getFileVersions(String fullPath) throws IOException;
 }

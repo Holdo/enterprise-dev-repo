@@ -29,7 +29,7 @@ public class XsdExtractor {
     private final byte[] file;
     private final String fullPath;
 
-    public XsdExtractor(byte[] file, String fullPath) {
+    public XsdExtractor(byte[] file, String fullPath) throws IOException, SAXException, ParserConfigurationException {
         this.file = file;
         this.fullPath = fullPath;
 
@@ -46,9 +46,8 @@ public class XsdExtractor {
         return xsdFile;
     }
     
-    private List<String> extract(String extractedName) {
+    private List<String> extract(String extractedName) throws ParserConfigurationException, IOException, SAXException {
         List<String> extracted = new ArrayList<>();
-        try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             Document doc;
@@ -63,9 +62,7 @@ public class XsdExtractor {
                     extracted.add(element.getAttribute("name"));
                 }
             }
-        } catch (SAXException | IOException | ParserConfigurationException ex) {
-            System.err.println(ex.getMessage() + " : " + extractedName + " extraction failed for : " + fullPath);
-        }
+
         return extracted;
     }
 

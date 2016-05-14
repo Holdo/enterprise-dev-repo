@@ -113,5 +113,8 @@ public class WsdlFile implements FileBase {
         return file;
     }
 
-
+    @Override
+    public void setVersion(int version) {
+        nameVersionPair.setVersion(version);
+    }
 }
