@@ -42,18 +42,24 @@ public class FileServiceImpl implements FileService {
     public final String FILE_DATABASE_NAME = "artifacts";
     public final String META_DATABASE_NAME = "metadata";
     public final String META_FILE_SUFFIX = ".xml";
+    public final String[] supportedFiles = {".war", ".xsd", ".wsdl"};
 
     @Override
     public void saveFile(String fullPath, byte[] fileBytes) throws IOException, SAXException, ParserConfigurationException, DataFormatException {
         FileBase file = null;
-        HashMap<String, FileBase> supportedFiles = new HashMap<>();
-        supportedFiles.put(".war", fileProcessor.processWar(fullPath, fileBytes));
-        supportedFiles.put(".xsd", fileProcessor.processXsd(fullPath, fileBytes));
-        supportedFiles.put(".wsdl", fileProcessor.processWsdl(fullPath, fileBytes));
 
-        for (String s : supportedFiles.keySet()) {
+
+        for (String s : supportedFiles) {
             if (fullPath.endsWith(s)) {
-                file = supportedFiles.get(s);
+                if(s == ".war") {
+                    file = fileProcessor.processWar(fullPath,fileBytes);
+                }
+                if(s == ".xsd") {
+                    file = fileProcessor.processXsd(fullPath,fileBytes);
+                }
+                if(s == ".wsdl") {
+                    file = fileProcessor.processWsdl(fullPath,fileBytes);
+                }
             }
         }
 

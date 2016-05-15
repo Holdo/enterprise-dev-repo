@@ -12,6 +12,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -38,7 +41,12 @@ public class DatabaseIOTests {
         }
 
         @Test
-        public void exampleTest() throws Exception {
-
+        public void IOFileTest() throws Exception {
+                Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
+                byte[] file = Files.readAllBytes(path);
+                fileService.saveFile("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl", file);
+                byte[] readFile = fileService.getFileByFullPath("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
+                Assert.assertArrayEquals(file,readFile);
         }
+
 }

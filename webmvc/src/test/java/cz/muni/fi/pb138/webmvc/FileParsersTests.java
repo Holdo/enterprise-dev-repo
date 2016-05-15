@@ -2,6 +2,7 @@ package cz.muni.fi.pb138.webmvc;
 
 import cz.muni.fi.pb138.api.FileService;
 import cz.muni.fi.pb138.api.FileType;
+import cz.muni.fi.pb138.api.MetaFileType;
 import cz.muni.fi.pb138.service.processing.FileProcessor;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import cz.muni.fi.pb138.service.processing.entity.WarFile;
@@ -54,7 +55,9 @@ public class FileParsersTests {
         Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
         byte[] file = Files.readAllBytes(path);
         WsdlFile parsedFile = (WsdlFile)fileProcessor.processWsdl("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl",file);
-
+        Assert.assertTrue( 0 < parsedFile.getOperations().size());
+        Assert.assertTrue( 0 < parsedFile.getRequests().size());
+        Assert.assertTrue( 0 < parsedFile.getResponses().size());
     }
 
     @Test
@@ -62,15 +65,19 @@ public class FileParsersTests {
         Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
         byte[] file = Files.readAllBytes(path);
         XsdFile parsedFile = (XsdFile)fileProcessor.processXsd("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd",file);
-
+        Assert.assertTrue( 0 < parsedFile.getAttributes().size());
+        Assert.assertTrue( 0 < parsedFile.getComplexTypes().size());
+        Assert.assertTrue( 0 < parsedFile.getElements().size());
+        Assert.assertTrue( 0 < parsedFile.getSimpleTypes().size());
     }
 
     @Test
-    @Ignore
     public void warParserTest() throws Exception {
         Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
         byte[] file = Files.readAllBytes(path);
         WarFile parsedFile = (WarFile)fileProcessor.processWar("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war",file);
-
+        Assert.assertTrue( 0 < parsedFile.getFilterList().size());
+        Assert.assertTrue( 0 < parsedFile.getListenerList().size());
+        Assert.assertNotNull(parsedFile.getMetaFiles().get(MetaFileType.WEBXML));
     }
 }
