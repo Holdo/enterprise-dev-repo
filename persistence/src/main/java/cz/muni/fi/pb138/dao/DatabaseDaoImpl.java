@@ -1,6 +1,7 @@
 package cz.muni.fi.pb138.dao;
 
 import cz.muni.fi.pb138.basex.BaseXContext;
+import cz.muni.fi.pb138.entity.XQueryVariable;
 import org.basex.core.BaseXException;
 import org.basex.core.cmd.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,14 @@ public class DatabaseDaoImpl implements DatabaseDao {
 
 	public String runXQuery(String xQuery) throws BaseXException {
 		return new XQuery(xQuery).execute(dbCtx.getContext());
+	}
+
+	public String runXQuery(String xQuery, XQueryVariable... variables) throws BaseXException {
+		XQuery xq = new XQuery(xQuery);
+		for (XQueryVariable variable : variables) {
+			xq.bind(variable.getName(), variable.getValue(), variable.getType().toString());
+		}
+		return xq.execute(dbCtx.getContext());
 	}
 
 	public String listDirectory(String database, String path) throws BaseXException {

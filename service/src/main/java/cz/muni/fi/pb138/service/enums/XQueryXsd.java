@@ -23,7 +23,7 @@ public enum XQueryXsd {
 
     private final String text;
 
-    XQueryXsd(String text) {
+    XQueryXsd(final String text) {
         this.text = text;
     }
 

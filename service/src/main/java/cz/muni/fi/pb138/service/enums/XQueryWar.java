@@ -15,7 +15,7 @@ public enum XQueryWar {
 
     private final String text;
 
-    XQueryWar(String text) {
+    XQueryWar(final String text) {
         this.text = text;
     }
 

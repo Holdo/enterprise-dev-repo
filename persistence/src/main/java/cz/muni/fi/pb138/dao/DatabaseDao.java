@@ -1,5 +1,6 @@
 package cz.muni.fi.pb138.dao;
 
+import cz.muni.fi.pb138.entity.XQueryVariable;
 import org.basex.core.BaseXException;
 
 import java.io.IOException;
@@ -36,13 +37,25 @@ public interface DatabaseDao {
 	String dropDatabase(String name) throws IOException;
 
 	/**
-	 * Runs XQuery on the currently opened database
+	 * Runs XQuery on the currently opened database (if not specified in XQuery)
 	 *
 	 * @param xQuery as String
 	 * @return result
 	 * @throws BaseXException
 	 */
 	String runXQuery(String xQuery) throws BaseXException;
+
+	/**
+	 * Runs XQuery on the currently opened database (if not specified in XQuery)
+	 * Supports bind context (if XQueryVariable name is null)
+	 * Supports bind variables (if XQueryVariable name is not null)
+	 *
+	 * @param xQuery as String
+	 * @param variables XQueryVariables
+	 * @return result
+	 * @throws BaseXException
+	 */
+	String runXQuery(String xQuery, XQueryVariable... variables) throws BaseXException;
 
 	/**
 	 * Lists files in specified database in specified path

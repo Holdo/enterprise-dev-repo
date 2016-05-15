@@ -35,7 +35,7 @@ public enum XQueryWsdl {
 
     private final String text;
 
-    XQueryWsdl(String text) {
+    XQueryWsdl(final String text) {
         this.text = text;
     }
 
