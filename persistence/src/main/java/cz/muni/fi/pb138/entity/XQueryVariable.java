@@ -7,9 +7,9 @@ public class XQueryVariable {
 
 	private String name = null;
 	private String value = null;
-	private XQueryVariable type = null;
+	private XQueryType type = null;
 
-	public XQueryVariable(String name, String value, XQueryVariable type) {
+	public XQueryVariable(String name, String value, XQueryType type) {
 		this.name = name;
 		this.value = value;
 		this.type = type;
@@ -27,7 +27,7 @@ public class XQueryVariable {
 		return value;
 	}
 
-	public XQueryVariable getType() {
+	public XQueryType getType() {
 		return type;
 	}
 }

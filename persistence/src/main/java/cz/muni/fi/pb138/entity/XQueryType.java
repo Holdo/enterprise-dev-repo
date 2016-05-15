@@ -3,7 +3,7 @@ package cz.muni.fi.pb138.entity;
 /**
  * Created by Michal Holic on 15.05.2016
  */
-public enum XQueryTypes {
+public enum XQueryType {
 	ANY_URI("xs: anyURI"),
 	BOOLEAN("xs: boolean"),
 	BYTE("xs: byte"),
@@ -29,7 +29,7 @@ public enum XQueryTypes {
 
 	private final String text;
 
-	XQueryTypes(final String text) {
+	XQueryType(final String text) {
 		this.text = text;
 	}
 
