@@ -1,103 +1,65 @@
 package cz.muni.fi.pb138.service.processing;
 
 import cz.muni.fi.pb138.api.FileType;
-import cz.muni.fi.pb138.service.processing.entity.FileEntry;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
-import cz.muni.fi.pb138.service.processing.entity.XsdFile;
-import cz.muni.fi.pb138.service.processing.entity.xsd.XsdMeta;
-import net.xqj.basex.bin.L;
 import org.springframework.stereotype.Service;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by gasior on 14.05.2016.
  */
 @Service
-@XmlRootElement( name = "pathfinder")
 public class PathFinder {
 
-    private HashMap<String,FileEntry> fileEntries;
+    public int getLastVersion(String fullPath, String files) {
 
-    public PathFinder() {
-        fileEntries = new HashMap<>();
-    }
-
-    public List<Integer> getAllVersions(String fullPath) {
-        if (fileEntries.containsKey(fullPath)) {
-            return fileEntries.get(fullPath).getVersions();
-        } else return new ArrayList<>();
-    }
-    public String deleteFile(String fullPath, int version) {
-        if (fileEntries.containsKey(fullPath)) {
-            return fileEntries.get(fullPath).deleteVersion(version);
-        } else return null;
-    }
-    public String addFile(String fullPath, FileType type) {
-        if (fileEntries.containsKey(fullPath)) {
-            return fileEntries.get(fullPath).addNewVersion();
-        } else {
-            fileEntries.put(fullPath, new FileEntry(fullPath,type));
-            return fileEntries.get(fullPath).addNewVersion();
-        }
-    }
-    public int getLastestVersion(String fullPath) {
-        if (fileEntries.containsKey(fullPath)) {
-            return fileEntries.get(fullPath).getLastestVersion();
-        } else return 0;
-    }
-    public String getVersionedPath(String fullPath, int version) {
-        if (fileEntries.containsKey(fullPath)) {
-            return fileEntries.get(fullPath).getPathToVersionedFile(version);
-        } else return null;
-    }
-
-    public List<PathVersionPair> getAllFilesByFileType(FileType fileType, String namespace) {
-        List<PathVersionPair> output = new ArrayList<>();
-
-        for (String s : fileEntries.keySet()) {
-            if(fileEntries.get(s).getType() == fileType) {
-                for (int i : fileEntries.get(s).getVersions()) {
-                    if(fileEntries.get(s).getOriginalFullPathNoSuffix().startsWith(namespace)) {
-                        output.add(new PathVersionPair(fileEntries.get(s).getOriginalFullPathNoSuffix()+fileType.name(), i));
-                    }
+        String[] paths = files.split("\n");
+        String noSuffix = fullPath.substring(0,fullPath.lastIndexOf(".")-1);
+        int version = 0;
+        for(String p : paths) {
+            if(p.startsWith(noSuffix)) {
+                String x = p.substring(noSuffix.length(),p.length());
+                String[] y = x.split(".");
+                if(version < Integer.valueOf(y[0])) {
+                    version = Integer.valueOf(y[0]);
                 }
-
             }
-
         }
+        return version;
+    }
+
+    public String getVersionedPath(int version, String fullPath, FileType type) {
+        String noSuffix = fullPath.substring(0, fullPath.lastIndexOf(".")-1);
+        return noSuffix + "_" + version + type.name();
+    }
+
+
+    public List<Integer> getAllVersions(String fullPath, String list) {
+        List<Integer> output = new ArrayList<>();
+
+
+        String[] paths = list.split("\n");
+        String noSuffix = fullPath.substring(0,fullPath.lastIndexOf(".")-1);
+        int version = 0;
+        for(String p : paths) {
+            if(p.startsWith(noSuffix)) {
+                String x = p.substring(noSuffix.length(),p.length());
+                String[] y = x.split(".");
+                output.add(Integer.valueOf(y[0]));
+            }
+        }
+
         return output;
     }
 
-    public byte[] getMeta() {
-        JAXBContext jc;
-        Marshaller marshaller;
-        File xml = null;
-        // TODO
-        try {
-            jc = JAXBContext.newInstance(XsdMeta.class);
-            marshaller = jc.createMarshaller();
-            marshaller.marshal(this, xml);
-        } catch (JAXBException ex) {
-            Logger.getLogger(XsdFile.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public List<PathVersionPair> getAllFilesByFileType(FileType fileType, String list) {
+        List<PathVersionPair> output = new ArrayList<>();
 
-        try {
-            return Files.readAllBytes(xml.toPath());
-        } catch (IOException ex) {
-            return null;
-        }
+        //TODO
 
+        return output;
     }
 }
