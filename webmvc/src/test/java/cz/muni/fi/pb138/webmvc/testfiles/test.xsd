@@ -1,0 +1,163 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <!--
+     Task 2: XML Schema
+            Your task is to complete this schema file so that the XML
+            documents in the "src/valid" directory in this project
+            are all valid AND no document in "src/invalid" is valid.
+
+            The textual description of the valid document structure
+            can also be found in "src/valid/company.xml".
+
+            For testing your schema, try to validate both valid
+            and invalid documents, either using the
+            cz.muni.fi.pb138.task2.SchemaValidator from this project or
+            the command line tool xmllint with the option "schema",
+            see its help.
+
+    -->
+    <xsd:element name="společnost" type="společnostType">
+        <xsd:key name="uniqueDid">
+            <xsd:selector xpath=".//divize"/>
+            <xsd:field xpath="@did"/>
+        </xsd:key>
+        <xsd:key name="uniquePid">
+            <xsd:selector xpath=".//osoba"/>
+            <xsd:field xpath="@pid"/>
+        </xsd:key>
+        <xsd:key name="uniqueEid">
+            <xsd:selector xpath=".//zaměstnanec"/>
+            <xsd:field xpath="@eid"/>
+        </xsd:key>
+    </xsd:element>
+    <xsd:complexType name="společnostType">
+        <xsd:sequence>
+            <xsd:element name="divize" type="divizeType" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="divizeType">
+        <xsd:sequence>
+            <xsd:element name="jméno" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="vedení" type="vedeníType" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="zaměstnanci" type="zaměstnanciType" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="did" use="required" type="didType"/>
+    </xsd:complexType>
+    <xsd:complexType name="vedeníType">
+        <xsd:sequence>
+            <xsd:element name="osoba" type="osobaType" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="osobaType">
+        <xsd:sequence>
+            <xsd:choice>
+                <xsd:sequence>
+                    <xsd:element name="jméno" type="nonEmptyStringType" minOccurs="1" maxOccurs="1"/>
+                    <xsd:choice>
+                        <xsd:sequence>
+                            <xsd:element name="příjmení" type="nonEmptyStringType" minOccurs="1" maxOccurs="1"/>
+                            <xsd:element name="plat" type="feeType" minOccurs="1" maxOccurs="1"/>
+                        </xsd:sequence>
+                        <xsd:sequence>
+                            <xsd:element name="plat" type="feeType" minOccurs="1" maxOccurs="1"/>
+                            <xsd:element name="příjmení" type="nonEmptyStringType" minOccurs="1" maxOccurs="1"/>
+                        </xsd:sequence>
+                    </xsd:choice>
+                </xsd:sequence>
+                <xsd:sequence>
+                    <xsd:element name="příjmení" type="nonEmptyStringType" minOccurs="1" maxOccurs="1"/>
+                    <xsd:choice>
+                        <xsd:sequence>
+                            <xsd:element name="jméno" type="nonEmptyStringType" minOccurs="1" maxOccurs="1"/>
+                            <xsd:element name="plat" type="feeType" minOccurs="1" maxOccurs="1"/>
+                        </xsd:sequence>
+                        <xsd:sequence>
+                            <xsd:element name="plat" type="feeType" minOccurs="1" maxOccurs="1"/>
+                            <xsd:element name="jméno" type="nonEmptyStringType" minOccurs="1" maxOccurs="1"/>
+                        </xsd:sequence>
+                    </xsd:choice>
+                </xsd:sequence>
+                <xsd:sequence>
+                    <xsd:element name="plat" type="feeType" minOccurs="1" maxOccurs="1"/>
+                    <xsd:choice>
+                        <xsd:sequence>
+                            <xsd:element name="příjmení" type="nonEmptyStringType" minOccurs="1" maxOccurs="1"/>
+                            <xsd:element name="jméno" type="nonEmptyStringType" minOccurs="1" maxOccurs="1"/>
+                        </xsd:sequence>
+                        <xsd:sequence>
+                            <xsd:element name="jméno" type="nonEmptyStringType" minOccurs="1" maxOccurs="1"/>
+                            <xsd:element name="příjmení" type="nonEmptyStringType" minOccurs="1" maxOccurs="1"/>
+                        </xsd:sequence>
+                    </xsd:choice>
+                </xsd:sequence>
+            </xsd:choice>
+            <xsd:element name="poznámka" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="pid" use="required" type="pidType"/>
+    </xsd:complexType>
+    <xsd:complexType name="zaměstnanciType">
+        <xsd:sequence>
+            <xsd:element name="zaměstnanec" type="zaměstnanecType" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="zaměstnanecType">
+        <xsd:choice>
+            <xsd:sequence>
+                <xsd:element name="jméno" type="zamestnanciJmenoType" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="plat" type="feeType" minOccurs="1" maxOccurs="1"/>
+            </xsd:sequence>
+            <xsd:sequence>
+                <xsd:element name="společnost" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="odměna" type="feeType" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="dph" type="dphType" minOccurs="1" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:choice>
+        <xsd:attribute name="kategorie" type="kategorieType" use="required"/>
+        <xsd:attribute name="eid" use="required" type="eidType"/>
+    </xsd:complexType>
+    <xsd:simpleType name="kategorieType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="návrhář"/>
+            <xsd:enumeration value="dělník"/>
+            <xsd:enumeration value="dodavatel"/>
+            <xsd:enumeration value="thp"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="dphType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ano"/>
+            <xsd:enumeration value="ne"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="feeType">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:minExclusive value="0.00"/>
+            <xsd:fractionDigits value="2"/>
+            <xsd:pattern value="\d+\.\d{2}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="zamestnanciJmenoType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[A-Z]\w+ [A-Z]\w+"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="pidType">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minExclusive value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="eidType">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minExclusive value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="didType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="nonEmptyStringType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>
