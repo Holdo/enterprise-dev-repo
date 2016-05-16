@@ -67,7 +67,6 @@ public class FileServiceImpl implements FileService {
             throw new IOException("Invalid file: " + fullPath);
         }
 
-
         databaseDao.openDatabase(FILE_DATABASE_NAME);
         String list = databaseDao.listDirectory(FILE_DATABASE_NAME, fullPath.substring(0,fullPath.lastIndexOf("/")));
         int version = pathFinder.getLastVersion(fullPath,list);
@@ -76,6 +75,7 @@ public class FileServiceImpl implements FileService {
 
         binaryDao.saveBinaryFile(file.getFile(),pathFinder.getVersionedPath(version,fullPath,file.getType()));
         databaseDao.closeDatabase();
+
         databaseDao.openDatabase(META_DATABASE_NAME);
         documentDao.addDocument(file.getMeta(), pathFinder.getVersionedPath(version,fullPath,file.getType())+META_FILE_SUFFIX);
         for (MetaFileType type : file.getMetaFiles().keySet()) {

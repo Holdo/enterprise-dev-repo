@@ -2,6 +2,7 @@ package cz.muni.fi.pb138.webmvc;
 
 import cz.muni.fi.pb138.api.FileService;
 import cz.muni.fi.pb138.api.FileType;
+import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import org.basex.BaseXServer;
 import org.junit.*;
@@ -25,9 +26,12 @@ import java.util.List;
 @DirtiesContext
 public class DatabaseIOTests {
 
-
+        public final String FILE_DATABASE_NAME = "artifacts";
+        public final String META_DATABASE_NAME = "metadata";
         @Autowired
         private FileService fileService;
+        @Autowired
+        private DatabaseDao databaseDao;
 
         @BeforeClass
         public static void setUp() {
@@ -42,11 +46,22 @@ public class DatabaseIOTests {
 
         @Test
         public void IOFileTest() throws Exception {
-                Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
+
+                databaseDao.createDatabase(FILE_DATABASE_NAME);
+                databaseDao.createDatabase(META_DATABASE_NAME);
+
+                Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
                 byte[] file = Files.readAllBytes(path);
-                fileService.saveFile("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl", file);
-                byte[] readFile = fileService.getFileByFullPath("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
+                fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+                byte[] readFile = fileService.getFileByFullPath("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+
+
+                databaseDao.dropDatabase(FILE_DATABASE_NAME);
+                databaseDao.dropDatabase(META_DATABASE_NAME);
+
                 Assert.assertArrayEquals(file,readFile);
+
+
         }
 
 }

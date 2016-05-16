@@ -9,7 +9,13 @@ import java.io.IOException;
  * Created by Michal Holic on 10/05/2016
  */
 public interface DatabaseDao {
-
+	/**
+	 * Creates databease
+	 * @param name
+	 * @return
+	 * @throws IOException
+     */
+	public String createDatabase(String name) throws IOException;
 	/**
 	 * Opens database
 	 *

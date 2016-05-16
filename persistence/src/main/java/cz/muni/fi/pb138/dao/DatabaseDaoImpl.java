@@ -18,6 +18,9 @@ public class DatabaseDaoImpl implements DatabaseDao {
 	@Autowired
 	private BaseXContext dbCtx;
 
+	public String createDatabase(String name) throws IOException {
+		return new CreateDB(name).execute(dbCtx.getContext());
+	}
 	public String openDatabase(String name) throws IOException {
 		return new Open(name).execute(dbCtx.getContext());
 	}
