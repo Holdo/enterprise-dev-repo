@@ -9,6 +9,7 @@ import cz.muni.fi.pb138.service.processing.entity.WarFile;
 import cz.muni.fi.pb138.service.processing.entity.WsdlFile;
 import cz.muni.fi.pb138.service.processing.entity.XsdFile;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.basex.BaseXServer;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -53,21 +54,22 @@ public class FileParsersTests {
     @Test
     public void wsdlParserTest() throws Exception {
 
-        Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
-        byte[] file = Files.readAllBytes(path);
-        WsdlFile parsedFile = (WsdlFile)fileProcessor.processWsdl("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl",file);
-        FileUtils.writeByteArrayToFile(new File("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/xsdmeta.xml"),parsedFile.getMeta());
+        byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.wsdl"));
+        WsdlFile parsedFile = (WsdlFile)fileProcessor.processWsdl("src/test/resources/test.wsdl",file);
+        FileUtils.writeByteArrayToFile(new File("src/test/resources/wsdlmeta.xml"),parsedFile.getMeta());
         Assert.assertTrue( 0 < parsedFile.getOperations().size());
         Assert.assertTrue( 0 < parsedFile.getRequests().size());
         Assert.assertTrue( 0 < parsedFile.getResponses().size());
+
     }
 
     @Test
     public void xsdParserTest() throws Exception {
-        Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
-        byte[] file = Files.readAllBytes(path);
-        XsdFile parsedFile = (XsdFile)fileProcessor.processXsd("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd",file);
-        FileUtils.writeByteArrayToFile(new File("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/wsdlmeta.xml"),parsedFile.getMeta());
+
+
+        byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
+        XsdFile parsedFile = (XsdFile)fileProcessor.processXsd("src/test/resources/test.xsd",file);
+        FileUtils.writeByteArrayToFile(new File("src/test/resources/xsdmeta.xml"),parsedFile.getMeta());
         Assert.assertTrue( 0 < parsedFile.getAttributes().size());
         Assert.assertTrue( 0 < parsedFile.getComplexTypes().size());
         Assert.assertTrue( 0 < parsedFile.getElements().size());
@@ -76,10 +78,10 @@ public class FileParsersTests {
 
     @Test
     public void warParserTest() throws Exception {
-        Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
-        byte[] file = Files.readAllBytes(path);
-        WarFile parsedFile = (WarFile)fileProcessor.processWar("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war",file);
-        FileUtils.writeByteArrayToFile(new File("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/warmeta.xml"),parsedFile.getMeta());
+
+        byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.war"));
+        WarFile parsedFile = (WarFile)fileProcessor.processWar("src/test/resources/test.war",file);
+        FileUtils.writeByteArrayToFile(new File("src/test/resources/warmeta.xml"),parsedFile.getMeta());
         Assert.assertNotNull(parsedFile.getMetaFiles().get(MetaFileType.WEBXML));
         Assert.assertTrue( 0 < parsedFile.getFilterList().size());
         Assert.assertTrue( 0 < parsedFile.getListenerList().size());

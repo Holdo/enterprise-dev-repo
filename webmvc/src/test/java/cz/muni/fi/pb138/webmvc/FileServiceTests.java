@@ -4,6 +4,7 @@ import cz.muni.fi.pb138.api.FileService;
 import cz.muni.fi.pb138.api.FileType;
 import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
+import org.apache.commons.io.IOUtils;
 import org.basex.BaseXServer;
 import org.basex.core.BaseXException;
 import org.junit.*;
@@ -46,18 +47,23 @@ public class FileServiceTests {
     public static void tearDown() throws IOException {
         BaseXServer.stop("localhost", 1984);
     }
-
+    @Before
+    public void createDatabase() throws IOException {
+        databaseDao.createDatabase(FILE_DATABASE_NAME);
+        databaseDao.createDatabase(META_DATABASE_NAME);
+    }
+    @After
+    public void dropDatabase() throws IOException {
+        databaseDao.dropDatabase(FILE_DATABASE_NAME);
+        databaseDao.dropDatabase(META_DATABASE_NAME);
+    }
     @Test
     public void IOFileTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
 
-        databaseDao.createDatabase(FILE_DATABASE_NAME);
-        databaseDao.createDatabase(META_DATABASE_NAME);
 
-        Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
-        Path path2 = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test2.xsd");
 
-        byte[] file = Files.readAllBytes(path);
-        byte[] file2 = Files.readAllBytes(path2);
+        byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
+        byte[] file2 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test2.xsd"));
 
         fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
         fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file2);
@@ -70,20 +76,13 @@ public class FileServiceTests {
         Assert.assertArrayEquals(file2,readFile2);
         Assert.assertArrayEquals(file2,readFileLast);
 
-        databaseDao.dropDatabase(FILE_DATABASE_NAME);
-        databaseDao.dropDatabase(META_DATABASE_NAME);
     }
     @Test(expected=BaseXException.class)
     public void deleteFileTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
 
-        databaseDao.createDatabase(FILE_DATABASE_NAME);
-        databaseDao.createDatabase(META_DATABASE_NAME);
+        byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
+        byte[] file2 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test2.xsd"));
 
-        Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
-        Path path2 = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test2.xsd");
-
-        byte[] file = Files.readAllBytes(path);
-        byte[] file2 = Files.readAllBytes(path2);
         Assert.assertNotEquals(file,file2);
         fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
         fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file2);
@@ -101,18 +100,12 @@ public class FileServiceTests {
         fileService.deleteFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
         readFileLast = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
 
-
-        databaseDao.dropDatabase(FILE_DATABASE_NAME);
-        databaseDao.dropDatabase(META_DATABASE_NAME);
     }
     @Test
     public void getFileVersionsTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
 
-        databaseDao.createDatabase(FILE_DATABASE_NAME);
-        databaseDao.createDatabase(META_DATABASE_NAME);
 
-        Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
-        byte[] file = Files.readAllBytes(path);
+        byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
 
         fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
         fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
@@ -129,22 +122,16 @@ public class FileServiceTests {
         versions = fileService.getFileVersions("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
         Assert.assertTrue(versions.contains(1) && versions.contains(3) && !versions.contains(2) && !versions.contains(4));
 
-        databaseDao.dropDatabase(FILE_DATABASE_NAME);
-        databaseDao.dropDatabase(META_DATABASE_NAME);
+
     }
 
     @Test
     public void getAllFilesByFileTypeTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
-        databaseDao.createDatabase(FILE_DATABASE_NAME);
-        databaseDao.createDatabase(META_DATABASE_NAME);
 
-        Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
-        Path path2 = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
-        Path path3 = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
 
-        byte[] file = Files.readAllBytes(path);
-        byte[] file2 = Files.readAllBytes(path2);
-        byte[] file3 = Files.readAllBytes(path3);
+        byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
+        byte[] file2 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.wsdl"));
+        byte[] file3 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.war"));
 
         fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
         fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
@@ -201,17 +188,10 @@ public class FileServiceTests {
             i++;
         }
 
-
-
-
-
-
         Assert.assertTrue(xsdTest);
         Assert.assertTrue(warTest);
         Assert.assertTrue(wsdlTest);
 
-        databaseDao.dropDatabase(FILE_DATABASE_NAME);
-        databaseDao.dropDatabase(META_DATABASE_NAME);
     }
 
 

@@ -4,6 +4,7 @@ import cz.muni.fi.pb138.api.FileService;
 import cz.muni.fi.pb138.api.FileType;
 import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
+import org.apache.commons.io.IOUtils;
 import org.basex.BaseXServer;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.transaction.AfterTransaction;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -42,21 +44,22 @@ public class DatabaseIOTests {
         public static void tearDown() throws IOException {
             BaseXServer.stop("localhost", 1984);
         }
-
+        @Before
+        public void createDatabase() throws IOException {
+                databaseDao.createDatabase(FILE_DATABASE_NAME);
+                databaseDao.createDatabase(META_DATABASE_NAME);
+        }
+        @After
+        public void dropDatabase() throws IOException {
+                databaseDao.dropDatabase(FILE_DATABASE_NAME);
+                databaseDao.dropDatabase(META_DATABASE_NAME);
+        }
         @Test
         public void IOXsdFileTest() throws Exception {
 
-                databaseDao.createDatabase(FILE_DATABASE_NAME);
-                databaseDao.createDatabase(META_DATABASE_NAME);
-
-                Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
-                byte[] file = Files.readAllBytes(path);
+                byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
                 fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
                 byte[] readFile = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
-
-
-                databaseDao.dropDatabase(FILE_DATABASE_NAME);
-                databaseDao.dropDatabase(META_DATABASE_NAME);
 
                 Assert.assertArrayEquals(file,readFile);
 
@@ -65,17 +68,10 @@ public class DatabaseIOTests {
         @Test
         public void IOWsdlFileTest() throws Exception {
 
-                databaseDao.createDatabase(FILE_DATABASE_NAME);
-                databaseDao.createDatabase(META_DATABASE_NAME);
 
-                Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
-                byte[] file = Files.readAllBytes(path);
+                byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.wsdl"));
                 fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl", file);
                 byte[] readFile = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
-
-
-                databaseDao.dropDatabase(FILE_DATABASE_NAME);
-                databaseDao.dropDatabase(META_DATABASE_NAME);
 
                 Assert.assertArrayEquals(file,readFile);
 
@@ -84,21 +80,12 @@ public class DatabaseIOTests {
         @Test
         public void IOWarFileTest() throws Exception {
 
-                databaseDao.createDatabase(FILE_DATABASE_NAME);
-                databaseDao.createDatabase(META_DATABASE_NAME);
-
-                Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
-                byte[] file = Files.readAllBytes(path);
+                byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.war"));
                 fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", file);
                 byte[] readFile = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
 
 
-                databaseDao.dropDatabase(FILE_DATABASE_NAME);
-                databaseDao.dropDatabase(META_DATABASE_NAME);
-
                 Assert.assertArrayEquals(file,readFile);
-
-
         }
 
 }
