@@ -19,6 +19,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -64,6 +65,8 @@ public class WarExtractor {
             ZipEntry ze = (ZipEntry) entries.nextElement();
             if(ze.getName().equals(webxmlLocation)) {
                 webxml = IOUtils.toByteArray(zipFile.getInputStream(ze));
+                String str = new String(webxml, StandardCharsets.UTF_8);
+                System.out.print(str);
             }
         }
         zipFile.close();
@@ -77,7 +80,7 @@ public class WarExtractor {
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
         Document doc;
 
-        doc = docBuilder.parse(new ByteArrayInputStream(file));
+        doc = docBuilder.parse(new ByteArrayInputStream(webxml));
 
         NodeList list = doc.getDocumentElement().getElementsByTagNameNS("*",extractedElement);
 
