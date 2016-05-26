@@ -17,19 +17,30 @@ import java.util.List;
  */
 @XmlRootElement( name = "wsdlmeta")
 public class WsdlMeta {
-    private final FileType type;
+    private FileType type;
     private PathVersionPair nameVersionPair;
-    private List<String> operations;
-    private List<String> responses;
-    private List<String> requests;
+    private List<String> operation;
+    private List<String> response;
+    private List<String> request;
+
+    public WsdlMeta() {
+    }
 
     public WsdlMeta(PathVersionPair nameVersionPair, List<String> operations, List<String> responses, List<String> requests) {
         this.nameVersionPair = nameVersionPair;
-        this.operations = operations;
-        this.responses = responses;
-        this.requests = requests;
+        this.operation = operations;
+        this.response = responses;
+        this.request = requests;
         type = FileType.WSDL;
 
+    }
+
+    public FileType getType() {
+        return type;
+    }
+
+    public void setType(FileType type) {
+        this.type = type;
     }
 
     public PathVersionPair getNameVersionPair() {
@@ -40,31 +51,27 @@ public class WsdlMeta {
         this.nameVersionPair = nameVersionPair;
     }
 
-    public List<String> getOperations() {
-        return operations;
+    public List<String> getOperation() {
+        return operation;
     }
 
-    public void setOperations(List<String> operations) {
-        this.operations = operations;
+    public void setOperation(List<String> operation) {
+        this.operation = operation;
     }
 
-    public List<String> getResponses() {
-        return responses;
+    public List<String> getResponse() {
+        return response;
     }
 
-    public void setResponses(List<String> responses) {
-        this.responses = responses;
+    public void setResponse(List<String> response) {
+        this.response = response;
     }
 
-    public FileType getType() {
-        return type;
+    public List<String> getRequest() {
+        return request;
     }
 
-    public List<String> getRequests() {
-        return requests;
-    }
-
-    public void setRequests(List<String> requests) {
-        this.requests = requests;
+    public void setRequest(List<String> request) {
+        this.request = request;
     }
 }

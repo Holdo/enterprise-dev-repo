@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
+import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 /**
@@ -39,25 +40,25 @@ public class FileServiceImpl implements FileService {
     @Autowired
     private PathFinder pathFinder;
 
-    public final String FILE_DATABASE_NAME = "artifacts";
-    public final String META_DATABASE_NAME = "metadata";
-    public final String META_FILE_SUFFIX = ".xml";
-    public final String[] supportedFiles = {".war", ".xsd", ".wsdl"};
+    private final String FILE_DATABASE_NAME = "artifacts";
+    private final String META_DATABASE_NAME = "metadata";
+    private final String META_FILE_SUFFIX = ".xml";
+    private final String[] supportedFiles = {".war", ".xsd", ".wsdl"};
 
     @Override
-    public void saveFile(String fullPath, byte[] fileBytes) throws IOException, SAXException, ParserConfigurationException, DataFormatException {
+    public void saveFile(String fullPath, byte[] fileBytes) throws IOException, SAXException, ParserConfigurationException, DataFormatException, JAXBException {
         FileBase file = null;
 
 
         for (String s : supportedFiles) {
             if (fullPath.endsWith(s)) {
-                if(s == ".war") {
+                if(s.equals(".war")) {
                     file = fileProcessor.processWar(fullPath,fileBytes);
                 }
-                if(s == ".xsd") {
+                if(s.equals(".xsd")) {
                     file = fileProcessor.processXsd(fullPath,fileBytes);
                 }
-                if(s == ".wsdl") {
+                if(s.equals(".wsdl")) {
                     file = fileProcessor.processWsdl(fullPath,fileBytes);
                 }
             }

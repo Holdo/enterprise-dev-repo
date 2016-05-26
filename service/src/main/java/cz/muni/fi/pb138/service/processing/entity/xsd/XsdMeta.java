@@ -18,19 +18,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class XsdMeta {
     
     
-    private final PathVersionPair pathVersionPair;
-    private final List<String> elements;
-    private final List<String> attributes;
-    private final List<String> simpleTypes;
-    private final List<String> complexTypes;
-    private final FileType type;
+    private PathVersionPair pathVersionPair;
+    private List<String> element;
+    private List<String> attribute;
+    private List<String> simpleType;
+    private List<String> complexType;
+    private FileType type;
+
+    public XsdMeta() {
+    }
 
     public XsdMeta(PathVersionPair pathVersionPair, List<String> elements, List<String> attributes, List<String> simpleTypes, List<String> complexTypes) {
         this.pathVersionPair = pathVersionPair;
-        this.elements = elements;
-        this.attributes = attributes;
-        this.simpleTypes = simpleTypes;
-        this.complexTypes = complexTypes;
+        this.element = elements;
+        this.attribute = attributes;
+        this.simpleType = simpleTypes;
+        this.complexType = complexTypes;
         type = FileType.XSD;
     }
 
@@ -38,23 +41,47 @@ public class XsdMeta {
         return pathVersionPair;
     }
 
-    public List<String> getElements() {
-        return elements;
+    public void setPathVersionPair(PathVersionPair pathVersionPair) {
+        this.pathVersionPair = pathVersionPair;
     }
 
-    public List<String> getAttributes() {
-        return attributes;
+    public List<String> getElement() {
+        return element;
     }
 
-    public List<String> getSimpleTypes() {
-        return simpleTypes;
+    public void setElement(List<String> element) {
+        this.element = element;
     }
 
-    public List<String> getComplexTypes() {
-        return complexTypes;
+    public List<String> getComplexType() {
+        return complexType;
     }
 
+    public void setComplexType(List<String> complexType) {
+        this.complexType = complexType;
+    }
 
+    public List<String> getSimpleType() {
+        return simpleType;
+    }
 
+    public void setSimpleType(List<String> simpleType) {
+        this.simpleType = simpleType;
+    }
 
+    public List<String> getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(List<String> attribute) {
+        this.attribute = attribute;
+    }
+
+    public FileType getType() {
+        return type;
+    }
+
+    public void setType(FileType type) {
+        this.type = type;
+    }
 }

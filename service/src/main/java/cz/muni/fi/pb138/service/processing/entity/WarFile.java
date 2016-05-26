@@ -16,6 +16,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
@@ -83,23 +85,17 @@ public class WarFile implements FileBase {
     }
 
     @Override
-    public byte[] getMeta() {
-        JAXBContext jc;
-        Marshaller marshaller;
-        File xml = null;
-        try {
-            jc = JAXBContext.newInstance(XsdMeta.class);
-            marshaller = jc.createMarshaller();
-            marshaller.marshal(new WarMeta(nameVersionPair, listenerList, filterList), xml);
-        } catch (JAXBException ex) {
-            Logger.getLogger(XsdFile.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public byte[] getMeta() throws JAXBException {
 
-        try {
-            return Files.readAllBytes(xml.toPath());
-        } catch (IOException ex) {
-            return null;
-        }
+            JAXBContext jc;
+            Marshaller marshaller;
+            jc = JAXBContext.newInstance(WarMeta.class);
+            marshaller = jc.createMarshaller();
+
+            StringWriter sw = new StringWriter();
+            marshaller.marshal(new WarMeta(nameVersionPair, listenerList, filterList), sw);
+            String xmlString = sw.toString();
+            return xmlString.getBytes(StandardCharsets.UTF_8);
     }
 
     @Override

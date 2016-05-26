@@ -8,6 +8,7 @@ package cz.muni.fi.pb138.service.processing.entity;
 import cz.muni.fi.pb138.api.FileType;
 import cz.muni.fi.pb138.api.MetaFileType;
 
+import javax.xml.bind.JAXBException;
 import java.util.HashMap;
 
 /**
@@ -18,7 +19,7 @@ public interface FileBase {
 
     byte[] getFile();
 
-    byte[] getMeta();
+    byte[] getMeta() throws JAXBException;
 
     FileType getType();
 

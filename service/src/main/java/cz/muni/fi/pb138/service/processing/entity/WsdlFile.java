@@ -15,6 +15,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
@@ -78,23 +80,16 @@ public class WsdlFile implements FileBase {
     }
 
     @Override
-    public byte[] getMeta() {
-        JAXBContext jc;
-        Marshaller marshaller;
-        File xml = null;
-        try {
-            jc = JAXBContext.newInstance(XsdMeta.class);
+    public byte[] getMeta() throws JAXBException {
+            JAXBContext jc;
+            Marshaller marshaller;
+            jc = JAXBContext.newInstance(WsdlMeta.class);
             marshaller = jc.createMarshaller();
-            marshaller.marshal(new WsdlMeta(nameVersionPair, operations, responses, requests), xml);
-        } catch (JAXBException ex) {
-            Logger.getLogger(XsdFile.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-        try {
-            return Files.readAllBytes(xml.toPath());
-        } catch (IOException ex) {
-            return null;
-        }
+            StringWriter sw = new StringWriter();
+            marshaller.marshal(new WsdlMeta(nameVersionPair, operations, responses, requests), sw);
+            String xmlString = sw.toString();
+            return xmlString.getBytes(StandardCharsets.UTF_8);
     }
 
     @Override

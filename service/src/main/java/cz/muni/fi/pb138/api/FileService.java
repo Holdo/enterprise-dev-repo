@@ -8,6 +8,7 @@ package cz.muni.fi.pb138.api;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import org.xml.sax.SAXException;
 
+import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
@@ -26,7 +27,7 @@ public interface FileService {
      * @param fileBytes - binary representation of file
      * @throws java.io.IOException
      */
-    void saveFile(String fullPath, byte[] fileBytes) throws IOException, SAXException, ParserConfigurationException, DataFormatException;
+    void saveFile(String fullPath, byte[] fileBytes) throws IOException, SAXException, ParserConfigurationException, DataFormatException, JAXBException;
     /**
      * 
      * @param fullPath - fullpath to file (namespace/file.xxx)
@@ -59,7 +60,7 @@ public interface FileService {
      * 
      * @param fileType - One of supported file types like WAR, XSD, WSDL
      * @param namespace - "/" for ALL, specify namaspace to filter 
-     * @return 
+     * @return files as byte array
      * @throws java.io.IOException 
      */
     List<PathVersionPair> getAllFilesByFileType(FileType fileType, String namespace) throws IOException;

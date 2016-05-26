@@ -17,7 +17,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-
 /**
  * Created by gasior on 15.05.2016.
  */
@@ -26,8 +25,8 @@ import java.util.List;
 @DirtiesContext
 public class DatabaseIOTests {
 
-        public final String FILE_DATABASE_NAME = "artifacts";
-        public final String META_DATABASE_NAME = "metadata";
+        private final String FILE_DATABASE_NAME = "artifacts";
+        private final String META_DATABASE_NAME = "metadata";
         @Autowired
         private FileService fileService;
         @Autowired
@@ -45,7 +44,7 @@ public class DatabaseIOTests {
         }
 
         @Test
-        public void IOFileTest() throws Exception {
+        public void IOXsdFileTest() throws Exception {
 
                 databaseDao.createDatabase(FILE_DATABASE_NAME);
                 databaseDao.createDatabase(META_DATABASE_NAME);
@@ -54,6 +53,44 @@ public class DatabaseIOTests {
                 byte[] file = Files.readAllBytes(path);
                 fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
                 byte[] readFile = fileService.getFileByFullPath("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+
+
+                databaseDao.dropDatabase(FILE_DATABASE_NAME);
+                databaseDao.dropDatabase(META_DATABASE_NAME);
+
+                Assert.assertArrayEquals(file,readFile);
+
+
+        }
+        @Test
+        public void IOWsdlFileTest() throws Exception {
+
+                databaseDao.createDatabase(FILE_DATABASE_NAME);
+                databaseDao.createDatabase(META_DATABASE_NAME);
+
+                Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
+                byte[] file = Files.readAllBytes(path);
+                fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl", file);
+                byte[] readFile = fileService.getFileByFullPath("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
+
+
+                databaseDao.dropDatabase(FILE_DATABASE_NAME);
+                databaseDao.dropDatabase(META_DATABASE_NAME);
+
+                Assert.assertArrayEquals(file,readFile);
+
+
+        }
+        @Test
+        public void IOWarFileTest() throws Exception {
+
+                databaseDao.createDatabase(FILE_DATABASE_NAME);
+                databaseDao.createDatabase(META_DATABASE_NAME);
+
+                Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
+                byte[] file = Files.readAllBytes(path);
+                fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", file);
+                byte[] readFile = fileService.getFileByFullPath("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
 
 
                 databaseDao.dropDatabase(FILE_DATABASE_NAME);

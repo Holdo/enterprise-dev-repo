@@ -44,7 +44,7 @@ public class WarExtractor {
     private byte[] webxml;
     private final String webxmlLocation = "WEB-INF/web.xml";
     private final String listenerElement = "listener-class";
-    private final String filterElement = "filter-name";
+    private final String filterElement = "filter-class";
     public WarExtractor(byte[] file, String fullPath) throws DataFormatException, IOException, ParserConfigurationException, SAXException {
         this.file = file;
         this.fullPath = fullPath;
@@ -65,8 +65,6 @@ public class WarExtractor {
             ZipEntry ze = (ZipEntry) entries.nextElement();
             if(ze.getName().equals(webxmlLocation)) {
                 webxml = IOUtils.toByteArray(zipFile.getInputStream(ze));
-                String str = new String(webxml, StandardCharsets.UTF_8);
-                System.out.print(str);
             }
         }
         zipFile.close();

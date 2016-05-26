@@ -10,6 +10,8 @@ import cz.muni.fi.pb138.api.MetaFileType;
 import cz.muni.fi.pb138.service.processing.entity.xsd.XsdMeta;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
@@ -87,25 +89,16 @@ public class XsdFile implements FileBase {
 
 
     @Override
-    public byte[] getMeta() {
+    public byte[] getMeta() throws JAXBException {
         JAXBContext jc;
         Marshaller marshaller;
-        File xml = null;
-        // TODO
-        try {
-            jc = JAXBContext.newInstance(XsdMeta.class);
-            marshaller = jc.createMarshaller();
-            marshaller.marshal(new XsdMeta(nameVersionPair, elements, attributes, simpleTypes, complexTypes), xml);
-        } catch (JAXBException ex) {
-            Logger.getLogger(XsdFile.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        jc = JAXBContext.newInstance(XsdMeta.class);
+        marshaller = jc.createMarshaller();
 
-        try {
-            return Files.readAllBytes(xml.toPath());
-        } catch (IOException ex) {
-            return null;
-        }
-
+        StringWriter sw = new StringWriter();
+        marshaller.marshal(new XsdMeta(nameVersionPair, elements, attributes, simpleTypes, complexTypes), sw);
+        String xmlString = sw.toString();
+        return xmlString.getBytes(StandardCharsets.UTF_8);
     }
 
     @Override

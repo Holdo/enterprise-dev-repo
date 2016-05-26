@@ -18,14 +18,17 @@ import java.util.List;
 @XmlRootElement( name = "warmeta")
 public class WarMeta {
     private PathVersionPair nameVersionPair;
-    private List<String> listenerList;
-    private List<String> filterList;
+    private List<String> listener;
+    private List<String> filter;
     private FileType type;
+
+    public WarMeta() {
+    }
 
     public WarMeta(PathVersionPair nameVersionPair, List<String> listenerList, List<String> filterList) {
         this.nameVersionPair = nameVersionPair;
-        this.listenerList = listenerList;
-        this.filterList = filterList;
+        this.listener = listenerList;
+        this.filter = filterList;
         type = FileType.WAR;
     }
 
@@ -37,16 +40,20 @@ public class WarMeta {
         this.nameVersionPair = nameVersionPair;
     }
 
-    public List<String> getListenerList() {
-        return listenerList;
+    public List<String> getListener() {
+        return listener;
     }
 
-    public void setListenerList(List<String> listenerList) {
-        this.listenerList = listenerList;
+    public void setListener(List<String> listener) {
+        this.listener = listener;
     }
 
-    public List<String> getFilterList() {
-        return filterList;
+    public List<String> getFilter() {
+        return filter;
+    }
+
+    public void setFilter(List<String> filter) {
+        this.filter = filter;
     }
 
     public FileType getType() {
@@ -55,9 +62,5 @@ public class WarMeta {
 
     public void setType(FileType type) {
         this.type = type;
-    }
-
-    public void setFilterList(List<String> filterList) {
-        this.filterList = filterList;
     }
 }
