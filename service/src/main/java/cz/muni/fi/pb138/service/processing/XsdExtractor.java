@@ -10,6 +10,7 @@ import cz.muni.fi.pb138.service.processing.entity.XsdFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -49,21 +50,23 @@ public class XsdExtractor {
     private List<String> extract(String extractedName) throws ParserConfigurationException, IOException, SAXException {
         List<String> extracted = new ArrayList<>();
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+            docBuilderFactory.setNamespaceAware(true);
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             Document doc;
 
             doc = docBuilder.parse(new ByteArrayInputStream(file));
 
-            NodeList list = doc.getElementsByTagNameNS("*", extractedName);
+            NodeList list = doc.getDocumentElement().getElementsByTagNameNS("*",extractedName);
 
-            for (int i = 0; i < list.getLength(); i++) {
+        for (int i = 0; i < list.getLength(); i++) {
                 Element element = (Element) list.item(i);
                 if (element.hasAttribute("name")) {
                     extracted.add(element.getAttribute("name"));
                 }
-            }
+        }
 
-        return extracted;
+
+        return new ArrayList(new HashSet(extracted));
     }
 
 }

@@ -153,14 +153,17 @@ public class FileServiceImpl implements FileService {
         if (fullPath.endsWith(".war")) {
             WarFile file = new WarFile();
             file.setNameVersionPair(new PathVersionPair(fullPath, version));
+            return file;
         }
         if (fullPath.endsWith(".xsd")) {
             XsdFile file = new XsdFile();
             file.setNameVersionPair(new PathVersionPair(fullPath, version));
+            return file;
         }
         if (fullPath.endsWith(".wsdl")) {
             WsdlFile file = new WsdlFile();
             file.setNameVersionPair(new PathVersionPair(fullPath, version));
+            return file;
         }
         throw new IOException();
     }

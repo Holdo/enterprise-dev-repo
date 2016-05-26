@@ -76,8 +76,8 @@ public class FileParsersTests {
         Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
         byte[] file = Files.readAllBytes(path);
         WarFile parsedFile = (WarFile)fileProcessor.processWar("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war",file);
+        Assert.assertNotNull(parsedFile.getMetaFiles().get(MetaFileType.WEBXML));
         Assert.assertTrue( 0 < parsedFile.getFilterList().size());
         Assert.assertTrue( 0 < parsedFile.getListenerList().size());
-        Assert.assertNotNull(parsedFile.getMetaFiles().get(MetaFileType.WEBXML));
     }
 }
