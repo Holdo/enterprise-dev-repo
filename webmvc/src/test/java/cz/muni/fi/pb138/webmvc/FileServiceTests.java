@@ -5,6 +5,7 @@ import cz.muni.fi.pb138.api.FileType;
 import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import org.basex.BaseXServer;
+import org.basex.core.BaseXException;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,31 +49,94 @@ public class FileServiceTests {
 
     @Test
     public void IOFileTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
+
+        databaseDao.createDatabase(FILE_DATABASE_NAME);
+        databaseDao.createDatabase(META_DATABASE_NAME);
+
+        Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+        Path path2 = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test2.xsd");
+
+        byte[] file = Files.readAllBytes(path);
+        byte[] file2 = Files.readAllBytes(path2);
+
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file2);
+
+        byte[] readFile = fileService.getFileByFullPathAndVersion("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd",1);
+        byte[] readFile2 = fileService.getFileByFullPathAndVersion("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd",2);
+        byte[] readFileLast = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+
+        Assert.assertArrayEquals(file,readFile);
+        Assert.assertArrayEquals(file2,readFile2);
+        Assert.assertArrayEquals(file2,readFileLast);
+
+        databaseDao.dropDatabase(FILE_DATABASE_NAME);
+        databaseDao.dropDatabase(META_DATABASE_NAME);
+    }
+    @Test(expected=BaseXException.class)
+    public void deleteFileTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
+
+        databaseDao.createDatabase(FILE_DATABASE_NAME);
+        databaseDao.createDatabase(META_DATABASE_NAME);
+
+        Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+        Path path2 = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test2.xsd");
+
+        byte[] file = Files.readAllBytes(path);
+        byte[] file2 = Files.readAllBytes(path2);
+        Assert.assertNotEquals(file,file2);
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file2);
+        fileService.deleteFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+
+        byte[] readFileLast = fileService.getFileByFullPath("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+        Assert.assertArrayEquals(file,readFileLast);
+
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file2);
+        fileService.deleteFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd",2);
+
+        readFileLast = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+        Assert.assertArrayEquals(file,readFileLast);
+
+        fileService.deleteFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+        readFileLast = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+
+
+        databaseDao.dropDatabase(FILE_DATABASE_NAME);
+        databaseDao.dropDatabase(META_DATABASE_NAME);
+    }
+    @Test
+    public void getFileVersionsTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
+
         databaseDao.createDatabase(FILE_DATABASE_NAME);
         databaseDao.createDatabase(META_DATABASE_NAME);
 
         Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
         byte[] file = Files.readAllBytes(path);
-        fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
-        fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
-        byte[] readFile = fileService.getFileByFullPath("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
-        byte[] readFileVersioned = fileService.getFileByFullPathAndVersion("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd",2);
-        Assert.assertArrayEquals(file,readFile);
-        Assert.assertArrayEquals(file,readFileVersioned);
+
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+
+
+        List<Integer> versions = fileService.getFileVersions("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+        Assert.assertTrue(versions.contains(1) && versions.contains(3) && versions.contains(2) && versions.contains(4));
+
+        fileService.deleteFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+        fileService.deleteFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd",2);
+
+        versions = fileService.getFileVersions("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+        Assert.assertTrue(versions.contains(1) && versions.contains(3) && !versions.contains(2) && !versions.contains(4));
+
         databaseDao.dropDatabase(FILE_DATABASE_NAME);
         databaseDao.dropDatabase(META_DATABASE_NAME);
     }
-   /* @Test
-    public void deleteFileTest(){}
+    /*
     @Test
-    public void deleteFileVersionedTest(){}
-    @Test
-    public void getFileByFullPathTest(){}
-    @Test
-    public void getFileByFullPathAndVersionTest() {}
-    @Test
-    public void getAllFilesByFileTypeTest() {}
-    @Test
-    public void getFileVersionsTest(){}*/
+    public void getAllFilesByFileTypeTest() {
+
+    }*/
+
 
 }

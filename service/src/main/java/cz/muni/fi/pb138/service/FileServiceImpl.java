@@ -139,6 +139,7 @@ public class FileServiceImpl implements FileService {
     public List<Integer> getFileVersions(String fullPath) throws IOException {
         databaseDao.openDatabase(FILE_DATABASE_NAME);
         String list = databaseDao.listDirectory(FILE_DATABASE_NAME, fullPath.substring(0,fullPath.lastIndexOf("/")));
+
         databaseDao.closeDatabase();
        return pathFinder.getAllVersions(fullPath, list);
     }

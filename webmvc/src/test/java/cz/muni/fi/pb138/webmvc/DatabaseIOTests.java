@@ -51,8 +51,8 @@ public class DatabaseIOTests {
 
                 Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
                 byte[] file = Files.readAllBytes(path);
-                fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
-                byte[] readFile = fileService.getFileByFullPath("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+                fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+                byte[] readFile = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
 
 
                 databaseDao.dropDatabase(FILE_DATABASE_NAME);
@@ -70,8 +70,8 @@ public class DatabaseIOTests {
 
                 Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
                 byte[] file = Files.readAllBytes(path);
-                fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl", file);
-                byte[] readFile = fileService.getFileByFullPath("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
+                fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl", file);
+                byte[] readFile = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
 
 
                 databaseDao.dropDatabase(FILE_DATABASE_NAME);
@@ -89,8 +89,8 @@ public class DatabaseIOTests {
 
                 Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
                 byte[] file = Files.readAllBytes(path);
-                fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", file);
-                byte[] readFile = fileService.getFileByFullPath("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
+                fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", file);
+                byte[] readFile = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
 
 
                 databaseDao.dropDatabase(FILE_DATABASE_NAME);

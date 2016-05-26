@@ -18,7 +18,6 @@ public class PathFinder {
 
         String[] paths = files.split("\n");
         String noSuffix = fullPath.substring(0,fullPath.lastIndexOf("."));
-        noSuffix = noSuffix.substring(1,noSuffix.length());
         ArrayList<String> filteredPaths = new ArrayList<>();
         for(String p : paths) {
             if(p.startsWith(noSuffix)) {
@@ -45,21 +44,27 @@ public class PathFinder {
     }
 
 
-    public List<Integer> getAllVersions(String fullPath, String list) {
+    public List<Integer> getAllVersions(String fullPath, String files) {
         List<Integer> output = new ArrayList<>();
 
 
-        String[] paths = list.split("\n");
-        String noSuffix = fullPath.substring(0,fullPath.lastIndexOf(".")-1);
-        int version = 0;
+        String[] paths = files.split("\n");
+        String noSuffix = fullPath.substring(0,fullPath.lastIndexOf("."));
+        ArrayList<String> filteredPaths = new ArrayList<>();
         for(String p : paths) {
             if(p.startsWith(noSuffix)) {
-                String x = p.substring(noSuffix.length(),p.length());
-                String[] y = x.split(".");
+                String x = p.split(" ")[0];
+                filteredPaths.add(x);
+            }
+        }
+        int version = 0;
+        for(String p : filteredPaths) {
+            if(p.startsWith(noSuffix)) {
+                String x = p.substring(noSuffix.length()+1,p.length());
+                String[] y = x.split("\\.");
                 output.add(Integer.valueOf(y[0]));
             }
         }
-
         return output;
     }
 
