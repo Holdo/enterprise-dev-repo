@@ -17,12 +17,20 @@ public class PathFinder {
     public int getLastVersion(String fullPath, String files) {
 
         String[] paths = files.split("\n");
-        String noSuffix = fullPath.substring(0,fullPath.lastIndexOf(".")-1);
-        int version = 0;
+        String noSuffix = fullPath.substring(0,fullPath.lastIndexOf("."));
+        noSuffix = noSuffix.substring(1,noSuffix.length());
+        ArrayList<String> filteredPaths = new ArrayList<>();
         for(String p : paths) {
             if(p.startsWith(noSuffix)) {
-                String x = p.substring(noSuffix.length(),p.length());
-                String[] y = x.split(".");
+                String x = p.split(" ")[0];
+                filteredPaths.add(x);
+            }
+        }
+        int version = 0;
+        for(String p : filteredPaths) {
+            if(p.startsWith(noSuffix)) {
+                String x = p.substring(noSuffix.length()+1,p.length());
+                String[] y = x.split("\\.");
                 if(version < Integer.valueOf(y[0])) {
                     version = Integer.valueOf(y[0]);
                 }
@@ -32,8 +40,8 @@ public class PathFinder {
     }
 
     public String getVersionedPath(int version, String fullPath, FileType type) {
-        String noSuffix = fullPath.substring(0, fullPath.lastIndexOf(".")-1);
-        return noSuffix + "_" + version + type.name();
+        String noSuffix = fullPath.substring(0, fullPath.lastIndexOf("."));
+        return noSuffix + "_" + version + type.toString();
     }
 
 

@@ -29,10 +29,12 @@ import java.util.zip.DataFormatException;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @DirtiesContext
 public class FileServiceTests {
-
+    private final String FILE_DATABASE_NAME = "artifacts";
+    private final String META_DATABASE_NAME = "metadata";
     @Autowired
     private FileService fileService;
-
+    @Autowired
+    private DatabaseDao databaseDao;
     @BeforeClass
     public static void setUp() {
         BaseXServer.main(new String[]{});
@@ -45,18 +47,32 @@ public class FileServiceTests {
     }
 
     @Test
-    public void saveFileTest() throws SAXException, DataFormatException, ParserConfigurationException, JAXBException, IOException {}
+    public void IOFileTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
+        databaseDao.createDatabase(FILE_DATABASE_NAME);
+        databaseDao.createDatabase(META_DATABASE_NAME);
+
+        Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+        byte[] file = Files.readAllBytes(path);
+        fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+        fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+        byte[] readFile = fileService.getFileByFullPath("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+        byte[] readFileVersioned = fileService.getFileByFullPathAndVersion("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd",2);
+        Assert.assertArrayEquals(file,readFile);
+        Assert.assertArrayEquals(file,readFileVersioned);
+        databaseDao.dropDatabase(FILE_DATABASE_NAME);
+        databaseDao.dropDatabase(META_DATABASE_NAME);
+    }
+   /* @Test
+    public void deleteFileTest(){}
     @Test
-    public void deleteFileTest(String fullPath){}
+    public void deleteFileVersionedTest(){}
     @Test
-    public void deleteFileTest(String fullPath, int version){}
+    public void getFileByFullPathTest(){}
     @Test
-    public void getFileByFullPathTest(String fullPath){}
+    public void getFileByFullPathAndVersionTest() {}
     @Test
-    public void getFileByFullPathAndVersionTest(String fullPath, int version) {}
+    public void getAllFilesByFileTypeTest() {}
     @Test
-    public void getAllFilesByFileTypeTest(FileType fileType, String namespace) {}
-    @Test
-    public void getFileVersionsTest(String fullPath){}
+    public void getFileVersionsTest(){}*/
 
 }

@@ -69,12 +69,13 @@ public class FileServiceImpl implements FileService {
         }
 
         databaseDao.openDatabase(FILE_DATABASE_NAME);
-        String list = databaseDao.listDirectory(FILE_DATABASE_NAME, fullPath.substring(0,fullPath.lastIndexOf("/")));
-        int version = pathFinder.getLastVersion(fullPath,list);
+        String vNamespace = fullPath.substring(0,fullPath.lastIndexOf("/")+1);
+        String list = databaseDao.listDirectory(FILE_DATABASE_NAME, vNamespace);
+        int version = pathFinder.getLastVersion(fullPath,list)+1;
 
         file.setVersion(version);
-
-        binaryDao.saveBinaryFile(file.getFile(),pathFinder.getVersionedPath(version,fullPath,file.getType()));
+        String vPath = pathFinder.getVersionedPath(version,fullPath,file.getType());
+        binaryDao.saveBinaryFile(file.getFile(), vPath);
         databaseDao.closeDatabase();
 
         databaseDao.openDatabase(META_DATABASE_NAME);

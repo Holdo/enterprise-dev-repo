@@ -4,6 +4,7 @@ import cz.muni.fi.pb138.api.FileService;
 import cz.muni.fi.pb138.api.FileType;
 import cz.muni.fi.pb138.api.MetaFileType;
 import cz.muni.fi.pb138.api.MetaParameterType;
+import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.service.processing.entity.MetaFilePathVersionTriplet;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import org.basex.BaseXServer;
@@ -24,8 +25,12 @@ import java.util.List;
 @DirtiesContext
 public class MetaServiceTests {
 
+    private final String FILE_DATABASE_NAME = "artifacts";
+    private final String META_DATABASE_NAME = "metadata";
     @Autowired
     private FileService fileService;
+    @Autowired
+    private DatabaseDao databaseDao;
 
     @BeforeClass
     public static void setUp() {
@@ -37,15 +42,15 @@ public class MetaServiceTests {
     public static void tearDown() throws IOException {
         BaseXServer.stop("localhost", 1984);
     }
+   /* @Test
+    public void  getFilesFullPathsByMetaParameterTest() {}
     @Test
-    public void  getFilesFullPathsByMetaParameterTest(FileType fileType, MetaParameterType parameterType, String namespace, String parameterName) {}
+    public void  getAllMetaParametersByMetaParameterTypeTest() {}
     @Test
-    public void  getAllMetaParametersByMetaParameterTypeTest(MetaParameterType parameterType, String namespace) {}
+    public void  getAllMetaFilesByMetaFileTypeTest(){}
     @Test
-    public void  getAllMetaFilesByMetaFileTypeTest(MetaFileType metaFileType, String namespace){}
+    public void  getMetaFileByFileFullPathTest() {}
     @Test
-    public void  getMetaFileByFileFullPathTest(MetaFileType metaFileType, String fullPath, int version) {}
-    @Test
-    public void  getMetaParametersByFileFullPathTest(MetaParameterType parameterType, String fullPath, String version) {}
-
+    public void  getMetaParametersByFileFullPathTest() {}
+*/
 }
