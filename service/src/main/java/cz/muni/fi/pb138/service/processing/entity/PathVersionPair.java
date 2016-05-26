@@ -44,11 +44,4 @@ public class PathVersionPair {
     }
 
 
-    public static List<PathVersionPair> getListFromXml(String rawOutput) {
-
-        List<PathVersionPair> output = new ArrayList<>();
-
-        //TODO
-        return output;
-    }
 }

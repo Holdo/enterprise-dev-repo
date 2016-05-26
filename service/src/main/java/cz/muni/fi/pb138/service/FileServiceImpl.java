@@ -149,7 +149,7 @@ public class FileServiceImpl implements FileService {
         databaseDao.openDatabase(FILE_DATABASE_NAME);
         String list = databaseDao.listDirectory(FILE_DATABASE_NAME, namespace);
         databaseDao.closeDatabase();
-        return pathFinder.getAllFilesByFileType(fileType,list);
+        return pathFinder.getAllFilesByFileType(fileType,list, namespace);
     }
 
     private FileBase getFileInstance(String fullPath, int version) throws IOException {

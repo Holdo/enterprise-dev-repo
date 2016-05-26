@@ -114,29 +114,105 @@ public class FileServiceTests {
         Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
         byte[] file = Files.readAllBytes(path);
 
-        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
-        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
-        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
-        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+        fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+        fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+        fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+        fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
 
 
-        List<Integer> versions = fileService.getFileVersions("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+        List<Integer> versions = fileService.getFileVersions("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
         Assert.assertTrue(versions.contains(1) && versions.contains(3) && versions.contains(2) && versions.contains(4));
 
-        fileService.deleteFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
-        fileService.deleteFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd",2);
+        fileService.deleteFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+        fileService.deleteFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd",2);
 
-        versions = fileService.getFileVersions("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+        versions = fileService.getFileVersions("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
         Assert.assertTrue(versions.contains(1) && versions.contains(3) && !versions.contains(2) && !versions.contains(4));
 
         databaseDao.dropDatabase(FILE_DATABASE_NAME);
         databaseDao.dropDatabase(META_DATABASE_NAME);
     }
-    /*
-    @Test
-    public void getAllFilesByFileTypeTest() {
 
-    }*/
+    @Test
+    public void getAllFilesByFileTypeTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
+        databaseDao.createDatabase(FILE_DATABASE_NAME);
+        databaseDao.createDatabase(META_DATABASE_NAME);
+
+        Path path = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+        Path path2 = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
+        Path path3 = Paths.get("./src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
+
+        byte[] file = Files.readAllBytes(path);
+        byte[] file2 = Files.readAllBytes(path2);
+        byte[] file3 = Files.readAllBytes(path3);
+
+        fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+        fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+        fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+        fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl", file2);
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl", file2);
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl", file2);
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl", file2);
+
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", file3);
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", file3);
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", file3);
+        fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", file3);
+
+
+        List<PathVersionPair> xsds = fileService.getAllFilesByFileType(FileType.XSD, "/src");
+        List<PathVersionPair> wsdls = fileService.getAllFilesByFileType(FileType.WSDL, "src");
+        List<PathVersionPair> wars = fileService.getAllFilesByFileType(FileType.WAR, "/");
+
+
+        Assert.assertTrue(xsds.size() == 4);
+        Assert.assertTrue(wars.size() == 4);
+        Assert.assertTrue(wsdls.size() == 4);
+
+
+        boolean xsdTest = true;
+        boolean wsdlTest = true;
+        boolean warTest = true;
+
+
+        int i = 1;
+        for (PathVersionPair p : xsds) {
+            if(!p.getFullPath().equals("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd") | p.getVersion() != i) {
+                xsdTest = false;
+            }
+            i++;
+        }
+
+        i = 1;
+        for (PathVersionPair p : wars) {
+            if(!p.getFullPath().equals("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war") | p.getVersion() != i) {
+                warTest = false;
+            }
+            i++;
+        }
+
+        i = 1;
+        for (PathVersionPair p : wsdls) {
+            if(!p.getFullPath().equals("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl") | p.getVersion() != i) {
+                wsdlTest = false;
+            }
+            i++;
+        }
+
+
+
+
+
+
+        Assert.assertTrue(xsdTest);
+        Assert.assertTrue(warTest);
+        Assert.assertTrue(wsdlTest);
+
+        databaseDao.dropDatabase(FILE_DATABASE_NAME);
+        databaseDao.dropDatabase(META_DATABASE_NAME);
+    }
 
 
 }
