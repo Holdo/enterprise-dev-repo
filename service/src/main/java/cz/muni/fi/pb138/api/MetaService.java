@@ -42,7 +42,15 @@ public interface MetaService {
      * @throws java.io.IOException 
      */
     List<MetaFilePathVersionTriplet> getAllMetaFilesByMetaFileType(MetaFileType metaFileType, String namespace) throws IOException;
-   
+
+    /**
+     *
+     * @param metaFileType
+     * @param fullPath
+     * @return
+     * @throws IOException
+     */
+    MetaFilePathVersionTriplet getMetaFileByFileFullPath(MetaFileType metaFileType, String fullPath) throws IOException;
     /**
      * 
      * @param metaFileType - One of meta file types like WEBXML, god knows what else in future...
@@ -51,16 +59,25 @@ public interface MetaService {
      * @return
      * @throws IOException 
      */
-    MetaFilePathVersionTriplet getMetaFileByFileFullPath(MetaFileType metaFileType, String fullPath, int version) throws IOException;
+    MetaFilePathVersionTriplet getMetaFileByFileFullPathAndVersion(MetaFileType metaFileType, String fullPath, int version) throws IOException;
     
     /**
      * 
      * @param parameterType -  One of parameter types like COMPLEXTYPE, OPERATION ...
      * @param fullPath - path to file
-     * @param version 
      * @return - for example fullpath namespace/foo.xsd, version 2, parameter type COMPLEXTYPE will return all complex types of foo.xsd in version 2
      * @throws IOException 
      */
-    List<PathVersionPair> getMetaParametersByFileFullPath(MetaParameterType parameterType, String fullPath, String version) throws IOException;
+    List<PathVersionPair> getMetaParametersByFileFullPath(MetaParameterType parameterType, String fullPath) throws IOException;
+    /**
+     *
+     * @param parameterType -  One of parameter types like COMPLEXTYPE, OPERATION ...
+     * @param fullPath - path to file
+     * @param version
+     * @return - for example fullpath namespace/foo.xsd, version 2, parameter type COMPLEXTYPE will return all complex types of foo.xsd in version 2
+     * @throws IOException
+     */
+    List<PathVersionPair> getMetaParametersByFileFullPathAndVersion(MetaParameterType parameterType, String fullPath, String version) throws IOException;
+
 
 }

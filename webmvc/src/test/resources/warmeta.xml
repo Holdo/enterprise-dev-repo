@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><warmeta><filter>Filter1</filter><listener>Listener1</listener><nameVersionPair><fullPath>src/test/resources/test.war</fullPath><version>1</version></nameVersionPair><type>WAR</type></warmeta>

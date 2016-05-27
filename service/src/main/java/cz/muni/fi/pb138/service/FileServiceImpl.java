@@ -81,7 +81,8 @@ public class FileServiceImpl implements FileService {
         databaseDao.openDatabase(META_DATABASE_NAME);
         documentDao.addDocument(file.getMeta(), pathFinder.getVersionedPath(version,fullPath,file.getType())+META_FILE_SUFFIX);
         for (MetaFileType type : file.getMetaFiles().keySet()) {
-            documentDao.addDocument(file.getMetaFiles().get(type), pathFinder.getVersionedPath(version,fullPath,file.getType())+type.name());
+            String metaFilePath = vPath + "."+type.toString();
+            binaryDao.saveBinaryFile(file.getMetaFiles().get(type), metaFilePath);
         }
         databaseDao.closeDatabase();
 

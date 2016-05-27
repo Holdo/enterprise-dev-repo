@@ -83,10 +83,15 @@ public class MetaServiceImpl implements MetaService {
     }
 
     @Override
-    public MetaFilePathVersionTriplet getMetaFileByFileFullPath(MetaFileType metaFileType, String fullPath, int version) throws IOException {
+    public MetaFilePathVersionTriplet getMetaFileByFileFullPath(MetaFileType metaFileType, String fullPath) throws IOException {
+        return null;
+    }
+
+    @Override
+    public MetaFilePathVersionTriplet getMetaFileByFileFullPathAndVersion(MetaFileType metaFileType, String fullPath, int version) throws IOException {
         MetaFilePathVersionTriplet output = new MetaFilePathVersionTriplet();
         databaseDao.openDatabase(META_DATABASE_NAME);
-        byte[] metaFile = binaryDao.retrieveBinaryFile(pathFinder.getVersionedPath(version, fullPath, FileType.WAR)+metaFileType.name());
+        byte[] metaFile = binaryDao.retrieveBinaryFile(pathFinder.getVersionedPath(version, fullPath, FileType.WAR)+"." + metaFileType.toString());
         databaseDao.closeDatabase();
 
         output.setVersion(version);
@@ -96,7 +101,21 @@ public class MetaServiceImpl implements MetaService {
     }
 
     @Override
-    public List<PathVersionPair> getMetaParametersByFileFullPath(MetaParameterType parameterType, String fullPath, String version) throws IOException {
+    public List<PathVersionPair> getMetaParametersByFileFullPath(MetaParameterType parameterType, String fullPath) throws IOException {
+        List<PathVersionPair> output = new ArrayList<>();
+
+
+
+        // TODO
+
+
+
+
+        return output;
+    }
+
+    @Override
+    public List<PathVersionPair> getMetaParametersByFileFullPathAndVersion(MetaParameterType parameterType, String fullPath, String version) throws IOException {
         List<PathVersionPair> output = new ArrayList<>();
 
 

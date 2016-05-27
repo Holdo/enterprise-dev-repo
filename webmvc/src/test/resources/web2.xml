@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+ 
+ <context-param>
+   <param-name>debug</param-name>
+   <param-value>false</param-value>
+ </context-param>
+ 
+ <session-config>  <!--  10 minutes -->
+   <session-timeout>10</session-timeout>
+ </session-config>
+ 
+ <servlet>
+   <display-name>Servlet1</display-name>
+   <servlet-name>Servlet1</servlet-name>
+   <servlet-class>test.Servlet1</servlet-class>
+   <init-param>
+     <param-name>sleep-time-in-seconds</param-name>
+     <param-value>10</param-value>
+   </init-param>
+   <load-on-startup>1</load-on-startup>
+ </servlet>
+ 
+ <servlet-mapping>
+   <servlet-name>Servlet1</servlet-name>
+   <url-pattern>/Servlet1</url-pattern>
+ </servlet-mapping>
+ 
+ <env-entry>
+   <description>admin email</description>
+   <env-entry-name>adminEmail</env-entry-name>
+   <env-entry-value>admin@example.x</env-entry-value>
+ </env-entry>
+ 
+ <resource-ref>
+   <res-ref-name>HRDS</res-ref-name>
+   <res-type>javax.sql.DataSource</res-type>
+   <mapped-name>jdbc/__default</mapped-name>
+ </resource-ref>
+ 
+ <filter>
+   <display-name>Filter1</display-name>
+   <filter-name>Filter1</filter-name>
+   <filter-class>Filter2</filter-class>
+ </filter>
+ 
+ <filter-mapping>
+   <filter-name>Filter1</filter-name>
+   <url-pattern>/Filter1</url-pattern>
+ </filter-mapping>
+ 
+ <filter-mapping>
+   <filter-name>Filter1</filter-name>
+   <servlet-name>Servlet1</servlet-name>
+   <dispatcher>REQUEST</dispatcher>
+   <dispatcher>FORWARD</dispatcher>
+   <dispatcher>INCLUDE</dispatcher>
+   <dispatcher>ERROR</dispatcher>
+ </filter-mapping>
+ 
+ <listener>
+   <listener-class>Listener2</listener-class>
+ </listener>
+ 
+ <welcome-file-list>
+   <welcome-file>index.html</welcome-file>
+   <welcome-file>index.htm</welcome-file>
+   <welcome-file>index.jsp</welcome-file>
+   <welcome-file>default.html</welcome-file>
+   <welcome-file>default.htm</welcome-file>
+   <welcome-file>default.jsp</welcome-file>
+ </welcome-file-list>
+ 
+</web-app>
