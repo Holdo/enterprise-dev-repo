@@ -89,7 +89,7 @@ public class MetaServiceTests extends IntegrationTests {
 		byte[] versionOneReference = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("web.xml"));
 		byte[] versionTwoReference = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("web2.xml"));
 
-		Assert.assertNotEquals(versionOneReference, versionTwoReference);
+		Assert.assertFalse(Arrays.equals(versionOneReference, versionTwoReference));
 
 		MetaFilePathVersionTriplet readWebxmlShouldBeVersion2 = metaService.getMetaFileByFileFullPath(MetaFileType.WEBXML, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
 		MetaFilePathVersionTriplet readWebxmlShouldBeVersion2Too = metaService.getMetaFileByFileFullPathAndVersion(MetaFileType.WEBXML, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", 2);
