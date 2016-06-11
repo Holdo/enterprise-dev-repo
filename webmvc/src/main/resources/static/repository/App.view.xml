@@ -1,0 +1,47 @@
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified"
+      controllerName='repository.App' class="viewPadding">
+    <u:Shell
+            id="myShell"
+            icon="baseXlogo.png">
+        <u:headItems>
+            <u:ShellHeadItem
+                    tooltip="Configuration"
+                    icon="sap-icon://menu2"
+                    press="handlePressConfiguration"/>
+            <u:ShellHeadItem
+                    tooltip="Home"
+                    icon="sap-icon://home"
+                    visible="true"
+                    press="handlePressHome"/>
+            <u:ShellHeadItem
+                    id="shellBackButton"
+                    tooltip="Back"
+                    icon="sap-icon://nav-back"
+                    visible="false"
+                    press="handlePressBack"/>
+        </u:headItems>
+        <u:headEndItems>
+            <u:ShellHeadItem
+                    icon="sap-icon://log"
+                    tooltip="Logoff"
+                    press="handleLogoffPress"/>
+        </u:headEndItems>
+        <u:user>
+            <u:ShellHeadUserItem id="ShellHeadUserItem"
+                                 image="sap-icon://person-placeholder"
+                                 username="anonymous"
+                                 press="handleUserItemPressed"/>
+        </u:user>
+        <u:search>
+            <SearchField search="handleSearchPressed"/>
+        </u:search>
+        <u:paneContent>
+            <Text text="Lorem ipsum"/>
+        </u:paneContent>
+        <App id="app"
+             backgroundColor="transparent"
+             backgroundOpacity="0">
+            <!-- VIEWS -->
+        </App>
+    </u:Shell>
+</mvc:View>

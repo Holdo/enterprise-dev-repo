@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="sap.ui.dt" xmlns:n1="sap.ui.dt" xmlns:n0="sap.ui.core">
+<xsd:import namespace="sap.ui.core"/>
+<xsd:simpleType name="_SelectionModeType">
+<xsd:restriction base="xsd:string">
+<xsd:enumeration value="Multi">
+<xsd:annotation>
+<xsd:documentation>Select multiple overlays at a time.</xsd:documentation>
+</xsd:annotation>
+</xsd:enumeration>
+<xsd:enumeration value="Single">
+<xsd:annotation>
+<xsd:documentation>Select one overlay at a time.</xsd:documentation>
+</xsd:annotation>
+</xsd:enumeration>
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:schema>

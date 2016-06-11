@@ -3,7 +3,7 @@ package cz.muni.fi.pb138.webmvc.cz.muni.fi.pb138.webmvc.test;
 import cz.muni.fi.pb138.api.*;
 import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.service.processing.entity.MetaFilePathVersionTriplet;
-import cz.muni.fi.pb138.webmvc.IntegrationTests;
+import cz.muni.fi.pb138.webmvc.AbstractIntegrationTest;
 import org.apache.commons.io.IOUtils;
 import org.basex.BaseXServer;
 import org.junit.*;
@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.zip.DataFormatException;
 
-public class MetaServiceTests extends IntegrationTests {
+public class MetaServiceTests extends AbstractIntegrationTest {
 
 	private final String FILE_DATABASE_NAME = "artifacts";
 	private final String META_DATABASE_NAME = "metadata";

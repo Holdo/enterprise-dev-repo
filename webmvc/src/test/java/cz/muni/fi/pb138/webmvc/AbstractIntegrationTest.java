@@ -8,6 +8,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @DirtiesContext
-public abstract class IntegrationTests {
+public abstract class AbstractIntegrationTest {
 	//Serves as an integration tests initializer for all the other tests
 }

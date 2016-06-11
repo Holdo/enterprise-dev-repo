@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>
+    <title>Repository</title>
+    <style>
+        .sapUiGlobalBackgroundColor{background-image:linear-gradient(to bottom,#2da9b1 0,#178299 50%,#1a4c7d 100%)!important;}
+        .sapMGlobalBackgroundColor{background-image:linear-gradient(to bottom,#2da9b1 0,#178299 50%,#1a4c7d 100%)!important;}
+        .sapUiBody{background-image:linear-gradient(to bottom,#2da9b1 0,#178299 50%,#1a4c7d 100%)!important;}
+    </style>
+    <script src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
+            id="sap-ui-bootstrap"
+            data-sap-ui-language="en"
+            data-sap-ui-libs="sap.m"
+            data-sap-ui-compatVersion="edge"
+            data-sap-ui-theme="sap_bluecrystal"
+            data-sap-ui-xx-bindingSyntax="complex"
+            data-sap-ui-resourceroots='{"RootFolder": "./"}'
+            data-sap-ui-preload="async">
+    </script>
+
+    <script>
+        sap.ui.localResources("repository");
+        /*var oApp = new sap.m.App({initialPage: "app"});
+        oApp.setBackgroundOpacity(0);
+        oApp.setBackgroundColor("transparent");
+        var oPage = sap.ui.view({
+            id: "app",
+            viewName: "launchpad.Launchpad",
+            type: sap.ui.core.mvc.ViewType.XML });
+        oApp.addPage(oPage);
+        oApp.placeAt("content");*/
+
+        sap.ui.getCore().attachInit(function() {
+            new sap.ui.core.ComponentContainer({
+                //height : "99.68%", //workaround for Chrome scrollbar issue
+                name : "RootFolder.repository",
+                height: "100%"
+            }).placeAt("content");
+        });
+    </script>
+</head>
+<body class="sapUiBody" role="application">
+<div id="container" style="width:100%; height:100%; overflow:hidden;">
+    <div id="content">
+
+    </div>
+</div>
+</body>
+</html>

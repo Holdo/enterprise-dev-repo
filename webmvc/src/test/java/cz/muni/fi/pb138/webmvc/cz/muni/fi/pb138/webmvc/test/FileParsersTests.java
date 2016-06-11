@@ -5,7 +5,7 @@ import cz.muni.fi.pb138.service.processing.FileProcessor;
 import cz.muni.fi.pb138.service.processing.entity.WarFile;
 import cz.muni.fi.pb138.service.processing.entity.WsdlFile;
 import cz.muni.fi.pb138.service.processing.entity.XsdFile;
-import cz.muni.fi.pb138.webmvc.IntegrationTests;
+import cz.muni.fi.pb138.webmvc.AbstractIntegrationTest;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.basex.BaseXServer;
@@ -18,7 +18,7 @@ import java.io.IOException;
 /**
  * Created by gasior on 15.05.2016
  */
-public class FileParsersTests extends IntegrationTests {
+public class FileParsersTests extends AbstractIntegrationTest {
 
 
 	@Autowired
