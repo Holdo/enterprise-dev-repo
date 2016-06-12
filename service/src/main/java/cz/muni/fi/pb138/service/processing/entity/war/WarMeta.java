@@ -5,7 +5,7 @@
  */
 package cz.muni.fi.pb138.service.processing.entity.war;
 
-import cz.muni.fi.pb138.api.FileType;
+import cz.muni.fi.pb138.enumtype.FileType;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 
 import javax.xml.bind.annotation.XmlRootElement;

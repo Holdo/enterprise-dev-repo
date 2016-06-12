@@ -1,4 +1,4 @@
-package cz.muni.fi.pb138.service.enums;
+package cz.muni.fi.pb138.service.xquery;
 
 /**
  * @author Peter Hutta

@@ -5,7 +5,7 @@
  */
 package cz.muni.fi.pb138.service.processing;
 
-import cz.muni.fi.pb138.api.MetaFileType;
+import cz.muni.fi.pb138.enumtype.MetaFileType;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import cz.muni.fi.pb138.service.processing.entity.WarFile;
 import org.apache.commons.io.FileUtils;
@@ -19,16 +19,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
-import java.util.jar.JarFile;
 import java.util.zip.DataFormatException;
-import java.util.zip.Inflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 

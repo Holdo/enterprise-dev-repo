@@ -5,8 +5,8 @@
  */
 package cz.muni.fi.pb138.service.processing.entity;
 
-import cz.muni.fi.pb138.api.FileType;
-import cz.muni.fi.pb138.api.MetaFileType;
+import cz.muni.fi.pb138.enumtype.FileType;
+import cz.muni.fi.pb138.enumtype.MetaFileType;
 
 import javax.xml.bind.JAXBException;
 import java.util.HashMap;

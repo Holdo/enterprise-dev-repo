@@ -5,18 +5,14 @@
  */
 package cz.muni.fi.pb138.service.processing.entity;
 
-import cz.muni.fi.pb138.api.FileType;
-import cz.muni.fi.pb138.api.MetaFileType;
+import cz.muni.fi.pb138.enumtype.FileType;
+import cz.muni.fi.pb138.enumtype.MetaFileType;
 import cz.muni.fi.pb138.service.processing.entity.xsd.XsdMeta;
-import java.io.File;
-import java.io.IOException;
+
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;

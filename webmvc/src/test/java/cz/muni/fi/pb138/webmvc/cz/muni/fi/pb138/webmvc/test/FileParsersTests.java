@@ -1,6 +1,6 @@
 package cz.muni.fi.pb138.webmvc.cz.muni.fi.pb138.webmvc.test;
 
-import cz.muni.fi.pb138.api.MetaFileType;
+import cz.muni.fi.pb138.enumtype.MetaFileType;
 import cz.muni.fi.pb138.service.processing.FileProcessor;
 import cz.muni.fi.pb138.service.processing.entity.WarFile;
 import cz.muni.fi.pb138.service.processing.entity.WsdlFile;

@@ -1,5 +1,6 @@
 package cz.muni.fi.pb138.webmvc.cz.muni.fi.pb138.webmvc.test;
 
+import cz.muni.fi.pb138.enumtype.MetaFileType;
 import cz.muni.fi.pb138.api.*;
 import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.service.processing.entity.MetaFilePathVersionTriplet;

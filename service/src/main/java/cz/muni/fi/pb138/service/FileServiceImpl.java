@@ -1,8 +1,8 @@
 package cz.muni.fi.pb138.service;
 
 import cz.muni.fi.pb138.api.FileService;
-import cz.muni.fi.pb138.api.FileType;
-import cz.muni.fi.pb138.api.MetaFileType;
+import cz.muni.fi.pb138.enumtype.FileType;
+import cz.muni.fi.pb138.enumtype.MetaFileType;
 import cz.muni.fi.pb138.dao.BinaryDao;
 import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.dao.DocumentDao;
@@ -11,11 +11,9 @@ import cz.muni.fi.pb138.service.processing.PathFinder;
 import cz.muni.fi.pb138.service.processing.entity.*;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.zip.DataFormatException;
 
-import net.xqj.basex.bin.F;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;

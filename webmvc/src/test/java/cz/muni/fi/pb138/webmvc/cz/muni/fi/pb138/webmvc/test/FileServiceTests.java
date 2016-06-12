@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.webmvc.cz.muni.fi.pb138.webmvc.test;
 
 import cz.muni.fi.pb138.api.FileService;
-import cz.muni.fi.pb138.api.FileType;
+import cz.muni.fi.pb138.enumtype.FileType;
 import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import cz.muni.fi.pb138.webmvc.AbstractIntegrationTest;

@@ -5,6 +5,9 @@
  */
 package cz.muni.fi.pb138.service;
 
+import cz.muni.fi.pb138.enumtype.FileType;
+import cz.muni.fi.pb138.enumtype.MetaFileType;
+import cz.muni.fi.pb138.enumtype.MetaParameterType;
 import cz.muni.fi.pb138.api.*;
 import cz.muni.fi.pb138.dao.BinaryDao;
 import cz.muni.fi.pb138.dao.DatabaseDao;
