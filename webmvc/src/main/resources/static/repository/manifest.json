@@ -2,7 +2,7 @@
   "_version": "1.3.0",
   "sap.app": {
     "_version": "1.3.0",
-    "id": "RootFolder.repository",
+    "id": "Repository",
     "type": "application",
     "title": "Enterprise Development Repository",
     "applicationVersion": {
@@ -22,7 +22,7 @@
   },
   "sap.ui5": {
     "_version": "1.1.0",
-    "rootView": "RootFolder.repository.App",
+    "rootView": "Repository.App",
     "dependencies": {
       "minUI5Version": "1.36.12",
       "libs": {
@@ -33,20 +33,36 @@
       "config": {
         "routerClass": "sap.m.routing.Router",
         "viewType": "XML",
-        "viewPath": "RootFolder.repository",
+        "viewPath": "Repository",
         "controlId": "app",
         "controlAggregation": "pages",
-        "transition": "slide"
+        "transition": "slide",
+        "bypassed": {
+          "target": "notFound"
+        }
       },
       "routes": [{
         "pattern": "",
         "name": "appHome",
         "target": "home"
+      }, {
+        "pattern": "upload",
+        "name": "upload",
+        "target": "upload"
       }],
       "targets": {
         "home": {
           "viewName": "Launchpad",
           "viewLevel" : 1
+        },
+        "notFound": {
+          "viewName": "NotFound",
+          "transition": "show"
+        },
+        "upload": {
+          "viewPath": "Repository.upload",
+          "viewName": "Upload",
+          "viewLevel" : 2
         }
       }
     }

@@ -1,12 +1,12 @@
 sap.ui.define([
     'jquery.sap.global',
-    'sap/ui/core/mvc/Controller',
+    'Repository/BaseController',
     'sap/ui/model/json/JSONModel',
     'sap/m/MessageToast'
-], function(jQuery, Controller, JSONModel, MessageToast) {
+], function(jQuery, BaseController, JSONModel, MessageToast) {
     "use strict";
 
-    var LaunchpadController = Controller.extend("repository.Launchpad", {
+    var LaunchpadController = BaseController.extend("Repository.Launchpad", {
         onInit: function(oEvent) {
             //Set JSON model
             var tileCollectionJSON= {
@@ -41,7 +41,7 @@ sap.ui.define([
                     MessageToast.show("Search Tile Pressed");
                     break;
                 case "Upload":
-                    MessageToast.show("Upload Tile Pressed");
+                    this.getRouter().navTo("upload");
                     break;
                 case "Administer":
                     MessageToast.show("Administer Tile Pressed");

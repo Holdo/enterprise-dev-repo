@@ -2,15 +2,18 @@ sap.ui.define([
     "sap/ui/core/UIComponent"
 ], function (UIComponent) {
     "use strict";
-    return UIComponent.extend("RootFolder.repository.Component", {
+    return UIComponent.extend("Repository.Component", {
 
         metadata: {
             manifest: "json"
         },
 
         init : function () {
+            // call the init function of the parent
             UIComponent.prototype.init.apply(this, arguments);
-            this.getTargets().display("home");
+
+            // create the views based on the url/hash
+            this.getRouter().initialize();
         }
     });
 }, /* bExport= */ true);

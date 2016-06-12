@@ -1,4 +1,4 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName='repository.Launchpad'>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName='Repository.Launchpad'>
     <Page title="Enterprise Development Repository">
         <content>
             <TileContainer

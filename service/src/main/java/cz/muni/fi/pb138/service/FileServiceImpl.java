@@ -47,7 +47,6 @@ public class FileServiceImpl implements FileService {
     public void saveFile(String fullPath, byte[] fileBytes) throws IOException, SAXException, ParserConfigurationException, DataFormatException, JAXBException {
         FileBase file = null;
 
-
         for (String s : supportedFiles) {
             if (fullPath.endsWith(s)) {
                 if(s.equals(".war")) {

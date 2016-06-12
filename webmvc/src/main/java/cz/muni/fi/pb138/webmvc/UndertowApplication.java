@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.webmvc;
 
 
-import cz.muni.fi.pb138.webmvc.controller.WebSocketConfig;
+import cz.muni.fi.pb138.webmvc.websocket.WebSocketConfig;
 import org.basex.BaseXServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

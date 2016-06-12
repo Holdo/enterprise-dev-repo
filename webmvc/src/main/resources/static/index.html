@@ -16,26 +16,16 @@
             data-sap-ui-compatVersion="edge"
             data-sap-ui-theme="sap_bluecrystal"
             data-sap-ui-xx-bindingSyntax="complex"
-            data-sap-ui-resourceroots='{"RootFolder": "./"}'
+            data-sap-ui-resourceroots='{"Repository": "./repository"}'
             data-sap-ui-preload="async">
     </script>
 
     <script>
         sap.ui.localResources("repository");
-        /*var oApp = new sap.m.App({initialPage: "app"});
-        oApp.setBackgroundOpacity(0);
-        oApp.setBackgroundColor("transparent");
-        var oPage = sap.ui.view({
-            id: "app",
-            viewName: "launchpad.Launchpad",
-            type: sap.ui.core.mvc.ViewType.XML });
-        oApp.addPage(oPage);
-        oApp.placeAt("content");*/
-
         sap.ui.getCore().attachInit(function() {
             new sap.ui.core.ComponentContainer({
                 //height : "99.68%", //workaround for Chrome scrollbar issue
-                name : "RootFolder.repository",
+                name : "Repository",
                 height: "100%"
             }).placeAt("content");
         });

@@ -10,13 +10,11 @@
                     width="100%">
                 <l:HorizontalLayout>
                     <Label text="Your Search: " class="labelMarginLeft" />
-                    <Text
-                            text="{/searchFieldContent}" class="labelMarginLeft" />
+                    <Text text="{/searchFieldContent}" class="labelMarginLeft" />
                 </l:HorizontalLayout>
 
-                <List
-                        width="100%"
-                        items="{path:'/resultData'}">
+                <List width="100%"
+                      items="{path:'/resultData'}">
                     <StandardListItem
                             type="Active"
                             press="handleSearchItemSelect"

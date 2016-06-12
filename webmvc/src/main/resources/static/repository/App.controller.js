@@ -2,12 +2,12 @@ sap.ui.define([
     'jquery.sap.global',
     'sap/m/MessageToast',
     'sap/ui/core/Fragment',
-    'sap/ui/core/mvc/Controller',
+    'Repository/BaseController',
     'sap/ui/model/json/JSONModel'
-], function(jQuery, MessageToast, Fragment, Controller, JSONModel) {
+], function(jQuery, MessageToast, Fragment, BaseController, JSONModel) {
     "use strict";
 
-    var AppController =  Controller.extend("repository.App", {
+    var AppController =  BaseController.extend("Repository.App", {
         onInit : function () {
             sap.ui.getCore().AppContext = {};
         },
@@ -15,11 +15,10 @@ sap.ui.define([
             //window.location.href = "/secured/logout";
         },
         handlePressHome : function () {
-            window.location.href = "/";
+            this.onNavHome();
         },
         handlePressBack : function (oEvent) {
-            oEvent.getSource().setVisible(false);
-            this.getOwnerComponent().getTargets().display("mainView");
+            this.onNavBack();
         },
         handleUserItemPressed: function(oEvent) {
             MessageToast.show("User Button Pressed");

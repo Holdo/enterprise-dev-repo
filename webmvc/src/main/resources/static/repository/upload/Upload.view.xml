@@ -1,0 +1,42 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+          xmlns:u="sap.ui.unified" xmlns:core="sap.ui.core" controllerName='Repository.upload.Upload'>
+    <Panel width="auto" class="sapUiResponsiveMargin">
+        <content>
+            <VBox alignItems="Center" justifyContent="SpaceBetween">
+                <Text text="Artifact Upload Form" class="sapMH4FontSize"/>
+                <Text text="Here you can upload WAR, WSDL or XSD into the repository" class="sapUiTinyMarginTop"/>
+            </VBox>
+        </content>
+    </Panel>
+    <VBox alignItems="Center">
+        <form:SimpleForm layout="ResponsiveGridLayout">
+            <Label text="Project name" class="sapUiSmallMarginTop sapUiTinyMarginBottom"/>
+            <Input id="projectNameInput"
+                   class="sapUiSmallMarginBottom"
+                   type="Text"
+                   placeholder="Enter project name..."
+                   valueStateText="Minimum 3 characters. Maximum 255."
+                   value="{
+					                            path : '/projectName',
+					                            type : 'sap.ui.model.type.String',
+					                            constraints : {
+					                            	minLength: 3,
+					                            	maxLength: 255
+					                            }
+				                               }"/>
+            <Label text="Artifact file" class="sapUiSmallMarginTop sapUiTinyMarginBottom"/>
+            <u:FileUploader
+                    id="artifactFileUploader"
+                    placeholder="Upload artifact file..."
+                    name="myFileUpload"
+                    icon="sap-icon://document"
+                    width="30rem"
+                    fileType="xsd,war,wsdl"
+                    typeMissmatch="handleFileTypeMissmatch"
+                    change="handleFileUploaderChange"/>
+        </form:SimpleForm>
+        <Button class="sapUiSmallMarginTop" type="Emphasized"
+                icon="sap-icon://upload-to-cloud" text="Upload!"
+                press="handleUploadButtonPress"/>
+    </VBox>
+</mvc:View>

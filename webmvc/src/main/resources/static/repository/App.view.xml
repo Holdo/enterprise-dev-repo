@@ -1,8 +1,6 @@
 <mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified"
-      controllerName='repository.App' class="viewPadding">
-    <u:Shell
-            id="myShell"
-            icon="baseXlogo.png">
+          controllerName='Repository.App' class="viewPadding">
+    <u:Shell id="myShell" icon="baseXlogo.png">
         <u:headItems>
             <u:ShellHeadItem
                     tooltip="Configuration"
@@ -17,7 +15,7 @@
                     id="shellBackButton"
                     tooltip="Back"
                     icon="sap-icon://nav-back"
-                    visible="false"
+                    visible="true"
                     press="handlePressBack"/>
         </u:headItems>
         <u:headEndItems>
@@ -38,10 +36,19 @@
         <u:paneContent>
             <Text text="Lorem ipsum"/>
         </u:paneContent>
-        <App id="app"
-             backgroundColor="transparent"
-             backgroundOpacity="0">
-            <!-- VIEWS -->
-        </App>
+        <Page showHeader="false">
+            <content>
+                <App id="app" backgroundColor="transparent" backgroundOpacity="0">
+                    <!-- VIEWS -->
+                </App>
+            </content>
+            <footer>
+                <Toolbar>
+                    <ToolbarSpacer/>
+                    <Text text="Gasior, Holič, Hutta, Rybenský --- PB138 2016"/>
+                    <ToolbarSpacer width="2em"/>
+                </Toolbar>
+            </footer>
+        </Page>
     </u:Shell>
 </mvc:View>
