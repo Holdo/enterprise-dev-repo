@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.service.processing.entity;
 
-import cz.muni.fi.pb138.enumtype.FileType;
-import cz.muni.fi.pb138.enumtype.MetaFileType;
+import cz.muni.fi.pb138.enums.FileType;
+import cz.muni.fi.pb138.enums.MetaFileType;
 import cz.muni.fi.pb138.service.processing.entity.war.WarMeta;
 
 import javax.xml.bind.JAXBContext;

@@ -1,4 +1,4 @@
-package cz.muni.fi.pb138.enumtype;
+package cz.muni.fi.pb138.enums;
 
 /**
  *
@@ -8,10 +8,7 @@ public enum MetaFileType {
     WEBXML("web.xml");
     private final String text;
 
-    /**
-     * @param text
-     */
-    private MetaFileType(final String text) {
+    MetaFileType(final String text) {
         this.text = text;
     }
 

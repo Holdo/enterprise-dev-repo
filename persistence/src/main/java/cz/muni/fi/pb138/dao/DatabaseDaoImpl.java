@@ -21,6 +21,11 @@ public class DatabaseDaoImpl implements DatabaseDao {
 	public String createDatabase(String name) throws IOException {
 		return new CreateDB(name).execute(dbCtx.getContext());
 	}
+
+	public String checkDatabase(String name) throws IOException {
+		return new Check(name).execute(dbCtx.getContext());
+	}
+
 	public String openDatabase(String name) throws IOException {
 		return new Open(name).execute(dbCtx.getContext());
 	}

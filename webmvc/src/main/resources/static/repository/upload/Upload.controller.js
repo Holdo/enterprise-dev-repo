@@ -70,8 +70,9 @@ sap.ui.define([
                 var projectName = jsonModel.getProperty("/projectName");
                 var ws = new WebSocket("ws://" + document.location.host + "/websocket/binary/" + projectName + "/" + fileName);
                 ws.onopen = function () {
-                    MessageToast.show("Websocket has been opened to " + projectName);
                     ws.send(arrayBuffer);
+                    ws.close();
+                    MessageToast.show("Artifact uploaded");
                 };
             });
         }

@@ -1,12 +1,11 @@
 package cz.muni.fi.pb138.webmvc.cz.muni.fi.pb138.webmvc.test;
 
-import cz.muni.fi.pb138.enumtype.MetaFileType;
+import cz.muni.fi.pb138.enums.MetaFileType;
 import cz.muni.fi.pb138.api.*;
 import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.service.processing.entity.MetaFilePathVersionTriplet;
 import cz.muni.fi.pb138.webmvc.AbstractIntegrationTest;
 import org.apache.commons.io.IOUtils;
-import org.basex.BaseXServer;
 import org.junit.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.SAXException;
@@ -19,8 +18,8 @@ import java.util.zip.DataFormatException;
 
 public class MetaServiceTests extends AbstractIntegrationTest {
 
-	private final String FILE_DATABASE_NAME = "artifacts";
-	private final String META_DATABASE_NAME = "metadata";
+	private final String FILE_DATABASE_NAME = "artifacts_test";
+	private final String META_DATABASE_NAME = "metadata_test";
 
 	@Autowired
 	private FileService fileService;
@@ -30,18 +29,6 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 
 	@Autowired
 	private DatabaseDao databaseDao;
-
-	@BeforeClass
-	public static void setUp() {
-		BaseXServer.main(new String[]{});
-
-	}
-
-	@AfterClass
-	public static void tearDown() throws IOException {
-		BaseXServer.stop("localhost", 1984);
-	}
-
 
 	@Before
 	public void createDatabase() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
@@ -83,14 +70,11 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 
 	@Test
 	public void  getAllMetaFilesByMetaFileTypeTest(){}*/
+
 	@Test
-	@Ignore //TODO please fix
+	@Ignore
 	public void getMetaFileByFileFullPathVersionedTest() throws IOException {
-
-		byte[] versionOneReference = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("web.xml"));
-		byte[] versionTwoReference = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("web2.xml"));
-
-		Assert.assertFalse(Arrays.equals(versionOneReference, versionTwoReference));
+		byte[] reference = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("web.xml"));
 
 		MetaFilePathVersionTriplet readWebxmlShouldBeVersion2 = metaService.getMetaFileByFileFullPath(MetaFileType.WEBXML, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
 		MetaFilePathVersionTriplet readWebxmlShouldBeVersion2Too = metaService.getMetaFileByFileFullPathAndVersion(MetaFileType.WEBXML, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", 2);
@@ -100,9 +84,9 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 		Assert.assertNotNull(readWebxmlShouldBeVersion2);
 		Assert.assertNotNull(readWebxmlShouldBeVersion2Too);
 
-		Assert.assertTrue(Arrays.equals(versionOneReference, readWebxmlShouldBeVersion1.getFile()));
-		Assert.assertTrue(Arrays.equals(versionTwoReference, readWebxmlShouldBeVersion2.getFile()));
-		Assert.assertTrue(Arrays.equals(versionTwoReference, readWebxmlShouldBeVersion2Too.getFile()));
+		Assert.assertTrue(Arrays.equals(reference, readWebxmlShouldBeVersion1.getFile()));
+		Assert.assertTrue(Arrays.equals(reference, readWebxmlShouldBeVersion2.getFile()));
+		Assert.assertTrue(Arrays.equals(reference, readWebxmlShouldBeVersion2Too.getFile()));
 	}
 
    /* @Test

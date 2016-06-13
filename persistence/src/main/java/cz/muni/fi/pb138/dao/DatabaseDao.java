@@ -11,11 +11,22 @@ import java.io.IOException;
 public interface DatabaseDao {
 	/**
 	 * Creates databease
-	 * @param name
-	 * @return
+	 *
+	 * @param name of the database
+	 * @return result
 	 * @throws IOException
      */
-	public String createDatabase(String name) throws IOException;
+	String createDatabase(String name) throws IOException;
+
+	/**
+	 * Creates or opens database
+	 *
+	 * @param name of the database
+	 * @return result
+	 * @throws IOException
+	 */
+	String checkDatabase(String name) throws IOException;
+
 	/**
 	 * Opens database
 	 *

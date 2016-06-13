@@ -1,4 +1,4 @@
-package cz.muni.fi.pb138.enumtype;
+package cz.muni.fi.pb138.enums;
 
 /**
  *
@@ -6,12 +6,10 @@ package cz.muni.fi.pb138.enumtype;
  */
 public enum FileType {
     WAR(".war"), XSD(".xsd"), WSDL(".wsdl");
+
     private final String text;
 
-    /**
-     * @param text
-     */
-    private FileType(final String text) {
+    FileType(final String text) {
         this.text = text;
     }
 

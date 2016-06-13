@@ -4,7 +4,6 @@ import cz.muni.fi.pb138.api.FileService;
 import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.webmvc.AbstractIntegrationTest;
 import org.apache.commons.io.IOUtils;
-import org.basex.BaseXServer;
 import org.junit.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,25 +14,14 @@ import java.io.IOException;
  */
 public class DatabaseIOTests extends AbstractIntegrationTest {
 
-	private final String FILE_DATABASE_NAME = "artifacts";
-	private final String META_DATABASE_NAME = "metadata";
+	private final String FILE_DATABASE_NAME = "artifacts_test";
+	private final String META_DATABASE_NAME = "metadata_test";
 
 	@Autowired
 	private FileService fileService;
 
 	@Autowired
 	private DatabaseDao databaseDao;
-
-	@BeforeClass
-	public static void setUp() {
-		BaseXServer.main(new String[]{});
-
-	}
-
-	@AfterClass
-	public static void tearDown() throws IOException {
-		BaseXServer.stop("localhost", 1984);
-	}
 
 	@Before
 	public void createDatabase() throws IOException {

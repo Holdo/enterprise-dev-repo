@@ -1,6 +1,6 @@
 package cz.muni.fi.pb138.service.processing;
 
-import cz.muni.fi.pb138.enumtype.FileType;
+import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by gasior on 14.05.2016.
+ * Created by gasior on 14.05.2016
  */
 @Service
 public class PathFinder {

@@ -39,7 +39,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.boot.version}</version>
                 <configuration>
-                    <mainClass>cz.muni.fi.pb138.webmvc.UndertowApplication</mainClass>
+                    <mainClass>cz.muni.fi.pb138.webmvc.RepositoryApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>

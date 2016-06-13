@@ -1,8 +1,8 @@
 package cz.muni.fi.pb138.service;
 
-import cz.muni.fi.pb138.enumtype.FileType;
-import cz.muni.fi.pb138.enumtype.MetaFileType;
-import cz.muni.fi.pb138.enumtype.MetaParameterType;
+import cz.muni.fi.pb138.enums.FileType;
+import cz.muni.fi.pb138.enums.MetaFileType;
+import cz.muni.fi.pb138.enums.MetaParameterType;
 import cz.muni.fi.pb138.api.*;
 import cz.muni.fi.pb138.dao.BinaryDao;
 import cz.muni.fi.pb138.dao.DatabaseDao;
@@ -12,6 +12,7 @@ import cz.muni.fi.pb138.service.processing.PathFinder;
 import cz.muni.fi.pb138.service.processing.entity.MetaFilePathVersionTriplet;
 import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -38,8 +39,11 @@ public class MetaServiceImpl implements MetaService {
     @Autowired
     private FileService fileService;
 
-    public final String FILE_DATABASE_NAME = "artifacts";
-    public final String META_DATABASE_NAME = "metadata";
+    @Value("${cz.muni.fi.pb138.xml-db-name}")
+    private String XML_DATABASE_NAME;
+
+    @Value("${cz.muni.fi.pb138.meta-db-name}")
+    private String META_DATABASE_NAME;
 
     @Override
     public List<PathVersionPair> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String namespace, String parameterName) throws IOException {

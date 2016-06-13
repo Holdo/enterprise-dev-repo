@@ -1,4 +1,4 @@
-package cz.muni.fi.pb138.enumtype;
+package cz.muni.fi.pb138.enums;
 
 /**
  *
