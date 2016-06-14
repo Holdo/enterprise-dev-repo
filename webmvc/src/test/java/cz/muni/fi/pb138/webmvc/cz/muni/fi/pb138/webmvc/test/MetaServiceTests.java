@@ -1,13 +1,10 @@
 package cz.muni.fi.pb138.webmvc.cz.muni.fi.pb138.webmvc.test;
 
 import cz.muni.fi.pb138.enums.MetaFileType;
-import cz.muni.fi.pb138.api.*;
-import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.service.processing.entity.MetaFilePathVersionTriplet;
 import cz.muni.fi.pb138.webmvc.AbstractIntegrationTest;
 import org.apache.commons.io.IOUtils;
 import org.junit.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
@@ -18,21 +15,9 @@ import java.util.zip.DataFormatException;
 
 public class MetaServiceTests extends AbstractIntegrationTest {
 
-	private final String FILE_DATABASE_NAME = "artifacts_test";
-	private final String META_DATABASE_NAME = "metadata_test";
-
-	@Autowired
-	private FileService fileService;
-
-	@Autowired
-	private MetaService metaService;
-
-	@Autowired
-	private DatabaseDao databaseDao;
-
 	@Before
 	public void createDatabase() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
-		databaseDao.createDatabase(FILE_DATABASE_NAME);
+		databaseDao.createDatabase(XML_DATABASE_NAME);
 		databaseDao.createDatabase(META_DATABASE_NAME);
 
 		byte[] fileXsd1 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
@@ -56,7 +41,7 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 
 	@After
 	public void dropDatabase() throws IOException {
-		databaseDao.dropDatabase(FILE_DATABASE_NAME);
+		databaseDao.dropDatabase(XML_DATABASE_NAME);
 		databaseDao.dropDatabase(META_DATABASE_NAME);
 	}
 
@@ -72,7 +57,7 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 	public void  getAllMetaFilesByMetaFileTypeTest(){}*/
 
 	@Test
-	@Ignore
+	@Ignore //TODO fixme
 	public void getMetaFileByFileFullPathVersionedTest() throws IOException {
 		byte[] reference = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("web.xml"));
 

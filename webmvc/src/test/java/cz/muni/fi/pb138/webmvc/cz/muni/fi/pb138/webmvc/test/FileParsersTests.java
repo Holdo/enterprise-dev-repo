@@ -1,7 +1,6 @@
 package cz.muni.fi.pb138.webmvc.cz.muni.fi.pb138.webmvc.test;
 
 import cz.muni.fi.pb138.enums.MetaFileType;
-import cz.muni.fi.pb138.service.processing.FileProcessor;
 import cz.muni.fi.pb138.service.processing.entity.WarFile;
 import cz.muni.fi.pb138.service.processing.entity.WsdlFile;
 import cz.muni.fi.pb138.service.processing.entity.XsdFile;
@@ -9,7 +8,6 @@ import cz.muni.fi.pb138.webmvc.AbstractIntegrationTest;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 
@@ -17,10 +15,6 @@ import java.io.File;
  * Created by gasior on 15.05.2016
  */
 public class FileParsersTests extends AbstractIntegrationTest {
-
-
-	@Autowired
-	private FileProcessor fileProcessor;
 
 	@Test
 	public void wsdlParserTest() throws Exception {

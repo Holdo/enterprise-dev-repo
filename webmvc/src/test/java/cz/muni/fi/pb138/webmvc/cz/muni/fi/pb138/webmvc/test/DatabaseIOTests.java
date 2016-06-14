@@ -14,9 +14,6 @@ import java.io.IOException;
  */
 public class DatabaseIOTests extends AbstractIntegrationTest {
 
-	private final String FILE_DATABASE_NAME = "artifacts_test";
-	private final String META_DATABASE_NAME = "metadata_test";
-
 	@Autowired
 	private FileService fileService;
 
@@ -25,13 +22,13 @@ public class DatabaseIOTests extends AbstractIntegrationTest {
 
 	@Before
 	public void createDatabase() throws IOException {
-		databaseDao.createDatabase(FILE_DATABASE_NAME);
+		databaseDao.createDatabase(XML_DATABASE_NAME);
 		databaseDao.createDatabase(META_DATABASE_NAME);
 	}
 
 	@After
 	public void dropDatabase() throws IOException {
-		databaseDao.dropDatabase(FILE_DATABASE_NAME);
+		databaseDao.dropDatabase(XML_DATABASE_NAME);
 		databaseDao.dropDatabase(META_DATABASE_NAME);
 	}
 

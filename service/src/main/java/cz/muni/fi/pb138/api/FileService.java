@@ -24,12 +24,14 @@ public interface FileService {
      * @throws java.io.IOException
      */
     void saveFile(String fullPath, byte[] fileBytes) throws IOException, SAXException, ParserConfigurationException, DataFormatException, JAXBException;
+
     /**
      * 
      * @param fullPath - fullpath to file (namespace/file.xxx)
      * @throws java.io.IOException
      */
     void deleteFile(String fullPath) throws IOException ;
+
     /**
      * 
      * @param fullPath - fullpath to file (namespace/file.xxx)
@@ -37,6 +39,7 @@ public interface FileService {
      * @throws java.io.IOException
      */
     void deleteFile(String fullPath, int version) throws IOException ;
+
     /**
      * 
      * @param fullPath - fullpath to file (namespace/file.xxx)
@@ -44,6 +47,7 @@ public interface FileService {
      * @throws java.io.IOException
      */
     byte[] getFileByFullPath(String fullPath)  throws IOException;
+
     /**
      * 
      * @param fullPath - fullpath to file (namespace/file.xxx)
@@ -52,14 +56,24 @@ public interface FileService {
      * @throws java.io.IOException
      */
     byte[] getFileByFullPathAndVersion(String fullPath, int version) throws IOException;
+
+    /**
+     *
+     * @param namespace - "/" for ALL, specify namaspace to filter
+     * @return files as PathVersionPair
+     * @throws java.io.IOException
+     */
+    List<PathVersionPair> getAllFiles(String namespace) throws IOException;
+
     /**
      * 
      * @param fileType - One of supported file types like WAR, XSD, WSDL
      * @param namespace - "/" for ALL, specify namaspace to filter 
-     * @return files as byte array
+     * @return files as PathVersionPair
      * @throws java.io.IOException 
      */
     List<PathVersionPair> getAllFilesByFileType(FileType fileType, String namespace) throws IOException;
+
     /**
      * 
      * @param fullPath - fullpath to file (namespace/file.xxx)

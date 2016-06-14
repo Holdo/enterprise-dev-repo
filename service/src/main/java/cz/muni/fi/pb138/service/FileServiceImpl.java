@@ -7,7 +7,7 @@ import cz.muni.fi.pb138.dao.BinaryDao;
 import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.dao.DocumentDao;
 import cz.muni.fi.pb138.service.processing.FileProcessor;
-import cz.muni.fi.pb138.service.processing.PathFinder;
+import cz.muni.fi.pb138.service.processing.PathParser;
 import cz.muni.fi.pb138.service.processing.entity.*;
 
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class FileServiceImpl implements FileService {
 	@Autowired
 	private FileProcessor fileProcessor;
 	@Autowired
-	private PathFinder pathFinder;
+	private PathParser pathFinder;
 
 	@Value("${cz.muni.fi.pb138.xml-db-name}")
 	private String XML_DATABASE_NAME;
@@ -150,6 +150,14 @@ public class FileServiceImpl implements FileService {
 
 		databaseDao.closeDatabase();
 		return pathFinder.getAllVersions(fullPath, list);
+	}
+
+	@Override
+	public List<PathVersionPair> getAllFiles(String namespace) throws IOException {
+		databaseDao.openDatabase(XML_DATABASE_NAME);
+		String list = databaseDao.listDirectory(XML_DATABASE_NAME, namespace);
+		databaseDao.closeDatabase();
+		return pathFinder.getAllFiles(list, namespace);
 	}
 
 	@Override
