@@ -50,7 +50,6 @@ public class FileServiceTests extends AbstractIntegrationTest {
 
 	@Test(expected = BaseXException.class)
 	public void deleteFileTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
-
 		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
 		byte[] file2 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test2.xsd"));
 
@@ -75,7 +74,6 @@ public class FileServiceTests extends AbstractIntegrationTest {
 
 	@Test
 	public void getFileVersionsTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
-
 		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
 
 		fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
@@ -96,10 +94,7 @@ public class FileServiceTests extends AbstractIntegrationTest {
 	}
 
 	@Test
-	@Ignore //TODO fixme
 	public void getAllFilesByFileTypeTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
-
-
 		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
 		byte[] file2 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.wsdl"));
 		byte[] file3 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.war"));
@@ -130,32 +125,32 @@ public class FileServiceTests extends AbstractIntegrationTest {
 		Assert.assertTrue(wars.size() == 4);
 		Assert.assertTrue(wsdls.size() == 4);
 
-		for (PathVersionPair p : all) {
-			System.err.println(p.getFullPath() + " version " + p.getVersion());
-		}
-
-
 		int i = 1;
+		int j = 0;
 		for (PathVersionPair p : all) {
-			Assert.assertTrue(!p.getFullPath().startsWith("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.") && p.getVersion() != i);
-			i++;
+			Assert.assertTrue(p.getFullPath().startsWith("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.") && p.getVersion() == i);
+			j++;
+			if (j == 3) {
+				j = 0;
+				i++;
+			}
 		}
 
 		i = 1;
 		for (PathVersionPair p : xsds) {
-			Assert.assertTrue(!p.getFullPath().equals("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd") && p.getVersion() != i);
+			Assert.assertTrue(p.getFullPath().equals("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd") && p.getVersion() == i);
 			i++;
 		}
 
 		i = 1;
 		for (PathVersionPair p : wars) {
-			Assert.assertTrue(!p.getFullPath().equals("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war") && p.getVersion() != i);
+			Assert.assertTrue(p.getFullPath().equals("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war") && p.getVersion() == i);
 			i++;
 		}
 
 		i = 1;
 		for (PathVersionPair p : wsdls) {
-			Assert.assertTrue(!p.getFullPath().equals("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl") && p.getVersion() != i);
+			Assert.assertTrue(p.getFullPath().equals("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl") && p.getVersion() == i);
 			i++;
 		}
 	}

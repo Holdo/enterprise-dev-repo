@@ -75,7 +75,6 @@ public class PathParser {
 	public List<PathVersionPair> getAllFiles(String files, String namespace) {
 		List<PathVersionPair> output = new ArrayList<>();
 
-		String suffix = "";
 		String[] paths = files.split("\n");
 		String noSuffix = namespace;
 		if (noSuffix.equals("/")) noSuffix = "";
@@ -86,7 +85,6 @@ public class PathParser {
 			if (x.startsWith(noSuffix)) {
 				for (FileType fileType : FileType.values()) {
 					if (x.endsWith(fileType.toString())) {
-						suffix = fileType.toString();
 						filteredPaths.add(x);
 						break;
 					}
@@ -97,9 +95,9 @@ public class PathParser {
 		for (String p : filteredPaths) {
 			if (p.startsWith(noSuffix)) {
 				String x = p.substring(p.lastIndexOf("_") + 1);
-				String y = x.split("\\.")[0];
-				String path = p.substring(0, p.lastIndexOf("_")) + suffix;
-				output.add(new PathVersionPair(path, Integer.valueOf(y)));
+				String[] dotSplit = x.split("\\.");
+				String path = p.substring(0, p.lastIndexOf("_")) + "." + dotSplit[dotSplit.length - 1];
+				output.add(new PathVersionPair(path, Integer.valueOf(dotSplit[0])));
 			}
 		}
 
@@ -124,9 +122,9 @@ public class PathParser {
 		for (String p : filteredPaths) {
 			if (p.startsWith(noSuffix)) {
 				String x = p.substring(p.lastIndexOf("_") + 1);
-				String y = x.split("\\.")[0];
+				String version = x.split("\\.")[0];
 				String path = p.substring(0, p.lastIndexOf("_")) + suffix;
-				output.add(new PathVersionPair(path, Integer.valueOf(y)));
+				output.add(new PathVersionPair(path, Integer.valueOf(version)));
 			}
 		}
 
