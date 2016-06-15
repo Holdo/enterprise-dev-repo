@@ -1,7 +1,7 @@
-package cz.muni.fi.pb138.service.processing.entity.xsd;
+package cz.muni.fi.pb138.entity.xsd;
 
 import cz.muni.fi.pb138.enums.FileType;
-import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
+import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 

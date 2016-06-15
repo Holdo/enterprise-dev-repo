@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.service.processing;
 
-import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
-import cz.muni.fi.pb138.service.processing.entity.WsdlFile;
+import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
+import cz.muni.fi.pb138.entity.wsdl.WsdlFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;

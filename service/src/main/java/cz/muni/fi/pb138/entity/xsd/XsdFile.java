@@ -1,8 +1,9 @@
-package cz.muni.fi.pb138.service.processing.entity;
+package cz.muni.fi.pb138.entity.xsd;
 
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
-import cz.muni.fi.pb138.service.processing.entity.xsd.XsdMeta;
+import cz.muni.fi.pb138.entity.FileBase;
+import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

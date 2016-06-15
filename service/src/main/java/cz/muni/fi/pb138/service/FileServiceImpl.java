@@ -1,6 +1,7 @@
 package cz.muni.fi.pb138.service;
 
 import cz.muni.fi.pb138.api.FileService;
+import cz.muni.fi.pb138.entity.FileBase;
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
 import cz.muni.fi.pb138.dao.BinaryDao;
@@ -8,12 +9,15 @@ import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.dao.DocumentDao;
 import cz.muni.fi.pb138.service.processing.FileProcessor;
 import cz.muni.fi.pb138.service.processing.PathParser;
-import cz.muni.fi.pb138.service.processing.entity.*;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.zip.DataFormatException;
 
+import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
+import cz.muni.fi.pb138.entity.war.WarFile;
+import cz.muni.fi.pb138.entity.wsdl.WsdlFile;
+import cz.muni.fi.pb138.entity.xsd.XsdFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

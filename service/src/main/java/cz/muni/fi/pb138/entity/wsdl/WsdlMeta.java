@@ -1,7 +1,7 @@
-package cz.muni.fi.pb138.service.processing.entity.wsdl;
+package cz.muni.fi.pb138.entity.wsdl;
 
+import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
 import cz.muni.fi.pb138.enums.FileType;
-import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;

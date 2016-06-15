@@ -1,6 +1,6 @@
 package cz.muni.fi.pb138.service.processing;
 
-import cz.muni.fi.pb138.service.processing.entity.FileBase;
+import cz.muni.fi.pb138.entity.FileBase;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;

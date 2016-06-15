@@ -3,8 +3,8 @@ package cz.muni.fi.pb138.api;
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
 import cz.muni.fi.pb138.enums.MetaParameterType;
-import cz.muni.fi.pb138.service.processing.entity.MetaFilePathVersionTriplet;
-import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
+import cz.muni.fi.pb138.entity.metadata.MetaFilePathVersionTriplet;
+import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
 import java.io.IOException;
 import java.util.List;
 

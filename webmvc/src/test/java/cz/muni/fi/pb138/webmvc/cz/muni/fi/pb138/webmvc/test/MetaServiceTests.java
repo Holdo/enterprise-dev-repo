@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.webmvc.cz.muni.fi.pb138.webmvc.test;
 
 import cz.muni.fi.pb138.enums.MetaFileType;
-import cz.muni.fi.pb138.service.processing.entity.MetaFilePathVersionTriplet;
+import cz.muni.fi.pb138.entity.metadata.MetaFilePathVersionTriplet;
 import cz.muni.fi.pb138.webmvc.AbstractIntegrationTest;
 import org.apache.commons.io.IOUtils;
 import org.junit.*;

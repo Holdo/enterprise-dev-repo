@@ -1,4 +1,4 @@
-package cz.muni.fi.pb138.service.xquery;
+package cz.muni.fi.pb138.xquery;
 
 /**
  * @author Peter Hutta

@@ -1,9 +1,9 @@
 package cz.muni.fi.pb138.webmvc.cz.muni.fi.pb138.webmvc.test;
 
 import cz.muni.fi.pb138.enums.MetaFileType;
-import cz.muni.fi.pb138.service.processing.entity.WarFile;
-import cz.muni.fi.pb138.service.processing.entity.WsdlFile;
-import cz.muni.fi.pb138.service.processing.entity.XsdFile;
+import cz.muni.fi.pb138.entity.war.WarFile;
+import cz.muni.fi.pb138.entity.wsdl.WsdlFile;
+import cz.muni.fi.pb138.entity.xsd.XsdFile;
 import cz.muni.fi.pb138.webmvc.AbstractIntegrationTest;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;

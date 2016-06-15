@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.service.processing;
 
 import cz.muni.fi.pb138.dao.BinaryDao;
-import cz.muni.fi.pb138.service.processing.entity.FileBase;
+import cz.muni.fi.pb138.entity.FileBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;

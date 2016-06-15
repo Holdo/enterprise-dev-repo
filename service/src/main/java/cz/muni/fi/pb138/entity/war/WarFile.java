@@ -1,8 +1,9 @@
-package cz.muni.fi.pb138.service.processing.entity;
+package cz.muni.fi.pb138.entity.war;
 
+import cz.muni.fi.pb138.entity.FileBase;
+import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
-import cz.muni.fi.pb138.service.processing.entity.war.WarMeta;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

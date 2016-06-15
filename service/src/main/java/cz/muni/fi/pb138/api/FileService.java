@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.api;
 
 import cz.muni.fi.pb138.enums.FileType;
-import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
+import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
 import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;

@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.webmvc.cz.muni.fi.pb138.webmvc.test;
 
 import cz.muni.fi.pb138.enums.FileType;
-import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
+import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
 import cz.muni.fi.pb138.webmvc.AbstractIntegrationTest;
 import org.apache.commons.io.IOUtils;
 import org.basex.core.BaseXException;

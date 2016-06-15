@@ -1,8 +1,8 @@
 package cz.muni.fi.pb138.service.processing;
 
 import cz.muni.fi.pb138.enums.MetaFileType;
-import cz.muni.fi.pb138.service.processing.entity.PathVersionPair;
-import cz.muni.fi.pb138.service.processing.entity.WarFile;
+import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
+import cz.muni.fi.pb138.entity.war.WarFile;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;

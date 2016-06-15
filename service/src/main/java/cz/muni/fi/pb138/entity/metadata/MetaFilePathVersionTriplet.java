@@ -1,22 +1,23 @@
-package cz.muni.fi.pb138.service.processing.entity;
+package cz.muni.fi.pb138.entity.metadata;
 
 /**
  *
  * @author gasior
  */
-public class PathVersionPair {
+public class MetaFilePathVersionTriplet {
     
     private String fullPath;
+    private byte[] file;
     private int version;
 
-    public PathVersionPair(String fullPath, int version) {
+    public MetaFilePathVersionTriplet(String fullPath, byte[] file, int version) {
         this.fullPath = fullPath;
+        this.file = file;
         this.version = version;
     }
 
-    public PathVersionPair(String fullPath) {
-        this.fullPath = fullPath;
-        this.version = 1;
+    public MetaFilePathVersionTriplet() {
+
     }
 
     public String getFullPath() {
@@ -27,6 +28,14 @@ public class PathVersionPair {
         this.fullPath = fullPath;
     }
 
+    public byte[] getFile() {
+        return file;
+    }
+
+    public void setFile(byte[] file) {
+        this.file = file;
+    }
+
     public int getVersion() {
         return version;
     }
@@ -34,6 +43,6 @@ public class PathVersionPair {
     public void setVersion(int version) {
         this.version = version;
     }
-
-
+    
+    
 }

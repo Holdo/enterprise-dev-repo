@@ -1,4 +1,4 @@
-package cz.muni.fi.pb138.service.processing.entity;
+package cz.muni.fi.pb138.entity;
 
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
