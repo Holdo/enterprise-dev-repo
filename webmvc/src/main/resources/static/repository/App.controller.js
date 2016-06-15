@@ -11,6 +11,9 @@ sap.ui.define([
         onInit : function () {
             sap.ui.getCore().AppContext = {};
         },
+        onAfterRendering : function () {
+            $("body").fadeIn("slow");
+        },
         handleLogoffPress : function () {
             //window.location.href = "/secured/logout";
         },

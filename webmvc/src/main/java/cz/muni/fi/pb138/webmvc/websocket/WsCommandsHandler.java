@@ -51,8 +51,9 @@ public class WsCommandsHandler extends TextWebSocketHandler {
 		try {
 			returnedObject = wsCommands.getClass().getMethod(command, Map.class).invoke(wsCommands, args);
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new UnknownWebSocketCommandException("Command " + command + " does not exist.", e);
+			UnknownWebSocketCommandException uwsce = new UnknownWebSocketCommandException("Command " + command + " does not exist.", e);
+			log.error("Exception during websocket command execution handling.", uwsce);
+			throw uwsce;
 		}
 		log.debug("Returning object " + returnedObject);
 		return returnedObject;
