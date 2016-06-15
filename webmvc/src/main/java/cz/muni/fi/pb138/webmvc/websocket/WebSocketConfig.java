@@ -14,13 +14,19 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(wsBinaryFileHandler(), "/websocket/binary/**");
+		registry.addHandler(wsBinaryFileHandler(), "/websocket/binary/**")
+				.addHandler(wsCommandsHandler(), "websocket/command/*");
 				//.addInterceptors(new HttpSessionHandshakeInterceptor());
 	}
 
 	@Bean
 	public WebSocketHandler wsBinaryFileHandler() {
 		return new WSBinaryFileHandler();
+	}
+
+	@Bean
+	public WebSocketHandler wsCommandsHandler() {
+		return new WsCommandsHandler();
 	}
 
 }

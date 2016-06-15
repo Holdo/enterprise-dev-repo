@@ -71,7 +71,7 @@ public class MetaServiceImpl implements MetaService {
         List<MetaFilePathVersionTriplet> output = new ArrayList<>();
         databaseDao.openDatabase(META_DATABASE_NAME);
         if(metaFileType == MetaFileType.WEBXML) {
-            for (PathVersionPair path : fileService.getAllFilesByFileType(FileType.WAR, namespace)) {
+            for (PathVersionPair path : fileService.listAllFilesByFileType(FileType.WAR, namespace)) {
                 MetaFilePathVersionTriplet triplet = new MetaFilePathVersionTriplet();
                 byte[] metaFile = binaryDao.retrieveBinaryFile(pathFinder.getVersionedPath(path.getVersion(),path.getFullPath(),FileType.WAR)+metaFileType.name());
                 triplet.setVersion(path.getVersion());

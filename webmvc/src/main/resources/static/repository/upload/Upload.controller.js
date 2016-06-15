@@ -71,7 +71,6 @@ sap.ui.define([
                 var ws = new WebSocket("ws://" + document.location.host + "/websocket/binary/" + projectName + "/" + fileName);
                 ws.onopen = function () {
                     ws.send(arrayBuffer);
-                    ws.close();
                     MessageToast.show("Artifact uploaded");
                 };
             });

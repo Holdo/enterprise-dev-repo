@@ -63,16 +63,16 @@ public interface FileService {
      * @return files as PathVersionPair
      * @throws java.io.IOException
      */
-    List<PathVersionPair> getAllFiles(String namespace) throws IOException;
+    List<PathVersionPair> listAllFiles(String namespace) throws IOException;
 
     /**
      * 
      * @param fileType - One of supported file types like WAR, XSD, WSDL
-     * @param namespace - "/" for ALL, specify namaspace to filter 
+     * @param namespace - "/" for ALL, specify namaspace to filter
      * @return files as PathVersionPair
      * @throws java.io.IOException 
      */
-    List<PathVersionPair> getAllFilesByFileType(FileType fileType, String namespace) throws IOException;
+    List<PathVersionPair> listAllFilesByFileType(FileType fileType, String namespace) throws IOException;
 
     /**
      * 
@@ -80,5 +80,5 @@ public interface FileService {
      * @return - versions of fullpath specified file
      * @throws java.io.IOException
      */
-    List<Integer> getFileVersions(String fullPath) throws IOException;
+    List<Integer> listFileVersions(String fullPath) throws IOException;
 }

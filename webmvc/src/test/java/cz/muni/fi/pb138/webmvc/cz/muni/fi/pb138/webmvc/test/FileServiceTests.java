@@ -73,7 +73,7 @@ public class FileServiceTests extends AbstractIntegrationTest {
 	}
 
 	@Test
-	public void getFileVersionsTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
+	public void listFileVersionsTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
 		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
 
 		fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
@@ -82,13 +82,13 @@ public class FileServiceTests extends AbstractIntegrationTest {
 		fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
 
 
-		List<Integer> versions = fileService.getFileVersions("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+		List<Integer> versions = fileService.listFileVersions("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
 		Assert.assertTrue(versions.contains(1) && versions.contains(3) && versions.contains(2) && versions.contains(4));
 
 		fileService.deleteFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
 		fileService.deleteFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", 2);
 
-		versions = fileService.getFileVersions("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+		versions = fileService.listFileVersions("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
 		Assert.assertTrue(versions.contains(1) && versions.contains(3) && !versions.contains(2) && !versions.contains(4));
 
 	}
@@ -115,10 +115,10 @@ public class FileServiceTests extends AbstractIntegrationTest {
 		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", file3);
 
 
-		List<PathVersionPair> all = fileService.getAllFiles("/");
-		List<PathVersionPair> xsds = fileService.getAllFilesByFileType(FileType.XSD, "/src");
-		List<PathVersionPair> wsdls = fileService.getAllFilesByFileType(FileType.WSDL, "src");
-		List<PathVersionPair> wars = fileService.getAllFilesByFileType(FileType.WAR, "/");
+		List<PathVersionPair> all = fileService.listAllFiles("/");
+		List<PathVersionPair> xsds = fileService.listAllFilesByFileType(FileType.XSD, "/src");
+		List<PathVersionPair> wsdls = fileService.listAllFilesByFileType(FileType.WSDL, "src");
+		List<PathVersionPair> wars = fileService.listAllFilesByFileType(FileType.WAR, "/");
 
 		Assert.assertTrue(all.size() == 12);
 		Assert.assertTrue(xsds.size() == 4);

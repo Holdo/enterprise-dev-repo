@@ -148,7 +148,7 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public List<Integer> getFileVersions(String fullPath) throws IOException {
+	public List<Integer> listFileVersions(String fullPath) throws IOException {
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf("/")));
 
@@ -157,7 +157,7 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public List<PathVersionPair> getAllFiles(String namespace) throws IOException {
+	public List<PathVersionPair> listAllFiles(String namespace) throws IOException {
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, namespace);
 		databaseDao.closeDatabase();
@@ -165,7 +165,7 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public List<PathVersionPair> getAllFilesByFileType(FileType fileType, String namespace) throws IOException {
+	public List<PathVersionPair> listAllFilesByFileType(FileType fileType, String namespace) throws IOException {
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, namespace);
 		databaseDao.closeDatabase();
