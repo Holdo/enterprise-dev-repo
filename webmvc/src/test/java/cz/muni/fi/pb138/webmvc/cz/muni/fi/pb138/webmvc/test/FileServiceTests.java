@@ -127,9 +127,9 @@ public class FileServiceTests extends AbstractIntegrationTest {
 
 		List<PathVersionPair> all = fileService.listAllFiles("/", true);
 		List<PathVersionPair> allLatest = fileService.listAllFiles("/", false);
-		List<PathVersionPair> xsds = fileService.listAllFilesByFileType(FileType.XSD, "/src");
-		List<PathVersionPair> wsdls = fileService.listAllFilesByFileType(FileType.WSDL, "src");
-		List<PathVersionPair> wars = fileService.listAllFilesByFileType(FileType.WAR, "/");
+		List<PathVersionPair> xsds = fileService.listAllFilesByFileType("/src", FileType.XSD, true);
+		List<PathVersionPair> wsdls = fileService.listAllFilesByFileType("src", FileType.WSDL, true);
+		List<PathVersionPair> wars = fileService.listAllFilesByFileType("/", FileType.WAR, true);
 
 		Assert.assertTrue(all.size() == 12);
 		Assert.assertTrue(allLatest.size() == 3);
@@ -160,7 +160,7 @@ public class FileServiceTests extends AbstractIntegrationTest {
 
 		i = 1;
 		for (PathVersionPair p : wars) {
-			Assert.assertTrue(p.getFullPath().equals("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war") && p.getVersion() == i);
+			Assert.assertTrue(p.getFullPath().equals(testWAR1fullPath) && p.getVersion() == i);
 			i++;
 		}
 

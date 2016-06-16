@@ -8,7 +8,7 @@ import cz.muni.fi.pb138.dao.BinaryDao;
 import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.dao.DocumentDao;
 import cz.muni.fi.pb138.service.processing.FileProcessor;
-import cz.muni.fi.pb138.service.processing.PathParser;
+import cz.muni.fi.pb138.service.processing.PathFinder;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,14 +45,14 @@ public class FileServiceImpl implements FileService {
 	@Autowired
 	private FileProcessor fileProcessor;
 	@Autowired
-	private PathParser pathFinder;
+	private PathFinder pathFinder;
 
 	@Value("${cz.muni.fi.pb138.xml-db-name}")
 	private String XML_DATABASE_NAME;
 
 	@Value("${cz.muni.fi.pb138.meta-db-name}")
 	private String META_DATABASE_NAME;
-	
+
 	private final String META_FILE_SUFFIX = ".xml";
 	private final String[] supportedFiles = {".war", ".xsd", ".wsdl"};
 
@@ -82,15 +82,15 @@ public class FileServiceImpl implements FileService {
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String vNamespace = fullPath.substring(0, fullPath.lastIndexOf("/") + 1);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, vNamespace);
-		int version = pathFinder.getLatestVersion(fullPath, list) + 1;
+		int version = pathFinder.getLatestVersion(list, fullPath) + 1;
 
 		file.setVersion(version);
-		String vPath = pathFinder.getVersionedPath(version, fullPath, file.getType());
+		String vPath = pathFinder.getVersionedPath(fullPath, version, file.getType());
 		binaryDao.saveBinaryFile(file.getFile(), vPath);
 		databaseDao.closeDatabase();
 
 		databaseDao.openDatabase(META_DATABASE_NAME);
-		documentDao.addDocument(file.getMeta(), pathFinder.getVersionedPath(version, fullPath, file.getType()) + META_FILE_SUFFIX);
+		documentDao.addDocument(file.getMeta(), pathFinder.getVersionedPath(fullPath, version, file.getType()) + META_FILE_SUFFIX);
 		for (MetaFileType type : file.getMetaFiles().keySet()) {
 			String metaFilePath = vPath + "." + type.toString();
 			binaryDao.saveBinaryFile(file.getMetaFiles().get(type), metaFilePath);
@@ -103,7 +103,7 @@ public class FileServiceImpl implements FileService {
 	public void deleteFile(String fullPath) throws IOException {
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf("/")));
-		int version = pathFinder.getLatestVersion(fullPath, list);
+		int version = pathFinder.getLatestVersion(list, fullPath);
 		databaseDao.closeDatabase();
 		deleteFile(fullPath, version);
 	}
@@ -114,7 +114,7 @@ public class FileServiceImpl implements FileService {
 			throw new IOException("Not existing version");
 		}
 		FileBase f = getFileInstance(fullPath, version);
-		String deletePath = pathFinder.getVersionedPath(version, fullPath, f.getType());
+		String deletePath = pathFinder.getVersionedPath(fullPath, version, f.getType());
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		databaseDao.deleteFileOrDirectory(deletePath);
 		databaseDao.closeDatabase();
@@ -131,7 +131,7 @@ public class FileServiceImpl implements FileService {
 	public byte[] getFileByFullPath(String fullPath) throws IOException {
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf("/")));
-		int version = pathFinder.getLatestVersion(fullPath, list);
+		int version = pathFinder.getLatestVersion(list, fullPath);
 		databaseDao.closeDatabase();
 		return getFileByFullPathAndVersion(fullPath, version);
 	}
@@ -140,7 +140,7 @@ public class FileServiceImpl implements FileService {
 	public byte[] getFileByFullPathAndVersion(String fullPath, int version) throws IOException {
 		log.debug("Retrieving binary file version {} at {}", version, fullPath);
 		FileBase f = getFileInstance(fullPath, version);
-		String path = pathFinder.getVersionedPath(version, fullPath, f.getType());
+		String path = pathFinder.getVersionedPath(fullPath, version, f.getType());
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		byte[] output = binaryDao.retrieveBinaryFile(path);
 		databaseDao.closeDatabase();
@@ -153,7 +153,7 @@ public class FileServiceImpl implements FileService {
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf("/")));
 
 		databaseDao.closeDatabase();
-		return pathFinder.getAllVersions(fullPath, list);
+		return pathFinder.getAllVersions(list, fullPath);
 	}
 
 	@Override
@@ -161,15 +161,15 @@ public class FileServiceImpl implements FileService {
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, namespace);
 		databaseDao.closeDatabase();
-		return pathFinder.getAllFiles(list, namespace, allVersions);
+		return pathFinder.parseFileList(list, namespace, allVersions, null);
 	}
 
 	@Override
-	public List<PathVersionPair> listAllFilesByFileType(FileType fileType, String namespace) throws IOException {
+	public List<PathVersionPair> listAllFilesByFileType(String namespace, FileType fileType, boolean allVersions) throws IOException {
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, namespace);
 		databaseDao.closeDatabase();
-		return pathFinder.getAllFilesByFileType(fileType, list, namespace);
+		return pathFinder.parseFileList(list, namespace, allVersions, fileType);
 	}
 
 	private FileBase getFileInstance(String fullPath, int version) throws IOException {
