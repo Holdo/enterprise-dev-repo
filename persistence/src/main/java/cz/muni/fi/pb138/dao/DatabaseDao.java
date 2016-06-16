@@ -75,6 +75,14 @@ public interface DatabaseDao {
 	String runXQuery(String xQuery, XQueryVariable... variables) throws BaseXException;
 
 	/**
+	 * Lists all available databases
+	 *
+	 * @return list of databases
+	 * @throws BaseXException
+	 */
+	String listDatabases() throws BaseXException;
+
+	/**
 	 * Lists files in specified database in specified path
 	 *
 	 * @param database to use

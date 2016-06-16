@@ -50,6 +50,10 @@ public class DatabaseDaoImpl implements DatabaseDao {
 		return xq.execute(dbCtx.getContext());
 	}
 
+	public String listDatabases() throws BaseXException {
+		return new List().execute(dbCtx.getContext());
+	}
+
 	public String listDirectory(String database, String path) throws BaseXException {
 		return new List(database, path).execute(dbCtx.getContext());
 	}
