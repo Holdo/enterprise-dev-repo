@@ -35,5 +35,22 @@ public class PathVersionPair {
         this.version = version;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PathVersionPair)) return false;
 
+        PathVersionPair that = (PathVersionPair) o;
+
+        if (getVersion() != that.getVersion()) return false;
+        return getFullPath().equals(that.getFullPath());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getFullPath().hashCode();
+        result = 31 * result + getVersion();
+        return result;
+    }
 }

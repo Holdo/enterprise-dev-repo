@@ -63,7 +63,7 @@ public interface FileService {
      * @return files as PathVersionPair
      * @throws java.io.IOException
      */
-    List<PathVersionPair> listAllFiles(String namespace) throws IOException;
+    List<PathVersionPair> listAllFiles(String namespace, boolean allVersions) throws IOException;
 
     /**
      * 

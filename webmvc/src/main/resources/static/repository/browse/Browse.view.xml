@@ -1,0 +1,14 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+          xmlns:u="sap.ui.unified" xmlns:core="sap.ui.core" controllerName='Repository.browse.Browse'>
+    <Panel width="auto" class="sapUiResponsiveMargin">
+        <content>
+            <VBox alignItems="Center" justifyContent="SpaceBetween">
+                <Text text="Artifact Upload Form" class="sapMH4FontSize"/>
+                <Text text="Here you can upload WAR, WSDL or XSD into the repository" class="sapUiTinyMarginTop"/>
+            </VBox>
+        </content>
+    </Panel>
+    <VBox alignItems="Center">
+
+    </VBox>
+</mvc:View>

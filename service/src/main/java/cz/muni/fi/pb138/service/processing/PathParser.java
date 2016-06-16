@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class PathParser {
 
-	public int getLastVersion(String fullPath, String files) {
+	public int getLatestVersion(String fullPath, String files) {
 		String suffix = fullPath.substring(fullPath.lastIndexOf("."));
 		String[] paths = files.split("\n");
 		String noSuffix = fullPath.substring(0, fullPath.lastIndexOf("."));
@@ -72,7 +72,7 @@ public class PathParser {
 		return output;
 	}
 
-	public List<PathVersionPair> getAllFiles(String files, String namespace) {
+	public List<PathVersionPair> getAllFiles(String files, String namespace, boolean allVersions) {
 		List<PathVersionPair> output = new ArrayList<>();
 
 		String[] paths = files.split("\n");
@@ -97,6 +97,10 @@ public class PathParser {
 				String x = p.substring(p.lastIndexOf("_") + 1);
 				String[] dotSplit = x.split("\\.");
 				String path = p.substring(0, p.lastIndexOf("_")) + "." + dotSplit[dotSplit.length - 1];
+				if (!allVersions) {
+					PathVersionPair previousVersion = new PathVersionPair(path, Integer.valueOf(dotSplit[0]) - 1);
+					if (output.contains(previousVersion)) output.remove(previousVersion);
+				}
 				output.add(new PathVersionPair(path, Integer.valueOf(dotSplit[0])));
 			}
 		}

@@ -17,7 +17,9 @@
       "tablet": true,
       "phone": true
     },
-    "supportedThemes": ["sap_bluecrystal"],
+    "supportedThemes": [
+      "sap_bluecrystal"
+    ],
     "fullWidth": true
   },
   "sap.ui5": {
@@ -26,7 +28,7 @@
     "dependencies": {
       "minUI5Version": "1.36.12",
       "libs": {
-        "sap.m": { }
+        "sap.m": {}
       }
     },
     "routing": {
@@ -41,28 +43,41 @@
           "target": "notFound"
         }
       },
-      "routes": [{
-        "pattern": "",
-        "name": "appHome",
-        "target": "home"
-      }, {
-        "pattern": "upload",
-        "name": "upload",
-        "target": "upload"
-      }],
+      "routes": [
+        {
+          "pattern": "",
+          "name": "appHome",
+          "target": "home"
+        },
+        {
+          "pattern": "browse",
+          "name": "browse",
+          "target": "browse"
+        },
+        {
+          "pattern": "upload",
+          "name": "upload",
+          "target": "upload"
+        }
+      ],
       "targets": {
         "home": {
           "viewName": "Launchpad",
-          "viewLevel" : 1
+          "viewLevel": 1
         },
         "notFound": {
           "viewName": "NotFound",
           "transition": "show"
         },
+        "browse": {
+          "viewPath": "Repository.browse",
+          "viewName": "Browse",
+          "viewLevel": 2
+        },
         "upload": {
           "viewPath": "Repository.upload",
           "viewName": "Upload",
-          "viewLevel" : 2
+          "viewLevel": 2
         }
       }
     }

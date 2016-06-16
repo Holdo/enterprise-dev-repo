@@ -17,6 +17,11 @@ sap.ui.define([
                         "title" : "Search"
                     },
                     {
+                        "icon" : "sap-icon://open-folder",
+                        "type" : "Monitor",
+                        "title" : "Browse"
+                    },
+                    {
                         "icon" : "sap-icon://upload-to-cloud",
                         "type" : "Monitor",
                         "title" : "Upload"
@@ -46,6 +51,9 @@ sap.ui.define([
                         console.log("Received: " + oEvent.data);
                     };
                     MessageToast.show("Search Tile Pressed");
+                    break;
+                case "Browse":
+                    this.getRouter().navTo("browse");
                     break;
                 case "Upload":
                     this.getRouter().navTo("upload");

@@ -19,6 +19,21 @@ import java.util.zip.DataFormatException;
  */
 public class FileServiceTests extends AbstractIntegrationTest {
 
+	private static byte[] testXSD1file;
+	private static byte[] testWSDL1file;
+	private static byte[] testWAR1file;
+	
+	private String testXSD1fullPath = "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd";
+	private String testWSDL1fullPath = "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl";
+	private String testWAR1fullPath = "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war";
+
+	@BeforeClass
+	public static void loadBinaryFiles() throws IOException {
+		testXSD1file = IOUtils.toByteArray(FileServiceTests.class.getClassLoader().getResourceAsStream("test.xsd"));
+		testWSDL1file = IOUtils.toByteArray(FileServiceTests.class.getClassLoader().getResourceAsStream("test.wsdl"));
+		testWAR1file = IOUtils.toByteArray(FileServiceTests.class.getClassLoader().getResourceAsStream("test.war"));
+	}
+
 	@Before
 	public void createDatabase() throws IOException {
 		databaseDao.createDatabase(XML_DATABASE_NAME);
@@ -36,12 +51,12 @@ public class FileServiceTests extends AbstractIntegrationTest {
 		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
 		byte[] file2 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test2.xsd"));
 
-		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
-		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file2);
+		fileService.saveFile(testXSD1fullPath, file);
+		fileService.saveFile(testXSD1fullPath, file2);
 
-		byte[] readFile = fileService.getFileByFullPathAndVersion("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", 1);
-		byte[] readFile2 = fileService.getFileByFullPathAndVersion("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", 2);
-		byte[] readFileLast = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+		byte[] readFile = fileService.getFileByFullPathAndVersion(testXSD1fullPath, 1);
+		byte[] readFile2 = fileService.getFileByFullPathAndVersion(testXSD1fullPath, 2);
+		byte[] readFileLast = fileService.getFileByFullPath(testXSD1fullPath);
 
 		Assert.assertArrayEquals(file, readFile);
 		Assert.assertArrayEquals(file2, readFile2);
@@ -54,21 +69,21 @@ public class FileServiceTests extends AbstractIntegrationTest {
 		byte[] file2 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test2.xsd"));
 
 		Assert.assertNotEquals(file, file2);
-		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
-		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file2);
-		fileService.deleteFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+		fileService.saveFile(testXSD1fullPath, file);
+		fileService.saveFile(testXSD1fullPath, file2);
+		fileService.deleteFile(testXSD1fullPath);
 
-		byte[] readFileLast = fileService.getFileByFullPath("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+		byte[] readFileLast = fileService.getFileByFullPath(testXSD1fullPath);
 		Assert.assertArrayEquals(file, readFileLast);
 
-		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file2);
-		fileService.deleteFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", 2);
+		fileService.saveFile(testXSD1fullPath, file2);
+		fileService.deleteFile(testXSD1fullPath, 2);
 
-		readFileLast = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+		readFileLast = fileService.getFileByFullPath(testXSD1fullPath);
 		Assert.assertArrayEquals(file, readFileLast);
 
-		fileService.deleteFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
-		readFileLast = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+		fileService.deleteFile(testXSD1fullPath);
+		readFileLast = fileService.getFileByFullPath(testXSD1fullPath);
 
 	}
 
@@ -76,54 +91,55 @@ public class FileServiceTests extends AbstractIntegrationTest {
 	public void listFileVersionsTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
 		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
 
-		fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
-		fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
-		fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
-		fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+		fileService.saveFile(testXSD1fullPath, file);
+		fileService.saveFile(testXSD1fullPath, file);
+		fileService.saveFile(testXSD1fullPath, file);
+		fileService.saveFile(testXSD1fullPath, file);
 
 
-		List<Integer> versions = fileService.listFileVersions("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+		List<Integer> versions = fileService.listFileVersions(testXSD1fullPath);
 		Assert.assertTrue(versions.contains(1) && versions.contains(3) && versions.contains(2) && versions.contains(4));
 
-		fileService.deleteFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
-		fileService.deleteFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", 2);
+		fileService.deleteFile(testXSD1fullPath);
+		fileService.deleteFile(testXSD1fullPath, 2);
 
-		versions = fileService.listFileVersions("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+		versions = fileService.listFileVersions(testXSD1fullPath);
 		Assert.assertTrue(versions.contains(1) && versions.contains(3) && !versions.contains(2) && !versions.contains(4));
-
 	}
 
 	@Test
-	public void getAllFilesByFileTypeTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
-		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
-		byte[] file2 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.wsdl"));
-		byte[] file3 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.war"));
+	public void getAllFilesTest() throws Exception {
+		fileService.saveFile(testXSD1fullPath, testXSD1file);
+		fileService.saveFile(testXSD1fullPath, testXSD1file);
+		fileService.saveFile(testXSD1fullPath, testXSD1file);
+		fileService.saveFile(testXSD1fullPath, testXSD1file);
 
-		fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
-		fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
-		fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
-		fileService.saveFile("/src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
+		fileService.saveFile(testWSDL1fullPath, testWSDL1file);
+		fileService.saveFile(testWSDL1fullPath, testWSDL1file);
+		fileService.saveFile(testWSDL1fullPath, testWSDL1file);
+		fileService.saveFile(testWSDL1fullPath, testWSDL1file);
 
-		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl", file2);
-		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl", file2);
-		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl", file2);
-		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl", file2);
-
-		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", file3);
-		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", file3);
-		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", file3);
-		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", file3);
+		fileService.saveFile(testWAR1fullPath, testWAR1file);
+		fileService.saveFile(testWAR1fullPath, testWAR1file);
+		fileService.saveFile(testWAR1fullPath, testWAR1file);
+		fileService.saveFile(testWAR1fullPath, testWAR1file);
 
 
-		List<PathVersionPair> all = fileService.listAllFiles("/");
+		List<PathVersionPair> all = fileService.listAllFiles("/", true);
+		List<PathVersionPair> allLatest = fileService.listAllFiles("/", false);
 		List<PathVersionPair> xsds = fileService.listAllFilesByFileType(FileType.XSD, "/src");
 		List<PathVersionPair> wsdls = fileService.listAllFilesByFileType(FileType.WSDL, "src");
 		List<PathVersionPair> wars = fileService.listAllFilesByFileType(FileType.WAR, "/");
 
 		Assert.assertTrue(all.size() == 12);
+		Assert.assertTrue(allLatest.size() == 3);
 		Assert.assertTrue(xsds.size() == 4);
 		Assert.assertTrue(wars.size() == 4);
 		Assert.assertTrue(wsdls.size() == 4);
+
+		for (PathVersionPair p : allLatest) {
+			Assert.assertTrue(p.getFullPath().startsWith("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.") && p.getVersion() == 4);
+		}
 
 		int i = 1;
 		int j = 0;
@@ -138,7 +154,7 @@ public class FileServiceTests extends AbstractIntegrationTest {
 
 		i = 1;
 		for (PathVersionPair p : xsds) {
-			Assert.assertTrue(p.getFullPath().equals("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd") && p.getVersion() == i);
+			Assert.assertTrue(p.getFullPath().equals(testXSD1fullPath) && p.getVersion() == i);
 			i++;
 		}
 
@@ -150,7 +166,7 @@ public class FileServiceTests extends AbstractIntegrationTest {
 
 		i = 1;
 		for (PathVersionPair p : wsdls) {
-			Assert.assertTrue(p.getFullPath().equals("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl") && p.getVersion() == i);
+			Assert.assertTrue(p.getFullPath().equals(testWSDL1fullPath) && p.getVersion() == i);
 			i++;
 		}
 	}

@@ -34,7 +34,7 @@
             <SearchField search="handleSearchPressed"/>
         </u:search>
         <u:paneContent>
-            <Text text="Lorem ipsum"/>
+            <Text text="Hello :)"/>
         </u:paneContent>
         <Page showHeader="false">
             <content>

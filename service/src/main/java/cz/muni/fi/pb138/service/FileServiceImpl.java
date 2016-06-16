@@ -82,7 +82,7 @@ public class FileServiceImpl implements FileService {
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String vNamespace = fullPath.substring(0, fullPath.lastIndexOf("/") + 1);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, vNamespace);
-		int version = pathFinder.getLastVersion(fullPath, list) + 1;
+		int version = pathFinder.getLatestVersion(fullPath, list) + 1;
 
 		file.setVersion(version);
 		String vPath = pathFinder.getVersionedPath(version, fullPath, file.getType());
@@ -103,7 +103,7 @@ public class FileServiceImpl implements FileService {
 	public void deleteFile(String fullPath) throws IOException {
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf("/")));
-		int version = pathFinder.getLastVersion(fullPath, list);
+		int version = pathFinder.getLatestVersion(fullPath, list);
 		databaseDao.closeDatabase();
 		deleteFile(fullPath, version);
 	}
@@ -131,7 +131,7 @@ public class FileServiceImpl implements FileService {
 	public byte[] getFileByFullPath(String fullPath) throws IOException {
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf("/")));
-		int version = pathFinder.getLastVersion(fullPath, list);
+		int version = pathFinder.getLatestVersion(fullPath, list);
 		databaseDao.closeDatabase();
 		return getFileByFullPathAndVersion(fullPath, version);
 	}
@@ -157,11 +157,11 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public List<PathVersionPair> listAllFiles(String namespace) throws IOException {
+	public List<PathVersionPair> listAllFiles(String namespace, boolean allVersions) throws IOException {
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, namespace);
 		databaseDao.closeDatabase();
-		return pathFinder.getAllFiles(list, namespace);
+		return pathFinder.getAllFiles(list, namespace, allVersions);
 	}
 
 	@Override
