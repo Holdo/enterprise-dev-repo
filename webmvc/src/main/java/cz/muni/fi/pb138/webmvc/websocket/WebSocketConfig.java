@@ -14,14 +14,20 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(wsBinaryFileHandler(), "/websocket/binary/**")
+		registry.addHandler(wsBinaryUploadHandler(), "/websocket/binary/upload/**")
+				.addHandler(wsBinaryDownloadHandler(), "websocket/binary/download/**")
 				.addHandler(wsCommandsHandler(), "websocket/command/*");
 				//.addInterceptors(new HttpSessionHandshakeInterceptor());
 	}
 
 	@Bean
-	public WebSocketHandler wsBinaryFileHandler() {
-		return new WSBinaryFileHandler();
+	public WebSocketHandler wsBinaryUploadHandler() {
+		return new WSBinaryUploadHandler();
+	}
+
+	@Bean
+	public WebSocketHandler wsBinaryDownloadHandler() {
+		return new WSBinaryDownloadHandler();
 	}
 
 	@Bean

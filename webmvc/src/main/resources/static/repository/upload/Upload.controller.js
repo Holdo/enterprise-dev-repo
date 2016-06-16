@@ -68,7 +68,7 @@ sap.ui.define([
             var jsonModel = this.getView().getModel();
             binaryFileToArrayBuffer(this.file, function (fileName, arrayBuffer) {
                 var projectName = jsonModel.getProperty("/projectName");
-                var ws = new WebSocket("ws://" + document.location.host + "/websocket/binary/" + projectName + "/" + fileName);
+                var ws = new WebSocket("ws://" + document.location.host + "/websocket/binary/upload/" + projectName + "/" + fileName);
                 ws.onopen = function () {
                     ws.send(arrayBuffer);
                     MessageToast.show("Artifact uploaded");

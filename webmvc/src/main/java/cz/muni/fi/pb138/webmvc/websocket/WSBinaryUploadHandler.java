@@ -12,17 +12,17 @@ import org.springframework.web.socket.handler.BinaryWebSocketHandler;
 /**
  * Created by Michal Holic on 12.06.2016
  */
-public class WSBinaryFileHandler extends BinaryWebSocketHandler {
+public class WSBinaryUploadHandler extends BinaryWebSocketHandler {
 
-	private static final Logger log = LoggerFactory.getLogger(WSBinaryFileHandler.class);
+	private static final Logger log = LoggerFactory.getLogger(WSBinaryUploadHandler.class);
 
 	@Autowired
 	private FileService fileService;
 
 	@Override
 	protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception {
-		String uri = session.getUri().getPath().replaceFirst("/websocket/binary/", "");
-		log.debug("Received binary message from frontend with length {} and path {}.", message.getPayloadLength(), uri);
+		String uri = session.getUri().getPath().replaceFirst("/websocket/binary/upload/", "");
+		log.debug("Received binary upload from frontend with length {} and path {}.", message.getPayloadLength(), uri);
 		byte[] receivedBinaryFile = new byte[message.getPayloadLength()];
 		message.getPayload().get(receivedBinaryFile);
 		fileService.saveFile(uri, receivedBinaryFile);
