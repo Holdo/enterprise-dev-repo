@@ -1,9 +1,12 @@
 package cz.muni.fi.pb138.service.processing;
 
 import cz.muni.fi.pb138.enums.FileType;
-import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
+import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +76,28 @@ public class PathFinder {
 		return output;
 	}
 
+	public List<VersionedFile> parseFileList(File[] fileList, String namespace, boolean allVersions, FileType fileType) {
+		List<VersionedFile> output = new ArrayList<>();
+		for (File file : fileList) {
+			if (file.isDirectory()) output.add(new VersionedFile(namespace, 0, true));
+			else {
+				String fileName = file.getName();
+				if (fileType != null) {
+					if (!fileName.endsWith(fileType.toString())) continue;
+				}
+				String fullPath = namespace + File.separator + fileName;
+				String[] dotSplit = fileName.substring(fileName.lastIndexOf("_") + 1).split("\\.");
+				String nonVersionedFullPath = fullPath.substring(0, fullPath.lastIndexOf("_")) + "." + dotSplit[dotSplit.length - 1];
+				if (!allVersions) {
+					VersionedFile previousVersion = new VersionedFile(nonVersionedFullPath, Integer.valueOf(dotSplit[0]) - 1);
+					if (output.contains(previousVersion)) output.remove(previousVersion);
+				}
+				output.add(new VersionedFile(nonVersionedFullPath, Integer.valueOf(dotSplit[0])));
+			}
+		}
+		return output;
+	}
+
 	/**
 	 * Parses file list received from List command of BaseX into list of PathVersionPair
 	 *
@@ -82,11 +107,11 @@ public class PathFinder {
 	 * @param fileTypeFilter whether to filter by file type, null means no filtering
 	 * @return list of PathVersionPair
 	 */
-	public List<PathVersionPair> parseFileList(String fileList, String namespace, boolean allVersions, FileType fileTypeFilter) {
+	public List<VersionedFile> parseBaseXFileList(String fileList, String namespace, boolean allVersions, FileType fileTypeFilter) {
 		if (namespace.startsWith("/")) namespace = namespace.substring(1);
 
 		List<String> filteredPaths = new ArrayList<>();
-		List<PathVersionPair> output = new ArrayList<>();
+		List<VersionedFile> output = new ArrayList<>();
 
 		String[] paths = fileList.split("\n");
 		for (String p : paths) {
@@ -110,10 +135,10 @@ public class PathFinder {
 				String[] dotSplit = x.split("\\.");
 				String path = p.substring(0, p.lastIndexOf("_")) + "." + dotSplit[dotSplit.length - 1];
 				if (!allVersions) {
-					PathVersionPair previousVersion = new PathVersionPair(path, Integer.valueOf(dotSplit[0]) - 1);
+					VersionedFile previousVersion = new VersionedFile(path, Integer.valueOf(dotSplit[0]) - 1);
 					if (output.contains(previousVersion)) output.remove(previousVersion);
 				}
-				output.add(new PathVersionPair(path, Integer.valueOf(dotSplit[0])));
+				output.add(new VersionedFile(path, Integer.valueOf(dotSplit[0])));
 			}
 		}
 
@@ -126,14 +151,17 @@ public class PathFinder {
 		ArrayList<String> filteredPaths = new ArrayList<>();
 		for (String p : paths) {
 			String x = p.split(" ")[0];
-			if (x.startsWith(getPathWithoutSuffix(fullPath)) && x.endsWith(suffix)) {
-				filteredPaths.add(x);
+			if (x.endsWith(suffix)) {
+				Path pathX = Paths.get(x);
+				if (pathX.toString().startsWith(getPathWithoutSuffix(fullPath))) {
+					filteredPaths.add(pathX.toString());
+				}
 			}
 		}
 		return filteredPaths;
 	}
 	
 	private String getPathWithoutSuffix(String fullPath) {
-		return fullPath.substring(0, fullPath.lastIndexOf("."));
+		return Paths.get(fullPath.substring(0, fullPath.lastIndexOf("."))).toString();
 	}
 }

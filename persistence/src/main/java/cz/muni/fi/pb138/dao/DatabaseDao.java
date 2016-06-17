@@ -54,11 +54,11 @@ public interface DatabaseDao {
 	String dropDatabase(String name) throws IOException;
 
 	/**
-	 * Gets database file system location
+	 * Gets database raw (binary) files folder location
 	 *
-	 * @return database file system location
+	 * @return database raw (binary) files folder location
 	 */
-	String getDatabaseFileSystemLocation();
+	String getDatabaseRawFileSystemRoot();
 
 	/**
 	 * Runs XQuery on the currently opened database (if not specified in XQuery)

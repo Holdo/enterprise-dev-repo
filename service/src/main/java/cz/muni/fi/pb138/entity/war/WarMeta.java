@@ -1,6 +1,6 @@
 package cz.muni.fi.pb138.entity.war;
 
-import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
+import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import cz.muni.fi.pb138.enums.FileType;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -12,7 +12,7 @@ import java.util.List;
  */
 @XmlRootElement( name = "warmeta")
 public class WarMeta {
-    private PathVersionPair nameVersionPair;
+    private VersionedFile nameVersionPair;
     private List<String> listener;
     private List<String> filter;
     private FileType type;
@@ -20,18 +20,18 @@ public class WarMeta {
     public WarMeta() {
     }
 
-    public WarMeta(PathVersionPair nameVersionPair, List<String> listenerList, List<String> filterList) {
+    public WarMeta(VersionedFile nameVersionPair, List<String> listenerList, List<String> filterList) {
         this.nameVersionPair = nameVersionPair;
         this.listener = listenerList;
         this.filter = filterList;
         type = FileType.WAR;
     }
 
-    public PathVersionPair getNameVersionPair() {
+    public VersionedFile getNameVersionPair() {
         return nameVersionPair;
     }
 
-    public void setNameVersionPair(PathVersionPair nameVersionPair) {
+    public void setNameVersionPair(VersionedFile nameVersionPair) {
         this.nameVersionPair = nameVersionPair;
     }
 

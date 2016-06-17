@@ -3,7 +3,7 @@ package cz.muni.fi.pb138.entity.xsd;
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
 import cz.muni.fi.pb138.entity.FileBase;
-import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
+import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +24,7 @@ import javax.xml.bind.Marshaller;
 public class XsdFile implements FileBase {
 
 	private static final Logger log = LoggerFactory.getLogger(XsdFile.class);
-	private PathVersionPair nameVersionPair;
+	private VersionedFile nameVersionPair;
 	private byte[] file;
 	private List<String> elements;
 	private List<String> attributes;
@@ -36,11 +36,11 @@ public class XsdFile implements FileBase {
 		type = FileType.XSD;
 	}
 
-	public PathVersionPair getNameVersionPair() {
+	public VersionedFile getNameVersionPair() {
 		return nameVersionPair;
 	}
 
-	public void setNameVersionPair(PathVersionPair nameVersionPair) {
+	public void setNameVersionPair(VersionedFile nameVersionPair) {
 		this.nameVersionPair = nameVersionPair;
 	}
 

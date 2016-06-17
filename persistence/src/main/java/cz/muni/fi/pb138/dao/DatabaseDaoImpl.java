@@ -7,10 +7,12 @@ import org.basex.core.cmd.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -21,6 +23,9 @@ import java.io.IOException;
 public class DatabaseDaoImpl implements DatabaseDao {
 
 	private static final Logger log = LoggerFactory.getLogger(DatabaseDao.class);
+
+	@Value("${cz.muni.fi.pb138.xml-db-name}")
+	private String XML_DATABASE_NAME;
 
 	@Autowired
 	private BaseXContext dbCtx;
@@ -47,7 +52,7 @@ public class DatabaseDaoImpl implements DatabaseDao {
 		return new DropDB(name).execute(dbCtx.getContext());
 	}
 
-	public String getDatabaseFileSystemLocation() {
+	public String getDatabaseRawFileSystemRoot() {
 		return dataLocation;
 	}
 
@@ -82,11 +87,12 @@ public class DatabaseDaoImpl implements DatabaseDao {
 			String line;
 			while ((line = br.readLine()) != null) {
 				if (line.startsWith("DBPATH")) {
-					dataLocation = line.substring(line.lastIndexOf(" ") + 1);
+					line = line.substring(line.lastIndexOf(" ") + 1);
 					break;
 				}
 			}
-			if (dataLocation == null) log.error("BaseX data path not found");
+			if (line == null) log.error("BaseX data path not found");
+			else dataLocation = line + File.separator + XML_DATABASE_NAME + File.separator + "raw" + File.separator;
 		} catch (IOException e) {
 			log.error("Exception during locating BaseX data path", e);
 		}

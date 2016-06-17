@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.api;
 
 import cz.muni.fi.pb138.enums.FileType;
-import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
+import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
@@ -64,17 +64,17 @@ public interface FileService {
      * @return files as PathVersionPair
      * @throws java.io.IOException
      */
-    List<PathVersionPair> listAllFiles(String namespace, boolean allVersions) throws IOException;
+    List<VersionedFile> listAllFiles(String namespace, boolean allVersions) throws IOException;
 
     /**
      * 
      * @param namespace - "/" for ALL, specify namaspace to filter
-     * @param fileType - One of supported file types like WAR, XSD, WSDL
      * @param allVersions - true for all versions, false for just the latest ones
+     * @param fileType - One of supported file types like WAR, XSD, WSDL
      * @return files as PathVersionPair
      * @throws java.io.IOException 
      */
-    List<PathVersionPair> listAllFilesByFileType(String namespace, FileType fileType, boolean allVersions) throws IOException;
+    List<VersionedFile> listAllFilesByFileType(String namespace, boolean allVersions, FileType fileType) throws IOException;
 
     /**
      * 

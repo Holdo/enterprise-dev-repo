@@ -10,11 +10,12 @@ import cz.muni.fi.pb138.dao.DocumentDao;
 import cz.muni.fi.pb138.service.processing.FileProcessor;
 import cz.muni.fi.pb138.service.processing.PathFinder;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.zip.DataFormatException;
 
-import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
+import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import cz.muni.fi.pb138.entity.war.WarFile;
 import cz.muni.fi.pb138.entity.wsdl.WsdlFile;
 import cz.muni.fi.pb138.entity.xsd.XsdFile;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
+import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -55,6 +57,12 @@ public class FileServiceImpl implements FileService {
 
 	private final String META_FILE_SUFFIX = ".xml";
 	private final String[] supportedFiles = {".war", ".xsd", ".wsdl"};
+	private String databaseRawFileSystemRoot = null;
+
+	@PostConstruct
+	public void setDatabaseRawFileSystemRoot() {
+		databaseRawFileSystemRoot = databaseDao.getDatabaseRawFileSystemRoot();
+	}
 
 	@Override
 	public void saveFile(String fullPath, byte[] fileBytes) throws IOException, SAXException, ParserConfigurationException, DataFormatException, JAXBException {
@@ -80,7 +88,7 @@ public class FileServiceImpl implements FileService {
 		}
 
 		databaseDao.openDatabase(XML_DATABASE_NAME);
-		String vNamespace = fullPath.substring(0, fullPath.lastIndexOf("/") + 1);
+		String vNamespace = fullPath.substring(0, fullPath.lastIndexOf(File.separator) + 1);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, vNamespace);
 		int version = pathFinder.getLatestVersion(list, fullPath) + 1;
 
@@ -102,7 +110,7 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public void deleteFile(String fullPath) throws IOException {
 		databaseDao.openDatabase(XML_DATABASE_NAME);
-		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf("/")));
+		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf(File.separator)));
 		int version = pathFinder.getLatestVersion(list, fullPath);
 		databaseDao.closeDatabase();
 		deleteFile(fullPath, version);
@@ -130,7 +138,7 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public byte[] getFileByFullPath(String fullPath) throws IOException {
 		databaseDao.openDatabase(XML_DATABASE_NAME);
-		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf("/")));
+		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf(File.separator)));
 		int version = pathFinder.getLatestVersion(list, fullPath);
 		databaseDao.closeDatabase();
 		return getFileByFullPathAndVersion(fullPath, version);
@@ -150,42 +158,58 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public List<Integer> listFileVersions(String fullPath) throws IOException {
 		databaseDao.openDatabase(XML_DATABASE_NAME);
-		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf("/")));
-
+		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf(File.separator)));
 		databaseDao.closeDatabase();
 		return pathFinder.getAllVersions(list, fullPath);
 	}
 
 	@Override
-	public List<PathVersionPair> listAllFiles(String namespace, boolean allVersions) throws IOException {
-		databaseDao.openDatabase(XML_DATABASE_NAME);
-		String list = databaseDao.listDirectory(XML_DATABASE_NAME, namespace);
-		databaseDao.closeDatabase();
-		return pathFinder.parseFileList(list, namespace, allVersions, null);
+	public List<VersionedFile> listAllFiles(String namespace, boolean allVersions) throws IOException {
+		namespace = sanitizeNamespace(namespace);
+		return pathFinder.parseFileList(getFileSystemDir(namespace).listFiles(), namespace, allVersions, null);
 	}
 
 	@Override
-	public List<PathVersionPair> listAllFilesByFileType(String namespace, FileType fileType, boolean allVersions) throws IOException {
-		databaseDao.openDatabase(XML_DATABASE_NAME);
-		String list = databaseDao.listDirectory(XML_DATABASE_NAME, namespace);
-		databaseDao.closeDatabase();
-		return pathFinder.parseFileList(list, namespace, allVersions, fileType);
+	public List<VersionedFile> listAllFilesByFileType(String namespace, boolean allVersions, FileType fileType) throws IOException {
+		namespace = sanitizeNamespace(namespace);
+		return pathFinder.parseFileList(getFileSystemDir(namespace).listFiles(), namespace, allVersions, fileType);
 	}
 
-	private FileBase getFileInstance(String fullPath, int version) throws IOException {
+	protected String sanitizeNamespace(String namespace) {
+		if (namespace.startsWith("/") || namespace.startsWith("\\")) namespace = namespace.substring(1);
+		return namespace;
+	}
+
+	protected File getFileSystemDir(String namespace) {
+		File dir = new File(databaseRawFileSystemRoot + namespace);
+		if (!dir.isDirectory()) {
+			try {
+				throw new IOException("Not a directory: " + dir.getCanonicalPath());
+			} catch (IOException e) {
+				log.error("Exception during reading path of file system directory for {}", namespace, e);
+			}
+		}
+		return dir;
+	}
+
+	protected String getDatabaseRawFileSystemRoot() {
+		return this.databaseRawFileSystemRoot;
+	}
+
+	protected FileBase getFileInstance(String fullPath, int version) throws IOException {
 		if (fullPath.endsWith(".war")) {
 			WarFile file = new WarFile();
-			file.setNameVersionPair(new PathVersionPair(fullPath, version));
+			file.setNameVersionPair(new VersionedFile(fullPath, version));
 			return file;
 		}
 		if (fullPath.endsWith(".xsd")) {
 			XsdFile file = new XsdFile();
-			file.setNameVersionPair(new PathVersionPair(fullPath, version));
+			file.setNameVersionPair(new VersionedFile(fullPath, version));
 			return file;
 		}
 		if (fullPath.endsWith(".wsdl")) {
 			WsdlFile file = new WsdlFile();
-			file.setNameVersionPair(new PathVersionPair(fullPath, version));
+			file.setNameVersionPair(new VersionedFile(fullPath, version));
 			return file;
 		}
 		throw new IOException("Unknown file extension of " + fullPath);

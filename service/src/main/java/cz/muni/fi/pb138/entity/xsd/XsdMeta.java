@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.entity.xsd;
 
 import cz.muni.fi.pb138.enums.FileType;
-import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
+import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class XsdMeta {
     
     
-    private PathVersionPair pathVersionPair;
+    private VersionedFile pathVersionPair;
     private List<String> element;
     private List<String> attribute;
     private List<String> simpleType;
@@ -23,7 +23,7 @@ public class XsdMeta {
     public XsdMeta() {
     }
 
-    public XsdMeta(PathVersionPair pathVersionPair, List<String> elements, List<String> attributes, List<String> simpleTypes, List<String> complexTypes) {
+    public XsdMeta(VersionedFile pathVersionPair, List<String> elements, List<String> attributes, List<String> simpleTypes, List<String> complexTypes) {
         this.pathVersionPair = pathVersionPair;
         this.element = elements;
         this.attribute = attributes;
@@ -32,11 +32,11 @@ public class XsdMeta {
         type = FileType.XSD;
     }
 
-    public PathVersionPair getPathVersionPair() {
+    public VersionedFile getPathVersionPair() {
         return pathVersionPair;
     }
 
-    public void setPathVersionPair(PathVersionPair pathVersionPair) {
+    public void setPathVersionPair(VersionedFile pathVersionPair) {
         this.pathVersionPair = pathVersionPair;
     }
 

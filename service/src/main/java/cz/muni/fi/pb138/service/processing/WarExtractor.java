@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.service.processing;
 
 import cz.muni.fi.pb138.enums.MetaFileType;
-import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
+import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import cz.muni.fi.pb138.entity.war.WarFile;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -43,7 +43,7 @@ public class WarExtractor {
         
         warFile = new WarFile();
         warFile.setFile(file);
-        warFile.setNameVersionPair(new PathVersionPair(fullPath));
+        warFile.setNameVersionPair(new VersionedFile(fullPath));
         extractMetaFiles(MetaFileType.WEBXML, webxmlLocation);
         warFile.getMetaFiles().put(MetaFileType.WEBXML, webxml);
         warFile.setFilterList(extract(filterElement));

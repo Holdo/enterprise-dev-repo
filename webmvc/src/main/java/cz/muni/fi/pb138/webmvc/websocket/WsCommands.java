@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.webmvc.websocket;
 
 import cz.muni.fi.pb138.api.FileService;
-import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
+import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class WsCommands {
 	@Autowired
 	private FileService fileService;
 
-	public List<PathVersionPair> listDir(Map<String, String> args) throws IOException {
+	public List<VersionedFile> listDir(Map<String, String> args) throws IOException {
 		return fileService.listAllFiles(args.get("namespace"), false);
 	}
 }

@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.entity.wsdl;
 
 import cz.muni.fi.pb138.entity.FileBase;
-import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
+import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
 
@@ -20,7 +20,7 @@ import java.util.List;
 public class WsdlFile implements FileBase {
     
     
-    private PathVersionPair nameVersionPair;
+    private VersionedFile nameVersionPair;
     private byte[] file;
     private List<String> operations;
     private List<String> responses;
@@ -32,11 +32,11 @@ public class WsdlFile implements FileBase {
 
 
 
-    public PathVersionPair getNameVersionPair() {
+    public VersionedFile getNameVersionPair() {
         return nameVersionPair;
     }
 
-    public void setNameVersionPair(PathVersionPair nameVersionPair) {
+    public void setNameVersionPair(VersionedFile nameVersionPair) {
         this.nameVersionPair = nameVersionPair;
     }
 

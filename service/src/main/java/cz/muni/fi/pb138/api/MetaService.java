@@ -4,7 +4,7 @@ import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
 import cz.muni.fi.pb138.enums.MetaParameterType;
 import cz.muni.fi.pb138.entity.metadata.MetaFilePathVersionTriplet;
-import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
+import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import java.io.IOException;
 import java.util.List;
 
@@ -23,7 +23,7 @@ public interface MetaService {
      * @return 
      * @throws java.io.IOException 
      */
-     List<PathVersionPair> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String namespace, String parameterName) throws IOException;
+     List<VersionedFile> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String namespace, String parameterName) throws IOException;
     /**
      * 
      * @param parameterType -  One of parameter types like COMPLEXTYPE, OPERATION ...
@@ -31,7 +31,7 @@ public interface MetaService {
      * @return 
      * @throws java.io.IOException 
      */
-    List<PathVersionPair> getAllMetaParametersByMetaParameterType(MetaParameterType parameterType, String namespace) throws IOException;
+    List<VersionedFile> getAllMetaParametersByMetaParameterType(MetaParameterType parameterType, String namespace) throws IOException;
     /**
      * 
      * @param metaFileType - One of meta file types like WEBXML, god knows what else in future...
@@ -66,7 +66,7 @@ public interface MetaService {
      * @return - for example fullpath namespace/foo.xsd, version 2, parameter type COMPLEXTYPE will return all complex types of foo.xsd in version 2
      * @throws IOException 
      */
-    List<PathVersionPair> getMetaParametersByFileFullPath(MetaParameterType parameterType, String fullPath) throws IOException;
+    List<VersionedFile> getMetaParametersByFileFullPath(MetaParameterType parameterType, String fullPath) throws IOException;
     /**
      *
      * @param parameterType -  One of parameter types like COMPLEXTYPE, OPERATION ...
@@ -75,7 +75,7 @@ public interface MetaService {
      * @return - for example fullpath namespace/foo.xsd, version 2, parameter type COMPLEXTYPE will return all complex types of foo.xsd in version 2
      * @throws IOException
      */
-    List<PathVersionPair> getMetaParametersByFileFullPathAndVersion(MetaParameterType parameterType, String fullPath, String version) throws IOException;
+    List<VersionedFile> getMetaParametersByFileFullPathAndVersion(MetaParameterType parameterType, String fullPath, String version) throws IOException;
 
 
 }

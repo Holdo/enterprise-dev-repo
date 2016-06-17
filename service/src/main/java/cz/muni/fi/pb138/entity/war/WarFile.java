@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.entity.war;
 
 import cz.muni.fi.pb138.entity.FileBase;
-import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
+import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
 
@@ -21,7 +21,7 @@ public class WarFile implements FileBase {
 
     private byte[] file;
     private HashMap<MetaFileType, byte[]> typeMetaFileMap;
-    private PathVersionPair nameVersionPair;
+    private VersionedFile nameVersionPair;
     private List<String> listenerList;
     private List<String> filterList;
     private FileType type;
@@ -32,11 +32,11 @@ public class WarFile implements FileBase {
 
 
 
-    public PathVersionPair getNameVersionPair() {
+    public VersionedFile getNameVersionPair() {
         return nameVersionPair;
     }
 
-    public void setNameVersionPair(PathVersionPair nameVersionPair) {
+    public void setNameVersionPair(VersionedFile nameVersionPair) {
         this.nameVersionPair = nameVersionPair;
     }
 

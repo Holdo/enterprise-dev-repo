@@ -4,19 +4,26 @@ package cz.muni.fi.pb138.entity.metadata;
  *
  * @author gasior
  */
-public class PathVersionPair {
+public class VersionedFile {
     
     private String fullPath;
     private int version;
+    private boolean isDirectory;
 
-    public PathVersionPair(String fullPath, int version) {
+    public VersionedFile(String fullPath) {
         this.fullPath = fullPath;
-        this.version = version;
     }
 
-    public PathVersionPair(String fullPath) {
+    public VersionedFile(String fullPath, int version) {
         this.fullPath = fullPath;
-        this.version = 1;
+        this.version = version;
+        this.isDirectory = false;
+    }
+
+    public VersionedFile(String fullPath, int version, boolean isDirectory) {
+        this.fullPath = fullPath;
+        this.version = version;
+        this.isDirectory = isDirectory;
     }
 
     public String getFullPath() {
@@ -35,14 +42,23 @@ public class PathVersionPair {
         this.version = version;
     }
 
+    public boolean isDirectory() {
+        return isDirectory;
+    }
+
+    public void setDirectory(boolean directory) {
+        isDirectory = directory;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PathVersionPair)) return false;
+        if (!(o instanceof VersionedFile)) return false;
 
-        PathVersionPair that = (PathVersionPair) o;
+        VersionedFile that = (VersionedFile) o;
 
         if (getVersion() != that.getVersion()) return false;
+        if (isDirectory() != that.isDirectory()) return false;
         return getFullPath().equals(that.getFullPath());
 
     }
@@ -51,6 +67,7 @@ public class PathVersionPair {
     public int hashCode() {
         int result = getFullPath().hashCode();
         result = 31 * result + getVersion();
+        result = 31 * result + (isDirectory() ? 1 : 0);
         return result;
     }
 }

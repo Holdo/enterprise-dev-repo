@@ -1,18 +1,24 @@
 package cz.muni.fi.pb138.webmvc.cz.muni.fi.pb138.webmvc.test;
 
 import cz.muni.fi.pb138.enums.FileType;
-import cz.muni.fi.pb138.entity.metadata.PathVersionPair;
+import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import cz.muni.fi.pb138.webmvc.AbstractIntegrationTest;
 import org.apache.commons.io.IOUtils;
 import org.basex.core.BaseXException;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.zip.DataFormatException;
+
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Created by gasior on 15.05.2016
@@ -22,10 +28,11 @@ public class FileServiceTests extends AbstractIntegrationTest {
 	private static byte[] testXSD1file;
 	private static byte[] testWSDL1file;
 	private static byte[] testWAR1file;
-	
-	private String testXSD1fullPath = "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd";
-	private String testWSDL1fullPath = "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl";
-	private String testWAR1fullPath = "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war";
+
+	private String testNamespace = "src"+File.separator+"test"+File.separator+"java"+File.separator+"cz"+File.separator+"muni"+File.separator+"fi"+File.separator+"pb138"+File.separator+"webmvc"+File.separator+"testfiles";
+	private String testXSD1fullPath = testNamespace + File.separator + "test.xsd";
+	private String testWSDL1fullPath = testNamespace + File.separator + "test.wsdl";
+	private String testWAR1fullPath = testNamespace + File.separator + "test.war";
 
 	@BeforeClass
 	public static void loadBinaryFiles() throws IOException {
@@ -58,9 +65,9 @@ public class FileServiceTests extends AbstractIntegrationTest {
 		byte[] readFile2 = fileService.getFileByFullPathAndVersion(testXSD1fullPath, 2);
 		byte[] readFileLast = fileService.getFileByFullPath(testXSD1fullPath);
 
-		Assert.assertArrayEquals(file, readFile);
-		Assert.assertArrayEquals(file2, readFile2);
-		Assert.assertArrayEquals(file2, readFileLast);
+		assertThat(file).isEqualTo(readFile);
+		assertThat(file2).isEqualTo(readFile2);
+		assertThat(file2).isEqualTo(readFileLast);
 	}
 
 	@Test(expected = BaseXException.class)
@@ -68,19 +75,19 @@ public class FileServiceTests extends AbstractIntegrationTest {
 		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
 		byte[] file2 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test2.xsd"));
 
-		Assert.assertNotEquals(file, file2);
+		assertThat(file).isNotEqualTo(file2);
 		fileService.saveFile(testXSD1fullPath, file);
 		fileService.saveFile(testXSD1fullPath, file2);
 		fileService.deleteFile(testXSD1fullPath);
 
 		byte[] readFileLast = fileService.getFileByFullPath(testXSD1fullPath);
-		Assert.assertArrayEquals(file, readFileLast);
+		assertThat(file).isEqualTo(readFileLast);
 
 		fileService.saveFile(testXSD1fullPath, file2);
 		fileService.deleteFile(testXSD1fullPath, 2);
 
 		readFileLast = fileService.getFileByFullPath(testXSD1fullPath);
-		Assert.assertArrayEquals(file, readFileLast);
+		assertThat(file).isEqualTo(readFileLast);
 
 		fileService.deleteFile(testXSD1fullPath);
 		readFileLast = fileService.getFileByFullPath(testXSD1fullPath);
@@ -98,13 +105,13 @@ public class FileServiceTests extends AbstractIntegrationTest {
 
 
 		List<Integer> versions = fileService.listFileVersions(testXSD1fullPath);
-		Assert.assertTrue(versions.contains(1) && versions.contains(3) && versions.contains(2) && versions.contains(4));
+		assertThat(versions).contains(1, 2, 3, 4);
 
 		fileService.deleteFile(testXSD1fullPath);
 		fileService.deleteFile(testXSD1fullPath, 2);
 
 		versions = fileService.listFileVersions(testXSD1fullPath);
-		Assert.assertTrue(versions.contains(1) && versions.contains(3) && !versions.contains(2) && !versions.contains(4));
+		assertThat(versions).contains(1, 3).doesNotContain(2, 4);
 	}
 
 	@Test
@@ -125,26 +132,30 @@ public class FileServiceTests extends AbstractIntegrationTest {
 		fileService.saveFile(testWAR1fullPath, testWAR1file);
 
 
-		List<PathVersionPair> all = fileService.listAllFiles("/", true);
-		List<PathVersionPair> allLatest = fileService.listAllFiles("/", false);
-		List<PathVersionPair> xsds = fileService.listAllFilesByFileType("/src", FileType.XSD, true);
-		List<PathVersionPair> wsdls = fileService.listAllFilesByFileType("src", FileType.WSDL, true);
-		List<PathVersionPair> wars = fileService.listAllFilesByFileType("/", FileType.WAR, true);
+		List<VersionedFile> all = fileService.listAllFiles(testNamespace, true);
+		List<VersionedFile> allLatest = fileService.listAllFiles(testNamespace, false);
+		List<VersionedFile> xsds = fileService.listAllFilesByFileType(testNamespace, true, FileType.XSD);
+		List<VersionedFile> wsdls = fileService.listAllFilesByFileType(testNamespace, true, FileType.WSDL);
+		List<VersionedFile> wars = fileService.listAllFilesByFileType(testNamespace, true, FileType.WAR);
 
-		Assert.assertTrue(all.size() == 12);
-		Assert.assertTrue(allLatest.size() == 3);
-		Assert.assertTrue(xsds.size() == 4);
-		Assert.assertTrue(wars.size() == 4);
-		Assert.assertTrue(wsdls.size() == 4);
+		assertThat(all.size()).isEqualTo(12);
+		assertThat(allLatest.size()).isEqualTo(3);
+		assertThat(xsds.size()).isEqualTo(4);
+		assertThat(wars.size()).isEqualTo(4);
+		assertThat(wsdls.size()).isEqualTo(4);
 
-		for (PathVersionPair p : allLatest) {
-			Assert.assertTrue(p.getFullPath().startsWith("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.") && p.getVersion() == 4);
+		for (VersionedFile p : allLatest) {
+			assertThat(p.getFullPath()).startsWith(testNamespace + File.separator + "test.");
+			assertThat(p.getVersion()).isEqualTo(4);
+			assertThat(p.isDirectory()).isFalse();
 		}
 
 		int i = 1;
 		int j = 0;
-		for (PathVersionPair p : all) {
-			Assert.assertTrue(p.getFullPath().startsWith("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.") && p.getVersion() == i);
+		for (VersionedFile p : all) {
+			assertThat(p.getFullPath()).startsWith(testNamespace + File.separator + "test.");
+			assertThat(p.getVersion()).isEqualTo(i);
+			assertThat(p.isDirectory()).isFalse();
 			j++;
 			if (j == 3) {
 				j = 0;
@@ -153,20 +164,26 @@ public class FileServiceTests extends AbstractIntegrationTest {
 		}
 
 		i = 1;
-		for (PathVersionPair p : xsds) {
-			Assert.assertTrue(p.getFullPath().equals(testXSD1fullPath) && p.getVersion() == i);
+		for (VersionedFile p : xsds) {
+			assertThat(p.getFullPath()).isEqualTo(testXSD1fullPath);
+			assertThat(p.getVersion()).isEqualTo(i);
+			assertThat(p.isDirectory()).isFalse();
 			i++;
 		}
 
 		i = 1;
-		for (PathVersionPair p : wars) {
-			Assert.assertTrue(p.getFullPath().equals(testWAR1fullPath) && p.getVersion() == i);
+		for (VersionedFile p : wars) {
+			assertThat(p.getFullPath()).isEqualTo(testWAR1fullPath);
+			assertThat(p.getVersion()).isEqualTo(i);
+			assertThat(p.isDirectory()).isFalse();
 			i++;
 		}
 
 		i = 1;
-		for (PathVersionPair p : wsdls) {
-			Assert.assertTrue(p.getFullPath().equals(testWSDL1fullPath) && p.getVersion() == i);
+		for (VersionedFile p : wsdls) {
+			assertThat(p.getFullPath()).isEqualTo(testWSDL1fullPath);
+			assertThat(p.getVersion()).isEqualTo(i);
+			assertThat(p.isDirectory()).isFalse();
 			i++;
 		}
 	}
