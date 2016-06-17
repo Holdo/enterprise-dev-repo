@@ -43,7 +43,7 @@ public class WarExtractor {
 
 		warFile = new WarFile();
 		warFile.setFile(file);
-		warFile.setNameVersionPair(new VersionedFile(fullPath, 1));
+		warFile.setNameVersionPair(new VersionedFile(fullPath, 1, false));
 		extractMetaFiles(MetaFileType.WEBXML, webxmlLocation);
 		warFile.getMetaFiles().put(MetaFileType.WEBXML, webxml);
 		warFile.setFilterList(extract(filterElement));

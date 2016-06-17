@@ -23,6 +23,7 @@ public class WsCommands {
 	private FileService fileService;
 
 	public List<VersionedFile> listDir(Map<String, String> args) throws IOException {
+		log.debug("Listing {}", args.get("namespace"));
 		return fileService.listAllFiles(args.get("namespace"), false);
 	}
 }

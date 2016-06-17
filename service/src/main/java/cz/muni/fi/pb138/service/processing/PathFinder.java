@@ -87,7 +87,7 @@ public class PathFinder {
 	public List<VersionedFile> parseFileList(File[] fileList, String namespace, boolean allVersions, FileType fileType) {
 		List<VersionedFile> output = new ArrayList<>();
 		for (File file : fileList) {
-			if (file.isDirectory()) output.add(new VersionedFile(file.getName(), 0, true));
+			if (file.isDirectory()) output.add(new VersionedFile(file.getName(), namespace, 0, true));
 			else {
 				String fileName = file.getName();
 				if (fileType != null) {
@@ -97,10 +97,10 @@ public class PathFinder {
 				String[] dotSplit = fileName.substring(fileName.lastIndexOf("_") + 1).split("\\.");
 				String nonVersionedFullPath = fullPath.substring(0, fullPath.lastIndexOf("_")) + "." + dotSplit[dotSplit.length - 1];
 				if (!allVersions) {
-					VersionedFile previousVersion = new VersionedFile(nonVersionedFullPath, Integer.valueOf(dotSplit[0]) - 1);
+					VersionedFile previousVersion = new VersionedFile(nonVersionedFullPath, Integer.valueOf(dotSplit[0]) - 1, false);
 					if (output.contains(previousVersion)) output.remove(previousVersion);
 				}
-				output.add(new VersionedFile(nonVersionedFullPath, Integer.valueOf(dotSplit[0])));
+				output.add(new VersionedFile(nonVersionedFullPath, Integer.valueOf(dotSplit[0]), false));
 			}
 		}
 		return output;
@@ -143,10 +143,10 @@ public class PathFinder {
 				String[] dotSplit = x.split("\\.");
 				String path = p.substring(0, p.lastIndexOf("_")) + "." + dotSplit[dotSplit.length - 1];
 				if (!allVersions) {
-					VersionedFile previousVersion = new VersionedFile(path, Integer.valueOf(dotSplit[0]) - 1);
+					VersionedFile previousVersion = new VersionedFile(path, Integer.valueOf(dotSplit[0]) - 1, false);
 					if (output.contains(previousVersion)) output.remove(previousVersion);
 				}
-				output.add(new VersionedFile(path, Integer.valueOf(dotSplit[0])));
+				output.add(new VersionedFile(path, Integer.valueOf(dotSplit[0]), false));
 			}
 		}
 

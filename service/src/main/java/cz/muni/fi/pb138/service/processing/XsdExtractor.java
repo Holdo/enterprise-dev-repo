@@ -31,7 +31,7 @@ public class XsdExtractor {
 
         xsdFile = new XsdFile();
         xsdFile.setFile(file);
-        xsdFile.setNameVersionPair(new VersionedFile(fullPath, 1));
+        xsdFile.setNameVersionPair(new VersionedFile(fullPath, 1, false));
         xsdFile.setSimpleTypes(extract("simpleType"));
         xsdFile.setElements(extract("element"));
         xsdFile.setAttributes(extract("attribute"));

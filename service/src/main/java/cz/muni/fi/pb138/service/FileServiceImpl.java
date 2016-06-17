@@ -199,17 +199,17 @@ public class FileServiceImpl implements FileService {
 	protected FileBase getFileInstance(String fullPath, int version) throws IOException {
 		if (fullPath.endsWith(".war")) {
 			WarFile file = new WarFile();
-			file.setNameVersionPair(new VersionedFile(fullPath, version));
+			file.setNameVersionPair(new VersionedFile(fullPath, version, false));
 			return file;
 		}
 		if (fullPath.endsWith(".xsd")) {
 			XsdFile file = new XsdFile();
-			file.setNameVersionPair(new VersionedFile(fullPath, version));
+			file.setNameVersionPair(new VersionedFile(fullPath, version, false));
 			return file;
 		}
 		if (fullPath.endsWith(".wsdl")) {
 			WsdlFile file = new WsdlFile();
-			file.setNameVersionPair(new VersionedFile(fullPath, version));
+			file.setNameVersionPair(new VersionedFile(fullPath, version, false));
 			return file;
 		}
 		throw new IOException("Unknown file extension of " + fullPath);

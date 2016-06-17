@@ -45,7 +45,7 @@ sap.ui.define([
                 case "Search":
                     var ws = new WebSocket("ws://" + document.location.host + "/websocket/command/listDir");
                     ws.onopen = function () {
-                        ws.send("{\"namespace\" : \"/\"}");
+                        ws.send("{\"namespace\" : \"project1\"}");
                     };
                     ws.onmessage = function (oEvent) {
                         console.log("Received: " + oEvent.data);
