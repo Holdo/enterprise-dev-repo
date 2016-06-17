@@ -54,6 +54,13 @@ public interface DatabaseDao {
 	String dropDatabase(String name) throws IOException;
 
 	/**
+	 * Gets database file system location
+	 *
+	 * @return database file system location
+	 */
+	String getDatabaseFileSystemLocation();
+
+	/**
 	 * Runs XQuery on the currently opened database (if not specified in XQuery)
 	 *
 	 * @param xQuery as String

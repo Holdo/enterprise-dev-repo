@@ -34,32 +34,24 @@ public class DatabaseIOTests extends AbstractIntegrationTest {
 
 	@Test
 	public void IOXsdFileTest() throws Exception {
-
 		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
 		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
 		byte[] readFile = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
 
 		Assert.assertArrayEquals(file, readFile);
-
-
 	}
 
 	@Test
 	public void IOWsdlFileTest() throws Exception {
-
-
 		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.wsdl"));
 		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl", file);
 		byte[] readFile = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
 
 		Assert.assertArrayEquals(file, readFile);
-
-
 	}
 
 	@Test
 	public void IOWarFileTest() throws Exception {
-
 		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.war"));
 		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", file);
 		byte[] readFile = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
