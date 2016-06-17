@@ -4,14 +4,18 @@ import cz.muni.fi.pb138.enums.MetaFileType;
 import cz.muni.fi.pb138.entity.metadata.MetaFilePathVersionTriplet;
 import cz.muni.fi.pb138.webmvc.AbstractIntegrationTest;
 import org.apache.commons.io.IOUtils;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.zip.DataFormatException;
+
+import static org.assertj.core.api.Assertions.*;
 
 public class MetaServiceTests extends AbstractIntegrationTest {
 
@@ -65,13 +69,14 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 		MetaFilePathVersionTriplet readWebxmlShouldBeVersion2Too = metaService.getMetaFileByFileFullPathAndVersion(MetaFileType.WEBXML, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", 2);
 		MetaFilePathVersionTriplet readWebxmlShouldBeVersion1 = metaService.getMetaFileByFileFullPathAndVersion(MetaFileType.WEBXML, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", 1);
 
-		Assert.assertNotNull(readWebxmlShouldBeVersion1);
-		Assert.assertNotNull(readWebxmlShouldBeVersion2);
-		Assert.assertNotNull(readWebxmlShouldBeVersion2Too);
+		assertThat(readWebxmlShouldBeVersion1).isNotNull();
+		assertThat(readWebxmlShouldBeVersion2).isNotNull();
+		assertThat(readWebxmlShouldBeVersion2Too).isNotNull();
 
-		Assert.assertTrue(Arrays.equals(reference, readWebxmlShouldBeVersion1.getFile()));
-		Assert.assertTrue(Arrays.equals(reference, readWebxmlShouldBeVersion2.getFile()));
-		Assert.assertTrue(Arrays.equals(reference, readWebxmlShouldBeVersion2Too.getFile()));
+		assertThat(reference)
+				.isEqualTo(readWebxmlShouldBeVersion1.getFile())
+				.isEqualTo(readWebxmlShouldBeVersion2.getFile())
+				.isEqualTo(readWebxmlShouldBeVersion2Too.getFile());
 	}
 
    /* @Test

@@ -12,6 +12,7 @@ import cz.muni.fi.pb138.service.processing.PathFinder;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.zip.DataFormatException;
 
@@ -66,6 +67,7 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public void saveFile(String fullPath, byte[] fileBytes) throws IOException, SAXException, ParserConfigurationException, DataFormatException, JAXBException {
+		fullPath = normalizeFullPath(fullPath);
 		log.debug("Received {} bytes file as {}", fileBytes.length, fullPath);
 		FileBase file = null;
 
@@ -109,6 +111,7 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public void deleteFile(String fullPath) throws IOException {
+		fullPath = normalizeFullPath(fullPath);
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf(File.separator)));
 		int version = pathFinder.getLatestVersion(list, fullPath);
@@ -121,6 +124,7 @@ public class FileServiceImpl implements FileService {
 		if (version == 0) {
 			throw new IOException("Not existing version");
 		}
+		fullPath = normalizeFullPath(fullPath);
 		FileBase f = getFileInstance(fullPath, version);
 		String deletePath = pathFinder.getVersionedPath(fullPath, version, f.getType());
 		databaseDao.openDatabase(XML_DATABASE_NAME);
@@ -137,6 +141,7 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public byte[] getFileByFullPath(String fullPath) throws IOException {
+		fullPath = normalizeFullPath(fullPath);
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf(File.separator)));
 		int version = pathFinder.getLatestVersion(list, fullPath);
@@ -146,6 +151,7 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public byte[] getFileByFullPathAndVersion(String fullPath, int version) throws IOException {
+		fullPath = normalizeFullPath(fullPath);
 		log.debug("Retrieving binary file version {} at {}", version, fullPath);
 		FileBase f = getFileInstance(fullPath, version);
 		String path = pathFinder.getVersionedPath(fullPath, version, f.getType());
@@ -157,6 +163,7 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public List<Integer> listFileVersions(String fullPath) throws IOException {
+		fullPath = normalizeFullPath(fullPath);
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf(File.separator)));
 		databaseDao.closeDatabase();
@@ -165,14 +172,18 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public List<VersionedFile> listAllFiles(String namespace, boolean allVersions) throws IOException {
-		namespace = sanitizeNamespace(namespace);
+		namespace = normalizeFullPath(sanitizeNamespace(namespace));
 		return pathFinder.parseFileList(getFileSystemDir(namespace).listFiles(), namespace, allVersions, null);
 	}
 
 	@Override
 	public List<VersionedFile> listAllFilesByFileType(String namespace, boolean allVersions, FileType fileType) throws IOException {
-		namespace = sanitizeNamespace(namespace);
+		namespace = normalizeFullPath(sanitizeNamespace(namespace));
 		return pathFinder.parseFileList(getFileSystemDir(namespace).listFiles(), namespace, allVersions, fileType);
+	}
+
+	protected String normalizeFullPath(String fullPath) {
+		return Paths.get(fullPath).toString();
 	}
 
 	protected String sanitizeNamespace(String namespace) {

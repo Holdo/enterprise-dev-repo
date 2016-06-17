@@ -30,8 +30,8 @@ public class XsdExtractor {
         this.fullPath = fullPath;
 
         xsdFile = new XsdFile();
-        xsdFile.setNameVersionPair(new VersionedFile(fullPath));
         xsdFile.setFile(file);
+        xsdFile.setNameVersionPair(new VersionedFile(fullPath, 1));
         xsdFile.setSimpleTypes(extract("simpleType"));
         xsdFile.setElements(extract("element"));
         xsdFile.setAttributes(extract("attribute"));
@@ -59,7 +59,6 @@ public class XsdExtractor {
                     extracted.add(element.getAttribute("name"));
                 }
         }
-
 
         return new ArrayList(new HashSet(extracted));
     }

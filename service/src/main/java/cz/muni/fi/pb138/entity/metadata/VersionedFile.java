@@ -10,10 +10,6 @@ public class VersionedFile {
     private int version;
     private boolean isDirectory;
 
-    public VersionedFile(String fullPath) {
-        this.fullPath = fullPath;
-    }
-
     public VersionedFile(String fullPath, int version) {
         this.fullPath = fullPath;
         this.version = version;

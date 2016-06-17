@@ -25,68 +25,68 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 /**
- *
  * @author gasior
  */
 public class WarExtractor {
 
-    private final WarFile warFile;
-    private final byte[] file;
-    private final String fullPath;
-    private byte[] webxml;
-    private final String webxmlLocation = "WEB-INF/web.xml";
-    private final String listenerElement = "listener-class";
-    private final String filterElement = "filter-class";
-    public WarExtractor(byte[] file, String fullPath) throws DataFormatException, IOException, ParserConfigurationException, SAXException {
-        this.file = file;
-        this.fullPath = fullPath;
-        
-        warFile = new WarFile();
-        warFile.setFile(file);
-        warFile.setNameVersionPair(new VersionedFile(fullPath));
-        extractMetaFiles(MetaFileType.WEBXML, webxmlLocation);
-        warFile.getMetaFiles().put(MetaFileType.WEBXML, webxml);
-        warFile.setFilterList(extract(filterElement));
-        warFile.setListenerList(extract(listenerElement));
-    }
-    private void extractMetaFiles(MetaFileType webxmlType, String location) throws DataFormatException, IOException, ParserConfigurationException, SAXException {
-        FileUtils.writeByteArrayToFile(new File("./tmp.war"), file);
-        ZipFile zipFile = new ZipFile("./tmp.war");
-        Enumeration entries = zipFile.entries();
-        while (entries.hasMoreElements()) {
-            ZipEntry ze = (ZipEntry) entries.nextElement();
-            if(ze.getName().equals(webxmlLocation)) {
-                webxml = IOUtils.toByteArray(zipFile.getInputStream(ze));
-            }
-        }
-        zipFile.close();
-        Files.delete(Paths.get("./tmp.war"));
-    }
+	private final WarFile warFile;
+	private final byte[] file;
+	private final String fullPath;
+	private byte[] webxml;
+	private final String webxmlLocation = "WEB-INF/web.xml";
+	private final String listenerElement = "listener-class";
+	private final String filterElement = "filter-class";
 
-    private List<String> extract(String extractedElement) throws ParserConfigurationException, IOException, SAXException {
-        List<String> extracted = new ArrayList<>();
-        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-        docBuilderFactory.setNamespaceAware(true);
-        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-        Document doc;
+	public WarExtractor(byte[] file, String fullPath) throws DataFormatException, IOException, ParserConfigurationException, SAXException {
+		this.file = file;
+		this.fullPath = fullPath;
 
-        doc = docBuilder.parse(new ByteArrayInputStream(webxml));
+		warFile = new WarFile();
+		warFile.setFile(file);
+		warFile.setNameVersionPair(new VersionedFile(fullPath, 1));
+		extractMetaFiles(MetaFileType.WEBXML, webxmlLocation);
+		warFile.getMetaFiles().put(MetaFileType.WEBXML, webxml);
+		warFile.setFilterList(extract(filterElement));
+		warFile.setListenerList(extract(listenerElement));
+	}
 
-        NodeList list = doc.getDocumentElement().getElementsByTagNameNS("*",extractedElement);
+	private void extractMetaFiles(MetaFileType webxmlType, String location) throws DataFormatException, IOException, ParserConfigurationException, SAXException {
+		FileUtils.writeByteArrayToFile(new File("./tmp.war"), file);
+		ZipFile zipFile = new ZipFile("./tmp.war");
+		Enumeration entries = zipFile.entries();
+		while (entries.hasMoreElements()) {
+			ZipEntry ze = (ZipEntry) entries.nextElement();
+			if (ze.getName().equals(webxmlLocation)) {
+				webxml = IOUtils.toByteArray(zipFile.getInputStream(ze));
+			}
+		}
+		zipFile.close();
+		Files.delete(Paths.get("./tmp.war"));
+	}
 
-        for (int i = 0; i < list.getLength(); i++) {
-            Element element = (Element) list.item(i);
-            extracted.add(element.getTextContent());
-        }
+	private List<String> extract(String extractedElement) throws ParserConfigurationException, IOException, SAXException {
+		List<String> extracted = new ArrayList<>();
+		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+		docBuilderFactory.setNamespaceAware(true);
+		DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+		Document doc;
+
+		doc = docBuilder.parse(new ByteArrayInputStream(webxml));
+
+		NodeList list = doc.getDocumentElement().getElementsByTagNameNS("*", extractedElement);
+
+		for (int i = 0; i < list.getLength(); i++) {
+			Element element = (Element) list.item(i);
+			extracted.add(element.getTextContent());
+		}
+
+		return new ArrayList(new HashSet(extracted));
+	}
 
 
-        return new ArrayList(new HashSet(extracted));
-    }
+	public WarFile getWarFile() {
+		return warFile;
+	}
 
 
-    public WarFile getWarFile() {
-        return warFile;
-    }
- 
-   
 }

@@ -4,10 +4,14 @@ import cz.muni.fi.pb138.api.FileService;
 import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.webmvc.AbstractIntegrationTest;
 import org.apache.commons.io.IOUtils;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Created by gasior on 15.05.2016
@@ -38,7 +42,7 @@ public class DatabaseIOTests extends AbstractIntegrationTest {
 		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", file);
 		byte[] readFile = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
 
-		Assert.assertArrayEquals(file, readFile);
+		assertThat(file).isEqualTo(readFile);
 	}
 
 	@Test
@@ -47,7 +51,7 @@ public class DatabaseIOTests extends AbstractIntegrationTest {
 		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl", file);
 		byte[] readFile = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
 
-		Assert.assertArrayEquals(file, readFile);
+		assertThat(file).isEqualTo(readFile);
 	}
 
 	@Test
@@ -56,8 +60,7 @@ public class DatabaseIOTests extends AbstractIntegrationTest {
 		fileService.saveFile("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", file);
 		byte[] readFile = fileService.getFileByFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
 
-
-		Assert.assertArrayEquals(file, readFile);
+		assertThat(file).isEqualTo(readFile);
 	}
 
 }

@@ -7,7 +7,9 @@ import cz.muni.fi.pb138.entity.xsd.XsdFile;
 import cz.muni.fi.pb138.webmvc.AbstractIntegrationTest;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.junit.*;
+import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.*;
 
 import java.io.File;
 
@@ -21,9 +23,9 @@ public class FileParsersTests extends AbstractIntegrationTest {
 		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.wsdl"));
 		WsdlFile parsedFile = (WsdlFile) fileProcessor.processWsdl("src/test/resources/test.wsdl", file);
 		FileUtils.writeByteArrayToFile(new File("src/test/resources/wsdlmeta.xml"), parsedFile.getMeta());
-		Assert.assertTrue(0 < parsedFile.getOperations().size());
-		Assert.assertTrue(0 < parsedFile.getRequests().size());
-		Assert.assertTrue(0 < parsedFile.getResponses().size());
+		assertThat(parsedFile.getOperations().size()).isGreaterThan(0);
+		assertThat(parsedFile.getRequests().size()).isGreaterThan(0);
+		assertThat(parsedFile.getResponses().size()).isGreaterThan(0);
 
 	}
 
@@ -32,10 +34,10 @@ public class FileParsersTests extends AbstractIntegrationTest {
 		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
 		XsdFile parsedFile = (XsdFile) fileProcessor.processXsd("src/test/resources/test.xsd", file);
 		FileUtils.writeByteArrayToFile(new File("src/test/resources/xsdmeta.xml"), parsedFile.getMeta());
-		Assert.assertTrue(0 < parsedFile.getAttributes().size());
-		Assert.assertTrue(0 < parsedFile.getComplexTypes().size());
-		Assert.assertTrue(0 < parsedFile.getElements().size());
-		Assert.assertTrue(0 < parsedFile.getSimpleTypes().size());
+		assertThat(parsedFile.getAttributes().size()).isGreaterThan(0);
+		assertThat(parsedFile.getComplexTypes().size()).isGreaterThan(0);
+		assertThat(parsedFile.getElements().size()).isGreaterThan(0);
+		assertThat(parsedFile.getSimpleTypes().size()).isGreaterThan(0);
 	}
 
 	@Test
@@ -43,8 +45,8 @@ public class FileParsersTests extends AbstractIntegrationTest {
 		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.war"));
 		WarFile parsedFile = (WarFile) fileProcessor.processWar("src/test/resources/test.war", file);
 		FileUtils.writeByteArrayToFile(new File("src/test/resources/warmeta.xml"), parsedFile.getMeta());
-		Assert.assertNotNull(parsedFile.getMetaFiles().get(MetaFileType.WEBXML));
-		Assert.assertTrue(0 < parsedFile.getFilterList().size());
-		Assert.assertTrue(0 < parsedFile.getListenerList().size());
+		assertThat(parsedFile.getMetaFiles().get(MetaFileType.WEBXML)).isNotNull();
+		assertThat(parsedFile.getFilterList().size()).isGreaterThan(0);
+		assertThat(parsedFile.getListenerList().size()).isGreaterThan(0);
 	}
 }
