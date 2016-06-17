@@ -26,8 +26,7 @@ public class PathFinder {
 	 * @return versioned path
 	 */
 	public String getVersionedPath(String fullPath, int version, FileType type) {
-		String noSuffix = getPathWithoutSuffix(fullPath);
-		return noSuffix + "_" + version + type.toString();
+		return getPathWithoutSuffix(fullPath) + "_" + version + type.toString();
 	}
 
 	/**
@@ -76,10 +75,19 @@ public class PathFinder {
 		return output;
 	}
 
+	/**
+	 * Parses Java array of Files into list List<VersionedFile>
+	 *
+	 * @param fileList to parse
+	 * @param namespace directory path
+	 * @param allVersions hether to return all or only the latest versions
+	 * @param fileType whether to filter by file type, null means no filtering
+	 * @return list of versioned files
+	 */
 	public List<VersionedFile> parseFileList(File[] fileList, String namespace, boolean allVersions, FileType fileType) {
 		List<VersionedFile> output = new ArrayList<>();
 		for (File file : fileList) {
-			if (file.isDirectory()) output.add(new VersionedFile(namespace, 0, true));
+			if (file.isDirectory()) output.add(new VersionedFile(file.getName(), 0, true));
 			else {
 				String fileName = file.getName();
 				if (fileType != null) {

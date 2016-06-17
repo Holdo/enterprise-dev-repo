@@ -57,7 +57,6 @@ public class FileServiceImpl implements FileService {
 	private String META_DATABASE_NAME;
 
 	private final String META_FILE_SUFFIX = ".xml";
-	private final String[] supportedFiles = {".war", ".xsd", ".wsdl"};
 	private String databaseRawFileSystemRoot = null;
 
 	@PostConstruct
@@ -71,23 +70,15 @@ public class FileServiceImpl implements FileService {
 		log.debug("Received {} bytes file as {}", fileBytes.length, fullPath);
 		FileBase file = null;
 
-		for (String s : supportedFiles) {
-			if (fullPath.endsWith(s)) {
-				if (s.equals(".war")) {
-					file = fileProcessor.processWar(fullPath, fileBytes);
-				}
-				if (s.equals(".xsd")) {
-					file = fileProcessor.processXsd(fullPath, fileBytes);
-				}
-				if (s.equals(".wsdl")) {
-					file = fileProcessor.processWsdl(fullPath, fileBytes);
-				}
+		for (FileType fileType : FileType.values()) {
+			if (fullPath.endsWith(fileType.toString())) {
+				if (fileType.equals(FileType.WAR)) file = fileProcessor.processWar(fullPath, fileBytes);
+				if (fileType.equals(FileType.XSD)) file = fileProcessor.processXsd(fullPath, fileBytes);
+				if (fileType.equals(FileType.WSDL)) file = fileProcessor.processWsdl(fullPath, fileBytes);
 			}
 		}
 
-		if (null == file) {
-			throw new IOException("Invalid file: " + fullPath);
-		}
+		if (file == null) throw new IOException("Invalid file: " + fullPath);
 
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String vNamespace = fullPath.substring(0, fullPath.lastIndexOf(File.separator) + 1);
@@ -121,9 +112,7 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public void deleteFile(String fullPath, int version) throws IOException {
-		if (version == 0) {
-			throw new IOException("Not existing version");
-		}
+		if (version == 0) throw new IOException("Not existing version");
 		fullPath = normalizeFullPath(fullPath);
 		FileBase f = getFileInstance(fullPath, version);
 		String deletePath = pathFinder.getVersionedPath(fullPath, version, f.getType());

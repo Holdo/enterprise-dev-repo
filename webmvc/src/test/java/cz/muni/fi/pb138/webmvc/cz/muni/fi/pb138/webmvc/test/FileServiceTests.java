@@ -9,14 +9,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.zip.DataFormatException;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -54,7 +50,7 @@ public class FileServiceTests extends AbstractIntegrationTest {
 	}
 
 	@Test
-	public void IOFileTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
+	public void IOFileTest() throws Exception {
 		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
 		byte[] file2 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test2.xsd"));
 
@@ -70,8 +66,8 @@ public class FileServiceTests extends AbstractIntegrationTest {
 		assertThat(file2).isEqualTo(readFileLast);
 	}
 
-	@Test(expected = BaseXException.class)
-	public void deleteFileTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
+	@Test
+	public void deleteFileTest() throws Exception {
 		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
 		byte[] file2 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test2.xsd"));
 
@@ -90,12 +86,12 @@ public class FileServiceTests extends AbstractIntegrationTest {
 		assertThat(file).isEqualTo(readFileLast);
 
 		fileService.deleteFile(testXSD1fullPath);
-		readFileLast = fileService.getFileByFullPath(testXSD1fullPath);
+		assertThatExceptionOfType(BaseXException.class).isThrownBy(() -> fileService.getFileByFullPath(testXSD1fullPath));
 
 	}
 
 	@Test
-	public void listFileVersionsTest() throws IOException, SAXException, DataFormatException, ParserConfigurationException, JAXBException {
+	public void listFileVersionsTest() throws Exception {
 		byte[] file = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("test.xsd"));
 
 		fileService.saveFile(testXSD1fullPath, file);
