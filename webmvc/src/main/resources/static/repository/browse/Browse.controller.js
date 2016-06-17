@@ -13,8 +13,8 @@ sap.ui.define([
         onInit: function () {
             //Set model
             this.getView().setModel(new JSONModel({
-                test: "",
-                test2: ""
+                test: "test",
+                test2: "test2"
             }));
         },
         onExit: function () {

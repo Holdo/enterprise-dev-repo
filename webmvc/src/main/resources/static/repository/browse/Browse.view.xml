@@ -3,12 +3,35 @@
     <Panel width="auto" class="sapUiResponsiveMargin">
         <content>
             <VBox alignItems="Center" justifyContent="SpaceBetween">
-                <Text text="Artifact Upload Form" class="sapMH4FontSize"/>
-                <Text text="Here you can upload WAR, WSDL or XSD into the repository" class="sapUiTinyMarginTop"/>
+                <Text text="Artifact Browser" class="sapMH4FontSize"/>
+                <Text text="Here you can browse your repository" class="sapUiTinyMarginTop"/>
             </VBox>
         </content>
     </Panel>
-    <VBox alignItems="Center">
-
+    <VBox alignItems="Center" justifyContent="SpaceBetween">
+        <Panel width="auto" class="sapUiResponsiveMargin sapUiNoContentPadding">
+            <content>
+                <Breadcrumbs currentLocationText="level2" class="sapUiSmallMargin">
+                    <Link press="onPress" text="Root"/>
+                    <Link press="onPress" text="level1"/>
+                </Breadcrumbs>
+            </content>
+        </Panel>
+        <List showNoData="true" noDataText="No Data"
+              items="{
+			          path: '/',
+			          sorter: {
+				          path: 'test'
+			          }
+		          }">
+            <items>
+                <ColumnListItem>
+                    <cells>
+                        <ObjectIdentifier title="{test}" text="{test2}"/>
+                        <Text text="ok"/>
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </List>
     </VBox>
 </mvc:View>
