@@ -17,21 +17,21 @@
                 </Breadcrumbs>
             </content>
         </Panel>
-        <List showNoData="true" noDataText="No Data"
+        <List showNoData="true" noDataText="No Data" includeItemInSelection="true"
               items="{
 			          path: '/',
 			          sorter: {
 				          path: 'test'
 			          }
 		          }">
-            <items>
-                <ColumnListItem>
-                    <cells>
-                        <ObjectIdentifier title="{test}" text="{test2}"/>
-                        <Text text="ok"/>
-                    </cells>
-                </ColumnListItem>
-            </items>
+            <StandardListItem
+                    title="{test}"
+                    description="{test2}"
+                    icon="{ProductPicUrl}"
+                    iconDensityAware="false"
+                    iconInset="false"
+                    press="handlePress"
+                    detailPress="handleDetailPress" />
         </List>
     </VBox>
 </mvc:View>
