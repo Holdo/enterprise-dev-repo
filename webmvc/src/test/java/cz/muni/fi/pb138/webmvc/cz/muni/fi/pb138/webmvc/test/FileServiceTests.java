@@ -141,7 +141,7 @@ public class FileServiceTests extends AbstractIntegrationTest {
 		assertThat(wsdls.size()).isEqualTo(4);
 
 		for (VersionedFile p : allLatest) {
-			assertThat(p.getPath()).startsWith(testNamespace + File.separator + "test.");
+			assertThat(p.getFullPath()).startsWith(testNamespace + File.separator + "test.");
 			assertThat(p.getVersion()).isEqualTo(4);
 			assertThat(p.isDirectory()).isFalse();
 		}
@@ -149,7 +149,7 @@ public class FileServiceTests extends AbstractIntegrationTest {
 		int i = 1;
 		int j = 0;
 		for (VersionedFile p : all) {
-			assertThat(p.getPath()).startsWith(testNamespace + File.separator + "test.");
+			assertThat(p.getFullPath()).startsWith(testNamespace + File.separator + "test.");
 			assertThat(p.getVersion()).isEqualTo(i);
 			assertThat(p.isDirectory()).isFalse();
 			j++;
@@ -161,7 +161,7 @@ public class FileServiceTests extends AbstractIntegrationTest {
 
 		i = 1;
 		for (VersionedFile p : xsds) {
-			assertThat(p.getPath()).isEqualTo(testXSD1fullPath);
+			assertThat(p.getFullPath()).isEqualTo(testXSD1fullPath);
 			assertThat(p.getVersion()).isEqualTo(i);
 			assertThat(p.isDirectory()).isFalse();
 			i++;
@@ -169,7 +169,7 @@ public class FileServiceTests extends AbstractIntegrationTest {
 
 		i = 1;
 		for (VersionedFile p : wars) {
-			assertThat(p.getPath()).isEqualTo(testWAR1fullPath);
+			assertThat(p.getFullPath()).isEqualTo(testWAR1fullPath);
 			assertThat(p.getVersion()).isEqualTo(i);
 			assertThat(p.isDirectory()).isFalse();
 			i++;
@@ -177,7 +177,7 @@ public class FileServiceTests extends AbstractIntegrationTest {
 
 		i = 1;
 		for (VersionedFile p : wsdls) {
-			assertThat(p.getPath()).isEqualTo(testWSDL1fullPath);
+			assertThat(p.getFullPath()).isEqualTo(testWSDL1fullPath);
 			assertThat(p.getVersion()).isEqualTo(i);
 			assertThat(p.isDirectory()).isFalse();
 			i++;

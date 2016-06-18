@@ -1,6 +1,7 @@
 package cz.muni.fi.pb138.entity.metadata;
 
 import java.io.File;
+import java.nio.file.Paths;
 
 /**
  *
@@ -13,16 +14,17 @@ public class VersionedFile {
     private int version;
     private boolean isDirectory;
 
-    public VersionedFile(String path, int version, boolean isDirectory) {
-        this.name = path.substring(path.lastIndexOf(File.separator) + 1);
-        this.path = path;
+    public VersionedFile(String fullPath, int version, boolean isDirectory) {
+        fullPath = Paths.get(fullPath).toString();
+        this.name = fullPath.substring(fullPath.lastIndexOf(File.separator) + 1);
+        this.path = fullPath.substring(0, fullPath.lastIndexOf(File.separator));
         this.version = version;
         this.isDirectory = isDirectory;
     }
 
     public VersionedFile(String name, String path, int version, boolean isDirectory) {
         this.name = name;
-        this.path = path;
+        this.path = Paths.get(path).toString();
         this.version = version;
         this.isDirectory = isDirectory;
     }
@@ -41,6 +43,15 @@ public class VersionedFile {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getFullPath() {
+        return Paths.get(path + File.separator + name).toString();
+    }
+
+    public void setFullPath(String fullPath) {
+        this.name = fullPath.substring(fullPath.lastIndexOf(File.separator) + 1);
+        this.path = fullPath.substring(0, fullPath.lastIndexOf(File.separator));
     }
 
     public int getVersion() {
