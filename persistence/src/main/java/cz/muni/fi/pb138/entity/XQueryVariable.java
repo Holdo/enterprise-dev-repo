@@ -30,4 +30,13 @@ public class XQueryVariable {
 	public XQueryType getType() {
 		return type;
 	}
+
+	@Override
+	public String toString() {
+		return "XQueryVariable{" +
+				"name='" + name + '\'' +
+				", value='" + value + '\'' +
+				", type=" + type +
+				'}';
+	}
 }

@@ -57,6 +57,7 @@ public class DatabaseDaoImpl implements DatabaseDao {
 	}
 
 	public String runXQuery(String xQuery) throws BaseXException {
+		log.debug("Executing XQuery {}", xQuery);
 		return new XQuery(xQuery).execute(dbCtx.getContext());
 	}
 
@@ -64,6 +65,10 @@ public class DatabaseDaoImpl implements DatabaseDao {
 		XQuery xq = new XQuery(xQuery);
 		for (XQueryVariable variable : variables) {
 			xq.bind(variable.getName(), variable.getValue(), variable.getType().toString());
+		}
+		log.debug("Executing {}", xq);
+		for (XQueryVariable variable : variables) {
+			log.debug(variable.toString());
 		}
 		return xq.execute(dbCtx.getContext());
 	}
