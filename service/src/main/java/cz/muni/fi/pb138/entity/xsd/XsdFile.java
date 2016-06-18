@@ -95,12 +95,6 @@ public class XsdFile implements FileBase {
 		String xmlString = sw.toString();
 		log.debug("Extracted metadata XML from XSD: {}", xmlString);
 
-		JAXBContext jaxbContext = JAXBContext.newInstance(XsdMeta.class);
-
-		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-		XsdMeta items = (XsdMeta) jaxbUnmarshaller.unmarshal(new ByteArrayInputStream(xmlString.getBytes(StandardCharsets.UTF_8)));
-
-
 
 
 		return xmlString.getBytes(StandardCharsets.UTF_8);
