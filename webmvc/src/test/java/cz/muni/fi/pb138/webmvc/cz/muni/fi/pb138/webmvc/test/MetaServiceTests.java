@@ -1,8 +1,11 @@
 package cz.muni.fi.pb138.webmvc.cz.muni.fi.pb138.webmvc.test;
 
+import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import cz.muni.fi.pb138.enums.MetaFileType;
 import cz.muni.fi.pb138.entity.metadata.MetaFilePathVersionTriplet;
+import cz.muni.fi.pb138.enums.MetaParameterType;
 import cz.muni.fi.pb138.webmvc.AbstractIntegrationTest;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -12,7 +15,9 @@ import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.zip.DataFormatException;
 
 import static org.assertj.core.api.Assertions.*;
@@ -56,14 +61,18 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 
 	@Test
 	public void  getAllMetaParametersByMetaParameterTypeTest() {}
+*/
+	@Test
+	public void  getAllMetaFilesByMetaFileTypeTest() throws IOException {
+		List<MetaFilePathVersionTriplet> output = metaService.getAllMetaFilesByMetaFileType(MetaFileType.WEBXML, "/");
+		assertThat(output.size() == 2);
+	}
+
 
 	@Test
-	public void  getAllMetaFilesByMetaFileTypeTest(){}*/
-
-	@Test
-	@Ignore //TODO fixme
 	public void getMetaFileByFileFullPathVersionedTest() throws IOException {
-		byte[] reference = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("web.xml"));
+		byte[] reference1 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("web.xml"));
+		byte[] reference2 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("web2.xml"));
 
 		MetaFilePathVersionTriplet readWebxmlShouldBeVersion2 = metaService.getMetaFileByFileFullPath(MetaFileType.WEBXML, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
 		MetaFilePathVersionTriplet readWebxmlShouldBeVersion2Too = metaService.getMetaFileByFileFullPathAndVersion(MetaFileType.WEBXML, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", 2);
@@ -73,13 +82,20 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 		assertThat(readWebxmlShouldBeVersion2).isNotNull();
 		assertThat(readWebxmlShouldBeVersion2Too).isNotNull();
 
-		assertThat(reference)
-				.isEqualTo(readWebxmlShouldBeVersion1.getFile())
-				.isEqualTo(readWebxmlShouldBeVersion2.getFile())
-				.isEqualTo(readWebxmlShouldBeVersion2Too.getFile());
+		FileUtils.writeByteArrayToFile(new File("./wbxmltest1.xml"),readWebxmlShouldBeVersion1.getFile());
+		FileUtils.writeByteArrayToFile(new File("./wbxmltest2.xml"),readWebxmlShouldBeVersion2.getFile());
+		FileUtils.writeByteArrayToFile(new File("./wbxmltest22.xml"),readWebxmlShouldBeVersion2Too.getFile());
+
+		assertThat(reference1).isEqualTo(readWebxmlShouldBeVersion1.getFile());
+		assertThat(reference2).isEqualTo(readWebxmlShouldBeVersion2.getFile());
+		assertThat(reference2).isEqualTo(readWebxmlShouldBeVersion2Too.getFile());
 	}
 
-   /* @Test
-	public void  getMetaParametersByFileFullPathVersionedTest() {}*/
+    @Test
+	public void  getMetaParametersByFileFullPathVersionedTest() throws IOException {
+		List<VersionedFile> xsd1Attributes = metaService.getMetaParametersByFileFullPath(MetaParameterType.ATTRIBUTE, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+		assertThat(!xsd1Attributes.isEmpty());
+	}
+
 
 }

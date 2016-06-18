@@ -43,7 +43,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
  <filter>
    <display-name>Filter1</display-name>
    <filter-name>Filter1</filter-name>
-   <filter-class>Filter2</filter-class>
+   <filter-class>Filter1</filter-class>
  </filter>
  
  <filter-mapping>
@@ -61,7 +61,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
  </filter-mapping>
  
  <listener>
-   <listener-class>Listener2</listener-class>
+   <listener-class>Listener1</listener-class>
  </listener>
  
  <welcome-file-list>
