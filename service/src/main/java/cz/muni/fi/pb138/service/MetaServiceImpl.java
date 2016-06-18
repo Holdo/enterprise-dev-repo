@@ -127,8 +127,7 @@ public class MetaServiceImpl implements MetaService {
 		switch (parameterType) {
 			case ATTRIBUTE:
                 path = pathFinder.getVersionedPath(fullPath, version, FileType.XSD);
-                xQueryVariable = new XQueryVariable("file", path+".xml", XQueryType.STRING);
-				databaseDao.runXQuery(XQueryXsd.GET_ATTRIBUTES.toString(),xQueryVariable);
+				queryResult = databaseDao.runXQuery(XQueryXsd.GET_ATTRIBUTES.toString());
 				break;
 			case SIMPLETYPE:
                 path = pathFinder.getVersionedPath(fullPath, version, FileType.XSD);

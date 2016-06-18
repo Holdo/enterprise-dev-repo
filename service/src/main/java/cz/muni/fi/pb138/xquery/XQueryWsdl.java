@@ -1,23 +1,30 @@
 package cz.muni.fi.pb138.xquery;
 
-/**
- * @author Peter Hutta
- * @version 1.0  11.5.2016
- */
+
 public enum XQueryWsdl {
-    GET_OPERATIONS("declare variable $file as xs:string external;" +
-            "for $op in distinct-values(doc($file)//*[name()='operation']/@name)" +
-            "return data($op)"),
+    GET_OPERATIONS("declare variable $metas := //wsdlmeta; "+ "<items>{"+
+            "for $meta in $metas \n"+
+            "for $attr in $meta//operation"
+            + " return <item><type>operation</type><name>{$attr/text()}</name><fullPath>{$meta/pathVersionPair/fullPath/text()}</fullPath>"+"<version>{$meta/pathVersionPair/version/text()}</version></item>}</items>"),
 
-    GET_REQUESTS("declare variable $file as xs:string external;" +
-            "for $op in distinct-values(doc($file)//*[name()='request']/@name)" +
-            "return data($op)"),
+    GET_REQUESTS("declare variable $metas := //wsdlmeta; "+ "<items>{"+
+                         "for $meta in $metas \n"+
+                         "for $attr in $meta//request"
+                         + " return <item><type>request</type><name>{$attr/text()}</name><fullPath>{$meta/pathVersionPair/fullPath/text()}</fullPath>"+"<version>{$meta/pathVersionPair/version/text()}</version></item>}</items>"),
 
 
-    GET_RESPONSES("declare variable $file as xs:string external;" +
-            "for $op in distinct-values(doc($file)//*[name()='response']/@name)" +
-            "return data($op)");
+    GET_RESPONSES("declare variable $metas := //wsdlmeta; "+ "<items>{"+
+            "for $meta in $metas \n"+
+            "for $attr in $meta//response"
+            + " return <item><type>response</type><name>{$attr/text()}</name><fullPath>{$meta/pathVersionPair/fullPath/text()}</fullPath>"+"<version>{$meta/pathVersionPair/version/text()}</version></item>}</items>"),
 
+    GET_OPERATIONS_BY_FILE("a"),
+    GET_REQUESTS_BY_FILE("a"),
+    GET_RESPONSES_BY_FILE("a"),
+
+    GET_FILE_BY_OPERATION("b"),
+    GET_FILE_BY_REQUEST("b"),
+    GET_FILE_BY_RESPONSE("b");
 
     private final String text;
 

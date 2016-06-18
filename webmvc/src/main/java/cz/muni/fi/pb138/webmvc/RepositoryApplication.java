@@ -1,6 +1,7 @@
 package cz.muni.fi.pb138.webmvc;
 
 import cz.muni.fi.pb138.webmvc.websocket.WebSocketConfig;
+import org.basex.BaseXGUI;
 import org.basex.BaseXServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,6 +17,7 @@ public class RepositoryApplication {
 	public static void main(String[] args) throws Exception {
 		//Start the DB first
 		BaseXServer.main(new String[]{});
+		BaseXGUI.main(new String[]{});
 		//Start Spring container
 		SpringApplication.run(RepositoryApplication.class, args);
 	}
