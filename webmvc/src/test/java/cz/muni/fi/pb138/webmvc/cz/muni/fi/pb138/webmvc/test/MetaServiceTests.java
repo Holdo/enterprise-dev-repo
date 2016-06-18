@@ -1,6 +1,8 @@
 package cz.muni.fi.pb138.webmvc.cz.muni.fi.pb138.webmvc.test;
 
+import cz.muni.fi.pb138.entity.metadata.Items;
 import cz.muni.fi.pb138.entity.metadata.VersionedFile;
+import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
 import cz.muni.fi.pb138.entity.metadata.MetaFilePathVersionTriplet;
 import cz.muni.fi.pb138.enums.MetaParameterType;
@@ -9,6 +11,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -53,18 +56,12 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 		databaseDao.dropDatabase(META_DATABASE_NAME);
 	}
 
-	/*@Test
-	public void  getFilesFullPathsByMetaParameterTest()  {
 
-	}
 
-	@Test
-	public void  getAllMetaParametersByMetaParameterTypeTest() {}
-*/
 	@Test
 	public void  getAllMetaFilesByMetaFileTypeTest() throws IOException {
 		List<MetaFilePathVersionTriplet> output = metaService.getAllMetaFilesByMetaFileType(MetaFileType.WEBXML, "/");
-		assertThat(output.size()).isEqualTo(2);
+		assertThat(output.size() == 2);
 	}
 
 
@@ -91,9 +88,41 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 	}
 
     @Test
-	public void  getMetaParametersByFileFullPathVersionedTest() throws IOException {
-		List<VersionedFile> xsd1Attributes = metaService.getMetaParametersByFileFullPath(MetaParameterType.ATTRIBUTE, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
-		assertThat(xsd1Attributes).isNotEmpty();
+	public void  getMetaParametersByFileFullPathVersionedTest() throws IOException, JAXBException {
+		Items xsdMeta = metaService.getMetaParametersByFileFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+		Items wsdlMeta = metaService.getMetaParametersByFileFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
+		Items warMeta = metaService.getMetaParametersByFileFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
+		assertThat( 0 < xsdMeta.getItem().size());
+		assertThat( 0 < wsdlMeta.getItem().size());
+		assertThat( 0 < warMeta.getItem().size());
+	}
+
+	@Test
+	public void  getFilesFullPathsByMetaParameterTest() throws IOException {
+
+		List<VersionedFile> warsByListener = metaService.getFilesFullPathsByMetaParameter(FileType.WAR,MetaParameterType.LISTENER, "Listener1");
+		List<VersionedFile> warsByFilter = metaService.getFilesFullPathsByMetaParameter(FileType.WAR,MetaParameterType.FILTER, "Filter1");
+
+		List<VersionedFile> xsdsByAttribute = metaService.getFilesFullPathsByMetaParameter(FileType.WAR,MetaParameterType.ATTRIBUTE, "kategorie");
+		List<VersionedFile> xsdsByElement = metaService.getFilesFullPathsByMetaParameter(FileType.WAR,MetaParameterType.ELEMENT, "divize");
+		List<VersionedFile> xsdsByComplexType = metaService.getFilesFullPathsByMetaParameter(FileType.WAR,MetaParameterType.COMPLEXTYPE, "osobaType");
+		List<VersionedFile> xsdsBySimpleType = metaService.getFilesFullPathsByMetaParameter(FileType.WAR,MetaParameterType.SIMPLETYPE, "dphType");
+
+		List<VersionedFile> wsdlsByOperation = metaService.getFilesFullPathsByMetaParameter(FileType.WAR,MetaParameterType.OPERATION, "sayHello");
+		List<VersionedFile> wsdlsByRequest = metaService.getFilesFullPathsByMetaParameter(FileType.WAR,MetaParameterType.REQUEST, "tsn:sayHelloRequest");
+		List<VersionedFile> wsdlsByResponse = metaService.getFilesFullPathsByMetaParameter(FileType.WAR,MetaParameterType.RESPONSE, "tsn:sayHelloResponse");
+
+		assertThat( 0 < warsByListener.size());
+		assertThat( 0 < warsByFilter.size());
+
+		assertThat( 0 < xsdsByAttribute.size());
+		assertThat( 0 < xsdsByElement.size());
+		assertThat( 0 < xsdsByComplexType.size());
+		assertThat( 0 < xsdsBySimpleType.size());
+
+		assertThat( 0 < wsdlsByOperation.size());
+		assertThat( 0 < wsdlsByRequest.size());
+		assertThat( 0 < wsdlsByResponse.size());
 	}
 
 

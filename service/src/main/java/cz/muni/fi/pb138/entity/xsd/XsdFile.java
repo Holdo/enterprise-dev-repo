@@ -1,5 +1,6 @@
 package cz.muni.fi.pb138.entity.xsd;
 
+import cz.muni.fi.pb138.entity.metadata.Items;
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
 import cz.muni.fi.pb138.entity.FileBase;
@@ -7,6 +8,7 @@ import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -14,6 +16,7 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 /**
  * Pro XSD schémata se vyextrahuje seznam typů (simple a complex) a seznam
@@ -91,6 +94,9 @@ public class XsdFile implements FileBase {
 		marshaller.marshal(new XsdMeta(nameVersionPair, elements, attributes, simpleTypes, complexTypes), sw);
 		String xmlString = sw.toString();
 		log.debug("Extracted metadata XML from XSD: {}", xmlString);
+
+
+
 		return xmlString.getBytes(StandardCharsets.UTF_8);
 	}
 
