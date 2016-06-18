@@ -29,12 +29,6 @@
             <artifactId>spring-boot-starter-logging</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
-        <dependency>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-            <version>1.3.04</version>
-            <type>jar</type>
-        </dependency>
 
         <!-- Tests -->
         <dependency>

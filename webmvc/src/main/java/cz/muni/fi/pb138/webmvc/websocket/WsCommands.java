@@ -24,6 +24,6 @@ public class WsCommands {
 
 	public List<VersionedFile> listDir(Map<String, String> args) throws IOException {
 		log.debug("Listing {}", args.get("namespace").equals("")? "\\" : args.get("namespace"));
-		return fileService.listAllFiles(args.get("namespace"), false);
+		return fileService.listAllFiles(args.get("namespace"), false, false);
 	}
 }

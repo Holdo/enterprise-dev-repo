@@ -5,7 +5,7 @@ package cz.muni.fi.pb138.enums;
  * @author gasior
  */
 public enum FileType {
-    WAR(".war"), XSD(".xsd"), WSDL(".wsdl");
+    WAR(".war"), XSD(".xsd"), WSDL(".wsdl"), WEB_XML(".war.web.xml");
 
     private final String text;
 

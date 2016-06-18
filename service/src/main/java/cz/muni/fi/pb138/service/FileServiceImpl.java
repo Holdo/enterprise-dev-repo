@@ -58,10 +58,12 @@ public class FileServiceImpl implements FileService {
 
 	private final String META_FILE_SUFFIX = ".xml";
 	private String databaseRawFileSystemRoot = null;
+	private String metaDatabaseRawFileSystemRoot = null;
 
 	@PostConstruct
 	public void setDatabaseRawFileSystemRoot() {
-		databaseRawFileSystemRoot = databaseDao.getDatabaseRawFileSystemRoot();
+		databaseRawFileSystemRoot = databaseDao.getBinaryDataFileSystemRoot();
+		metaDatabaseRawFileSystemRoot = databaseDao.getBinaryMetadataFileSystemRoot();
 	}
 
 	@Override
@@ -160,16 +162,32 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public List<VersionedFile> listAllFiles(String namespace, boolean allVersions) throws IOException {
+	public List<VersionedFile> listAllFiles(String namespace, boolean allVersions, boolean metaDatabase) throws IOException {
 		namespace = normalizeFullPath(sanitizeNamespace(namespace));
-		return pathFinder.parseFileList(getFileSystemDir(namespace).listFiles(), namespace, allVersions, null);
+		return pathFinder.parseFileList(metaDatabase ?
+				getMetaDatabaseFileSystemDir(namespace).listFiles() :
+				getDatabaseFileSystemDir(namespace).listFiles(),
+				namespace, allVersions, null, false);
 	}
 
 	@Override
-	public List<VersionedFile> listAllFilesByFileType(String namespace, boolean allVersions, FileType fileType) throws IOException {
+	public List<VersionedFile> listAllFilesByFileType(String namespace, boolean allVersions, boolean metaDatabase, FileType fileType) throws IOException {
 		namespace = normalizeFullPath(sanitizeNamespace(namespace));
-		return pathFinder.parseFileList(getFileSystemDir(namespace).listFiles(), namespace, allVersions, fileType);
+		return pathFinder.parseFileList(metaDatabase ?
+				getMetaDatabaseFileSystemDir(namespace).listFiles() :
+				getDatabaseFileSystemDir(namespace).listFiles(),
+				namespace, allVersions, fileType, false);
 	}
+
+	@Override
+	public List<VersionedFile> listAllFilesByFileTypeRecursively(String namespace, boolean allVersions, boolean metaDatabase, FileType fileType) throws IOException {
+		namespace = normalizeFullPath(sanitizeNamespace(namespace));
+		return pathFinder.parseFileList(metaDatabase ?
+				getMetaDatabaseFileSystemDir(namespace).listFiles() :
+				getDatabaseFileSystemDir(namespace).listFiles(),
+				namespace, allVersions, fileType, true);
+	}
+
 
 	protected String normalizeFullPath(String fullPath) {
 		return Paths.get(fullPath).toString();
@@ -180,7 +198,7 @@ public class FileServiceImpl implements FileService {
 		return namespace;
 	}
 
-	protected File getFileSystemDir(String namespace) {
+	protected File getDatabaseFileSystemDir(String namespace) {
 		File dir = new File(databaseRawFileSystemRoot + namespace);
 		if (!dir.isDirectory()) {
 			try {
@@ -192,8 +210,16 @@ public class FileServiceImpl implements FileService {
 		return dir;
 	}
 
-	protected String getDatabaseRawFileSystemRoot() {
-		return this.databaseRawFileSystemRoot;
+	protected File getMetaDatabaseFileSystemDir(String namespace) {
+		File dir = new File(metaDatabaseRawFileSystemRoot + namespace);
+		if (!dir.isDirectory()) {
+			try {
+				throw new IOException("Not a directory: " + dir.getCanonicalPath());
+			} catch (IOException e) {
+				log.error("Exception during reading path of file system directory for {}", namespace, e);
+			}
+		}
+		return dir;
 	}
 
 	protected FileBase getFileInstance(String fullPath, int version) throws IOException {

@@ -43,6 +43,14 @@ public interface MetaService {
      */
     List<MetaFilePathVersionTriplet> getAllMetaFilesByMetaFileType(MetaFileType metaFileType, String namespace) throws IOException;
 
+	/**
+     *
+     * @param vf to convert
+     * @return MetaFilePathVersionTriplet
+     * @throws IOException
+     */
+    MetaFilePathVersionTriplet retrieveMetaFilePathVersionTriplet(VersionedFile vf) throws IOException;
+
     /**
      *
      * @param metaFileType

@@ -27,10 +27,14 @@ public class DatabaseDaoImpl implements DatabaseDao {
 	@Value("${cz.muni.fi.pb138.xml-db-name}")
 	private String XML_DATABASE_NAME;
 
+	@Value("${cz.muni.fi.pb138.meta-db-name}")
+	private String META_DATABASE_NAME;
+
 	@Autowired
 	private BaseXContext dbCtx;
 
-	private String dataLocation = null;
+	private String binaryDataLocation = null;
+	private String binaryMetadataLocation = null;
 
 	public String createDatabase(String name) throws IOException {
 		return new CreateDB(name).execute(dbCtx.getContext());
@@ -52,8 +56,12 @@ public class DatabaseDaoImpl implements DatabaseDao {
 		return new DropDB(name).execute(dbCtx.getContext());
 	}
 
-	public String getDatabaseRawFileSystemRoot() {
-		return dataLocation;
+	public String getBinaryDataFileSystemRoot() {
+		return binaryDataLocation;
+	}
+
+	public String getBinaryMetadataFileSystemRoot() {
+		return binaryMetadataLocation;
 	}
 
 	public String runXQuery(String xQuery) throws BaseXException {
@@ -97,7 +105,10 @@ public class DatabaseDaoImpl implements DatabaseDao {
 				}
 			}
 			if (line == null) log.error("BaseX data path not found");
-			else dataLocation = line + File.separator + XML_DATABASE_NAME + File.separator + "raw" + File.separator;
+			else {
+				binaryDataLocation = line + File.separator + XML_DATABASE_NAME + File.separator + "raw" + File.separator;
+				binaryMetadataLocation = line + File.separator + META_DATABASE_NAME + File.separator + "raw" + File.separator;
+			}
 		} catch (IOException e) {
 			log.error("Exception during locating BaseX data path", e);
 		}

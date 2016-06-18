@@ -58,7 +58,14 @@ public interface DatabaseDao {
 	 *
 	 * @return database raw (binary) files folder location
 	 */
-	String getDatabaseRawFileSystemRoot();
+	String getBinaryDataFileSystemRoot();
+
+	/**
+	 * Gets metadatabase raw (binary) files folder location
+	 *
+	 * @return metadatabase raw (binary) files folder location
+	 */
+	String getBinaryMetadataFileSystemRoot();
 
 	/**
 	 * Runs XQuery on the currently opened database (if not specified in XQuery)

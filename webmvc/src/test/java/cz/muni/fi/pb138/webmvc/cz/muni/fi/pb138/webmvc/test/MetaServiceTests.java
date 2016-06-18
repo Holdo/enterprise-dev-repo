@@ -11,7 +11,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -61,7 +60,7 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 	@Test
 	public void  getAllMetaFilesByMetaFileTypeTest() throws IOException {
 		List<MetaFilePathVersionTriplet> output = metaService.getAllMetaFilesByMetaFileType(MetaFileType.WEBXML, "/");
-		assertThat(output.size() == 2);
+		assertThat(output.size()).isEqualTo(2);
 	}
 
 
@@ -92,9 +91,9 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 		Items xsdMeta = metaService.getMetaParametersByFileFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
 		Items wsdlMeta = metaService.getMetaParametersByFileFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
 		Items warMeta = metaService.getMetaParametersByFileFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
-		assertThat( 0 < xsdMeta.getItem().size());
-		assertThat( 0 < wsdlMeta.getItem().size());
-		assertThat( 0 < warMeta.getItem().size());
+		assertThat(xsdMeta.getItem().size()).isGreaterThan(0);
+		assertThat(wsdlMeta.getItem().size()).isGreaterThan(0);
+		assertThat(warMeta.getItem().size()).isGreaterThan(0);
 	}
 
 	@Test
@@ -112,17 +111,17 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 		List<VersionedFile> wsdlsByRequest = metaService.getFilesFullPathsByMetaParameter(FileType.WAR,MetaParameterType.REQUEST, "tsn:sayHelloRequest");
 		List<VersionedFile> wsdlsByResponse = metaService.getFilesFullPathsByMetaParameter(FileType.WAR,MetaParameterType.RESPONSE, "tsn:sayHelloResponse");
 
-		assertThat( 0 < warsByListener.size());
-		assertThat( 0 < warsByFilter.size());
+		assertThat(warsByListener.size()).isGreaterThan(0);
+		assertThat(warsByFilter.size()).isGreaterThan(0);
 
-		assertThat( 0 < xsdsByAttribute.size());
-		assertThat( 0 < xsdsByElement.size());
-		assertThat( 0 < xsdsByComplexType.size());
-		assertThat( 0 < xsdsBySimpleType.size());
+		assertThat(xsdsByAttribute.size()).isGreaterThan(0);
+		assertThat(xsdsByElement.size()).isGreaterThan(0);
+		assertThat(xsdsByComplexType.size()).isGreaterThan(0);
+		assertThat(xsdsBySimpleType.size()).isGreaterThan(0);
 
-		assertThat( 0 < wsdlsByOperation.size());
-		assertThat( 0 < wsdlsByRequest.size());
-		assertThat( 0 < wsdlsByResponse.size());
+		assertThat(wsdlsByOperation.size()).isGreaterThan(0);
+		assertThat(wsdlsByRequest.size()).isGreaterThan(0);
+		assertThat(wsdlsByResponse.size()).isGreaterThan(0);
 	}
 
 

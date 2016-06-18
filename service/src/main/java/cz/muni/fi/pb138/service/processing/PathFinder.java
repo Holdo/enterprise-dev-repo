@@ -2,6 +2,8 @@ package cz.muni.fi.pb138.service.processing;
 
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.entity.metadata.VersionedFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -16,6 +18,8 @@ import java.util.List;
  */
 @Service
 public class PathFinder {
+
+	private static final Logger log = LoggerFactory.getLogger(PathFinder.class);
 
 	/**
 	 * Transforms full path into versioned path
@@ -82,12 +86,18 @@ public class PathFinder {
 	 * @param namespace directory path
 	 * @param allVersions hether to return all or only the latest versions
 	 * @param fileType whether to filter by file type, null means no filtering
+	 * @param recursively whether to parse folders recursively
 	 * @return list of versioned files
 	 */
-	public List<VersionedFile> parseFileList(File[] fileList, String namespace, boolean allVersions, FileType fileType) {
+	public List<VersionedFile> parseFileList(File[] fileList, String namespace, boolean allVersions, FileType fileType, boolean recursively) {
 		List<VersionedFile> output = new ArrayList<>();
 		for (File file : fileList) {
-			if (file.isDirectory()) output.add(new VersionedFile(file.getName(), namespace, 0, true));
+			if (file.isDirectory()) {
+				if (recursively) {
+					output.addAll(parseFileList(file.listFiles(), namespace + File.separator + file.getName(), allVersions, fileType, true));
+				}
+				output.add(new VersionedFile(file.getName(), namespace, 0, true));
+			}
 			else {
 				String fileName = file.getName();
 				if (fileType != null) {
@@ -170,6 +180,7 @@ public class PathFinder {
 	}
 	
 	private String getPathWithoutSuffix(String fullPath) {
+		if (!fullPath.contains(".")) log.error("There is no suffix in " + fullPath);
 		return Paths.get(fullPath.substring(0, fullPath.lastIndexOf("."))).toString();
 	}
 }

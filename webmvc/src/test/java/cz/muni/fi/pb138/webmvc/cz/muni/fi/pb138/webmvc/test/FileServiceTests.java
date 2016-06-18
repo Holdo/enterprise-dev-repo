@@ -128,11 +128,11 @@ public class FileServiceTests extends AbstractIntegrationTest {
 		fileService.saveFile(testWAR1fullPath, testWAR1file);
 
 
-		List<VersionedFile> all = fileService.listAllFiles(testNamespace, true);
-		List<VersionedFile> allLatest = fileService.listAllFiles(testNamespace, false);
-		List<VersionedFile> xsds = fileService.listAllFilesByFileType(testNamespace, true, FileType.XSD);
-		List<VersionedFile> wsdls = fileService.listAllFilesByFileType(testNamespace, true, FileType.WSDL);
-		List<VersionedFile> wars = fileService.listAllFilesByFileType(testNamespace, true, FileType.WAR);
+		List<VersionedFile> all = fileService.listAllFiles(testNamespace, true, false);
+		List<VersionedFile> allLatest = fileService.listAllFiles(testNamespace, false, false);
+		List<VersionedFile> xsds = fileService.listAllFilesByFileType(testNamespace, true, false, FileType.XSD);
+		List<VersionedFile> wsdls = fileService.listAllFilesByFileType(testNamespace, true, false, FileType.WSDL);
+		List<VersionedFile> wars = fileService.listAllFilesByFileType(testNamespace, true, false, FileType.WAR);
 
 		assertThat(all.size()).isEqualTo(12);
 		assertThat(allLatest.size()).isEqualTo(3);

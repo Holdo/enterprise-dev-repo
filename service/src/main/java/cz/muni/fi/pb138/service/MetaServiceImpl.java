@@ -97,12 +97,16 @@ public class MetaServiceImpl implements MetaService {
 		List<MetaFilePathVersionTriplet> output = new ArrayList<>();
 		databaseDao.openDatabase(META_DATABASE_NAME);
 		if (metaFileType == MetaFileType.WEBXML) {
-			for (VersionedFile path : fileService.listAllFilesByFileType(namespace, true, FileType.WAR)) {
-				MetaFilePathVersionTriplet triplet = new MetaFilePathVersionTriplet();
-				byte[] metaFile = binaryDao.retrieveBinaryFile(pathFinder.getVersionedPath(path.getFullPath(), path.getVersion(), FileType.WAR) + metaFileType.name());
-				triplet.setVersion(path.getVersion());
-				triplet.setFullPath(path.getFullPath());
-				triplet.setFile(metaFile);
+			if (namespace.equals("") || namespace.equals("/") || namespace.equals("\\")) {
+				for (VersionedFile vf : fileService.listAllFilesByFileTypeRecursively(namespace, true, true, FileType.WEB_XML)) {
+					if (vf.isDirectory()) continue;
+					output.add(retrieveMetaFilePathVersionTriplet(vf));
+				}
+			} else {
+				for (VersionedFile vf : fileService.listAllFilesByFileType(namespace, true, true, FileType.WEB_XML)) {
+					if (vf.isDirectory()) continue;
+					output.add(retrieveMetaFilePathVersionTriplet(vf));
+				}
 			}
 		}
 		databaseDao.closeDatabase();
@@ -110,7 +114,14 @@ public class MetaServiceImpl implements MetaService {
 		return output;
 	}
 
-
+	public MetaFilePathVersionTriplet retrieveMetaFilePathVersionTriplet(VersionedFile vf) throws IOException {
+		MetaFilePathVersionTriplet triplet = new MetaFilePathVersionTriplet();
+		byte[] metaFile = binaryDao.retrieveBinaryFile(pathFinder.getVersionedPath(vf.getFullPath(), vf.getVersion(), FileType.WEB_XML));
+		triplet.setVersion(vf.getVersion());
+		triplet.setFullPath(vf.getFullPath());
+		triplet.setFile(metaFile);
+		return triplet;
+	}
 
 	@Override
 	public Items getMetaParametersByFileFullPath(String fullPath) throws IOException, JAXBException {

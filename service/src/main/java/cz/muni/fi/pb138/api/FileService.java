@@ -61,20 +61,34 @@ public interface FileService {
      *
      * @param namespace - "/" for ALL, specify namaspace to filter
      * @param allVersions - true for all versions, false for just the latest ones
+     * @param metaDatabase -  whether to list metaDatabase instead of document database
      * @return files as PathVersionPair
      * @throws java.io.IOException
      */
-    List<VersionedFile> listAllFiles(String namespace, boolean allVersions) throws IOException;
+    List<VersionedFile> listAllFiles(String namespace, boolean allVersions, boolean metaDatabase) throws IOException;
 
     /**
      * 
      * @param namespace - "/" for ALL, specify namaspace to filter
      * @param allVersions - true for all versions, false for just the latest ones
+     * @param metaDatabase -  whether to list metaDatabase instead of document database
      * @param fileType - One of supported file types like WAR, XSD, WSDL
      * @return files as PathVersionPair
      * @throws java.io.IOException 
      */
-    List<VersionedFile> listAllFilesByFileType(String namespace, boolean allVersions, FileType fileType) throws IOException;
+    List<VersionedFile> listAllFilesByFileType(String namespace, boolean allVersions, boolean metaDatabase, FileType fileType) throws IOException;
+
+
+    /**
+     *
+     * @param namespace - "/" for ALL, specify namaspace to filter
+     * @param allVersions - true for all versions, false for just the latest ones
+     * @param metaDatabase -  whether to list metaDatabase instead of document database
+     * @param fileType - One of supported file types like WAR, XSD, WSDL
+     * @return files as PathVersionPair
+     * @throws java.io.IOException
+     */
+    List<VersionedFile> listAllFilesByFileTypeRecursively(String namespace, boolean allVersions, boolean metaDatabase, FileType fileType) throws IOException;
 
     /**
      * 
