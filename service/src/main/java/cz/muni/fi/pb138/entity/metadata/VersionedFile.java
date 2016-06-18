@@ -9,20 +9,20 @@ import java.io.File;
 public class VersionedFile {
 
     private String name;
-    private String fullPath;
+    private String path;
     private int version;
     private boolean isDirectory;
 
-    public VersionedFile(String fullPath, int version, boolean isDirectory) {
-        this.name = fullPath.substring(fullPath.lastIndexOf(File.separator) + 1);
-        this.fullPath = fullPath;
+    public VersionedFile(String path, int version, boolean isDirectory) {
+        this.name = path.substring(path.lastIndexOf(File.separator) + 1);
+        this.path = path;
         this.version = version;
         this.isDirectory = isDirectory;
     }
 
-    public VersionedFile(String name, String fullPath, int version, boolean isDirectory) {
+    public VersionedFile(String name, String path, int version, boolean isDirectory) {
         this.name = name;
-        this.fullPath = fullPath;
+        this.path = path;
         this.version = version;
         this.isDirectory = isDirectory;
     }
@@ -35,12 +35,12 @@ public class VersionedFile {
         this.name = name;
     }
 
-    public String getFullPath() {
-        return fullPath;
+    public String getPath() {
+        return path;
     }
 
-    public void setFullPath(String fullPath) {
-        this.fullPath = fullPath;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public int getVersion() {
@@ -69,14 +69,14 @@ public class VersionedFile {
         if (getVersion() != that.getVersion()) return false;
         if (isDirectory() != that.isDirectory()) return false;
         if (!getName().equals(that.getName())) return false;
-        return getFullPath().equals(that.getFullPath());
+        return getPath().equals(that.getPath());
 
     }
 
     @Override
     public int hashCode() {
         int result = getName().hashCode();
-        result = 31 * result + getFullPath().hashCode();
+        result = 31 * result + getPath().hashCode();
         result = 31 * result + getVersion();
         result = 31 * result + (isDirectory() ? 1 : 0);
         return result;

@@ -9,7 +9,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -65,7 +64,7 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 	@Test
 	public void  getAllMetaFilesByMetaFileTypeTest() throws IOException {
 		List<MetaFilePathVersionTriplet> output = metaService.getAllMetaFilesByMetaFileType(MetaFileType.WEBXML, "/");
-		assertThat(output.size() == 2);
+		assertThat(output.size()).isEqualTo(2);
 	}
 
 
@@ -94,7 +93,7 @@ public class MetaServiceTests extends AbstractIntegrationTest {
     @Test
 	public void  getMetaParametersByFileFullPathVersionedTest() throws IOException {
 		List<VersionedFile> xsd1Attributes = metaService.getMetaParametersByFileFullPath(MetaParameterType.ATTRIBUTE, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
-		assertThat(!xsd1Attributes.isEmpty());
+		assertThat(xsd1Attributes).isNotEmpty();
 	}
 
 
