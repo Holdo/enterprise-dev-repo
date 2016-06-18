@@ -1,5 +1,7 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form"
-          xmlns:u="sap.ui.unified" xmlns:core="sap.ui.core" controllerName='Repository.browse.Browse'>
+          xmlns:u="sap.ui.unified" xmlns:core="sap.ui.core"
+          xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+          controllerName='Repository.browse.Browse'>
     <Panel width="auto" class="sapUiResponsiveMargin">
         <content>
             <VBox alignItems="Center" justifyContent="SpaceBetween">
@@ -8,30 +10,25 @@
             </VBox>
         </content>
     </Panel>
-    <VBox alignItems="Center" justifyContent="SpaceBetween">
-        <Panel width="auto" class="sapUiResponsiveMargin sapUiNoContentPadding">
+    <VBox alignItems="Center" justifyContent="SpaceBetween" width="auto">
+        <Panel class="sapUiResponsiveMargin sapUiNoContentPadding" width="auto">
             <content>
-                <Breadcrumbs currentLocationText="level2" class="sapUiSmallMargin">
-                    <Link press="onPress" text="Root"/>
-                    <Link press="onPress" text="level1"/>
+                <Breadcrumbs id="breadcrumbs" currentLocationText="Root" class="sapUiSmallMargin">
+                    <!--<Link text="Root" target="" emphasized="true"/>-->
                 </Breadcrumbs>
             </content>
         </Panel>
-        <List showNoData="true" noDataText="No Data" includeItemInSelection="true"
-              items="{
-			          path: '/',
-			          sorter: {
-				          path: 'test'
-			          }
-		          }">
+        <List id="browseList" showNoData="true" noDataText="Empty" includeItemInSelection="true"
+              items="{/}" width="auto">
             <StandardListItem
-                    title="{test}"
-                    description="{test2}"
-                    icon="{ProductPicUrl}"
-                    iconDensityAware="false"
-                    iconInset="false"
-                    press="handlePress"
-                    detailPress="handleDetailPress" />
+                    title="{name}"
+                    icon="{= ${directory} === true ? 'sap-icon://folder' : 'sap-icon://document-text' }"
+                    iconDensityAware="true"
+                    iconInset="true"
+                    type="{= ${directory} === true ? 'Navigation' : 'Active' }"
+                    app:path="{path}"
+                    press="handleListItemPress"
+                    detailPress="handleDetailPress"/>
         </List>
     </VBox>
 </mvc:View>

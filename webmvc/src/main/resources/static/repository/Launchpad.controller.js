@@ -43,13 +43,6 @@ sap.ui.define([
         handleTilePress : function (oEvent) {
             switch(oEvent.oSource.getTitle()) {
                 case "Search":
-                    var ws = new WebSocket("ws://" + document.location.host + "/websocket/command/listDir");
-                    ws.onopen = function () {
-                        ws.send("{\"namespace\" : \"project1\"}");
-                    };
-                    ws.onmessage = function (oEvent) {
-                        console.log("Received: " + oEvent.data);
-                    };
                     MessageToast.show("Search Tile Pressed");
                     break;
                 case "Browse":

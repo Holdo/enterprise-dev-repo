@@ -1,6 +1,5 @@
 package cz.muni.fi.pb138.service;
 
-import cz.muni.fi.pb138.entity.FileBase;
 import cz.muni.fi.pb138.entity.XQueryType;
 import cz.muni.fi.pb138.entity.XQueryVariable;
 import cz.muni.fi.pb138.entity.metadata.Items;
@@ -19,7 +18,6 @@ import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import cz.muni.fi.pb138.xquery.XQueryWar;
 import cz.muni.fi.pb138.xquery.XQueryWsdl;
 import cz.muni.fi.pb138.xquery.XQueryXsd;
-import org.basex.core.cmd.XQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,9 +99,9 @@ public class MetaServiceImpl implements MetaService {
 		if (metaFileType == MetaFileType.WEBXML) {
 			for (VersionedFile path : fileService.listAllFilesByFileType(namespace, true, FileType.WAR)) {
 				MetaFilePathVersionTriplet triplet = new MetaFilePathVersionTriplet();
-				byte[] metaFile = binaryDao.retrieveBinaryFile(pathFinder.getVersionedPath(path.getFullPath(), path.getVersion(), FileType.WAR) + metaFileType.name());
+				byte[] metaFile = binaryDao.retrieveBinaryFile(pathFinder.getVersionedPath(path.getPath(), path.getVersion(), FileType.WAR) + metaFileType.name());
 				triplet.setVersion(path.getVersion());
-				triplet.setFullPath(path.getFullPath());
+				triplet.setFullPath(path.getPath());
 				triplet.setFile(metaFile);
 			}
 		}
