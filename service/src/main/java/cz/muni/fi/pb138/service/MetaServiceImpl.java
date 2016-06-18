@@ -3,6 +3,8 @@ package cz.muni.fi.pb138.service;
 import cz.muni.fi.pb138.entity.FileBase;
 import cz.muni.fi.pb138.entity.XQueryType;
 import cz.muni.fi.pb138.entity.XQueryVariable;
+import cz.muni.fi.pb138.entity.metadata.Items;
+import cz.muni.fi.pb138.entity.metadata.RootItem;
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
 import cz.muni.fi.pb138.enums.MetaParameterType;
@@ -24,8 +26,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,22 +115,23 @@ public class MetaServiceImpl implements MetaService {
 
 
 	@Override
-	public List<VersionedFile> getMetaParametersByFileFullPath(MetaParameterType parameterType, String fullPath) throws IOException {
+	public Items getMetaParametersByFileFullPath(String fullPath) throws IOException, JAXBException {
 		fullPath = normalizeFullPath(fullPath);
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf(File.separator)));
 		int version = pathFinder.getLatestVersion(list, fullPath);
 		databaseDao.closeDatabase();
-		return getMetaParametersByFileFullPathAndVersion(parameterType, fullPath, version);
+		return getMetaParametersByFileFullPathAndVersion(fullPath, version);
 	}
 
 
 	@Override
-	public List<VersionedFile> getMetaParametersByFileFullPathAndVersion(MetaParameterType parameterType, String fullPath, int version) throws IOException {
+	public Items getMetaParametersByFileFullPathAndVersion(String fullPath, int version) throws IOException, JAXBException {
 		databaseDao.openDatabase(META_DATABASE_NAME);
 		String queryResult = "";
         XQueryVariable xQueryVariable;
         String path;
+		MetaParameterType parameterType = MetaParameterType.ATTRIBUTE;
 		switch (parameterType) {
 			case ATTRIBUTE:
                 path = pathFinder.getVersionedPath(fullPath, version, FileType.XSD);
@@ -178,17 +186,16 @@ public class MetaServiceImpl implements MetaService {
 
 		return parseQueryResult(queryResult, version, fullPath);
 	}
-	private List<VersionedFile> parseQueryResult(String queryResult, int version, String fullPath) {
-		List<VersionedFile> output = new ArrayList<>();
-       	String[] lines = queryResult.split("\n");
-		for (String s : lines) {
-			output.add(new VersionedFile(s,fullPath,version,false));
-		}
-		return output;
+	private Items parseQueryResult(String queryResult, int version, String fullPath) throws JAXBException {
+		JAXBContext jaxbContext = JAXBContext.newInstance(Items.class);
+
+		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+		Items items = (Items) jaxbUnmarshaller.unmarshal(new ByteArrayInputStream(queryResult.getBytes(StandardCharsets.UTF_8)));
+		return items;
 	}
 
 	@Override
-	public List<VersionedFile> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String namespace, String parameterName) throws IOException {
+	public List<VersionedFile> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String parameterName) throws IOException {
 
 
 		List<VersionedFile> output = new ArrayList<>();
