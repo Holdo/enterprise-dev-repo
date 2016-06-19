@@ -26,6 +26,7 @@ public interface MetaService {
      * @throws java.io.IOException 
      */
      List<VersionedFile> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String parameterName) throws IOException, JAXBException;
+
     /**
      * 
      * @param parameterType -  One of parameter types like COMPLEXTYPE, OPERATION ...
@@ -33,6 +34,7 @@ public interface MetaService {
      * @throws java.io.IOException 
      */
     List<Items> getAllMetaParametersByMetaParameterType(MetaParameterType parameterType) throws IOException, JAXBException;
+
     /**
      * 
      * @param metaFileType - One of meta file types like WEBXML, god knows what else in future...
@@ -58,6 +60,7 @@ public interface MetaService {
      * @throws IOException
      */
     MetaFilePathVersionTriplet getMetaFileByFileFullPath(MetaFileType metaFileType, String fullPath) throws IOException;
+
     /**
      * 
      * @param metaFileType - One of meta file types like WEBXML, god knows what else in future...
@@ -75,6 +78,7 @@ public interface MetaService {
      * @throws IOException 
      */
     List<Items> getMetaParametersByFileFullPath(String fullPath) throws IOException, JAXBException;
+
     /**
      *
      * @param fullPath - path to file

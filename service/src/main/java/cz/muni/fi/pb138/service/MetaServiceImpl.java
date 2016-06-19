@@ -15,7 +15,6 @@ import cz.muni.fi.pb138.service.processing.PathFinder;
 import cz.muni.fi.pb138.xquery.XQueryWar;
 import cz.muni.fi.pb138.xquery.XQueryWsdl;
 import cz.muni.fi.pb138.xquery.XQueryXsd;
-import org.basex.core.cmd.XQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +38,7 @@ import java.util.List;
 @Service
 public class MetaServiceImpl implements MetaService {
 
-	private static final Logger log = LoggerFactory.getLogger(FileService.class);
+	private static final Logger log = LoggerFactory.getLogger(MetaService.class);
 	@Autowired
 	private DatabaseDao databaseDao;
 	@Autowired
