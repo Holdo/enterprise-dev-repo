@@ -75,7 +75,7 @@ public interface MetaService {
      * @return - for example fullpath namespace/foo.xsd, version 2, parameter type COMPLEXTYPE will return all complex types of foo.xsd in version 2
      * @throws IOException 
      */
-    Items getMetaParametersByFileFullPath(String fullPath) throws IOException, JAXBException;
+    List<Items> getMetaParametersByFileFullPath(String fullPath) throws IOException, JAXBException;
     /**
      *
      * @param fullPath - path to file
@@ -83,7 +83,7 @@ public interface MetaService {
      * @return - for example fullpath namespace/foo.xsd, version 2, parameter type COMPLEXTYPE will return all complex types of foo.xsd in version 2
      * @throws IOException
      */
-    Items getMetaParametersByFileFullPathAndVersion(String fullPath, int version) throws IOException, JAXBException;
+    List<Items> getMetaParametersByFileFullPathAndVersion(String fullPath, int version) throws IOException, JAXBException;
 
 
 }

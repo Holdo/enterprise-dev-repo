@@ -15,21 +15,26 @@ public class Item
 
     private String version;
 
+
+
     public String getName ()
     {
         return name;
     }
 
+    @XmlElement (name = "name")
     public void setName (String name)
     {
         this.name = name;
     }
+
 
     public String getFullPath ()
     {
         return fullPath;
     }
 
+    @XmlElement (name = "fullPath")
     public void setFullPath (String fullPath)
     {
         this.fullPath = fullPath;
@@ -39,7 +44,7 @@ public class Item
     {
         return type;
     }
-
+    @XmlElement (name = "type")
     public void setType (String type)
     {
         this.type = type;
@@ -49,7 +54,7 @@ public class Item
     {
         return version;
     }
-
+    @XmlElement (name = "version")
     public void setVersion (String version)
     {
         this.version = version;

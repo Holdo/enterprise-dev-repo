@@ -88,12 +88,35 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 
     @Test
 	public void  getMetaParametersByFileFullPathVersionedTest() throws IOException, JAXBException {
-		Items xsdMeta = metaService.getMetaParametersByFileFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
-		Items wsdlMeta = metaService.getMetaParametersByFileFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
-		Items warMeta = metaService.getMetaParametersByFileFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
-		assertThat(xsdMeta.getItem().size()).isGreaterThan(0);
-		assertThat(wsdlMeta.getItem().size()).isGreaterThan(0);
-		assertThat(warMeta.getItem().size()).isGreaterThan(0);
+		List<Items> xsdMeta = metaService.getMetaParametersByFileFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd");
+		List<Items> xsdMetaVersioned = metaService.getMetaParametersByFileFullPathAndVersion("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.xsd", 1);
+
+		List<Items> wsdlMeta = metaService.getMetaParametersByFileFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl");
+		List<Items> wsdlMetaVersioned = metaService.getMetaParametersByFileFullPathAndVersion("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.wsdl",1);
+
+		List<Items> warMeta = metaService.getMetaParametersByFileFullPath("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
+		List<Items> warMetaVersioned = metaService.getMetaParametersByFileFullPathAndVersion("src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war",1);
+
+		for (Items i : xsdMeta) {
+			assertThat(i.getItem().length).isGreaterThan(0);
+		}
+		for (Items i : xsdMetaVersioned) {
+			assertThat(i.getItem().length).isGreaterThan(0);
+		}
+
+		for (Items i :  wsdlMeta) {
+			assertThat(i.getItem().length).isGreaterThan(0);
+		}
+		for (Items i :  wsdlMeta) {
+			assertThat(i.getItem().length).isGreaterThan(0);
+		}
+
+		for (Items i : warMetaVersioned) {
+			assertThat(i.getItem().length).isGreaterThan(0);
+		}
+		for (Items i : warMetaVersioned) {
+			assertThat(i.getItem().length).isGreaterThan(0);
+		}
 	}
 
 	@Test

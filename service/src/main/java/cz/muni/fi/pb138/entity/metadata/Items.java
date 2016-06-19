@@ -1,5 +1,6 @@
 package cz.muni.fi.pb138.entity.metadata;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
@@ -8,17 +9,18 @@ import java.util.List;
  */
 @XmlRootElement(name = "items")
 public class Items {
-    List<Item> item;
+    Item[] item;
 
-    public List<Item> getItem() {
+    public Item[] getItem() {
         return item;
     }
 
-    public void setItems(List<Item> items) {
+    @XmlElement(name = "item")
+    public void setItems(Item[] items) {
         this.item = items;
     }
 
-    public Items(List<Item> items) {
+    public Items(Item[] items) {
         this.item = items;
     }
 
