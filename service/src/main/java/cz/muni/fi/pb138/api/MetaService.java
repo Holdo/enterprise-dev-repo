@@ -29,11 +29,10 @@ public interface MetaService {
     /**
      * 
      * @param parameterType -  One of parameter types like COMPLEXTYPE, OPERATION ...
-     * @param namespace - "/" for ALL, specify namaspace to filter
      * @return 
      * @throws java.io.IOException 
      */
-    List<VersionedFile> getAllMetaParametersByMetaParameterType(MetaParameterType parameterType, String namespace) throws IOException;
+    List<Items> getAllMetaParametersByMetaParameterType(MetaParameterType parameterType) throws IOException, JAXBException;
     /**
      * 
      * @param metaFileType - One of meta file types like WEBXML, god knows what else in future...

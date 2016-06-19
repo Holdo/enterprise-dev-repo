@@ -46,10 +46,10 @@ public enum XQueryXsd {
             "for $attr in $meta[./pathVersionPair/fullPath/text() = $fullpath and ./pathVersionPair/version/text() = $version]//complexType"
             + " return <item><type>complexType</type><name>{$attr/text()}</name><fullPath>{$meta/pathVersionPair/fullPath/text()}</fullPath>"+"<version>{$meta/pathVersionPair/version/text()}</version></item>}</items>"),
 
-    GET_FILE_BY_ATTRIBUTE("b"),
-    GET_FILE_BY_ELEMENT("b"),
-    GET_FILE_BY_SIMPLETYPE("b"),
-    GET_FILE_BY_COMPLEXTYPE("b");
+    GET_FILES_BY_ATTRIBUTE("b"),
+    GET_FILES_BY_ELEMENT("b"),
+    GET_FILES_BY_SIMPLETYPE("b"),
+    GET_FILES_BY_COMPLEXTYPE("b");
 
     private final String text;
 

@@ -23,8 +23,8 @@ public enum XQueryWar {
             "for $attr in $meta[./pathVersionPair/version/text()=$version and ./pathVersionPair/fullPath/text()=$fullpath]//filter"
             + " return <item><type>filter</type><name>{$attr/text()}</name><fullPath>{$meta/pathVersionPair/fullPath/text()}</fullPath>"+"<version>{$meta/pathVersionPair/version/text()}</version></item>}</items>"),
 
-    GET_FILE_BY_LISTENER("b"),
-    GET_FILE_BY_FILTER("b");
+    GET_FILES_BY_LISTENER("b"),
+    GET_FILES_BY_FILTER("b");
 
     private final String text;
 

@@ -120,6 +120,51 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 	}
 
 	@Test
+	public void  getAllMetaParametersByTypeTest() throws IOException, JAXBException {
+		List<Items> attributes = metaService.getAllMetaParametersByMetaParameterType(MetaParameterType.ATTRIBUTE);
+		List<Items> elements = metaService.getAllMetaParametersByMetaParameterType(MetaParameterType.ELEMENT);
+		List<Items> complexTypes = metaService.getAllMetaParametersByMetaParameterType(MetaParameterType.COMPLEXTYPE);
+		List<Items> simpleTypes = metaService.getAllMetaParametersByMetaParameterType(MetaParameterType.SIMPLETYPE);
+
+		List<Items> operations = metaService.getAllMetaParametersByMetaParameterType(MetaParameterType.OPERATION);
+		List<Items> requests = metaService.getAllMetaParametersByMetaParameterType(MetaParameterType.REQUEST);
+		List<Items> responses = metaService.getAllMetaParametersByMetaParameterType(MetaParameterType.RESPONSE);
+
+		List<Items> filters = metaService.getAllMetaParametersByMetaParameterType(MetaParameterType.FILTER);
+		List<Items> listeners = metaService.getAllMetaParametersByMetaParameterType(MetaParameterType.LISTENER);
+
+		for (Items i : attributes) {
+			assertThat(i.getItem().length).isGreaterThan(0);
+		}
+		for (Items i : elements) {
+			assertThat(i.getItem().length).isGreaterThan(0);
+		}
+		for (Items i : complexTypes) {
+			assertThat(i.getItem().length).isGreaterThan(0);
+		}
+		for (Items i : simpleTypes) {
+			assertThat(i.getItem().length).isGreaterThan(0);
+		}
+
+		for (Items i : operations) {
+			assertThat(i.getItem().length).isGreaterThan(0);
+		}
+		for (Items i : requests) {
+			assertThat(i.getItem().length).isGreaterThan(0);
+		}
+		for (Items i : responses) {
+			assertThat(i.getItem().length).isGreaterThan(0);
+		}
+
+		for (Items i : filters) {
+			assertThat(i.getItem().length).isGreaterThan(0);
+		}
+		for (Items i : listeners) {
+			assertThat(i.getItem().length).isGreaterThan(0);
+		}
+
+	}
+	@Test
 	public void  getFilesFullPathsByMetaParameterTest() throws IOException {
 
 		List<VersionedFile> warsByListener = metaService.getFilesFullPathsByMetaParameter(FileType.WAR,MetaParameterType.LISTENER, "Listener1");
