@@ -21,7 +21,7 @@ public class WarFile implements FileBase {
 
     private byte[] file;
     private HashMap<MetaFileType, byte[]> typeMetaFileMap;
-    private VersionedFile nameVersionPair;
+    private VersionedFile pathVersionPair;
     private List<String> listenerList;
     private List<String> filterList;
     private FileType type;
@@ -32,12 +32,12 @@ public class WarFile implements FileBase {
 
 
 
-    public VersionedFile getNameVersionPair() {
-        return nameVersionPair;
+    public VersionedFile getPathVersionPair() {
+        return pathVersionPair;
     }
 
-    public void setNameVersionPair(VersionedFile nameVersionPair) {
-        this.nameVersionPair = nameVersionPair;
+    public void setPathVersionPair(VersionedFile pathVersionPair) {
+        this.pathVersionPair = pathVersionPair;
     }
 
     public HashMap<MetaFileType, byte[]> getTypeMetaFileMap() {
@@ -82,7 +82,7 @@ public class WarFile implements FileBase {
             marshaller = jc.createMarshaller();
 
             StringWriter sw = new StringWriter();
-            marshaller.marshal(new WarMeta(nameVersionPair, listenerList, filterList), sw);
+            marshaller.marshal(new WarMeta(pathVersionPair, listenerList, filterList), sw);
             String xmlString = sw.toString();
             return xmlString.getBytes(StandardCharsets.UTF_8);
     }
@@ -99,7 +99,7 @@ public class WarFile implements FileBase {
 
     @Override
     public void setVersion(int version) {
-        nameVersionPair.setVersion(version);
+        pathVersionPair.setVersion(version);
     }
 
 

@@ -12,7 +12,7 @@ import java.util.List;
  */
 @XmlRootElement( name = "warmeta")
 public class WarMeta {
-    private VersionedFile nameVersionPair;
+    private VersionedFile pathVersionPair;
     private List<String> listener;
     private List<String> filter;
     private FileType type;
@@ -20,19 +20,19 @@ public class WarMeta {
     public WarMeta() {
     }
 
-    public WarMeta(VersionedFile nameVersionPair, List<String> listenerList, List<String> filterList) {
-        this.nameVersionPair = nameVersionPair;
+    public WarMeta(VersionedFile pathVersionPair, List<String> listenerList, List<String> filterList) {
+        this.pathVersionPair = pathVersionPair;
         this.listener = listenerList;
         this.filter = filterList;
         type = FileType.WAR;
     }
 
-    public VersionedFile getNameVersionPair() {
-        return nameVersionPair;
+    public VersionedFile getPathVersionPair() {
+        return pathVersionPair;
     }
 
-    public void setNameVersionPair(VersionedFile nameVersionPair) {
-        this.nameVersionPair = nameVersionPair;
+    public void setPathVersionPair(VersionedFile nameVersionPair) {
+        this.pathVersionPair = pathVersionPair;
     }
 
     public List<String> getListener() {

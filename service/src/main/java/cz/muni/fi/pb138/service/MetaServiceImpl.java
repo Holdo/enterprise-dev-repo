@@ -154,6 +154,7 @@ public class MetaServiceImpl implements MetaService {
 			items.add(parseQueryResult(queryResult));
 			queryResult = databaseDao.runXQuery(XQueryWar.GET_FILTERS_BY_FILE.toString(),fullPathVariable,versionVariable);
 			items.add(parseQueryResult(queryResult));
+			databaseDao.closeDatabase();
 			return items;
 		}
 		if (fullPath.endsWith(".xsd")) {
@@ -165,6 +166,7 @@ public class MetaServiceImpl implements MetaService {
 			items.add(parseQueryResult(queryResult));
 			queryResult = databaseDao.runXQuery(XQueryXsd.GET_COMPLEXTYPES_BY_FILE.toString(),fullPathVariable,versionVariable);
 			items.add(parseQueryResult(queryResult));
+			databaseDao.closeDatabase();
 			return items;
 		}
 		if (fullPath.endsWith(".wsdl")) {
@@ -174,6 +176,7 @@ public class MetaServiceImpl implements MetaService {
 			items.add(parseQueryResult(queryResult));
 			queryResult = databaseDao.runXQuery(XQueryWsdl.GET_RESPONSES_BY_FILE.toString(),fullPathVariable,versionVariable);
 			items.add(parseQueryResult(queryResult));
+			databaseDao.closeDatabase();
 			return items;
 		}
 

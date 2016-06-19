@@ -21,7 +21,7 @@ import java.util.List;
 public class WsdlFile implements FileBase {
 
 
-	private VersionedFile nameVersionPair;
+	private VersionedFile pathVersionPair;
 	private byte[] file;
 	private List<String> operations;
 	private List<String> responses;
@@ -33,12 +33,12 @@ public class WsdlFile implements FileBase {
 	}
 
 
-	public VersionedFile getNameVersionPair() {
-		return nameVersionPair;
+	public VersionedFile getPathVersionPair() {
+		return pathVersionPair;
 	}
 
-	public void setNameVersionPair(VersionedFile nameVersionPair) {
-		this.nameVersionPair = nameVersionPair;
+	public void setPathVersionPair(VersionedFile nameVersionPair) {
+		this.pathVersionPair = nameVersionPair;
 	}
 
 
@@ -78,7 +78,7 @@ public class WsdlFile implements FileBase {
 		marshaller = jc.createMarshaller();
 
 		StringWriter sw = new StringWriter();
-		marshaller.marshal(new WsdlMeta(nameVersionPair, operations, responses, requests), sw);
+		marshaller.marshal(new WsdlMeta(pathVersionPair, operations, responses, requests), sw);
 		String xmlString = sw.toString();
 		return xmlString.getBytes(StandardCharsets.UTF_8);
 	}
@@ -101,6 +101,6 @@ public class WsdlFile implements FileBase {
 
 	@Override
 	public void setVersion(int version) {
-		nameVersionPair.setVersion(version);
+		pathVersionPair.setVersion(version);
 	}
 }

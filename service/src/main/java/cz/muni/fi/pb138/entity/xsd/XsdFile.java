@@ -27,7 +27,7 @@ import javax.xml.bind.Unmarshaller;
 public class XsdFile implements FileBase {
 
 	private static final Logger log = LoggerFactory.getLogger(XsdFile.class);
-	private VersionedFile nameVersionPair;
+	private VersionedFile pathVersionPair;
 	private byte[] file;
 	private List<String> elements;
 	private List<String> attributes;
@@ -40,11 +40,11 @@ public class XsdFile implements FileBase {
 	}
 
 	public VersionedFile getNameVersionPair() {
-		return nameVersionPair;
+		return pathVersionPair;
 	}
 
-	public void setNameVersionPair(VersionedFile nameVersionPair) {
-		this.nameVersionPair = nameVersionPair;
+	public void setPathVersionPair(VersionedFile nameVersionPair) {
+		this.pathVersionPair = nameVersionPair;
 	}
 
 	public void setFile(byte[] file) {
@@ -91,7 +91,7 @@ public class XsdFile implements FileBase {
 		marshaller = jc.createMarshaller();
 
 		StringWriter sw = new StringWriter();
-		marshaller.marshal(new XsdMeta(nameVersionPair, elements, attributes, simpleTypes, complexTypes), sw);
+		marshaller.marshal(new XsdMeta(pathVersionPair, elements, attributes, simpleTypes, complexTypes), sw);
 		String xmlString = sw.toString();
 		log.debug("Extracted metadata XML from XSD: {}", xmlString);
 
@@ -117,7 +117,7 @@ public class XsdFile implements FileBase {
 
 	@Override
 	public void setVersion(int version) {
-		nameVersionPair.setVersion(version);
+		pathVersionPair.setVersion(version);
 	}
 
 }

@@ -107,11 +107,11 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 		for (Items i :  wsdlMeta) {
 			assertThat(i.getItem().length).isGreaterThan(0);
 		}
-		for (Items i :  wsdlMeta) {
+		for (Items i :  wsdlMetaVersioned) {
 			assertThat(i.getItem().length).isGreaterThan(0);
 		}
 
-		for (Items i : warMetaVersioned) {
+		for (Items i : warMeta) {
 			assertThat(i.getItem().length).isGreaterThan(0);
 		}
 		for (Items i : warMetaVersioned) {

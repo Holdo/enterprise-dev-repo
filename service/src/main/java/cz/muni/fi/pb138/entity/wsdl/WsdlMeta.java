@@ -13,7 +13,7 @@ import java.util.List;
 @XmlRootElement( name = "wsdlmeta")
 public class WsdlMeta {
     private FileType type;
-    private VersionedFile nameVersionPair;
+    private VersionedFile pathVersionPair;
     private List<String> operation;
     private List<String> response;
     private List<String> request;
@@ -22,7 +22,7 @@ public class WsdlMeta {
     }
 
     public WsdlMeta(VersionedFile nameVersionPair, List<String> operations, List<String> responses, List<String> requests) {
-        this.nameVersionPair = nameVersionPair;
+        this. pathVersionPair = nameVersionPair;
         this.operation = operations;
         this.response = responses;
         this.request = requests;
@@ -38,12 +38,12 @@ public class WsdlMeta {
         this.type = type;
     }
 
-    public VersionedFile getNameVersionPair() {
-        return nameVersionPair;
+    public VersionedFile getPathVersionPair() {
+        return  pathVersionPair;
     }
 
-    public void setNameVersionPair(VersionedFile nameVersionPair) {
-        this.nameVersionPair = nameVersionPair;
+    public void setPathVersionPair(VersionedFile pathVersionPair) {
+        this. pathVersionPair = pathVersionPair;
     }
 
     public List<String> getOperation() {

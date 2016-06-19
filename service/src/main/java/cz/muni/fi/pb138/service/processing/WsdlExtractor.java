@@ -32,7 +32,7 @@ public class WsdlExtractor {
 
 		wsdlFile = new WsdlFile();
 		wsdlFile.setFile(file);
-		wsdlFile.setNameVersionPair(new VersionedFile(fullPath, 1, false));
+		wsdlFile.setPathVersionPair(new VersionedFile(fullPath, 1, false));
 		wsdlFile.setOperations(extract("operation", "name"));
 		wsdlFile.setRequests(extract("input", "message"));
 		wsdlFile.setResponses(extract("output", "message"));
