@@ -25,7 +25,7 @@ public interface MetaService {
      * @return 
      * @throws java.io.IOException 
      */
-     List<VersionedFile> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String parameterName) throws IOException;
+     List<VersionedFile> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String parameterName) throws IOException, JAXBException;
     /**
      * 
      * @param parameterType -  One of parameter types like COMPLEXTYPE, OPERATION ...

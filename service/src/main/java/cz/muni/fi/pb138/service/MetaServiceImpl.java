@@ -2,7 +2,7 @@ package cz.muni.fi.pb138.service;
 
 import cz.muni.fi.pb138.entity.XQueryType;
 import cz.muni.fi.pb138.entity.XQueryVariable;
-import cz.muni.fi.pb138.entity.metadata.Items;
+import cz.muni.fi.pb138.entity.metadata.*;
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
 import cz.muni.fi.pb138.enums.MetaParameterType;
@@ -12,8 +12,6 @@ import cz.muni.fi.pb138.dao.DatabaseDao;
 import cz.muni.fi.pb138.dao.DocumentDao;
 import cz.muni.fi.pb138.service.processing.FileProcessor;
 import cz.muni.fi.pb138.service.processing.PathFinder;
-import cz.muni.fi.pb138.entity.metadata.MetaFilePathVersionTriplet;
-import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import cz.muni.fi.pb138.xquery.XQueryWar;
 import cz.muni.fi.pb138.xquery.XQueryWsdl;
 import cz.muni.fi.pb138.xquery.XQueryXsd;
@@ -192,7 +190,7 @@ public class MetaServiceImpl implements MetaService {
 	}
 
 	@Override
-	public List<VersionedFile> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String parameterName) throws IOException {
+	public List<VersionedFile> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String parameterName) throws IOException, JAXBException {
 
 
 		List<VersionedFile> output;
@@ -239,10 +237,18 @@ public class MetaServiceImpl implements MetaService {
 		return output;
 	}
 
-	private List<VersionedFile> parseFileSearchQueryBro(String queryResult) {
+	private List<VersionedFile> parseFileSearchQueryBro(String queryResult) throws JAXBException {
+		List<VersionedFile> output =  new ArrayList<>();
 
 
-		return new ArrayList<>();
+		JAXBContext jaxbContext = JAXBContext.newInstance(SearchResult.class);
+		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+		SearchResult items = (SearchResult) jaxbUnmarshaller.unmarshal(new ByteArrayInputStream(queryResult.getBytes(StandardCharsets.UTF_8)));
+		for (SearchFile s: items.getFile()
+			 ) {
+			output.add(new VersionedFile(s.getPath(),Integer.valueOf(s.getVersion()),false));
+		}
+		return output;
 	}
 
 	@Override
