@@ -11,6 +11,10 @@ sap.ui.define([
         onInit : function () {
             sap.ui.getCore().AppContext = {};
         },
+        onExit : function () {
+            if (this._oPopover) this._oPopover.destroy();
+            if (this._overlay) this._overlay.destroy();
+        },
         onAfterRendering : function () {
             $("body").fadeIn("slow");
         },
@@ -41,6 +45,7 @@ sap.ui.define([
             oItem.setSelected(!bState);
         },
         handleSearchPressed: function(oEvent) {
+            var that = this;
             var sQuery = oEvent.getParameter("query");
             if(sQuery == "") return;
 
@@ -52,23 +57,38 @@ sap.ui.define([
 
             // mock data
             var aResultData = [];
-            for(var i = 0; i < 10; i++) {
+            for(var i = 0; i < 25; i++) {
                 aResultData.push({
-                    title:(i + 1) + ". " + sQuery,
-                    text:"Lorem ipsum sit dolem"
+                    title:(i + 1) + ". " + sQuery
                 });
             }
+            console.log(sQuery);
             var oData = {
+                array: [{lul: "first"}, {lul: "second"}],
                 searchFieldContent: sQuery,
                 resultData: aResultData
             };
-            var oModel = new JSONModel();
-            oModel.setData(oData);
-            this._overlay.setModel(oModel);
+            this._overlay.setModel(new JSONModel(oData));
+            this._overlay.getSearch().getItems()[0].setValue(sQuery);
+
+            this._metaTypeSelector = this._overlay.getSearch().getItems()[1];
+            this._metaTypeSelector.onclick = function() {
+                console.log("Clicked on:");
+                console.log(that._metaTypeSelector);
+            };
 
             // set reference to shell and open overlay
-            this._overlay.setShell(this.getView().byId("myShell"));
             this._overlay.open();
+        },
+        onMetaTypeSelectChange: function (oEvent) {
+            console.log(oEvent.getSource());
+            console.log(oEvent.getSource().getSelectedKey());
+            if (!this._oPopover) {
+                this._oPopover = sap.ui.xmlfragment("repository.SearchTypePopover", this);
+                //this._oPopover.bindElement("/ProductCollection/0"); //bind context
+                this.getView().addDependent(this._oPopover);
+            }
+            this._oPopover.openBy(oEvent.getSource());
         }
     });
     return AppController;

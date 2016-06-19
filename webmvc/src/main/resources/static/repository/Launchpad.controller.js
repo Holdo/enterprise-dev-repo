@@ -12,14 +12,14 @@ sap.ui.define([
             var tileCollectionJSON= {
                 "TileCollection" : [
                     {
-                        "icon" : "sap-icon://search",
-                        "type" : "Monitor",
-                        "title" : "Search"
-                    },
-                    {
                         "icon" : "sap-icon://open-folder",
                         "type" : "Monitor",
                         "title" : "Browse"
+                    },
+                    {
+                        "icon" : "sap-icon://search",
+                        "type" : "Monitor",
+                        "title" : "Search"
                     },
                     {
                         "icon" : "sap-icon://upload-to-cloud",
@@ -43,6 +43,20 @@ sap.ui.define([
         handleTilePress : function (oEvent) {
             switch(oEvent.oSource.getTitle()) {
                 case "Search":
+                    var ws = new WebSocket("ws://" + document.location.host + "/websocket/command/search");
+                    ws.onopen = function () {
+                        var oMessage = {
+                            fileType : "xsd",
+                            metaParameterType : "element",
+                            parameterName : "společnost"
+                        };
+                        //sMessage = sMessage.replace(/\\/g, "\\\\");
+                        console.log("Sending " + JSON.stringify(oMessage));
+                        ws.send(JSON.stringify(oMessage));
+                    };
+                    ws.onmessage = function (oEvent) {
+                        console.log("Received: " + oEvent.data);
+                    };
                     MessageToast.show("Search Tile Pressed");
                     break;
                 case "Browse":

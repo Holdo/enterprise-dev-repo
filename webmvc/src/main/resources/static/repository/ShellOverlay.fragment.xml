@@ -4,15 +4,26 @@
         xmlns:core="sap.ui.core"
         xmlns:u="sap.ui.unified"
         class="viewPadding">
-    <u:ShellOverlay closed="handleShellOverlayClosed">
+    <u:ShellOverlay shell="myShell" closed="handleShellOverlayClosed">
+        <u:search>
+            <HBox width="auto" justifyContent="SpaceBetween">
+                <SearchField id="fragmentSearch"/>
+                <Select id="metaTypeSelector" forceSelection="false" selectedKey="first"
+                        change="onMetaTypeSelectChange"
+                        items="{
+						path: '/array',
+						sorter: { path: 'searchFieldContent' }
+					}">
+                    <core:Item key="{lul}" text="{lul}"/>
+                </Select>
+            </HBox>
+        </u:search>
         <u:content>
-            <l:VerticalLayout
-                    width="100%">
+            <l:VerticalLayout width="100%">
                 <l:HorizontalLayout>
-                    <Label text="Your Search: " class="labelMarginLeft" />
-                    <Text text="{/searchFieldContent}" class="labelMarginLeft" />
+                    <Label text="Your Search: " class="labelMarginLeft"/>
+                    <Text text="{/searchFieldContent}" class="labelMarginLeft"/>
                 </l:HorizontalLayout>
-
                 <List width="100%"
                       items="{path:'/resultData'}">
                     <StandardListItem
@@ -20,7 +31,7 @@
                             press="handleSearchItemSelect"
                             title="{title}"
                             icon="sap-icon://display"
-                            description="{text}" />
+                            description="{text}"/>
                 </List>
             </l:VerticalLayout>
         </u:content>
