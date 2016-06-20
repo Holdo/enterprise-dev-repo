@@ -1,4 +1,4 @@
-<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified"
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout"
           controllerName='Repository.App' class="viewPadding">
     <u:Shell id="myShell" icon="baseXlogo.png">
         <u:headItems>
@@ -31,7 +31,10 @@
                                  press="handleUserItemPressed"/>
         </u:user>
         <u:search>
-            <SearchField search="handleSearchPressed"/>
+            <l:HorizontalLayout>
+                <SearchField class="sapUiMediumMarginEnd" search="handleSearchPressed"/>
+                <Button id="metaTypeSelector" class="sapUiMediumMarginBegin" text="Select search type" press="handlePressMetaTypeSelector" />
+            </l:HorizontalLayout>
         </u:search>
         <u:paneContent>
             <Text text="Hello :)"/>

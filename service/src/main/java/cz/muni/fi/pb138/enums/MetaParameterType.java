@@ -6,8 +6,8 @@ package cz.muni.fi.pb138.enums;
 public enum MetaParameterType {
 	LISTENER("listener"),
 	FILTER("filter"),
-	RESPONSE("response"),
 	REQUEST("request"),
+	RESPONSE("response"),
 	OPERATION("operation"),
 	SIMPLETYPE("simpletype"),
 	COMPLEXTYPE("complextype"),

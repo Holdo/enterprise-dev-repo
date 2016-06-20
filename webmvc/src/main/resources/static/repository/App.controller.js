@@ -1,19 +1,24 @@
 sap.ui.define([
     'jquery.sap.global',
     'sap/m/MessageToast',
-    'sap/ui/core/Fragment',
     'Repository/BaseController',
-    'sap/ui/model/json/JSONModel'
-], function(jQuery, MessageToast, Fragment, BaseController, JSONModel) {
+    'sap/ui/model/json/JSONModel',
+    "sap/m/MessageBox"
+], function(jQuery, MessageToast, BaseController, JSONModel, MessageBox) {
     "use strict";
 
     var AppController =  BaseController.extend("Repository.App", {
         onInit : function () {
+            //Create App Context
             sap.ui.getCore().AppContext = {};
+            //Attach tab keyup to metaTypeSelector
+            this.byId("metaTypeSelector").attachBrowserEvent("tab keyup", function(oEvent){
+                this._bKeyboard = oEvent.type == "keyup";
+            }, this);
         },
         onExit : function () {
-            if (this._oPopover) this._oPopover.destroy();
-            if (this._overlay) this._overlay.destroy();
+            if (this._searchTypeMenu) this._searchTypeMenu.destroy();
+            if (this._searchOverlay) this._searchOverlay.destroy();
         },
         onAfterRendering : function () {
             $("body").fadeIn("slow");
@@ -45,14 +50,27 @@ sap.ui.define([
             oItem.setSelected(!bState);
         },
         handleSearchPressed: function(oEvent) {
+            var oMetaTypeSelector = this.getView().byId("metaTypeSelector");
+            if (oMetaTypeSelector.getText() == "Select search type") {
+                oMetaTypeSelector.setType("Reject");
+                MessageBox.error(
+                    "Please select the search type to search.",
+                    {
+                        title: "Information",
+                        actions: [MessageBox.Action.OK]
+                    }
+                );
+                return;
+            }
+            
             var that = this;
             var sQuery = oEvent.getParameter("query");
             if(sQuery == "") return;
 
             // create Overlay only once
-            if (!this._overlay) {
-                this._overlay = sap.ui.xmlfragment("repository.ShellOverlay", this);
-                this.getView().addDependent(this._overlay);
+            if (!this._searchOverlay) {
+                this._searchOverlay = sap.ui.xmlfragment("repository.ShellOverlay", this);
+                this.getView().addDependent(this._searchOverlay);
             }
 
             // mock data
@@ -64,31 +82,42 @@ sap.ui.define([
             }
             console.log(sQuery);
             var oData = {
-                array: [{lul: "first"}, {lul: "second"}],
                 searchFieldContent: sQuery,
                 resultData: aResultData
             };
-            this._overlay.setModel(new JSONModel(oData));
-            this._overlay.getSearch().getItems()[0].setValue(sQuery);
+            this._searchOverlay.setModel(new JSONModel(oData));
+            this._searchOverlay.getSearch().getItems()[0].setValue(sQuery);
 
-            this._metaTypeSelector = this._overlay.getSearch().getItems()[1];
+            this._metaTypeSelector = this._searchOverlay.getSearch().getItems()[1];
             this._metaTypeSelector.onclick = function() {
                 console.log("Clicked on:");
                 console.log(that._metaTypeSelector);
             };
 
             // set reference to shell and open overlay
-            this._overlay.open();
+            this._searchOverlay.open();
         },
-        onMetaTypeSelectChange: function (oEvent) {
-            console.log(oEvent.getSource());
-            console.log(oEvent.getSource().getSelectedKey());
-            if (!this._oPopover) {
-                this._oPopover = sap.ui.xmlfragment("repository.SearchTypePopover", this);
-                //this._oPopover.bindElement("/ProductCollection/0"); //bind context
-                this.getView().addDependent(this._oPopover);
+        handlePressMetaTypeSelector: function (oEvent) {
+            var oMetaTypeSelector = oEvent.getSource();
+
+            // create menu only once
+            if (!this._searchTypeMenu) {
+                this._searchTypeMenu = sap.ui.xmlfragment("repository.SearchTypeMenu", this);
+                this.getView().addDependent(this._searchTypeMenu);
             }
-            this._oPopover.openBy(oEvent.getSource());
+
+            var eDock = sap.ui.core.Popup.Dock;
+            this._searchTypeMenu.open(this._bKeyboard, oMetaTypeSelector, eDock.BeginTop, eDock.BeginBottom, oMetaTypeSelector);
+        },
+        handleSearchTypeMenuItemPress: function (oEvent) {
+            if (oEvent.getParameter("item").getSubmenu()) return;
+            var oMetaTypeSelector = this.getView().byId("metaTypeSelector");
+            var oItemPressed = oEvent.getParameter("item");
+
+            var msg = oItemPressed.getText();
+            var parentMsg = oItemPressed.getParent().getParent().getText();
+            oMetaTypeSelector.setText(parentMsg + " " + msg);
+            oMetaTypeSelector.setType("Accept");
         }
     });
     return AppController;

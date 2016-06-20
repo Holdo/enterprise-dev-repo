@@ -1,0 +1,25 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:u="sap.ui.unified">
+    <u:Menu>
+        <u:MenuItem text="WAR" icon="sap-icon://attachment-zip-file">
+            <u:Menu>
+                <u:MenuItem text="Filter" select="handleSearchTypeMenuItemPress"/>
+                <u:MenuItem text="Listener" select="handleSearchTypeMenuItemPress"/>
+            </u:Menu>
+        </u:MenuItem>
+        <u:MenuItem text="WSDL" icon="sap-icon://document-text">
+            <u:Menu>
+                <u:MenuItem text="Operation" select="handleSearchTypeMenuItemPress"/>
+                <u:MenuItem text="Request" select="handleSearchTypeMenuItemPress"/>
+                <u:MenuItem text="Response" select="handleSearchTypeMenuItemPress"/>
+            </u:Menu>
+        </u:MenuItem>
+        <u:MenuItem text="XSD" icon="sap-icon://document-text">
+            <u:Menu>
+                <u:MenuItem text="Attribute" select="handleSearchTypeMenuItemPress"/>
+                <u:MenuItem text="Complex Type" select="handleSearchTypeMenuItemPress"/>
+                <u:MenuItem text="Element" select="handleSearchTypeMenuItemPress"/>
+                <u:MenuItem text="Simple Type" select="handleSearchTypeMenuItemPress"/>
+            </u:Menu>
+        </u:MenuItem>
+    </u:Menu>
+</core:FragmentDefinition>
