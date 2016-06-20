@@ -2,62 +2,133 @@ package cz.muni.fi.pb138.xquery;
 
 
 public enum XQueryXsd {
-	GET_COMPLEX_TYPES("declare variable $metas := //xsdmeta; " + "<items>{" +
-					"for $meta in $metas \n" +
-					"for $attr in $meta//complexType\n" +
-					"return <item><type>complexType</type><name>{$attr/text()}</name><fullPath>{$meta/pathVersionPair/fullPath/text()}</fullPath>" + "<version>{$meta/pathVersionPair/version/text()}</version></item>}</items>"),
-	GET_SIMPLE_TYPES("declare variable $metas := //xsdmeta; " + "<items>{" +
-					"for $meta in $metas \n" +
-					"for $attr in $meta//simpleType\n" +
-					"return <item><type>simpleType</type><name>{$attr/text()}</name><fullPath>{$meta/pathVersionPair/fullPath/text()}</fullPath>" + "<version>{$meta/pathVersionPair/version/text()}</version></item>}</items>"),
-	GET_ELEMENTS("declare variable $metas := //xsdmeta; " + "<items>{" +
-					"for $meta in $metas \n" +
-					"for $attr in $meta//element\n" +
-					"return <item><type>element</type><name>{$attr/text()}</name><fullPath>{$meta/pathVersionPair/fullPath/text()}</fullPath>" + "<version>{$meta/pathVersionPair/version/text()}</version></item>}</items>"),
-	GET_ATTRIBUTES("declare variable $metas := //xsdmeta; " + "<items>{" +
-					"for $meta in $metas \n" +
-					"for $attr in $meta//attribute\n" +
-					"return <item><type>attribute</type><name>{$attr/text()}</name><fullPath>{$meta/pathVersionPair/fullPath/text()}</fullPath>" + "<version>{$meta/pathVersionPair/version/text()}</version></item>}</items>"),
-	GET_ATTRIBUTES_BY_FILE("declare variable $fullpath as xs:string external; declare variable $version as xs:string external; " +
-			"declare variable $metas := //xsdmeta; " + "<items>{" +
-			"for $meta in $metas \n" +
-			"for $attr in $meta[./pathVersionPair/version/text()=$version and ./pathVersionPair/fullPath/text()=$fullpath]//attribute\n" +
-			"return <item><type>attribute</type><name>{$attr/text()}</name><fullPath>{$meta/pathVersionPair/fullPath/text()}</fullPath>" + "<version>{$meta/pathVersionPair/version/text()}</version></item>}</items>"),
-	GET_ELEMENTS_BY_FILE("declare variable $fullpath as xs:string external; declare variable $version as xs:string external; " +
-			"declare variable $metas := //xsdmeta; " + "<items>{" +
-			"for $meta in $metas \n" +
-			"for $attr in $meta[./pathVersionPair/fullPath/text() = $fullpath and ./pathVersionPair/version/text() = $version]//element\n" +
-			"return <item><type>element</type><name>{$attr/text()}</name><fullPath>{$meta/pathVersionPair/fullPath/text()}</fullPath>" + "<version>{$meta/pathVersionPair/version/text()}</version></item>}</items>"),
-	GET_SIMPLETYPES_BY_FILE("declare variable $fullpath as xs:string external; declare variable $version as xs:string external; " +
-			"declare variable $metas := //xsdmeta; " + "<items>{" +
-			"for $meta in $metas \n" +
-			"for $attr in $meta[./pathVersionPair/fullPath/text() = $fullpath and ./pathVersionPair/version/text() = $version]//simpleType\n" +
-			"return <item><type>simpleType</type><name>{$attr/text()}</name><fullPath>{$meta/pathVersionPair/fullPath/text()}</fullPath>" + "<version>{$meta/pathVersionPair/version/text()}</version></item>}</items>"),
-	GET_COMPLEXTYPES_BY_FILE("declare variable $fullpath as xs:string external; declare variable $version as xs:string external; " +
-			"declare variable $metas := //xsdmeta; " + "<items>{" +
-			"for $meta in $metas \n" +
-			"for $attr in $meta[./pathVersionPair/fullPath/text() = $fullpath and ./pathVersionPair/version/text() = $version]//complexType\n" +
-			"return <item><type>complexType</type><name>{$attr/text()}</name><fullPath>{$meta/pathVersionPair/fullPath/text()}</fullPath>" + "<version>{$meta/pathVersionPair/version/text()}</version></item>}</items>"),
-	GET_FILES_BY_ATTRIBUTE("declare variable $name as xs:string external; " +
-			"declare variable $metas := //xsdmeta; " + "<files>{" +
-			"for $meta in $metas \n" +
-			"for $attr in $meta[./attribute/text()=$name]//pathVersionPair\n" +
-			"return <file><version>{$meta/pathVersionPair/version/text()}</version><path>{$meta/pathVersionPair/fullPath/text()}</path></file>" + "}</files>"),
-	GET_FILES_BY_ELEMENT("declare variable $name as xs:string external; " +
-			"declare variable $metas := //xsdmeta; " + "<files>{" +
-			"for $meta in $metas \n" +
-			"for $attr in $meta[./element/text()=$name]//pathVersionPair\n" +
-			"return <file><version>{$meta/pathVersionPair/version/text()}</version><path>{$meta/pathVersionPair/fullPath/text()}</path></file>" + "}</files>"),
-	GET_FILES_BY_SIMPLETYPE("declare variable $name as xs:string external; " +
-			"declare variable $metas := //xsdmeta; " + "<files>{" +
-			"for $meta in $metas \n" +
-			"for $attr in $meta[./simpleType/text()=$name]//pathVersionPair\n" +
-			"return <file><version>{$meta/pathVersionPair/version/text()}</version><path>{$meta/pathVersionPair/fullPath/text()}</path></file>" + "}</files>"),
-	GET_FILES_BY_COMPLEXTYPE("declare variable $name as xs:string external; " +
-			"declare variable $metas := //xsdmeta; " + "<files>{" +
-			"for $meta in $metas \n" +
-			"for $attr in $meta[./complexType/text()=$name]//pathVersionPair\n" +
-			"return <file><version>{$meta/pathVersionPair/version/text()}</version><path>{$meta/pathVersionPair/fullPath/text()}</path></file>" + "}</files>");
+	//Get all types
+	GET_COMPLEX_TYPES(
+			"<items>{\n" +
+			"for $meta in //xsdmeta\n" +
+			"let $fullPath := $meta/pathVersionPair/fullPath\n" +
+			"let $version := $meta/pathVersionPair/version\n" +
+			"for $name in $meta/complexType/text()\n" +
+			"order by $fullPath\n" +
+			"group by $fullPath, $name\n" +
+			"return <item><type>complexType</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
+			"<version>{max($version)}</version></item>\n" +
+			"}</items>"),
+	GET_SIMPLE_TYPES(
+			"<items>{\n" +
+			"for $meta in //xsdmeta\n" +
+			"let $fullPath := $meta/pathVersionPair/fullPath\n" +
+			"let $version := $meta/pathVersionPair/version\n" +
+			"for $name in $meta/simpleType/text()\n" +
+			"order by $fullPath\n" +
+			"group by $fullPath\n" +
+			"return <item><type>simpleType</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
+			"<version>{max($version)}</version></item>\n" +
+			"}</items>"),
+	GET_ELEMENTS(
+			"<items>{\n" +
+			"for $meta in //xsdmeta\n" +
+			"let $fullPath := $meta/pathVersionPair/fullPath\n" +
+			"let $version := $meta/pathVersionPair/version\n" +
+			"for $name in $meta/element/text()\n" +
+			"order by $fullPath\n" +
+			"group by $fullPath\n" +
+			"return <item><type>element</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
+			"<version>{max($version)}</version></item>\n" +
+			"}</items>"),
+	GET_ATTRIBUTES(
+			"<items>{\n" +
+			"for $meta in //xsdmeta\n" +
+			"let $fullPath := $meta/pathVersionPair/fullPath\n" +
+			"let $version := $meta/pathVersionPair/version\n" +
+			"for $name in $meta/attribute/text()\n" +
+			"order by $fullPath\n" +
+			"group by $fullPath\n" +
+			"return <item><type>attribute</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
+			"<version>{max($version)}</version></item>\n" +
+			"}</items>"),
+	//Get by file
+	GET_ATTRIBUTES_BY_FILE(
+			"declare variable $fullPath as xs:string external;\n" +
+			"declare variable $version as xs:string external;\n" +
+			"<items>{\n" +
+			"for $meta in //xsdmeta\n" +
+			"for $name in $meta[pathVersionPair/fullPath/text()=$fullPath and pathVersionPair/version/text()=$version]/attribute/text()\n" +
+			"return <item><type>attribute</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
+			"<version>{$version}</version></item>\n" +
+			"}</items>"),
+	GET_ELEMENTS_BY_FILE(
+			"declare variable $fullPath as xs:string external;\n" +
+			"declare variable $version as xs:string external;\n" +
+			"<items>{\n" +
+			"for $meta in //xsdmeta\n" +
+			"for $name in $meta[pathVersionPair/fullPath/text()=$fullPath and pathVersionPair/version/text()=$version]/element/text()\n" +
+			"return <item><type>element</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
+			"<version>{$version}</version></item>\n" +
+			"}</items>"),
+	GET_SIMPLETYPES_BY_FILE(
+			"declare variable $fullPath as xs:string external;\n" +
+			"declare variable $version as xs:string external;\n" +
+			"<items>{\n" +
+			"for $meta in //xsdmeta\n" +
+			"for $name in $meta[pathVersionPair/fullPath/text()=$fullPath and pathVersionPair/version/text()=$version]/simpleType/text()\n" +
+			"return <item><type>simpleType</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
+			"<version>{$version}</version></item>\n" +
+			"}</items>"),
+	GET_COMPLEXTYPES_BY_FILE(
+			"declare variable $fullPath as xs:string external;\n" +
+			"declare variable $version as xs:string external;\n" +
+			"<items>{\n" +
+			"for $meta in //xsdmeta\n" +
+			"for $name in $meta[pathVersionPair/fullPath/text()=$fullPath and pathVersionPair/version/text()=$version]/complexType/text()\n" +
+			"return <item><type>complexType</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
+			"<version>{$version}</version></item>\n" +
+			"}</items>"),
+	//Get by type
+	GET_FILES_BY_ATTRIBUTE(
+			"declare variable $name as xs:string external;\n" +
+			"<files>{\n" +
+			"for $meta in //xsdmeta\n" +
+			"let $fullPath := $meta/pathVersionPair/fullPath\n" +
+			"let $version := $meta/pathVersionPair/version\n" +
+			"where $meta/attribute/text()=$name\n" +
+			"order by $fullPath\n" +
+			"group by $fullPath\n" +
+			"return <file><version>{max($version)}</version><fullPath>{$fullPath}</fullPath></file>\n" +
+			"}</files>"),
+	GET_FILES_BY_ELEMENT(
+			"declare variable $name as xs:string external;\n" +
+			"<files>{\n" +
+			"for $meta in //xsdmeta\n" +
+			"let $fullPath := $meta/pathVersionPair/fullPath\n" +
+			"let $version := $meta/pathVersionPair/version\n" +
+			"where $meta/element/text()=$name\n" +
+			"order by $fullPath\n" +
+			"group by $fullPath\n" +
+			"return <file><version>{max($version)}</version><fullPath>{$fullPath}</fullPath></file>\n" +
+			"}</files>"),
+	GET_FILES_BY_SIMPLETYPE(
+			"declare variable $name as xs:string external;\n" +
+			"<files>{\n" +
+			"for $meta in //xsdmeta\n" +
+			"let $fullPath := $meta/pathVersionPair/fullPath\n" +
+			"let $version := $meta/pathVersionPair/version\n" +
+			"where $meta/simpleType/text()=$name\n" +
+			"order by $fullPath\n" +
+			"group by $fullPath\n" +
+			"return <file><version>{max($version)}</version><fullPath>{$fullPath}</fullPath></file>\n" +
+			"}</files>"),
+	GET_FILES_BY_COMPLEXTYPE(
+			"declare variable $name as xs:string external;\n" +
+			"<files>{\n" +
+			"for $meta in //xsdmeta\n" +
+			"let $fullPath := $meta/pathVersionPair/fullPath\n" +
+			"let $version := $meta/pathVersionPair/version\n" +
+			"where $meta/complexType/text()=$name\n" +
+			"order by $fullPath\n" +
+			"group by $fullPath\n" +
+			"return <file><version>{max($version)}</version><fullPath>{$fullPath}</fullPath></file>\n" +
+			"}</files>");
 
 	private final String text;
 

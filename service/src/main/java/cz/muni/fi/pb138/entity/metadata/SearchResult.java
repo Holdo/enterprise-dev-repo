@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Created by gasior on 19.06.2016.
+ * Created by gasior on 19.06.2016
  */
 @XmlRootElement(name = "files")
 public class SearchResult {
@@ -15,6 +15,7 @@ public class SearchResult {
     {
         return file;
     }
+
     @XmlElement(name = "file")
     public void setFile (SearchFile[] file)
     {

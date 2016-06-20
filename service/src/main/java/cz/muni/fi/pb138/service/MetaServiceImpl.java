@@ -135,7 +135,7 @@ public class MetaServiceImpl implements MetaService {
 		List<Items> items = new ArrayList<>();
 
 		fullPath = Paths.get(fullPath).toString();
-		XQueryVariable fullPathVariable = new XQueryVariable("fullpath", fullPath, XQueryType.STRING);
+		XQueryVariable fullPathVariable = new XQueryVariable("fullPath", fullPath, XQueryType.STRING);
 		XQueryVariable versionVariable = new XQueryVariable("version", String.valueOf(version), XQueryType.STRING);
 		databaseDao.openDatabase(META_DATABASE_NAME);
 
@@ -232,7 +232,7 @@ public class MetaServiceImpl implements MetaService {
 		SearchResult items = (SearchResult) jaxbUnmarshaller.unmarshal(new ByteArrayInputStream(queryResult.getBytes(StandardCharsets.UTF_8)));
 		if (items.getFile() == null) return output;
 		for (SearchFile s : items.getFile()) {
-			output.add(new VersionedFile(s.getPath(), Integer.valueOf(s.getVersion()), false));
+			output.add(new VersionedFile(s.getFullPath(), Integer.valueOf(s.getVersion()), false));
 		}
 		return output;
 	}

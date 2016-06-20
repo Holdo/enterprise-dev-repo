@@ -3,39 +3,36 @@ package cz.muni.fi.pb138.entity.metadata;
 import javax.xml.bind.annotation.XmlElement;
 
 /**
- * Created by gasior on 19.06.2016.
+ * Created by gasior on 19.06.2016
  */
 public class SearchFile {
 
-    private String path;
+	private String fullPath;
+	private String version;
 
-    private String version;
+	public String getFullPath() {
+		return fullPath;
+	}
 
-    public String getPath ()
-    {
-        return path;
-    }
-    @XmlElement(name = "path")
-    public void setPath (String path)
-    {
-        this.path = path;
-    }
+	@XmlElement(name = "fullPath")
+	public void setFullPath(String fullPath) {
+		this.fullPath = fullPath;
+	}
 
-    public String getVersion ()
-    {
-        return version;
-    }
-    @XmlElement (name = "version")
-    public void setVersion (String version)
-    {
-        this.version = version;
-    }
+	public String getVersion() {
+		return version;
+	}
 
-    public SearchFile(String path, String version) {
-        this.path = path;
-        this.version = version;
-    }
+	@XmlElement(name = "version")
+	public void setVersion(String version) {
+		this.version = version;
+	}
 
-    public SearchFile() {
-    }
+	public SearchFile(String fullPath, String version) {
+		this.fullPath = fullPath;
+		this.version = version;
+	}
+
+	public SearchFile() {
+	}
 }

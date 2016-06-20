@@ -178,14 +178,14 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 		assertThat(warsByListener.size()).isGreaterThan(0);
 		assertThat(warsByFilter.size()).isGreaterThan(0);
 
-		assertThat(xsdsByAttribute.size()).isGreaterThan(1);
-		assertThat(xsdsByElement.size()).isGreaterThan(1);
-		assertThat(xsdsByComplexType.size()).isGreaterThan(1);
-		assertThat(xsdsBySimpleType.size()).isGreaterThan(1);
+		assertThat(xsdsByAttribute.size()).isGreaterThan(0);
+		assertThat(xsdsByElement.size()).isGreaterThan(0);
+		assertThat(xsdsByComplexType.size()).isGreaterThan(0);
+		assertThat(xsdsBySimpleType.size()).isGreaterThan(0);
 
-		assertThat(wsdlsByOperation.size()).isGreaterThan(1);
-		assertThat(wsdlsByRequest.size()).isGreaterThan(1);
-		assertThat(wsdlsByResponse.size()).isGreaterThan(1);
+		assertThat(wsdlsByOperation.size()).isGreaterThan(0);
+		assertThat(wsdlsByRequest.size()).isGreaterThan(0);
+		assertThat(wsdlsByResponse.size()).isGreaterThan(0);
 	}
 
 
