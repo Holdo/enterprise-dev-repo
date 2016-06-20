@@ -39,7 +39,7 @@ sap.ui.define([
             MessageToast.show("Search Entry Selected: " + oEvent.getSource().getTitle());
         },
         handleShellOverlayClosed: function() {
-            MessageToast.show("Overlay closed");
+            //MessageToast.show("Overlay closed");
         },
         handlePressConfiguration: function(oEvent) {
             var oItem = oEvent.getSource();
@@ -62,8 +62,7 @@ sap.ui.define([
                 );
                 return;
             }
-            
-            var that = this;
+
             var sQuery = oEvent.getParameter("query");
             if(sQuery == "") return;
 
@@ -72,30 +71,32 @@ sap.ui.define([
                 this._searchOverlay = sap.ui.xmlfragment("repository.ShellOverlay", this);
                 this.getView().addDependent(this._searchOverlay);
             }
-
-            // mock data
-            var aResultData = [];
-            for(var i = 0; i < 25; i++) {
-                aResultData.push({
-                    title:(i + 1) + ". " + sQuery
-                });
-            }
-            console.log(sQuery);
-            var oData = {
-                searchFieldContent: sQuery,
-                resultData: aResultData
+            
+            //load data
+            var that = this;
+            var ws = new WebSocket("ws://" + document.location.host + "/websocket/command/search");
+            ws.onopen = function () {
+                var oMessage = {
+                    fileType : that.fileType.trim().replace(/\s+/g, ''),
+                    metaParameterType : that.metaParameterType.trim().replace(/\s+/g, ''),
+                    parameterName : sQuery
+                };
+                //sMessage = sMessage.replace(/\\/g, "\\\\");
+                var sMessage = JSON.stringify(oMessage);
+                console.log("Sending " + sMessage);
+                ws.send(sMessage);
             };
-            this._searchOverlay.setModel(new JSONModel(oData));
-            this._searchOverlay.getSearch().getItems()[0].setValue(sQuery);
-
-            this._metaTypeSelector = this._searchOverlay.getSearch().getItems()[1];
-            this._metaTypeSelector.onclick = function() {
-                console.log("Clicked on:");
-                console.log(that._metaTypeSelector);
+            ws.onmessage = function (oEvent) {
+                console.log("Received: " + oEvent.data);
+                var oData = {
+                    searchFieldContent: sQuery,
+                    fileType : that.fileType,
+                    metaParameterType : that.metaParameterType,
+                    resultData: JSON.parse(oEvent.data)
+                };
+                that._searchOverlay.setModel(new JSONModel(oData));
+                that._searchOverlay.open();
             };
-
-            // set reference to shell and open overlay
-            this._searchOverlay.open();
         },
         handlePressMetaTypeSelector: function (oEvent) {
             var oMetaTypeSelector = oEvent.getSource();
@@ -114,9 +115,9 @@ sap.ui.define([
             var oMetaTypeSelector = this.getView().byId("metaTypeSelector");
             var oItemPressed = oEvent.getParameter("item");
 
-            var msg = oItemPressed.getText();
-            var parentMsg = oItemPressed.getParent().getParent().getText();
-            oMetaTypeSelector.setText(parentMsg + " " + msg);
+            this.metaParameterType = oItemPressed.getText();
+            this.fileType = oItemPressed.getParent().getParent().getText();
+            oMetaTypeSelector.setText(this.fileType + " " + this.metaParameterType);
             oMetaTypeSelector.setType("Accept");
         }
     });

@@ -6,32 +6,23 @@
         class="viewPadding">
     <u:ShellOverlay shell="myShell" closed="handleShellOverlayClosed">
         <u:search>
-            <HBox width="auto" justifyContent="SpaceBetween">
-                <SearchField id="fragmentSearch"/>
-                <Select id="metaTypeSelector" forceSelection="false" selectedKey="first"
-                        change="onMetaTypeSelectChange"
-                        items="{
-						path: '/array',
-						sorter: { path: 'searchFieldContent' }
-					}">
-                    <core:Item key="{lul}" text="{lul}"/>
-                </Select>
-            </HBox>
+            <l:HorizontalLayout>
+                <Label text="Your Search:" class="sapUiTinyMarginEnd" design="Bold"/>
+                <Text text="{/metaParameterType} &quot;{/searchFieldContent}&quot; in {/fileType} files"/>
+            </l:HorizontalLayout>
         </u:search>
         <u:content>
             <l:VerticalLayout width="100%">
-                <l:HorizontalLayout>
-                    <Label text="Your Search: " class="labelMarginLeft"/>
-                    <Text text="{/searchFieldContent}" class="labelMarginLeft"/>
-                </l:HorizontalLayout>
-                <List width="100%"
-                      items="{path:'/resultData'}">
+                <List width="100%" noDataText="Sorry, your search query returned no data :("
+                      items="{path:'/resultData/'}">
                     <StandardListItem
                             type="Active"
                             press="handleSearchItemSelect"
-                            title="{title}"
-                            icon="sap-icon://display"
-                            description="{text}"/>
+                            title="{name}"
+                            icon="sap-icon://document-text"
+                            iconInset="false"
+                            info="version: {version}"
+                            description="{path}"/>
                 </List>
             </l:VerticalLayout>
         </u:content>

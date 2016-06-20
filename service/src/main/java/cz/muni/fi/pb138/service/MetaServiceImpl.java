@@ -239,10 +239,10 @@ public class MetaServiceImpl implements MetaService {
 	private List<VersionedFile> parseFileSearchQueryBro(String queryResult) throws JAXBException {
 		List<VersionedFile> output =  new ArrayList<>();
 
-
 		JAXBContext jaxbContext = JAXBContext.newInstance(SearchResult.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		SearchResult items = (SearchResult) jaxbUnmarshaller.unmarshal(new ByteArrayInputStream(queryResult.getBytes(StandardCharsets.UTF_8)));
+		if (items.getFile() == null) return output;
 		for (SearchFile s: items.getFile()
 			 ) {
 			output.add(new VersionedFile(s.getPath(),Integer.valueOf(s.getVersion()),false));
