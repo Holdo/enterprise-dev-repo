@@ -61,6 +61,7 @@ public class MetaServiceImpl implements MetaService {
 	protected String normalizeFullPath(String fullPath) {
 		return Paths.get(fullPath).toString();
 	}
+
 	@Override
 	public MetaFilePathVersionTriplet getMetaFileByFileFullPath(MetaFileType metaFileType, String fullPath) throws IOException {
 		fullPath = normalizeFullPath(fullPath);
@@ -69,14 +70,12 @@ public class MetaServiceImpl implements MetaService {
 		int version = pathFinder.getLatestVersion(list, fullPath);
 		databaseDao.closeDatabase();
 		return getMetaFileByFileFullPathAndVersion(metaFileType, fullPath, version);
-
 	}
 
 	@Override
 	public MetaFilePathVersionTriplet getMetaFileByFileFullPathAndVersion(MetaFileType metaFileType, String fullPath, int version) throws IOException {
-
 		MetaFilePathVersionTriplet output = new MetaFilePathVersionTriplet();
-		if (metaFileType == MetaFileType.WEBXML){
+		if (metaFileType == MetaFileType.WEBXML) {
 			databaseDao.openDatabase(META_DATABASE_NAME);
 			byte[] metaFile = binaryDao.retrieveBinaryFile(pathFinder.getVersionedPath(fullPath, version, FileType.WAR) + "." + metaFileType.toString());
 			databaseDao.closeDatabase();
@@ -107,9 +106,9 @@ public class MetaServiceImpl implements MetaService {
 			}
 		}
 		databaseDao.closeDatabase();
-
 		return output;
 	}
+
 	@Override
 	public MetaFilePathVersionTriplet retrieveMetaFilePathVersionTriplet(VersionedFile vf) throws IOException {
 		MetaFilePathVersionTriplet triplet = new MetaFilePathVersionTriplet();
@@ -134,102 +133,92 @@ public class MetaServiceImpl implements MetaService {
 	@Override
 	public List<Items> getMetaParametersByFileFullPathAndVersion(String fullPath, int version) throws IOException, JAXBException {
 		List<Items> items = new ArrayList<>();
-		String queryResult;
 
 		fullPath = Paths.get(fullPath).toString();
-		XQueryVariable fullPathVariable = new XQueryVariable("fullpath", fullPath,XQueryType.STRING);
-		XQueryVariable versionVariable = new XQueryVariable("version", String.valueOf(version),XQueryType.STRING);
+		XQueryVariable fullPathVariable = new XQueryVariable("fullpath", fullPath, XQueryType.STRING);
+		XQueryVariable versionVariable = new XQueryVariable("version", String.valueOf(version), XQueryType.STRING);
 		databaseDao.openDatabase(META_DATABASE_NAME);
 
+		String queryResult;
 		if (fullPath.endsWith(".war")) {
-
-			queryResult = databaseDao.runXQuery(XQueryWar.GET_LISTENERS_BY_FILE.toString(),fullPathVariable,versionVariable);
+			queryResult = databaseDao.runXQuery(XQueryWar.GET_LISTENERS_BY_FILE.toString(), fullPathVariable, versionVariable);
 			items.add(parseQueryResultMetaByFile(queryResult));
-			queryResult = databaseDao.runXQuery(XQueryWar.GET_FILTERS_BY_FILE.toString(),fullPathVariable,versionVariable);
+			queryResult = databaseDao.runXQuery(XQueryWar.GET_FILTERS_BY_FILE.toString(), fullPathVariable, versionVariable);
 			items.add(parseQueryResultMetaByFile(queryResult));
+		} else if (fullPath.endsWith(".xsd")) {
+			queryResult = databaseDao.runXQuery(XQueryXsd.GET_ATTRIBUTES_BY_FILE.toString(), fullPathVariable, versionVariable);
+			items.add(parseQueryResultMetaByFile(queryResult));
+			queryResult = databaseDao.runXQuery(XQueryXsd.GET_ELEMENTS_BY_FILE.toString(), fullPathVariable, versionVariable);
+			items.add(parseQueryResultMetaByFile(queryResult));
+			queryResult = databaseDao.runXQuery(XQueryXsd.GET_SIMPLETYPES_BY_FILE.toString(), fullPathVariable, versionVariable);
+			items.add(parseQueryResultMetaByFile(queryResult));
+			queryResult = databaseDao.runXQuery(XQueryXsd.GET_COMPLEXTYPES_BY_FILE.toString(), fullPathVariable, versionVariable);
+			items.add(parseQueryResultMetaByFile(queryResult));
+		} else if (fullPath.endsWith(".wsdl")) {
+			queryResult = databaseDao.runXQuery(XQueryWsdl.GET_OPERATIONS_BY_FILE.toString(), fullPathVariable, versionVariable);
+			items.add(parseQueryResultMetaByFile(queryResult));
+			queryResult = databaseDao.runXQuery(XQueryWsdl.GET_REQUESTS_BY_FILE.toString(), fullPathVariable, versionVariable);
+			items.add(parseQueryResultMetaByFile(queryResult));
+			queryResult = databaseDao.runXQuery(XQueryWsdl.GET_RESPONSES_BY_FILE.toString(), fullPathVariable, versionVariable);
+			items.add(parseQueryResultMetaByFile(queryResult));
+		} else {
 			databaseDao.closeDatabase();
-			return items;
-		}
-		if (fullPath.endsWith(".xsd")) {
-			queryResult = databaseDao.runXQuery(XQueryXsd.GET_ATTRIBUTES_BY_FILE.toString(),fullPathVariable,versionVariable);
-			items.add(parseQueryResultMetaByFile(queryResult));
-			queryResult = databaseDao.runXQuery(XQueryXsd.GET_ELEMENTS_BY_FILE.toString(),fullPathVariable,versionVariable);
-			items.add(parseQueryResultMetaByFile(queryResult));
-			queryResult = databaseDao.runXQuery(XQueryXsd.GET_SIMPLETYPES_BY_FILE.toString(),fullPathVariable,versionVariable);
-			items.add(parseQueryResultMetaByFile(queryResult));
-			queryResult = databaseDao.runXQuery(XQueryXsd.GET_COMPLEXTYPES_BY_FILE.toString(),fullPathVariable,versionVariable);
-			items.add(parseQueryResultMetaByFile(queryResult));
-			databaseDao.closeDatabase();
-			return items;
-		}
-		if (fullPath.endsWith(".wsdl")) {
-			queryResult = databaseDao.runXQuery(XQueryWsdl.GET_OPERATIONS_BY_FILE.toString(),fullPathVariable,versionVariable);
-			items.add(parseQueryResultMetaByFile(queryResult));
-			queryResult = databaseDao.runXQuery(XQueryWsdl.GET_REQUESTS_BY_FILE.toString(),fullPathVariable,versionVariable);
-			items.add(parseQueryResultMetaByFile(queryResult));
-			queryResult = databaseDao.runXQuery(XQueryWsdl.GET_RESPONSES_BY_FILE.toString(),fullPathVariable,versionVariable);
-			items.add(parseQueryResultMetaByFile(queryResult));
-			databaseDao.closeDatabase();
-			return items;
+			throw new IOException("Unknown file extension of " + fullPath);
 		}
 
 		databaseDao.closeDatabase();
-		throw new IOException("Unknown file extension of " + fullPath);
-
-
-
-
+		return items;
 	}
+
 	private Items parseQueryResultMetaByFile(String queryResult) throws JAXBException {
 		JAXBContext jaxbContext = JAXBContext.newInstance(Items.class);
-
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-		Items items = (Items) jaxbUnmarshaller.unmarshal(new ByteArrayInputStream(queryResult.getBytes(StandardCharsets.UTF_8)));
-		return items;
+		return (Items) jaxbUnmarshaller.unmarshal(new ByteArrayInputStream(queryResult.getBytes(StandardCharsets.UTF_8)));
 	}
 
 	@Override
 	public List<VersionedFile> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String parameterName) throws IOException, JAXBException {
-
-
 		List<VersionedFile> output;
-		XQueryVariable nameVariable = new XQueryVariable("name", parameterName,XQueryType.STRING);
-		String queryResult = "";
+		XQueryVariable nameVariable = new XQueryVariable("name", parameterName, XQueryType.STRING);
+		String queryResult;
 		databaseDao.openDatabase(META_DATABASE_NAME);
-		if (fileType.equals(FileType.WAR)) {
-			if(parameterType.equals(MetaParameterType.FILTER)) {
-				queryResult = databaseDao.runXQuery(XQueryWar.GET_FILES_BY_FILTER.toString(),nameVariable);
-			}
-			if(parameterType.equals(MetaParameterType.LISTENER)) {
-				queryResult = databaseDao.runXQuery(XQueryWar.GET_FILES_BY_LISTENER.toString(),nameVariable);
-			}
-		}
-		if (fileType.equals(FileType.WSDL)) {
-			if(parameterType.equals(MetaParameterType.OPERATION)) {
-				queryResult = databaseDao.runXQuery(XQueryWsdl.GET_FILES_BY_OPERATION.toString(),nameVariable);
-			}
-			if(parameterType.equals(MetaParameterType.REQUEST)) {
-				queryResult = databaseDao.runXQuery(XQueryWsdl.GET_FILES_BY_REQUEST.toString(),nameVariable);
-			}
-			if(parameterType.equals(MetaParameterType.RESPONSE)) {
-				queryResult = databaseDao.runXQuery(XQueryWsdl.GET_FILES_BY_RESPONSE.toString(),nameVariable);
-			}
-
-		}
-		if (fileType.equals(FileType.XSD)) {
-			if(parameterType.equals(MetaParameterType.ATTRIBUTE)) {
-				queryResult = databaseDao.runXQuery(XQueryXsd.GET_FILES_BY_ATTRIBUTE.toString(),nameVariable);
-			}
-			if(parameterType.equals(MetaParameterType.ELEMENT)) {
-				queryResult = databaseDao.runXQuery(XQueryXsd.GET_FILES_BY_ELEMENT.toString(),nameVariable);
-			}
-			if(parameterType.equals(MetaParameterType.COMPLEXTYPE)) {
-				queryResult = databaseDao.runXQuery(XQueryXsd.GET_FILES_BY_COMPLEXTYPE.toString(),nameVariable);
-			}
-			if(parameterType.equals(MetaParameterType.SIMPLETYPE)) {
-				queryResult = databaseDao.runXQuery(XQueryXsd.GET_FILES_BY_SIMPLETYPE.toString(),nameVariable);
-			}
-
+		switch (fileType) {
+			case WAR:
+				if (parameterType.equals(MetaParameterType.FILTER)) {
+					queryResult = databaseDao.runXQuery(XQueryWar.GET_FILES_BY_FILTER.toString(), nameVariable);
+				} else if (parameterType.equals(MetaParameterType.LISTENER)) {
+					queryResult = databaseDao.runXQuery(XQueryWar.GET_FILES_BY_LISTENER.toString(), nameVariable);
+				} else {
+					throw new IOException("Unknown meta parameter " + parameterType.toString());
+				}
+				break;
+			case WSDL:
+				if (parameterType.equals(MetaParameterType.OPERATION)) {
+					queryResult = databaseDao.runXQuery(XQueryWsdl.GET_FILES_BY_OPERATION.toString(), nameVariable);
+				} else if (parameterType.equals(MetaParameterType.REQUEST)) {
+					queryResult = databaseDao.runXQuery(XQueryWsdl.GET_FILES_BY_REQUEST.toString(), nameVariable);
+				} else if (parameterType.equals(MetaParameterType.RESPONSE)) {
+					queryResult = databaseDao.runXQuery(XQueryWsdl.GET_FILES_BY_RESPONSE.toString(), nameVariable);
+				} else {
+					throw new IOException("Unknown meta parameter " + parameterType.toString());
+				}
+				break;
+			case XSD:
+				if (parameterType.equals(MetaParameterType.ATTRIBUTE)) {
+					queryResult = databaseDao.runXQuery(XQueryXsd.GET_FILES_BY_ATTRIBUTE.toString(), nameVariable);
+				} else if (parameterType.equals(MetaParameterType.ELEMENT)) {
+					queryResult = databaseDao.runXQuery(XQueryXsd.GET_FILES_BY_ELEMENT.toString(), nameVariable);
+				} else if (parameterType.equals(MetaParameterType.COMPLEXTYPE)) {
+					queryResult = databaseDao.runXQuery(XQueryXsd.GET_FILES_BY_COMPLEXTYPE.toString(), nameVariable);
+				} else if (parameterType.equals(MetaParameterType.SIMPLETYPE)) {
+					queryResult = databaseDao.runXQuery(XQueryXsd.GET_FILES_BY_SIMPLETYPE.toString(), nameVariable);
+				} else {
+					throw new IOException("Unknown meta parameter " + parameterType.toString());
+				}
+				break;
+			default:
+				databaseDao.closeDatabase();
+				throw new IOException("Unknown file type " + fileType.toString());
 		}
 		databaseDao.closeDatabase();
 		output = parseFileSearchQueryBro(queryResult);
@@ -237,87 +226,67 @@ public class MetaServiceImpl implements MetaService {
 	}
 
 	private List<VersionedFile> parseFileSearchQueryBro(String queryResult) throws JAXBException {
-		List<VersionedFile> output =  new ArrayList<>();
-
+		List<VersionedFile> output = new ArrayList<>();
 		JAXBContext jaxbContext = JAXBContext.newInstance(SearchResult.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		SearchResult items = (SearchResult) jaxbUnmarshaller.unmarshal(new ByteArrayInputStream(queryResult.getBytes(StandardCharsets.UTF_8)));
 		if (items.getFile() == null) return output;
-		for (SearchFile s: items.getFile()
-			 ) {
-			output.add(new VersionedFile(s.getPath(),Integer.valueOf(s.getVersion()),false));
+		for (SearchFile s : items.getFile()) {
+			output.add(new VersionedFile(s.getPath(), Integer.valueOf(s.getVersion()), false));
 		}
 		return output;
 	}
 
 	@Override
 	public List<Items> getAllMetaParametersByMetaParameterType(MetaParameterType parameterType) throws IOException, JAXBException {
-
-
-
 		List<Items> items = new ArrayList<>();
-		String queryResult;
-
 
 		databaseDao.openDatabase(META_DATABASE_NAME);
 
+		String queryResult;
 		switch (parameterType) {
 			case ATTRIBUTE:
 				queryResult = databaseDao.runXQuery(XQueryXsd.GET_ATTRIBUTES.toString());
 				items.add(parseQueryResultMetaByFile(queryResult));
-				databaseDao.closeDatabase();
-				return items;
+				break;
 			case ELEMENT:
 				queryResult = databaseDao.runXQuery(XQueryXsd.GET_ELEMENTS.toString());
 				items.add(parseQueryResultMetaByFile(queryResult));
-				databaseDao.closeDatabase();
-				return items;
+				break;
 			case COMPLEXTYPE:
 				queryResult = databaseDao.runXQuery(XQueryXsd.GET_COMPLEX_TYPES.toString());
 				items.add(parseQueryResultMetaByFile(queryResult));
-				databaseDao.closeDatabase();
-				return items;
+				break;
 			case SIMPLETYPE:
 				queryResult = databaseDao.runXQuery(XQueryXsd.GET_SIMPLE_TYPES.toString());
 				items.add(parseQueryResultMetaByFile(queryResult));
-				databaseDao.closeDatabase();
-				return items;
+				break;
 			case OPERATION:
 				queryResult = databaseDao.runXQuery(XQueryWsdl.GET_OPERATIONS.toString());
 				items.add(parseQueryResultMetaByFile(queryResult));
-				databaseDao.closeDatabase();
-				return items;
+				break;
 			case REQUEST:
 				queryResult = databaseDao.runXQuery(XQueryWsdl.GET_REQUESTS.toString());
 				items.add(parseQueryResultMetaByFile(queryResult));
-				databaseDao.closeDatabase();
-				return items;
+				break;
 			case RESPONSE:
 				queryResult = databaseDao.runXQuery(XQueryWsdl.GET_RESPONSES.toString());
 				items.add(parseQueryResultMetaByFile(queryResult));
-				databaseDao.closeDatabase();
-				return items;
+				break;
 			case LISTENER:
 				queryResult = databaseDao.runXQuery(XQueryWar.GET_FILTERS.toString());
 				items.add(parseQueryResultMetaByFile(queryResult));
-				databaseDao.closeDatabase();
-				return items;
+				break;
 			case FILTER:
 				queryResult = databaseDao.runXQuery(XQueryWar.GET_LISTENERS.toString());
 				items.add(parseQueryResultMetaByFile(queryResult));
-				databaseDao.closeDatabase();
-				return items;
+				break;
 			default:
 				databaseDao.closeDatabase();
 				throw new IOException("Unknown file attribute");
-
 		}
-
-
-
-
-
+		databaseDao.closeDatabase();
+		return items;
 	}
-
 
 }
