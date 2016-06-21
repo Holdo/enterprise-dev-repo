@@ -3,7 +3,7 @@ package cz.muni.fi.pb138.entity.metadata;
 import javax.xml.bind.annotation.XmlElement;
 
 /**
- * Created by gasior on 18.06.2016.
+ * Created by gasior on 18.06.2016
  */
 public class Item
 {

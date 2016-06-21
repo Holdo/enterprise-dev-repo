@@ -58,10 +58,6 @@ public class MetaServiceImpl implements MetaService {
 	@Value("${cz.muni.fi.pb138.meta-db-name}")
 	private String META_DATABASE_NAME;
 
-	protected String normalizeFullPath(String fullPath) {
-		return Paths.get(fullPath).toString();
-	}
-
 	@Override
 	public MetaFilePathVersionTriplet getMetaFileByFileFullPath(MetaFileType metaFileType, String fullPath) throws IOException {
 		fullPath = normalizeFullPath(fullPath);
@@ -120,7 +116,7 @@ public class MetaServiceImpl implements MetaService {
 	}
 
 	@Override
-	public List<Items> getMetaParametersByFileFullPath(String fullPath) throws IOException, JAXBException {
+	public Metas getMetaParametersByFileFullPath(String fullPath) throws IOException, JAXBException {
 		fullPath = normalizeFullPath(fullPath);
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf(File.separator)));
@@ -131,43 +127,32 @@ public class MetaServiceImpl implements MetaService {
 
 
 	@Override
-	public List<Items> getMetaParametersByFileFullPathAndVersion(String fullPath, int version) throws IOException, JAXBException {
-		List<Items> items = new ArrayList<>();
+	public Metas getMetaParametersByFileFullPathAndVersion(String fullPath, int version) throws IOException, JAXBException {
+		fullPath = normalizeFullPath(fullPath);
 
-		fullPath = Paths.get(fullPath).toString();
 		XQueryVariable fullPathVariable = new XQueryVariable("fullPath", fullPath, XQueryType.STRING);
 		XQueryVariable versionVariable = new XQueryVariable("version", String.valueOf(version), XQueryType.STRING);
 		databaseDao.openDatabase(META_DATABASE_NAME);
 
-		String queryResult;
+		Metas metas = null;
 		if (fullPath.endsWith(".war")) {
-			queryResult = databaseDao.runXQuery(XQueryWar.GET_LISTENERS_BY_FILE.toString(), fullPathVariable, versionVariable);
-			items.add(parseQueryResultMetaByFile(queryResult));
-			queryResult = databaseDao.runXQuery(XQueryWar.GET_FILTERS_BY_FILE.toString(), fullPathVariable, versionVariable);
-			items.add(parseQueryResultMetaByFile(queryResult));
+			//TODO metas = parseQueryResultMetas(databaseDao.runXQuery(XQueryWar.GET_METAS_BY_FILE.toString(), fullPathVariable, versionVariable), WARMetas.class);
 		} else if (fullPath.endsWith(".xsd")) {
-			queryResult = databaseDao.runXQuery(XQueryXsd.GET_ATTRIBUTES_BY_FILE.toString(), fullPathVariable, versionVariable);
-			items.add(parseQueryResultMetaByFile(queryResult));
-			queryResult = databaseDao.runXQuery(XQueryXsd.GET_ELEMENTS_BY_FILE.toString(), fullPathVariable, versionVariable);
-			items.add(parseQueryResultMetaByFile(queryResult));
-			queryResult = databaseDao.runXQuery(XQueryXsd.GET_SIMPLETYPES_BY_FILE.toString(), fullPathVariable, versionVariable);
-			items.add(parseQueryResultMetaByFile(queryResult));
-			queryResult = databaseDao.runXQuery(XQueryXsd.GET_COMPLEXTYPES_BY_FILE.toString(), fullPathVariable, versionVariable);
-			items.add(parseQueryResultMetaByFile(queryResult));
+			metas = parseQueryResultMetas(databaseDao.runXQuery(XQueryXsd.GET_METAS_BY_FILE.toString(), fullPathVariable, versionVariable), XSDMetas.class);
 		} else if (fullPath.endsWith(".wsdl")) {
-			queryResult = databaseDao.runXQuery(XQueryWsdl.GET_OPERATIONS_BY_FILE.toString(), fullPathVariable, versionVariable);
-			items.add(parseQueryResultMetaByFile(queryResult));
-			queryResult = databaseDao.runXQuery(XQueryWsdl.GET_REQUESTS_BY_FILE.toString(), fullPathVariable, versionVariable);
-			items.add(parseQueryResultMetaByFile(queryResult));
-			queryResult = databaseDao.runXQuery(XQueryWsdl.GET_RESPONSES_BY_FILE.toString(), fullPathVariable, versionVariable);
-			items.add(parseQueryResultMetaByFile(queryResult));
+			//TODO metas = parseQueryResultMetas(databaseDao.runXQuery(XQueryWsdl.GET_METAS_BY_FILE.toString(), fullPathVariable, versionVariable), WSDLMetas.class);
 		} else {
 			databaseDao.closeDatabase();
 			throw new IOException("Unknown file extension of " + fullPath);
 		}
-
 		databaseDao.closeDatabase();
-		return items;
+		return metas;
+	}
+
+	private <T extends Metas> T parseQueryResultMetas(String queryResult, Class<T> classType) throws JAXBException {
+		JAXBContext jaxbContext = JAXBContext.newInstance(classType);
+		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+		return (T) jaxbUnmarshaller.unmarshal(new ByteArrayInputStream(queryResult.getBytes(StandardCharsets.UTF_8)));
 	}
 
 	private Items parseQueryResultMetaByFile(String queryResult) throws JAXBException {
@@ -287,6 +272,13 @@ public class MetaServiceImpl implements MetaService {
 		}
 		databaseDao.closeDatabase();
 		return items;
+	}
+
+	protected String normalizeFullPath(String fullPath) {
+		fullPath = Paths.get(fullPath).toString();
+		while (fullPath.startsWith(File.separator)) fullPath = fullPath.substring(1, fullPath.length());
+		if (fullPath.endsWith(File.separator)) fullPath = fullPath.substring(0, fullPath.length() - 1);
+		return fullPath;
 	}
 
 }

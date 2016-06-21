@@ -2,33 +2,48 @@
           xmlns:u="sap.ui.unified" xmlns:core="sap.ui.core"
           xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
           controllerName='Repository.browse.Browse'>
-    <Panel width="auto" class="sapUiResponsiveMargin">
+    <Page showHeader="false">
         <content>
-            <VBox alignItems="Center" justifyContent="SpaceBetween">
-                <Text text="Artifact Browser" class="sapMH4FontSize"/>
-                <Text text="Here you can browse your repository" class="sapUiTinyMarginTop"/>
-            </VBox>
+            <Panel width="auto" class="sapUiResponsiveMargin">
+                <content>
+                    <VBox alignItems="Center" justifyContent="SpaceBetween">
+                        <Text text="Artifact Browser" class="sapMH4FontSize"/>
+                        <Text text="Here you can browse your repository" class="sapUiTinyMarginTop"/>
+                    </VBox>
+                </content>
+            </Panel>
+            <HBox justifyContent="Center">
+                <VBox width="auto" class="sapUiResponsiveMargin">
+                    <Panel class="sapUiNoContentPadding">
+                        <content>
+                            <HBox justifyContent="Center">
+                                <Breadcrumbs id="breadcrumbs" currentLocationText="Root" class="sapUiSmallMargin"/>
+                            </HBox>
+                        </content>
+                    </Panel>
+                    <List id="browseList" showNoData="true" noDataText="Empty" includeItemInSelection="true"
+                          items="{/}">
+                        <StandardListItem
+                                title="{name}"
+                                icon="{= ${directory} === true ? 'sap-icon://folder' : 'sap-icon://document-text' }"
+                                iconDensityAware="true"
+                                iconInset="true"
+                                type="{= ${directory} === true ? 'Navigation' : 'Active' }"
+                                app:path="{path}"
+                                app:fullPath="{fullPath}"
+                                app:version="{version}"
+                                press="handleListItemPress"
+                                detailPress="handleDetailPress"/>
+                    </List>
+                </VBox>
+            </HBox>
         </content>
-    </Panel>
-    <VBox alignItems="Center" justifyContent="SpaceBetween" width="auto">
-        <Panel class="sapUiResponsiveMargin sapUiNoContentPadding" width="auto">
-            <content>
-                <Breadcrumbs id="breadcrumbs" currentLocationText="Root" class="sapUiSmallMargin">
-                    <!--<Link text="Root" target="" emphasized="true"/>-->
-                </Breadcrumbs>
-            </content>
-        </Panel>
-        <List id="browseList" showNoData="true" noDataText="Empty" includeItemInSelection="true"
-              items="{/}" width="auto">
-            <StandardListItem
-                    title="{name}"
-                    icon="{= ${directory} === true ? 'sap-icon://folder' : 'sap-icon://document-text' }"
-                    iconDensityAware="true"
-                    iconInset="true"
-                    type="{= ${directory} === true ? 'Navigation' : 'Active' }"
-                    app:path="{path}"
-                    press="handleListItemPress"
-                    detailPress="handleDetailPress"/>
-        </List>
-    </VBox>
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer/>
+                <Text text="Gasior, Holič, Hutta, Rybenský --- PB138 2016"/>
+                <ToolbarSpacer width="2em"/>
+            </Toolbar>
+        </footer>
+    </Page>
 </mvc:View>

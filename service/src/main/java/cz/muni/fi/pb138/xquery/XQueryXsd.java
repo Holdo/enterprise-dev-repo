@@ -47,43 +47,13 @@ public enum XQueryXsd {
 			"return <item><type>attribute</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
 			"<version>{max($version)}</version></item>\n" +
 			"}</items>"),
-	//Get by file
-	GET_ATTRIBUTES_BY_FILE(
+	//Get metas by file
+	GET_METAS_BY_FILE(
 			"declare variable $fullPath as xs:string external;\n" +
 			"declare variable $version as xs:string external;\n" +
-			"<items>{\n" +
 			"for $meta in //xsdmeta\n" +
-			"for $name in $meta[pathVersionPair/fullPath/text()=$fullPath and pathVersionPair/version/text()=$version]/attribute/text()\n" +
-			"return <item><type>attribute</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
-			"<version>{$version}</version></item>\n" +
-			"}</items>"),
-	GET_ELEMENTS_BY_FILE(
-			"declare variable $fullPath as xs:string external;\n" +
-			"declare variable $version as xs:string external;\n" +
-			"<items>{\n" +
-			"for $meta in //xsdmeta\n" +
-			"for $name in $meta[pathVersionPair/fullPath/text()=$fullPath and pathVersionPair/version/text()=$version]/element/text()\n" +
-			"return <item><type>element</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
-			"<version>{$version}</version></item>\n" +
-			"}</items>"),
-	GET_SIMPLETYPES_BY_FILE(
-			"declare variable $fullPath as xs:string external;\n" +
-			"declare variable $version as xs:string external;\n" +
-			"<items>{\n" +
-			"for $meta in //xsdmeta\n" +
-			"for $name in $meta[pathVersionPair/fullPath/text()=$fullPath and pathVersionPair/version/text()=$version]/simpleType/text()\n" +
-			"return <item><type>simpleType</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
-			"<version>{$version}</version></item>\n" +
-			"}</items>"),
-	GET_COMPLEXTYPES_BY_FILE(
-			"declare variable $fullPath as xs:string external;\n" +
-			"declare variable $version as xs:string external;\n" +
-			"<items>{\n" +
-			"for $meta in //xsdmeta\n" +
-			"for $name in $meta[pathVersionPair/fullPath/text()=$fullPath and pathVersionPair/version/text()=$version]/complexType/text()\n" +
-			"return <item><type>complexType</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
-			"<version>{$version}</version></item>\n" +
-			"}</items>"),
+			"for $pair in $meta[pathVersionPair/fullPath/text()=$fullPath and pathVersionPair/version/text()=$version]\n" +
+			"return $pair"),
 	//Get by type
 	GET_FILES_BY_ATTRIBUTE(
 			"declare variable $name as xs:string external;\n" +

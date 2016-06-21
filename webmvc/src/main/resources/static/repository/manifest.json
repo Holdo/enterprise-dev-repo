@@ -58,6 +58,11 @@
           "pattern": "upload",
           "name": "upload",
           "target": "upload"
+        },
+        {
+          "pattern": "artifact",
+          "name": "artifact",
+          "target": "artifact"
         }
       ],
       "targets": {
@@ -78,6 +83,11 @@
           "viewPath": "Repository.upload",
           "viewName": "Upload",
           "viewLevel": 2
+        },
+        "artifact": {
+          "viewPath": "Repository.view",
+          "viewName": "Artifact",
+          "viewLevel": 3
         }
       }
     }

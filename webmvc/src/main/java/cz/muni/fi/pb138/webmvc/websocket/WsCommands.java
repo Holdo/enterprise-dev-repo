@@ -2,6 +2,7 @@ package cz.muni.fi.pb138.webmvc.websocket;
 
 import cz.muni.fi.pb138.api.FileService;
 import cz.muni.fi.pb138.api.MetaService;
+import cz.muni.fi.pb138.entity.metadata.Metas;
 import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaParameterType;
@@ -55,5 +56,18 @@ public class WsCommands {
 				FileType.valueOf(args.get("fileType").toUpperCase()),
 				MetaParameterType.valueOf(args.get("metaParameterType").toUpperCase()),
 				args.get("parameterName"));
+	}
+
+	/**
+	 * Gets artifact metadata for specified version
+	 *
+	 * @param args map should contain fullPath of artifact and it's version
+	 * @return metadata search result for required artifact
+	 * @throws IOException
+	 * @throws JAXBException
+	 */
+	public Metas getArtifactMetadata(Map<String, Object> args) throws IOException, JAXBException {
+		log.debug("Getting artifact metadata for {} of version {}", args.get("fullPath"), args.get("version"));
+		return metaService.getMetaParametersByFileFullPathAndVersion((String) args.get("fullPath"), (Integer) args.get("version"));
 	}
 }

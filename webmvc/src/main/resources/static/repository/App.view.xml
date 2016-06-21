@@ -1,4 +1,5 @@
-<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout"
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified" xmlns:core="sap.ui.core"
+          xmlns:l="sap.ui.layout"
           controllerName='Repository.App' class="viewPadding">
     <u:Shell id="myShell" icon="baseXlogo.png">
         <u:headItems>
@@ -33,25 +34,15 @@
         <u:search>
             <l:HorizontalLayout>
                 <SearchField class="sapUiMediumMarginEnd" search="handleSearchPressed"/>
-                <Button id="metaTypeSelector" class="sapUiMediumMarginBegin" text="Select search type" press="handlePressMetaTypeSelector" />
+                <Button id="metaTypeSelector" class="sapUiMediumMarginBegin" text="Select search type"
+                        press="handlePressMetaTypeSelector"/>
             </l:HorizontalLayout>
         </u:search>
         <u:paneContent>
             <Text text="Hello :)"/>
         </u:paneContent>
-        <Page showHeader="false">
-            <content>
-                <App id="app" backgroundColor="transparent" backgroundOpacity="0">
-                    <!-- VIEWS -->
-                </App>
-            </content>
-            <footer>
-                <Toolbar>
-                    <ToolbarSpacer/>
-                    <Text text="Gasior, Holič, Hutta, Rybenský --- PB138 2016"/>
-                    <ToolbarSpacer width="2em"/>
-                </Toolbar>
-            </footer>
-        </Page>
+        <App id="app" backgroundColor="transparent" backgroundOpacity="0">
+            <!-- VIEWS -->
+        </App>
     </u:Shell>
 </mvc:View>

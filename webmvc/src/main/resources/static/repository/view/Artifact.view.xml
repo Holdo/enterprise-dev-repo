@@ -1,0 +1,93 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+          xmlns:u="sap.ui.unified" xmlns:core="sap.ui.core"
+          controllerName='Repository.view.Artifact'>
+    <Page showHeader="false">
+        <content>
+            <Panel width="auto" class="sapUiResponsiveMargin">
+                <content>
+                    <VBox alignItems="Center" justifyContent="SpaceBetween">
+                        <HBox alignItems="Center">
+                            <Text text="{/artifactName}" class="sapMH2FontSize sapUiMediumMarginBegin"/>
+                            <Select class="sapUiSmallMarginBegin"
+                                    items="{
+                                    path: '/versions',
+                                    sorter: { path: 'version', descending: 'true' }
+                                    }">
+                                <core:Item key="{}" text="version {}"/>
+                            </Select>
+                        </HBox>
+                        <Text text="{/artifactLocation}" class="sapUiTinyMarginTop"/>
+                    </VBox>
+                </content>
+            </Panel>
+            <l:Grid defaultSpan="XL4 L4 M4 S4" position="Center" class="sapUiResponsiveMargin">
+                <l:content>
+                    <VBox>
+                        <Panel>
+                            <content>
+                                <HBox justifyContent="Center">
+                                    <Text text="Attributes" class="sapMH5FontSize"/>
+                                </HBox>
+                            </content>
+                        </Panel>
+                        <List growing="true" growingThreshold="3"
+                              items="{
+                                    path: '/attributes',
+                                    sorter: { path: 'attribute', ascending: 'true' }
+                                    }">
+                            <StandardListItem
+                                    type="Inactive"
+                                    press="handleSearchItemSelect"
+                                    title="{attribute}"/>
+                        </List>
+                    </VBox>
+                    <VBox>
+                        <Panel>
+                            <content>
+                                <HBox justifyContent="Center">
+                                    <Text text="Elements" class="sapMH5FontSize"/>
+                                </HBox>
+                            </content>
+                        </Panel>
+                        <List growing="true" growingThreshold="3"
+                              items="{
+                                    path: '/elements',
+                                    sorter: { path: 'element', ascending: 'true' }
+                                    }">
+                            <StandardListItem
+                                    type="Inactive"
+                                    press="handleSearchItemSelect"
+                                    title="{element}"/>
+                        </List>
+                    </VBox>
+                    <VBox>
+                        <Panel>
+                            <content>
+                                <HBox justifyContent="Center">
+                                    <Text text="Complex Types" class="sapMH5FontSize"/>
+                                </HBox>
+                            </content>
+                        </Panel>
+                        <List growing="true" growingThreshold="3"
+                              items="{
+                                    path: '/complexTypes',
+                                    sorter: { path: 'complexType', ascending: 'true' }
+                                    }">
+                            <StandardListItem
+                                    type="Inactive"
+                                    press="handleSearchItemSelect"
+                                    title="{complexType}"/>
+                        </List>
+                    </VBox>
+                </l:content>
+            </l:Grid>
+        </content>
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer/>
+                <Text text="Gasior, Holič, Hutta, Rybenský --- PB138 2016"/>
+                <ToolbarSpacer width="2em"/>
+            </Toolbar>
+        </footer>
+    </Page>
+</mvc:View>

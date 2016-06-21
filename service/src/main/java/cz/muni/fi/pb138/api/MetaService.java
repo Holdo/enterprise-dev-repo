@@ -1,6 +1,7 @@
 package cz.muni.fi.pb138.api;
 
 import cz.muni.fi.pb138.entity.metadata.Items;
+import cz.muni.fi.pb138.entity.metadata.Metas;
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
 import cz.muni.fi.pb138.enums.MetaParameterType;
@@ -77,7 +78,7 @@ public interface MetaService {
      * @return - for example fullpath namespace/foo.xsd, version 2, parameter type COMPLEXTYPE will return all complex types of foo.xsd in version 2
      * @throws IOException 
      */
-    List<Items> getMetaParametersByFileFullPath(String fullPath) throws IOException, JAXBException;
+    Metas getMetaParametersByFileFullPath(String fullPath) throws IOException, JAXBException;
 
     /**
      *
@@ -86,7 +87,7 @@ public interface MetaService {
      * @return - for example fullpath namespace/foo.xsd, version 2, parameter type COMPLEXTYPE will return all complex types of foo.xsd in version 2
      * @throws IOException
      */
-    List<Items> getMetaParametersByFileFullPathAndVersion(String fullPath, int version) throws IOException, JAXBException;
+    Metas getMetaParametersByFileFullPathAndVersion(String fullPath, int version) throws IOException, JAXBException;
 
 
 }

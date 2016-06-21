@@ -37,33 +37,12 @@ public enum XQueryWsdl {
 			"<version>{max($version)}</version></item>\n" +
 			"}</items>"),
 	//Get by file
-	GET_OPERATIONS_BY_FILE(
+	GET_METAS_BY_FILE(
 			"declare variable $fullPath as xs:string external;\n" +
 			"declare variable $version as xs:string external;\n" +
-			"<items>{\n" +
 			"for $meta in //wsdlmeta\n" +
-			"for $name in $meta[pathVersionPair/version/text()=$version and pathVersionPair/fullPath/text()=$fullPath]/operation/text()\n" +
-			"return <item><type>operation</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
-			"<version>{max($version)}</version></item>\n" +
-			"}</items>"),
-	GET_REQUESTS_BY_FILE(
-			"declare variable $fullPath as xs:string external;\n" +
-			"declare variable $version as xs:string external;\n" +
-			"<items>{\n" +
-			"for $meta in //wsdlmeta\n" +
-			"for $name in $meta[pathVersionPair/version/text()=$version and pathVersionPair/fullPath/text()=$fullPath]/request/text()\n" +
-			"return <item><type>request</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
-			"<version>{max($version)}</version></item>\n" +
-			"}</items>"),
-	GET_RESPONSES_BY_FILE(
-			"declare variable $fullPath as xs:string external;\n" +
-			"declare variable $version as xs:string external;\n" +
-			"<items>{\n" +
-			"for $meta in //wsdlmeta\n" +
-			"for $name in $meta[pathVersionPair/version/text()=$version and pathVersionPair/fullPath/text()=$fullPath]/response/text()\n" +
-			"return <item><type>response</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
-			"<version>{max($version)}</version></item>\n" +
-			"}</items>"),
+			"for $pair in $meta[pathVersionPair/fullPath/text()=$fullPath and pathVersionPair/version/text()=$version]\n" +
+			"return $pair"),
 	//Get by type
 	GET_FILES_BY_OPERATION(
 			"declare variable $name as xs:string external;\n" +

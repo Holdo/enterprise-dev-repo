@@ -26,24 +26,12 @@ public enum XQueryWar {
 			"<version>{max($version)}</version></item>\n" +
 			"}</items>"),
 	//Get by file
-	GET_LISTENERS_BY_FILE(
+	GET_METAS_BY_FILE(
 			"declare variable $fullPath as xs:string external;\n" +
 			"declare variable $version as xs:string external;\n" +
-			"<items>{\n" +
 			"for $meta in //warmeta\n" +
-			"for $name in $meta[pathVersionPair/version/text()=$version and pathVersionPair/fullPath/text()=$fullPath]/listener/text()\n" +
-			"return <item><type>listener</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
-			"<version>{max($version)}</version></item>\n" +
-			"}</items>"),
-	GET_FILTERS_BY_FILE(
-			"declare variable $fullPath as xs:string external;\n" +
-			"declare variable $version as xs:string external;\n" +
-			"<items>{\n" +
-			"for $meta in //warmeta\n" +
-			"for $name in $meta[pathVersionPair/version/text()=$version and pathVersionPair/fullPath/text()=$fullPath]/filter/text()\n" +
-			"return <item><type>filter</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
-			"<version>{max($version)}</version></item>\n" +
-			"}</items>"),
+			"for $pair in $meta[pathVersionPair/fullPath/text()=$fullPath and pathVersionPair/version/text()=$version]\n" +
+			"return $pair"),
 	//Get by type
 	GET_FILES_BY_LISTENER(
 			"declare variable $name as xs:string external;\n" +

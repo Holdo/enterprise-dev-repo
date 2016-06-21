@@ -10,11 +10,10 @@ sap.ui.define([
 ], function (jQuery, BaseController, Fragment, Filter, JSONModel, MessageToast, MessageBox, Link) {
     "use strict";
 
+    var AppContext = sap.ui.getCore().AppContext;
     var BrowseController = BaseController.extend("Repository.browse.Browse", {
         onInit: function () {
-            var that = this;
             this.toBeLink = null;
-
             this.refreshList("");
         },
         onExit: function () {
@@ -40,14 +39,19 @@ sap.ui.define([
             var oListItem = oEvent.getSource();
             var sClickedTitle = oListItem.getTitle();
             var sClickedPath = oListItem.data("path");
-            console.log(sClickedTitle);
-            if (oListItem.getType() == "Navigation") {
+            var sClickedFullPath = oListItem.data("fullPath");
+            var sClickedVersion = oListItem.data("version");
+            var ws;
+            if (oListItem.getType() == "Navigation") { //is folder
                 var oBreadcrumbs = that.getView().byId("breadcrumbs");
-                var ws = new WebSocket("ws://" + document.location.host + "/websocket/command/listDir");
+                ws = new WebSocket("ws://" + document.location.host + "/websocket/command/listDir");
                 ws.onopen = function () {
-                    var sMessage = "{\"namespace\" : \"" + sClickedPath + "\\" + sClickedTitle + "\"}";
-                    console.log("Sending " + sMessage.replace(/\\/g, "\\\\"));
-                    ws.send(sMessage.replace(/\\/g, "\\\\"));
+                    var oMessage = {
+                        namespace : sClickedFullPath.replace(/\\/g, "\\\\")
+                    };
+                    var sMessage = JSON.stringify(oMessage);
+                    console.log("Sending " + sMessage);
+                    ws.send(sMessage);
                 };
                 ws.onmessage = function (oEvent) {
                     console.log("Received: " + oEvent.data);
@@ -70,8 +74,26 @@ sap.ui.define([
                         that.handleLinkPress(this, sClickedPath, sClickedTitle);
                     });
                 };
-            } else {
-                console.log("Clicked on a " + sClickedPath);
+            } else { //is file
+                ws = new WebSocket("ws://" + document.location.host + "/websocket/command/getArtifactMetadata");
+                ws.onopen = function () {
+                    var oMessage = {
+                        fullPath : sClickedFullPath.replace(/\\/g, "\\\\"),
+                        version : sClickedVersion
+                    };
+                    var sMessage = JSON.stringify(oMessage);
+                    console.log("Sending " + sMessage);
+                    ws.send(sMessage);
+                };
+                ws.onmessage = function (oEvent) {
+                    console.log("Received: " + oEvent.data);
+                    var oModel = new JSONModel(JSON.parse(oEvent.data));
+                    oModel.setProperty("/artifactName", sClickedTitle);
+                    oModel.setProperty("/artifactLocation", sClickedPath);
+                    oModel.setProperty("/version", sClickedVersion);
+                    AppContext.oArtifactModel = oModel;
+                    that.getRouter().navTo("artifact");
+                };
             }
         },
         handleLinkPress: function (oSource, sPath, sName) {
