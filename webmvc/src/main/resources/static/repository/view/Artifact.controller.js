@@ -27,6 +27,7 @@ sap.ui.define([
             //Pls do not leave
         },
         refreshView: function () {
+            var oVersionsSelect = this.getView().byId("versionsSelect");
             this._oTypesGrid.destroyContent();
             this.getView().setModel(AppContext.oArtifactModel);
 
@@ -39,6 +40,41 @@ sap.ui.define([
             if (AppContext.oArtifactModel.getProperty("/operations")) this._oTypesGrid.addContent(this.createTypeBox("operation"));
             if (AppContext.oArtifactModel.getProperty("/requests")) this._oTypesGrid.addContent(this.createTypeBox("request"));
             if (AppContext.oArtifactModel.getProperty("/responses")) this._oTypesGrid.addContent(this.createTypeBox("response"));
+
+            var ws = new WebSocket("ws://" + document.location.host + "/websocket/command/listFileVersions");
+            ws.onopen = function () {
+                var oMessage = {
+                    fullPath : AppContext.oArtifactModel.getProperty("/artifactFullPath").replace(/\\/g, "\\\\")
+                };
+                var sMessage = JSON.stringify(oMessage);
+                console.log("Sending " + sMessage);
+                ws.send(sMessage);
+            };
+            ws.onmessage = function (oEvent) {
+                console.log("Received: " + oEvent.data);
+                AppContext.oArtifactModel.setProperty("/versions", JSON.parse(oEvent.data));
+                oVersionsSelect.setSelectedKey(AppContext.oArtifactModel.getProperty("/version"));
+            };
+        },
+        handleVersionsSelectChange: function (oEvent) {
+            var that = this;
+            var sVersion = oEvent.getParameter("selectedItem").getKey();
+            var ws = new WebSocket("ws://" + document.location.host + "/websocket/command/getArtifactMetadata");
+            ws.onopen = function () {
+                var oMessage = {
+                    fullPath : AppContext.oArtifactModel.getProperty("/artifactFullPath").replace(/\\/g, "\\\\"),
+                    version : parseInt(sVersion)
+                };
+                var sMessage = JSON.stringify(oMessage);
+                console.log("Sending " + sMessage);
+                ws.send(sMessage);
+            };
+            ws.onmessage = function (oEvent) {
+                console.log("Received: " + oEvent.data);
+                AppContext.oArtifactModel.setJSON(oEvent.data, true);
+                AppContext.oArtifactModel.setProperty("/version", sVersion);
+                that.refreshView();
+            };
         },
         createTypeBox: function (sTypeName) {
             var oTypeBox = new sap.m.VBox(sTypeName + "TypeBox");

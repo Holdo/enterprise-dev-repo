@@ -1,8 +1,5 @@
-<core:FragmentDefinition
-        xmlns:l="sap.ui.layout"
-        xmlns="sap.m"
-        xmlns:core="sap.ui.core"
-        xmlns:u="sap.ui.unified"
+<core:FragmentDefinition xmlns:l="sap.ui.layout" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:u="sap.ui.unified"
+                         xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
         class="viewPadding">
     <u:ShellOverlay shell="myShell" closed="handleShellOverlayClosed">
         <u:search>
@@ -22,7 +19,9 @@
                             icon="sap-icon://document-text"
                             iconInset="false"
                             info="version: {version}"
-                            description="{path}"/>
+                            description="{path}"
+                            app:version="{version}"
+                            app:fullPath="{fullPath}"/>
                 </List>
             </l:VerticalLayout>
         </u:content>

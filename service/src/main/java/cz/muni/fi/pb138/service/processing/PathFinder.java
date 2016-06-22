@@ -10,6 +10,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -64,19 +65,19 @@ public class PathFinder {
 	 * @param fullPath full path of the file
 	 * @return versions list
 	 */
-	public List<Integer> getAllVersions(String fileList, String fullPath) {
+	public List<Integer> getAllVersionsReversed(String fileList, String fullPath) {
 		ArrayList<String> filteredPaths = filterPaths(fileList, fullPath);
 		String noSuffixPath = getPathWithoutSuffix(fullPath);
 
-		List<Integer> output = new ArrayList<>();
-		for (String p : filteredPaths) {
-			if (p.startsWith(noSuffixPath)) {
-				String x = p.substring(noSuffixPath.length() + 1);
+		Integer[] output = new Integer[filteredPaths.size()];
+		for (int i = 0; i < filteredPaths.size(); i++) {
+			if (filteredPaths.get(i).startsWith(noSuffixPath)) {
+				String x = filteredPaths.get(i).substring(noSuffixPath.length() + 1);
 				String[] y = x.split("\\.");
-				output.add(Integer.valueOf(y[0]));
+				output[filteredPaths.size() - 1 - i] = Integer.valueOf(y[0]);
 			}
 		}
-		return output;
+		return Arrays.asList(output);
 	}
 
 	/**

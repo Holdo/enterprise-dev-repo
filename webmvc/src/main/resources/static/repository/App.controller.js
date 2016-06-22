@@ -36,7 +36,33 @@ sap.ui.define([
             MessageToast.show("User Button Pressed");
         },
         handleSearchItemSelect: function(oEvent) {
-            MessageToast.show("Search Entry Selected: " + oEvent.getSource().getTitle());
+            var that = this;
+            this._searchOverlay.close();
+            var oSelectedListItem = oEvent.getSource();
+            var ws = new WebSocket("ws://" + document.location.host + "/websocket/command/getArtifactMetadata");
+            ws.onopen = function () {
+                var oMessage = {
+                    fullPath : oSelectedListItem.data("fullPath").replace(/\\/g, "\\\\"),
+                    version : parseInt(oSelectedListItem.data("version"))
+                };
+                var sMessage = JSON.stringify(oMessage);
+                console.log("Sending " + sMessage);
+                ws.send(sMessage);
+            };
+            ws.onmessage = function (oEvent) {
+                console.log("Received: " + oEvent.data);
+                var oModel = new JSONModel(JSON.parse(oEvent.data));
+                oModel.setProperty("/artifactName", oSelectedListItem.getTitle());
+                oModel.setProperty("/artifactPath", oSelectedListItem.getDescription().checkPath());
+                oModel.setProperty("/artifactFullPath", oSelectedListItem.data("fullPath").checkPath());
+                oModel.setProperty("/version", oSelectedListItem.data("version"));
+                sap.ui.getCore().AppContext.oArtifactModel = oModel;
+                console.log("Going to artifact " + oModel.getProperty("/artifactFullPath"));
+                if (sap.ui.getCore().AppContext.oArtifactController) sap.ui.getCore().AppContext.oArtifactController.refreshView();
+                that.getRouter().navTo("artifact", {
+                    fullPath : encodeURIComponent(oModel.getProperty("/artifactFullPath"))
+                });
+            };
         },
         handleShellOverlayClosed: function() {
             //MessageToast.show("Overlay closed");
@@ -133,3 +159,8 @@ function getCookie(cname) {
     }
     return "";
 }
+String.prototype.checkPath = function() {
+    var i = 0;
+    while (this.charAt(i) == '\\' || this.charAt(i) == "/") i++;
+    return this.slice(i).replace(/\\/g, "/");
+};

@@ -43,6 +43,18 @@ public class WsCommands {
 	}
 
 	/**
+	 * Lists file versions
+	 *
+	 * @param args map should countain fullPath for file to list the versions for
+	 * @return list of all versions
+	 * @throws IOException
+	 */
+	public List<Integer> listFileVersions(Map<String, String> args) throws IOException {
+		log.debug("Listing file versions for {}", args.get("fullPath"));
+		return fileService.listFileVersions(args.get("fullPath"));
+	}
+
+	/**
 	 * Search on database metadata
 	 *
 	 * @param args map should contain parameterName to search for of metaParameterType and fileType
@@ -61,7 +73,7 @@ public class WsCommands {
 	/**
 	 * Gets artifact metadata for specified version
 	 *
-	 * @param args map should contain fullPath of artifact and it's version
+	 * @param args map should contain fullPath of artifact and it's version as int
 	 * @return metadata search result for required artifact
 	 * @throws IOException
 	 * @throws JAXBException

@@ -8,11 +8,8 @@
                     <VBox alignItems="Center" justifyContent="SpaceBetween">
                         <HBox alignItems="Center">
                             <Text text="{/artifactName}" class="sapMH2FontSize sapUiMediumMarginBegin"/>
-                            <Select class="sapUiSmallMarginBegin"
-                                    items="{
-                                    path: '/versions',
-                                    sorter: { path: 'version', descending: 'true' }
-                                    }">
+                            <Select id="versionsSelect" class="sapUiSmallMarginBegin" change="handleVersionsSelectChange"
+                                    items="{/versions}">
                                 <core:Item key="{}" text="version {}"/>
                             </Select>
                         </HBox>

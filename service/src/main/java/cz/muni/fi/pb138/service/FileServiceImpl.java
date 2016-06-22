@@ -158,7 +158,7 @@ public class FileServiceImpl implements FileService {
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf(File.separator)));
 		databaseDao.closeDatabase();
-		return pathFinder.getAllVersions(list, fullPath);
+		return pathFinder.getAllVersionsReversed(list, fullPath);
 	}
 
 	@Override

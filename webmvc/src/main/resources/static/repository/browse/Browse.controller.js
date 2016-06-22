@@ -135,13 +135,13 @@ sap.ui.define([
                     var oModel = new JSONModel(JSON.parse(oEvent.data));
                     oModel.setProperty("/artifactName", sClickedTitle);
                     oModel.setProperty("/artifactPath", sClickedPath.checkPath());
+                    oModel.setProperty("/artifactFullPath", sClickedFullPath.checkPath());
                     oModel.setProperty("/version", sClickedVersion);
                     AppContext.oArtifactModel = oModel;
-                    console.log("Going to artifact " + sClickedFullPath.checkPath());
-                    console.log("Encoded " + encodeURIComponent(sClickedFullPath.checkPath()));
+                    console.log("Going to artifact " + oModel.getProperty("/artifactFullPath"));
                     if (AppContext.oArtifactController) AppContext.oArtifactController.refreshView();
                     that.getRouter().navTo("artifact", {
-                        fullPath : encodeURIComponent(sClickedFullPath.checkPath())
+                        fullPath : encodeURIComponent(oModel.getProperty("/artifactFullPath"))
                     });
                 };
             }

@@ -105,8 +105,7 @@ public class MetaServiceImpl implements MetaService {
 		return output;
 	}
 
-	@Override
-	public MetaFilePathVersionTriplet retrieveMetaFilePathVersionTriplet(VersionedFile vf) throws IOException {
+	protected MetaFilePathVersionTriplet retrieveMetaFilePathVersionTriplet(VersionedFile vf) throws IOException {
 		MetaFilePathVersionTriplet triplet = new MetaFilePathVersionTriplet();
 		byte[] metaFile = binaryDao.retrieveBinaryFile(pathFinder.getVersionedPath(vf.getFullPath(), vf.getVersion(), FileType.WEB_XML));
 		triplet.setVersion(vf.getVersion());
@@ -134,7 +133,7 @@ public class MetaServiceImpl implements MetaService {
 		XQueryVariable versionVariable = new XQueryVariable("version", String.valueOf(version), XQueryType.STRING);
 		databaseDao.openDatabase(META_DATABASE_NAME);
 
-		Metas metas = null;
+		Metas metas;
 		if (fullPath.endsWith(".war")) {
 			metas = parseQueryResultMetas(databaseDao.runXQuery(XQueryWar.GET_METAS_BY_FILE.toString(), fullPathVariable, versionVariable), WARMetas.class);
 		} else if (fullPath.endsWith(".xsd")) {
