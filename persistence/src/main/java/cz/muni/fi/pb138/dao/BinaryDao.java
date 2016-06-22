@@ -3,7 +3,9 @@ package cz.muni.fi.pb138.dao;
 import java.io.IOException;
 
 /**
- * Created by Michal Holic on 10/05/2016
+ * Stores and retrieves binary files
+ *
+ * @author Michal Holič
  */
 public interface BinaryDao {
 

@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlValue;
 
 /**
- * Created by gasior on 22.06.2016.
+ * @author Ondřej Gasior
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Listener {

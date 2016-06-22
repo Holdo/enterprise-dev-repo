@@ -14,9 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Pro WSDL dokumenty se vyextrahuje seznam operací spolu s informací o requestu a response zprávách
+ * For WSDL documents it is extracted list of operations with info about request and response messages
  *
- * @author gasior
+ * @author Ondřej Gasior
  */
 public class WsdlFile implements FileBase {
 

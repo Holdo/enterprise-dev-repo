@@ -32,7 +32,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 /**
- * @author gasior
+ * @author Ondřej Gasior
  */
 @Service
 public class FileServiceImpl implements FileService {

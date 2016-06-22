@@ -9,8 +9,11 @@ import java.util.zip.DataFormatException;
 
 
 /**
+ * For WAR archives it is extracted web.xml, list of listeners and filters
+ * For WSDL documents it is extracted list of operations with info about request and response messages
+ * For XSD schemas it is extracted list of types (simple and complex), elements and attributes
  *
- * @author gasior
+ * @author Ondřej Gasior
  */
 public interface FileProcessor {
     

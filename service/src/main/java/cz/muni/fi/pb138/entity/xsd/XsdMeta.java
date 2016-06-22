@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author gasior
+ * @author Ondřej Gasior
  */
 @XmlRootElement( name = "xsdmeta")
 public class XsdMeta {

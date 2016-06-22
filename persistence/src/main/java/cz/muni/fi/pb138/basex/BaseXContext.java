@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PreDestroy;
 /**
- * Created by Michal Holic on 11/05/2016
+ * @author Michal Holič
  */
 @Service
 public class BaseXContext {

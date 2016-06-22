@@ -14,7 +14,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import java.util.Map;
 
 /**
- * Created by Michal Holic on 15/06/2016
+ * @author Michal Holič
  */
 public class WsCommandsHandler extends TextWebSocketHandler {
 

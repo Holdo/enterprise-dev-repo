@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.webmvc.websocket.exception;
 
 /**
- * Created by Michal Holic on 15/06/2016
+ * @author Michal Holič
  */
 public class UnknownWebSocketCommandException extends Exception {
 

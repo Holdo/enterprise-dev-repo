@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Created by gasior on 22.06.2016.
+ * @author Ondřej Gasior
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "wsdlmeta")

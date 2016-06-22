@@ -19,10 +19,9 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 /**
- * Pro XSD schémata se vyextrahuje seznam typů (simple a complex) a seznam
- * elementů a atributů
+ * For XSD schemas it is extracted list of types (simple and complex), elements and attributes
  *
- * @author gasior
+ * @author Ondřej Gasior
  */
 public class XsdFile implements FileBase {
 

@@ -1,7 +1,9 @@
 package cz.muni.fi.pb138.entity;
 
 /**
- * Created by Michal Holic on 15.05.2016
+ * Represents XQuery variable
+ *
+ * @author Michal Holič
  */
 public class XQueryVariable {
 

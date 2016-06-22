@@ -10,7 +10,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.BinaryWebSocketHandler;
 
 /**
- * Created by Michal Holic on 12.06.2016
+ * @author Michal Holič
  */
 public class WSBinaryUploadHandler extends BinaryWebSocketHandler {
 

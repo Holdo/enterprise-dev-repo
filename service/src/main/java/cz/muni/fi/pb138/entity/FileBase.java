@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 /**
  *
- * @author gasior
+ * @author Ondřej Gasior
  */
 public interface FileBase {
 

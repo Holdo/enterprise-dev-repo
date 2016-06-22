@@ -13,9 +13,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 
-/** 
- * Pro WAR archivy se vytáhne web.xml a bude k náhledu. Dále se vyextrahuje seznam listenerů a filtrů.
- * @author gasior
+/**
+ * For WAR archives it is extracted web.xml, list of listeners and filters
+ *
+ * @author Ondřej Gasior
  */
 public class WarFile implements FileBase {
 

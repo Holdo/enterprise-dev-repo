@@ -14,8 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by gasior on 14.05.2016
- * Modified by holic on 16.06.2016
+ * @author Ondřej Gasior
  */
 @Service
 public class PathFinder {

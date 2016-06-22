@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Created by gasior on 19.06.2016
+ * @author Ondřej Gasior
  */
 @XmlRootElement(name = "files")
 public class SearchResult {

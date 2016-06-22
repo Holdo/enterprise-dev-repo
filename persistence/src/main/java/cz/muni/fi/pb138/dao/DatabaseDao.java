@@ -6,7 +6,9 @@ import org.basex.core.BaseXException;
 import java.io.IOException;
 
 /**
- * Created by Michal Holic on 10/05/2016
+ * Class representing database
+ *
+ * @author Michal Holič
  */
 public interface DatabaseDao {
 	/**

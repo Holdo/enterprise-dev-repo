@@ -1,7 +1,7 @@
 package cz.muni.fi.pb138.enums;
 
 /**
- * @author gasior
+ * @author Ondřej Gasior
  */
 public enum MetaParameterType {
 	LISTENER("listener"),

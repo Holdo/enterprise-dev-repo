@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Michal Holic on 15/06/2016
+ * @author Michal Holič
  */
 @Service
 public class WsCommands {

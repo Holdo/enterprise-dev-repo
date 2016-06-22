@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 
 /**
- * Created by Michal Holic on 13/06/2016
+ * @author Michal Holič
  */
 @Component
 public class DatabaseInitializer implements DisposableBean {

@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlValue;
 
 /**
- * Created by Michal Holic on 21/06/2016
+ * @author Michal Holič
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SimpleType {
