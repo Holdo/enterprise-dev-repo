@@ -17,7 +17,7 @@
                     <Panel class="sapUiNoContentPadding">
                         <content>
                             <HBox justifyContent="Center">
-                                <Breadcrumbs id="breadcrumbs" currentLocationText="Root" class="sapUiSmallMargin"/>
+                                <Breadcrumbs id="breadcrumbs" currentLocationText="root" class="sapUiSmallMargin"/>
                             </HBox>
                         </content>
                     </Panel>

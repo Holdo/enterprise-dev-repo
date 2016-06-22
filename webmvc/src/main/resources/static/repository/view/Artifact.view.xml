@@ -16,71 +16,15 @@
                                 <core:Item key="{}" text="version {}"/>
                             </Select>
                         </HBox>
-                        <Text text="{/artifactLocation}" class="sapUiTinyMarginTop"/>
+                        <HBox alignItems="Center" alignContent="Center" justifyContent="Center">
+                            <core:Icon class="sapUiTinyMarginEnd sapUiTinyMarginTop sapMH3FontSize" src="sap-icon://folder"/>
+                            <Text text="{/artifactPath}" class="sapUiTinyMarginTop sapMH3FontSize"/>
+                        </HBox>
+
                     </VBox>
                 </content>
             </Panel>
-            <l:Grid defaultSpan="XL4 L4 M4 S4" position="Center" class="sapUiResponsiveMargin">
-                <l:content>
-                    <VBox>
-                        <Panel>
-                            <content>
-                                <HBox justifyContent="Center">
-                                    <Text text="Attributes" class="sapMH5FontSize"/>
-                                </HBox>
-                            </content>
-                        </Panel>
-                        <List growing="true" growingThreshold="3"
-                              items="{
-                                    path: '/attributes',
-                                    sorter: { path: 'attribute', ascending: 'true' }
-                                    }">
-                            <StandardListItem
-                                    type="Inactive"
-                                    press="handleSearchItemSelect"
-                                    title="{attribute}"/>
-                        </List>
-                    </VBox>
-                    <VBox>
-                        <Panel>
-                            <content>
-                                <HBox justifyContent="Center">
-                                    <Text text="Elements" class="sapMH5FontSize"/>
-                                </HBox>
-                            </content>
-                        </Panel>
-                        <List growing="true" growingThreshold="3"
-                              items="{
-                                    path: '/elements',
-                                    sorter: { path: 'element', ascending: 'true' }
-                                    }">
-                            <StandardListItem
-                                    type="Inactive"
-                                    press="handleSearchItemSelect"
-                                    title="{element}"/>
-                        </List>
-                    </VBox>
-                    <VBox>
-                        <Panel>
-                            <content>
-                                <HBox justifyContent="Center">
-                                    <Text text="Complex Types" class="sapMH5FontSize"/>
-                                </HBox>
-                            </content>
-                        </Panel>
-                        <List growing="true" growingThreshold="3"
-                              items="{
-                                    path: '/complexTypes',
-                                    sorter: { path: 'complexType', ascending: 'true' }
-                                    }">
-                            <StandardListItem
-                                    type="Inactive"
-                                    press="handleSearchItemSelect"
-                                    title="{complexType}"/>
-                        </List>
-                    </VBox>
-                </l:content>
-            </l:Grid>
+            <l:Grid id="typesGrid" defaultSpan="XL4 L4 M4 S4" position="Center" class="sapUiResponsiveMargin"/>
         </content>
         <footer>
             <Toolbar>

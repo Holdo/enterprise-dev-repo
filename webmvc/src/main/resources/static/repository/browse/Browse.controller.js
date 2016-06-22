@@ -13,11 +13,53 @@ sap.ui.define([
     var AppContext = sap.ui.getCore().AppContext;
     var BrowseController = BaseController.extend("Repository.browse.Browse", {
         onInit: function () {
+            this.getRouter().getRoute("browse").attachPatternMatched(this._onObjectMatched, this);
             this.toBeLink = null;
-            this.refreshList("");
         },
         onExit: function () {
             //Pls do not leave
+        },
+        _onObjectMatched: function (oEvent) {
+            var sURLPath = decodeURIComponent(oEvent.getParameter("arguments").fullPath);
+            if (sURLPath == "") {
+                console.log("ERROR: Matched empty path");
+                return;
+            }
+            var oBreadcrumbs = this.getView().byId("breadcrumbs");
+            if (sURLPath == "root") {
+                if (oBreadcrumbs.getLinks().length > 0) {
+                    oBreadcrumbs.removeAllLinks();
+                    oBreadcrumbs.setCurrentLocationText("root");
+                }
+                this.refreshList("");
+            } else {
+                sURLPath = sURLPath.checkPath();
+                var that = this;
+                console.log("Matched path " + sURLPath);
+                if (oBreadcrumbs.getLinks().length == 0) {
+                    var aPathSplit = sURLPath.split("/");
+                    //Create root link
+                    oBreadcrumbs.addLink(new Link({
+                        text: "root"
+                    }).attachPress(function () {
+                        that.handleLinkPress(this, "", "");
+                    }));
+                    if (aPathSplit.length == 1) {
+                        oBreadcrumbs.setCurrentLocationText(aPathSplit[0]);
+                    } else {
+                        for (var i = 0; i < aPathSplit.length - 1; i++) {
+                            oBreadcrumbs.addLink(new Link({
+                                text: aPathSplit[i]
+                            }).attachPress(function () {
+                                console.log("Pressed link with path " + this.getText());
+                                that.handleLinkPress(this, sClickedPath, sClickedTitle);
+                            }));
+                        }
+                        oBreadcrumbs.setCurrentLocationText(aPathSplit[aPathSplit.length - 1]);
+                    }
+                }
+                this.refreshList(sURLPath);
+            }
         },
         refreshList: function (sFullPath) {
             var that = this;
@@ -56,9 +98,9 @@ sap.ui.define([
                 ws.onmessage = function (oEvent) {
                     console.log("Received: " + oEvent.data);
                     that.getView().setModel(new JSONModel(JSON.parse(oEvent.data)));
-                    if (oBreadcrumbs.getCurrentLocationText() == "Root") {
+                    if (oBreadcrumbs.getCurrentLocationText() == "root") {
                         oBreadcrumbs.addLink(new Link({
-                            text: "Root",
+                            text: "root",
                             emphasized: true
                         }).attachPress(function () {
                             that.handleLinkPress(this, "", "");
@@ -72,6 +114,9 @@ sap.ui.define([
                     }).attachPress(function () {
                         console.log("Pressed link with path " + sClickedPath);
                         that.handleLinkPress(this, sClickedPath, sClickedTitle);
+                    });
+                    that.getRouter().navTo("browse", {
+                        fullPath : encodeURIComponent(sClickedFullPath.checkPath())
                     });
                 };
             } else { //is file
@@ -89,20 +134,25 @@ sap.ui.define([
                     console.log("Received: " + oEvent.data);
                     var oModel = new JSONModel(JSON.parse(oEvent.data));
                     oModel.setProperty("/artifactName", sClickedTitle);
-                    oModel.setProperty("/artifactLocation", sClickedPath);
+                    oModel.setProperty("/artifactPath", sClickedPath.checkPath());
                     oModel.setProperty("/version", sClickedVersion);
                     AppContext.oArtifactModel = oModel;
-                    that.getRouter().navTo("artifact");
+                    console.log("Going to artifact " + sClickedFullPath.checkPath());
+                    console.log("Encoded " + encodeURIComponent(sClickedFullPath.checkPath()));
+                    if (AppContext.oArtifactController) AppContext.oArtifactController.refreshView();
+                    that.getRouter().navTo("artifact", {
+                        fullPath : encodeURIComponent(sClickedFullPath.checkPath())
+                    });
                 };
             }
         },
         handleLinkPress: function (oSource, sPath, sName) {
             var that = this;
             var oBreadcrumbs = this.getView().byId("breadcrumbs");
-            if (oSource.getText() == "Root") {
-                oBreadcrumbs.removeAllLinks();
-                oBreadcrumbs.setCurrentLocationText("Root");
-                this.refreshList("");
+            if (oSource.getText() == "root") {
+                that.getRouter().navTo("browse", {
+                    fullPath : "root"
+                });
                 return;
             }
             oBreadcrumbs.setCurrentLocationText(sName);
@@ -119,12 +169,16 @@ sap.ui.define([
                 console.log("Pressed link with path " + sPath);
                 that.handleLinkPress(this, sPath, sName);
             });
-            this.refreshList(sPath + "\\" + sName);
+            that.getRouter().navTo("browse", {
+                fullPath : encodeURIComponent((sPath == "")? sName : sPath + "/" + sName)
+            });
         }
     });
 
     return BrowseController;
 }, /* bExport= */ true);
-function replaceAll(str, find, replace) {
-    return str.replace(new RegExp(find, 'g'), replace);
-}
+String.prototype.checkPath = function() {
+    var i = 0;
+    while (this.charAt(i) == '\\' || this.charAt(i) == "/") i++;
+    return this.slice(i).replace(/\\/g, "/");
+};

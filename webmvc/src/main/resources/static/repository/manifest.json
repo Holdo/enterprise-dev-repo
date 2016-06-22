@@ -50,7 +50,7 @@
           "target": "home"
         },
         {
-          "pattern": "browse",
+          "pattern": "browse/{fullPath}",
           "name": "browse",
           "target": "browse"
         },
@@ -60,7 +60,7 @@
           "target": "upload"
         },
         {
-          "pattern": "artifact",
+          "pattern": "artifact/{fullPath}",
           "name": "artifact",
           "target": "artifact"
         }

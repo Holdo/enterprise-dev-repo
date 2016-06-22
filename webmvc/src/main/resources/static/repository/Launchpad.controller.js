@@ -38,7 +38,9 @@ sap.ui.define([
         handleTilePress : function (oEvent) {
             switch(oEvent.oSource.getTitle()) {
                 case "Browse":
-                    this.getRouter().navTo("browse");
+                    this.getRouter().navTo("browse", {
+                        fullPath : "root"
+                    });
                     break;
                 case "Upload":
                     this.getRouter().navTo("upload");
