@@ -136,11 +136,11 @@ public class MetaServiceImpl implements MetaService {
 
 		Metas metas = null;
 		if (fullPath.endsWith(".war")) {
-			//TODO metas = parseQueryResultMetas(databaseDao.runXQuery(XQueryWar.GET_METAS_BY_FILE.toString(), fullPathVariable, versionVariable), WARMetas.class);
+			metas = parseQueryResultMetas(databaseDao.runXQuery(XQueryWar.GET_METAS_BY_FILE.toString(), fullPathVariable, versionVariable), WARMetas.class);
 		} else if (fullPath.endsWith(".xsd")) {
 			metas = parseQueryResultMetas(databaseDao.runXQuery(XQueryXsd.GET_METAS_BY_FILE.toString(), fullPathVariable, versionVariable), XSDMetas.class);
 		} else if (fullPath.endsWith(".wsdl")) {
-			//TODO metas = parseQueryResultMetas(databaseDao.runXQuery(XQueryWsdl.GET_METAS_BY_FILE.toString(), fullPathVariable, versionVariable), WSDLMetas.class);
+			metas = parseQueryResultMetas(databaseDao.runXQuery(XQueryWsdl.GET_METAS_BY_FILE.toString(), fullPathVariable, versionVariable), WSDLMetas.class);
 		} else {
 			databaseDao.closeDatabase();
 			throw new IOException("Unknown file extension of " + fullPath);

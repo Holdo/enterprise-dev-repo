@@ -18,7 +18,7 @@ public class WARMetas extends Metas {
     @XmlElement(name = "listener")
     private Listener[] listeners;
 
-    @XmlElement(name = "request")
+    @XmlElement(name = "filter")
     private Filter[] filters;
 
     public WARMetas() {
