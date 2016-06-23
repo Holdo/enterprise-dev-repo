@@ -161,9 +161,10 @@ public class MetaServiceImpl implements MetaService {
 	}
 
 	@Override
-	public List<VersionedFile> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String parameterName) throws IOException, JAXBException {
+	public List<VersionedFile> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String parameterName, boolean withExactMatch) throws IOException, JAXBException {
 		List<VersionedFile> output;
 		XQueryVariable nameVariable = new XQueryVariable("name", parameterName, XQueryType.STRING);
+		XQueryVariable matchVariable = new XQueryVariable("match", String.valueOf(withExactMatch), XQueryType.BOOLEAN);
 		String queryResult;
 		databaseDao.openDatabase(META_DATABASE_NAME);
 		switch (fileType) {
