@@ -20,12 +20,13 @@ public class WSBinaryDownloadHandler extends BinaryWebSocketHandler {
 	private FileService fileService;
 
 	@Override
-	protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception {
+	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		String uri = session.getUri().getPath().replaceFirst("/websocket/binary/download/", "");
-		log.debug("Requested binary download to frontend of {}.", uri);
-
-		//TODO
-
+		int indexOfFirstSlash = uri.indexOf('/');
+		int version = Integer.parseInt(uri.substring(0, indexOfFirstSlash));
+		uri = uri.substring(indexOfFirstSlash + 1);
+		log.debug("Requested binary download to frontend of {} of version {}", uri, version);
+		session.sendMessage(new BinaryMessage(fileService.getFileByFullPathAndVersion(uri, version)));
 		session.close(new CloseStatus(1000, "Finished processing."));
 	}
 }

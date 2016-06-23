@@ -12,6 +12,10 @@ sap.ui.define([
     var AppContext = sap.ui.getCore().AppContext;
     var ArtifactController = BaseController.extend("Repository.view.Artifact", {
         onInit: function () {
+            this.a = document.createElement("a");
+            document.body.appendChild(this.a);
+            this.a.style = "display: none";
+
             this._oTypesGrid = this.getView().byId("typesGrid");
             var oData = {
                 artifactName : "Test.xsd",
@@ -74,6 +78,25 @@ sap.ui.define([
                 AppContext.oArtifactModel.setJSON(oEvent.data, true);
                 AppContext.oArtifactModel.setProperty("/version", sVersion);
                 that.refreshView();
+            };
+        },
+        handleArtifactDownload: function (oEvent) {
+            var that = this;
+            var name = AppContext.oArtifactModel.getProperty("/artifactName");
+            var fullPath = AppContext.oArtifactModel.getProperty("/artifactFullPath").replace(/\\/g, "\\\\");
+            var version = this.getView().byId("versionsSelect").getSelectedKey();
+            var ws = new WebSocket("ws://" + document.location.host + "/websocket/binary/download/" + version + "/" + fullPath);
+            ws.onopen = function () {
+                console.log("Downloading " + fullPath + " of version " + version);
+                MessageToast.show("Downloading artifact");
+            };
+            ws.onmessage = function (oEvent) {
+                //Download received blob
+                var objectUrl = window.URL.createObjectURL(oEvent.data);
+                that.a.href = objectUrl;
+                that.a.download = name;
+                that.a.click();
+                window.URL.revokeObjectURL(objectUrl);
             };
         },
         createTypeBox: function (sTypeName) {

@@ -46,7 +46,7 @@ sap.ui.define([
                     this.getRouter().navTo("upload");
                     break;
                 case "Administer":
-                    MessageToast.show("Administer Tile Pressed");
+                    window.location.href = window.location.protocol + "//" + window.location.hostname + ":8984/dba";
                     break;
                 default:
                     break;

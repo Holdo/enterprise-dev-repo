@@ -16,6 +16,8 @@
                         <HBox alignItems="Center" alignContent="Center" justifyContent="Center">
                             <core:Icon class="sapUiTinyMarginEnd sapUiTinyMarginTop sapMH3FontSize" src="sap-icon://folder"/>
                             <Text text="{/artifactPath}" class="sapUiTinyMarginTop sapMH3FontSize"/>
+                            <Button icon="sap-icon://download-from-cloud" class="sapUiTinyMarginTop sapUiSmallMarginBegin"
+                                    press="handleArtifactDownload" text="download" type="Emphasized"/>
                         </HBox>
 
                     </VBox>

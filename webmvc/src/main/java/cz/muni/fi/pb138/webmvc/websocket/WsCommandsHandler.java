@@ -27,7 +27,7 @@ public class WsCommandsHandler extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		log.trace("Websocket session {} connected.", session.getId());
+		log.trace("Websocket session {} connected", session.getId());
 	}
 
 	@Override
@@ -38,12 +38,12 @@ public class WsCommandsHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		String command = session.getUri().getPath().replaceFirst("/websocket/command/", "");
-		log.debug("Handling {} command from frontend.", command);
+		log.debug("Handling {} command from frontend", command);
 		Map<String, Object> args = mapper.readValue(message.getPayload(), new TypeReference<Map<String,Object>>(){});
 		Object returnedObject = execute(command, args);
 		String json = mapper.writeValueAsString(returnedObject);
 		session.sendMessage(new TextMessage(json));
-		session.close(new CloseStatus(1000, "Finished processing."));
+		session.close(new CloseStatus(1000, "Finished processing"));
 	}
 
 	private Object execute(String command, Map<String, Object> args) throws UnknownWebSocketCommandException {
@@ -52,7 +52,7 @@ public class WsCommandsHandler extends TextWebSocketHandler {
 			returnedObject = wsCommands.getClass().getMethod(command, Map.class).invoke(wsCommands, args);
 		} catch (Exception e) {
 			UnknownWebSocketCommandException uwsce = new UnknownWebSocketCommandException("Command " + command + " does not exist.", e);
-			log.error("Exception during websocket command execution handling.", uwsce);
+			log.error("Exception during websocket command execution handling", uwsce);
 			throw uwsce;
 		}
 		log.debug("Returning object " + returnedObject);
