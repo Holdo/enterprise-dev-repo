@@ -26,14 +26,14 @@ public interface FileService {
     void saveFile(String fullPath, byte[] fileBytes) throws IOException, SAXException, ParserConfigurationException, DataFormatException, JAXBException;
 
     /**
-     * 
+     * Deletes lastest version of specified file
      * @param fullPath - fullpath to file (namespace/file.xxx)
      * @throws java.io.IOException
      */
     void deleteFile(String fullPath) throws IOException ;
 
     /**
-     * 
+     * Deletes file specified by its name and version
      * @param fullPath - fullpath to file (namespace/file.xxx)
      * @param version - number higher than 0, specifies version to be deleted
      * @throws java.io.IOException
@@ -41,7 +41,7 @@ public interface FileService {
     void deleteFile(String fullPath, int version) throws IOException ;
 
     /**
-     * 
+     * Returns file in binary format by its name
      * @param fullPath - fullpath to file (namespace/file.xxx)
      * @return - binary representation of LAST VERSION of required file
      * @throws java.io.IOException
@@ -49,7 +49,7 @@ public interface FileService {
     byte[] getFileByFullPath(String fullPath)  throws IOException;
 
     /**
-     * 
+     * Returns file in binary format by its name and version
      * @param fullPath - fullpath to file (namespace/file.xxx)
      * @param version - number higher than 0, specifies version of required file
      * @return - binary representation required of file
@@ -58,7 +58,7 @@ public interface FileService {
     byte[] getFileByFullPathAndVersion(String fullPath, int version) throws IOException;
 
     /**
-     *
+     * Lists all files in specified namespace
      * @param namespace - "/" for ALL, specify namaspace to filter
      * @param allVersions - true for all versions, false for just the latest ones
      * @param metaDatabase -  whether to list metaDatabase instead of document database
@@ -68,7 +68,7 @@ public interface FileService {
     List<VersionedFile> listAllFiles(String namespace, boolean allVersions, boolean metaDatabase) throws IOException;
 
     /**
-     * 
+     * Lists all files in namespace non-recursively
      * @param namespace - "/" for ALL, specify namaspace to filter
      * @param allVersions - true for all versions, false for just the latest ones
      * @param metaDatabase -  whether to list metaDatabase instead of document database
@@ -80,7 +80,7 @@ public interface FileService {
 
 
     /**
-     *
+     * List all files in namespace recursively
      * @param namespace - "/" for ALL, specify namaspace to filter
      * @param allVersions - true for all versions, false for just the latest ones
      * @param metaDatabase -  whether to list metaDatabase instead of document database
@@ -91,7 +91,7 @@ public interface FileService {
     List<VersionedFile> listAllFilesByFileTypeRecursively(String namespace, boolean allVersions, boolean metaDatabase, FileType fileType) throws IOException;
 
     /**
-     * 
+     * List all versions of specified file
      * @param fullPath - fullpath to file (namespace/file.xxx)
      * @return - versions of fullpath specified file
      * @throws java.io.IOException

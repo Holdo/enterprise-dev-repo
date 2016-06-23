@@ -176,17 +176,17 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 
     @Test
     public void getFilesFullPathsByMetaParameterTest() throws IOException, JAXBException {
-        List<VersionedFile> warsByListener = metaService.getFilesFullPathsByMetaParameter(FileType.WAR, MetaParameterType.LISTENER, "Listener1");
-        List<VersionedFile> warsByFilter = metaService.getFilesFullPathsByMetaParameter(FileType.WAR, MetaParameterType.FILTER, "Filter1");
+        List<VersionedFile> warsByListener = metaService.getFilesFullPathsByMetaParameter(FileType.WAR, MetaParameterType.LISTENER, "Listener1",false);
+        List<VersionedFile> warsByFilter = metaService.getFilesFullPathsByMetaParameter(FileType.WAR, MetaParameterType.FILTER, "Filter1",false);
 
-        List<VersionedFile> xsdsByAttribute = metaService.getFilesFullPathsByMetaParameter(FileType.XSD, MetaParameterType.ATTRIBUTE, "kategorie");
-        List<VersionedFile> xsdsByElement = metaService.getFilesFullPathsByMetaParameter(FileType.XSD, MetaParameterType.ELEMENT, "divize");
-        List<VersionedFile> xsdsByComplexType = metaService.getFilesFullPathsByMetaParameter(FileType.XSD, MetaParameterType.COMPLEXTYPE, "osobaType");
-        List<VersionedFile> xsdsBySimpleType = metaService.getFilesFullPathsByMetaParameter(FileType.XSD, MetaParameterType.SIMPLETYPE, "dphType");
+        List<VersionedFile> xsdsByAttribute = metaService.getFilesFullPathsByMetaParameter(FileType.XSD, MetaParameterType.ATTRIBUTE, "kategorie",false);
+        List<VersionedFile> xsdsByElement = metaService.getFilesFullPathsByMetaParameter(FileType.XSD, MetaParameterType.ELEMENT, "divize",false);
+        List<VersionedFile> xsdsByComplexType = metaService.getFilesFullPathsByMetaParameter(FileType.XSD, MetaParameterType.COMPLEXTYPE, "osobaType",false);
+        List<VersionedFile> xsdsBySimpleType = metaService.getFilesFullPathsByMetaParameter(FileType.XSD, MetaParameterType.SIMPLETYPE, "dphType",false);
 
-        List<VersionedFile> wsdlsByOperation = metaService.getFilesFullPathsByMetaParameter(FileType.WSDL, MetaParameterType.OPERATION, "sayHello");
-        List<VersionedFile> wsdlsByRequest = metaService.getFilesFullPathsByMetaParameter(FileType.WSDL, MetaParameterType.REQUEST, "tns:SayHelloRequest");
-        List<VersionedFile> wsdlsByResponse = metaService.getFilesFullPathsByMetaParameter(FileType.WSDL, MetaParameterType.RESPONSE, "tns:SayHelloResponse");
+        List<VersionedFile> wsdlsByOperation = metaService.getFilesFullPathsByMetaParameter(FileType.WSDL, MetaParameterType.OPERATION, "sayHello",false);
+        List<VersionedFile> wsdlsByRequest = metaService.getFilesFullPathsByMetaParameter(FileType.WSDL, MetaParameterType.REQUEST, "tns:SayHelloRequest",false);
+        List<VersionedFile> wsdlsByResponse = metaService.getFilesFullPathsByMetaParameter(FileType.WSDL, MetaParameterType.RESPONSE, "tns:SayHelloResponse",false);
 
         assertThat(warsByListener.size()).isGreaterThan(0);
         assertThat(warsByFilter.size()).isGreaterThan(0);

@@ -61,7 +61,7 @@ public enum XQueryXsd {
 			"for $meta in //xsdmeta\n" +
 			"let $fullPath := $meta/pathVersionPair/fullPath\n" +
 			"let $version := $meta/pathVersionPair/version\n" +
-			"where $meta/attribute/text()=$name\n" +
+			"where ($meta/attribute/text()=$name)\n" +
 			"order by $fullPath\n" +
 			"group by $fullPath\n" +
 			"return <file><version>{max($version)}</version><fullPath>{$fullPath}</fullPath></file>\n" +

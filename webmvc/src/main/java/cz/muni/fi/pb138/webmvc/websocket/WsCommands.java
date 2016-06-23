@@ -67,7 +67,7 @@ public class WsCommands {
 		return metaService.getFilesFullPathsByMetaParameter(
 				FileType.valueOf(args.get("fileType").toUpperCase()),
 				MetaParameterType.valueOf(args.get("metaParameterType").toUpperCase()),
-				args.get("parameterName"));
+				args.get("parameterName"), false);
 	}
 
 	/**
