@@ -1,7 +1,9 @@
 package cz.muni.fi.pb138.entity;
 
 /**
- * Created by Michal Holic on 15.05.2016
+ * Enum representing various XQuery types
+ *
+ * @author Michal Holič
  */
 public enum XQueryType {
 	ANY_URI("xs:anyURI"),

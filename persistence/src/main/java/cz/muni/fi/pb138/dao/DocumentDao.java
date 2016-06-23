@@ -5,7 +5,9 @@ import org.basex.core.BaseXException;
 import java.io.IOException;
 
 /**
- * Created by Michal Holic on 12/05/2016
+ * Adds documents to database
+ *
+ * @author Michal Holič
  */
 public interface DocumentDao {
 

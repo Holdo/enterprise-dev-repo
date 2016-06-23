@@ -25,7 +25,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 /**
- * @author gasior
+ * @author Ondřej Gasior
  */
 public class WarExtractor {
 

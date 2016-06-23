@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  *
- * @author gasior
+ * @author Ondřej Gasior
  */
 @XmlRootElement( name = "warmeta")
 public class WarMeta {

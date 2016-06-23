@@ -2,7 +2,7 @@ package cz.muni.fi.pb138.entity.metadata;
 
 /**
  *
- * @author gasior
+ * @author Ondřej Gasior
  */
 public class MetaFilePathVersionTriplet {
     

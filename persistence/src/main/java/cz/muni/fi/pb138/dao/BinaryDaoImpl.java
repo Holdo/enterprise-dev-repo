@@ -13,7 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- * Created by Michal Holic on 10/05/2016
+ * @author Michal Holič
  */
 @Repository
 public class BinaryDaoImpl implements BinaryDao {

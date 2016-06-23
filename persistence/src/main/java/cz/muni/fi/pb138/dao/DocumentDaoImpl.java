@@ -12,7 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 /**
- * Created by Michal Holic on 12/05/2016
+ * @author Michal Holič
  */
 @Repository
 public class DocumentDaoImpl implements DocumentDao {

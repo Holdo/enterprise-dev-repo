@@ -11,11 +11,8 @@ import java.io.IOException;
 import java.util.zip.DataFormatException;
 
 /**
- * Pro WAR archivy se vytáhne web.xml a bude k náhledu. Dále se vyextrahuje seznam listenerů a filtrů.
- * Pro XSD schémata se vyextrahuje seznam typů (simple a complex) a seznam elementů a atributů
- * Pro WSDL dokumenty se vyextrahuje seznam operací spolu s informací o requestu a response zprávách
  *
- * @author gasior
+ * @author Ondřej Gasior
  */
 @Service
 public class FileProcessorImpl implements FileProcessor {

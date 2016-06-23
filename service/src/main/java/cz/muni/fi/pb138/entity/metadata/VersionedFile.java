@@ -5,7 +5,7 @@ import java.nio.file.Paths;
 
 /**
  *
- * @author gasior
+ * @author Ondřej Gasior
  */
 public class VersionedFile {
 

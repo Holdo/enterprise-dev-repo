@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Created by Michal Holic on 21/06/2016
+ * @author Michal Holič
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "xsdmeta")

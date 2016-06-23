@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author gasior
+ * @author Ondřej Gasior
  */
 @Service
 public class MetaServiceImpl implements MetaService {

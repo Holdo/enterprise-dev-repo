@@ -2,7 +2,7 @@ package cz.muni.fi.pb138.enums;
 
 /**
  *
- * @author gasior
+ * @author Ondřej Gasior
  */
 public enum MetaFileType {
     WEBXML("web.xml");

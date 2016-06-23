@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author gasior
+ * @author Ondřej Gasior
  */
 public class XsdExtractor {
 
