@@ -8,7 +8,6 @@ import cz.muni.fi.pb138.webmvc.AbstractIntegrationTest;
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -57,7 +56,7 @@ public class MetaServiceTests extends AbstractIntegrationTest {
 
     @Test
     public void getAllMetaFilesByMetaFileTypeTest() throws IOException {
-        List<MetaFilePathVersionTriplet> output = metaService.getAllMetaFilesByMetaFileType(MetaFileType.WEBXML, "/");
+        List<VersionedMetaFile> output = metaService.getAllMetaFilesByMetaFileType(MetaFileType.WEBXML, "/");
         assertThat(output.size()).isEqualTo(2);
     }
 
@@ -67,9 +66,9 @@ public class MetaServiceTests extends AbstractIntegrationTest {
         byte[] reference1 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("web.xml"));
         byte[] reference2 = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("web2.xml"));
 
-        MetaFilePathVersionTriplet readWebxmlShouldBeVersion2 = metaService.getMetaFileByFileFullPath(MetaFileType.WEBXML, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
-        MetaFilePathVersionTriplet readWebxmlShouldBeVersion2Too = metaService.getMetaFileByFileFullPathAndVersion(MetaFileType.WEBXML, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", 2);
-        MetaFilePathVersionTriplet readWebxmlShouldBeVersion1 = metaService.getMetaFileByFileFullPathAndVersion(MetaFileType.WEBXML, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", 1);
+        VersionedMetaFile readWebxmlShouldBeVersion2 = metaService.getMetaFileByFileFullPath(MetaFileType.WEBXML, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war");
+        VersionedMetaFile readWebxmlShouldBeVersion2Too = metaService.getMetaFileByFileFullPathAndVersion(MetaFileType.WEBXML, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", 2);
+        VersionedMetaFile readWebxmlShouldBeVersion1 = metaService.getMetaFileByFileFullPathAndVersion(MetaFileType.WEBXML, "src/test/java/cz/muni/fi/pb138/webmvc/testfiles/test.war", 1);
 
         assertThat(readWebxmlShouldBeVersion1).isNotNull();
         assertThat(readWebxmlShouldBeVersion2).isNotNull();

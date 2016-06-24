@@ -177,8 +177,10 @@ sap.ui.define([
 
     return BrowseController;
 }, /* bExport= */ true);
-String.prototype.checkPath = function() {
-    var i = 0;
-    while (this.charAt(i) == '\\' || this.charAt(i) == "/") i++;
-    return this.slice(i).replace(/\\/g, "/");
-};
+if (!String.prototype.checkPath) {
+    String.prototype.checkPath = function() {
+        var i = 0;
+        while (this.charAt(i) == '\\' || this.charAt(i) == "/") i++;
+        return this.slice(i).replace(/\\/g, "/");
+    };
+}

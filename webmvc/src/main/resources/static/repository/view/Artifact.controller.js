@@ -17,11 +17,6 @@ sap.ui.define([
             this.a.style = "display: none";
 
             this._oTypesGrid = this.getView().byId("typesGrid");
-            var oData = {
-                artifactName : "Test.xsd",
-                artifactPath : "namespace",
-                versions : ["1", "2"]
-            };
 
             this.refreshView();
 
@@ -31,6 +26,7 @@ sap.ui.define([
             //Pls do not leave
         },
         refreshView: function () {
+            var that = this;
             var oVersionsSelect = this.getView().byId("versionsSelect");
             this._oTypesGrid.destroyContent();
             this.getView().setModel(AppContext.oArtifactModel);
@@ -45,16 +41,37 @@ sap.ui.define([
             if (AppContext.oArtifactModel.getProperty("/requests")) this._oTypesGrid.addContent(this.createTypeBox("request"));
             if (AppContext.oArtifactModel.getProperty("/responses")) this._oTypesGrid.addContent(this.createTypeBox("response"));
 
-            var ws = new WebSocket("ws://" + document.location.host + "/websocket/command/listFileVersions");
-            ws.onopen = function () {
+            if (AppContext.oArtifactModel.getProperty("/artifactName").endsWith(".war") ||
+                AppContext.oArtifactModel.getProperty("/artifactName").endsWith(".WAR")) {
+                var ws1 = new WebSocket("ws://" + document.location.host + "/websocket/command/getMetaFile");
+                ws1.onopen = function () {
+                    var oMessage = {
+                        metaFileType : "WEBXML",
+                        fullPath : AppContext.oArtifactModel.getProperty("/artifactFullPath").replace(/\\/g, "\\\\"),
+                        version : parseInt(AppContext.oArtifactModel.getProperty("/version"))
+                    };
+                    var sMessage = JSON.stringify(oMessage);
+                    console.log("Sending " + sMessage);
+                    ws1.send(sMessage);
+                };
+                ws1.onmessage = function (oEvent) {
+                    console.log("Received: " + oEvent.data);
+                    var oJSON = JSON.parse(oEvent.data);
+                    console.log("WebXML: " + oJSON.fileAsString);
+                    that._oTypesGrid.addContent(that.createWebXMLTypeBox(oJSON.fileAsString));
+                };
+            }
+
+            var ws2 = new WebSocket("ws://" + document.location.host + "/websocket/command/listFileVersions");
+            ws2.onopen = function () {
                 var oMessage = {
                     fullPath : AppContext.oArtifactModel.getProperty("/artifactFullPath").replace(/\\/g, "\\\\")
                 };
                 var sMessage = JSON.stringify(oMessage);
                 console.log("Sending " + sMessage);
-                ws.send(sMessage);
+                ws2.send(sMessage);
             };
-            ws.onmessage = function (oEvent) {
+            ws2.onmessage = function (oEvent) {
                 console.log("Received: " + oEvent.data);
                 AppContext.oArtifactModel.setProperty("/versions", JSON.parse(oEvent.data));
                 oVersionsSelect.setSelectedKey(AppContext.oArtifactModel.getProperty("/version"));
@@ -114,11 +131,47 @@ sap.ui.define([
             oTypeBox.addItem(oList);
 
             return oTypeBox;
+        },
+        createWebXMLTypeBox: function (fileAsString) {
+            var oWebXMLHTML = new sap.ui.core.HTML("webXMLHTML", {
+                content: "<pre style='white-space: pre-wrap; margin: 0'>" +
+                "<code>" + escapeXml(fileAsString) + "</code></pre>"
+            });
+            oWebXMLHTML.attachAfterRendering(function(){
+                console.info("Highlighting XML");
+                hljs.initHighlighting.called = false;
+                hljs.initHighlighting();
+            });
+
+            var oTypeBox = new sap.m.VBox("webXMLTypeBox");
+            var oPanel = new sap.m.Panel();
+            var oCenteringBox = new sap.m.HBox({justifyContent : "Center"});
+            var oText = new sap.m.Text({text : "web.xml"}).addStyleClass("sapMH5FontSize");
+            oCenteringBox.addItem(oText);
+            oPanel.addContent(oCenteringBox);
+            oTypeBox.addItem(oPanel);
+            oTypeBox.addItem(oWebXMLHTML);
+            oTypeBox.setLayoutData(new sap.ui.layout.GridData({span : "XL12 L12 M12 S12"}));
+
+            return oTypeBox;
         }
     });
 
     return ArtifactController;
 }, /* bExport= */ true);
-String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-};
+if (!String.prototype.capitalize) {
+    String.prototype.capitalize = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+    };
+}
+function escapeXml(unsafe) {
+    return unsafe.replace(/[<>&'"]/g, function (c) {
+        switch (c) {
+            case '<': return '&lt;';
+            case '>': return '&gt;';
+            case '&': return '&amp;';
+            case '\'': return '&apos;';
+            case '"': return '&quot;';
+        }
+    });
+}

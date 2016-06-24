@@ -2,9 +2,11 @@ package cz.muni.fi.pb138.webmvc.websocket;
 
 import cz.muni.fi.pb138.api.FileService;
 import cz.muni.fi.pb138.api.MetaService;
+import cz.muni.fi.pb138.entity.metadata.VersionedMetaFile;
 import cz.muni.fi.pb138.entity.metadata.Metas;
 import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import cz.muni.fi.pb138.enums.FileType;
+import cz.muni.fi.pb138.enums.MetaFileType;
 import cz.muni.fi.pb138.enums.MetaParameterType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,5 +83,21 @@ public class WsCommands {
 	public Metas getArtifactMetadata(Map<String, Object> args) throws IOException, JAXBException {
 		log.debug("Getting artifact metadata for {} of version {}", args.get("fullPath"), args.get("version"));
 		return metaService.getMetaParametersByFileFullPathAndVersion((String) args.get("fullPath"), (Integer) args.get("version"));
+	}
+
+	/**
+	 * Gets versioned metafile from metadatabase
+	 *
+	 * @param args map should contain fullPath of original file (not metafile), it's version and metaFileType
+	 * @return versioned metafile
+	 * @throws IOException
+	 */
+	public VersionedMetaFile getMetaFile(Map<String, Object> args) throws IOException {
+		String metaFileType = (String) args.get("metaFileType");
+		log.debug("Getting metafile {} of {} type version {} {}", args.get("fullPath"), metaFileType, args.get("version"));
+		return metaService.getMetaFileByFileFullPathAndVersion(
+				MetaFileType.valueOf(metaFileType.toUpperCase()),
+				(String) args.get("fullPath"),
+				(Integer) args.get("version"));
 	}
 }

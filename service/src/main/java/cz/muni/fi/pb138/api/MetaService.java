@@ -5,7 +5,7 @@ import cz.muni.fi.pb138.entity.metadata.Metas;
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
 import cz.muni.fi.pb138.enums.MetaParameterType;
-import cz.muni.fi.pb138.entity.metadata.MetaFilePathVersionTriplet;
+import cz.muni.fi.pb138.entity.metadata.VersionedMetaFile;
 import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 
 import javax.xml.bind.JAXBException;
@@ -47,7 +47,7 @@ public interface MetaService {
 	 * @return meta files represented as triplets of file, path and version
 	 * @throws java.io.IOException
 	 */
-	List<MetaFilePathVersionTriplet> getAllMetaFilesByMetaFileType(MetaFileType metaFileType, String namespace) throws IOException;
+	List<VersionedMetaFile> getAllMetaFilesByMetaFileType(MetaFileType metaFileType, String namespace) throws IOException;
 
 	/**
 	 * Returns meta file
@@ -57,7 +57,7 @@ public interface MetaService {
 	 * @return meta file represented as triplet of file, path and version
 	 * @throws IOException
 	 */
-	MetaFilePathVersionTriplet getMetaFileByFileFullPath(MetaFileType metaFileType, String fullPath) throws IOException;
+	VersionedMetaFile getMetaFileByFileFullPath(MetaFileType metaFileType, String fullPath) throws IOException;
 
 	/**
 	 * Returns meta file of specified version
@@ -68,7 +68,7 @@ public interface MetaService {
 	 * @return meta file represented as triplet of file, path and version
 	 * @throws IOException
 	 */
-	MetaFilePathVersionTriplet getMetaFileByFileFullPathAndVersion(MetaFileType metaFileType, String fullPath, int version) throws IOException;
+	VersionedMetaFile getMetaFileByFileFullPathAndVersion(MetaFileType metaFileType, String fullPath, int version) throws IOException;
 
 	/**
 	 * Returns meta info from specified file
