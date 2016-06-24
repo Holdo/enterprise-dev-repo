@@ -74,9 +74,18 @@ public class FileServiceImpl implements FileService {
 
 		for (FileType fileType : FileType.values()) {
 			if (fullPath.endsWith(fileType.toString())) {
-				if (fileType.equals(FileType.WAR)) file = fileProcessor.processWar(fullPath, fileBytes);
-				if (fileType.equals(FileType.XSD)) file = fileProcessor.processXsd(fullPath, fileBytes);
-				if (fileType.equals(FileType.WSDL)) file = fileProcessor.processWsdl(fullPath, fileBytes);
+				if (fileType.equals(FileType.WAR)) {
+					file = fileProcessor.processWar(fullPath, fileBytes);
+					break;
+				}
+				else if (fileType.equals(FileType.XSD)) {
+					file = fileProcessor.processXsd(fullPath, fileBytes);
+					break;
+				}
+				else if (fileType.equals(FileType.WSDL)) {
+					file = fileProcessor.processWsdl(fullPath, fileBytes);
+					break;
+				}
 			}
 		}
 
@@ -155,8 +164,9 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public List<Integer> listFileVersions(String fullPath) throws IOException {
 		fullPath = normalizeFullPath(fullPath);
+		String namespace = (fullPath.contains(File.separator)? fullPath.substring(0, fullPath.lastIndexOf(File.separator)) : "");
 		databaseDao.openDatabase(XML_DATABASE_NAME);
-		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf(File.separator)));
+		String list = databaseDao.listDirectory(XML_DATABASE_NAME, namespace);
 		databaseDao.closeDatabase();
 		return pathFinder.getAllVersionsReversed(list, fullPath);
 	}

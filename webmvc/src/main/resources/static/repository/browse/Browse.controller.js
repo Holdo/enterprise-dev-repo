@@ -9,8 +9,7 @@ sap.ui.define([
     "sap/m/Link"
 ], function (jQuery, BaseController, Fragment, Filter, JSONModel, MessageToast, MessageBox, Link) {
     "use strict";
-
-    var AppContext = sap.ui.getCore().AppContext;
+    
     var BrowseController = BaseController.extend("Repository.browse.Browse", {
         onInit: function () {
             this.getRouter().getRoute("browse").attachPatternMatched(this._onObjectMatched, this);
@@ -22,7 +21,7 @@ sap.ui.define([
         _onObjectMatched: function (oEvent) {
             var sURLPath = decodeURIComponent(oEvent.getParameter("arguments").fullPath);
             if (sURLPath == "") {
-                console.log("ERROR: Matched empty path");
+                console.error("ERROR: Matched empty path");
                 return;
             }
             var oBreadcrumbs = this.getView().byId("breadcrumbs");
@@ -120,30 +119,9 @@ sap.ui.define([
                     });
                 };
             } else { //is file
-                ws = new WebSocket("ws://" + document.location.host + "/websocket/command/getArtifactMetadata");
-                ws.onopen = function () {
-                    var oMessage = {
-                        fullPath : sClickedFullPath.replace(/\\/g, "\\\\"),
-                        version : sClickedVersion
-                    };
-                    var sMessage = JSON.stringify(oMessage);
-                    console.log("Sending " + sMessage);
-                    ws.send(sMessage);
-                };
-                ws.onmessage = function (oEvent) {
-                    console.log("Received: " + oEvent.data);
-                    var oModel = new JSONModel(JSON.parse(oEvent.data));
-                    oModel.setProperty("/artifactName", sClickedTitle);
-                    oModel.setProperty("/artifactPath", sClickedPath.checkPath());
-                    oModel.setProperty("/artifactFullPath", sClickedFullPath.checkPath());
-                    oModel.setProperty("/version", sClickedVersion);
-                    AppContext.oArtifactModel = oModel;
-                    console.log("Going to artifact " + oModel.getProperty("/artifactFullPath"));
-                    if (AppContext.oArtifactController) AppContext.oArtifactController.refreshView();
-                    that.getRouter().navTo("artifact", {
-                        fullPath : encodeURIComponent(oModel.getProperty("/artifactFullPath"))
-                    });
-                };
+                this.getRouter().navTo("artifact", {
+                    fullPath : encodeURIComponent(sClickedFullPath.checkPath())
+                });
             }
         },
         handleLinkPress: function (oSource, sPath, sName) {

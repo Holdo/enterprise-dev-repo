@@ -22,7 +22,10 @@
                         </content>
                     </Panel>
                     <List id="browseList" showNoData="true" noDataText="Empty" includeItemInSelection="true"
-                          items="{/}">
+                          items="{
+                            path: '/',
+						    sorter: [{ path: 'directory', descending: true }, { path: 'name' }]
+						}">
                         <StandardListItem
                                 title="{name}"
                                 icon="{= ${directory} === true ? 'sap-icon://folder' : 'sap-icon://document-text' }"

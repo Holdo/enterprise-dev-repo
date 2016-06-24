@@ -1,6 +1,7 @@
 package cz.muni.fi.pb138.webmvc;
 
 import cz.muni.fi.pb138.webmvc.websocket.WebSocketConfig;
+import org.basex.BaseXGUI;
 import org.basex.BaseXHTTP;
 import org.basex.BaseXServer;
 import org.springframework.boot.SpringApplication;
@@ -21,7 +22,7 @@ public class RepositoryApplication {
 		System.setProperty("org.basex.WEBPATH", webPath);
 		BaseXHTTP.main();
 		//BaseXServer.main(new String[]{});
-		//BaseXGUI.main(new String[]{});
+		BaseXGUI.main(new String[]{});
 		//Start Spring container
 		SpringApplication.run(RepositoryApplication.class, args);
 	}

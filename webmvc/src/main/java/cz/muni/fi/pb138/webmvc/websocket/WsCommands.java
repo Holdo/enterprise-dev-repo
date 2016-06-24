@@ -81,8 +81,10 @@ public class WsCommands {
 	 * @throws JAXBException
 	 */
 	public Metas getArtifactMetadata(Map<String, Object> args) throws IOException, JAXBException {
-		log.debug("Getting artifact metadata for {} of version {}", args.get("fullPath"), args.get("version"));
-		return metaService.getMetaParametersByFileFullPathAndVersion((String) args.get("fullPath"), (Integer) args.get("version"));
+		Integer version = (Integer) args.get("version");
+		log.debug("Getting artifact metadata for {} of version {}", args.get("fullPath"), version);
+		if (version == null || version == 0) return metaService.getMetaParametersByFileFullPath((String) args.get("fullPath"));
+		return metaService.getMetaParametersByFileFullPathAndVersion((String) args.get("fullPath"), version);
 	}
 
 	/**

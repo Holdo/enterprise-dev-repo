@@ -61,8 +61,9 @@ public class MetaServiceImpl implements MetaService {
 	@Override
 	public VersionedMetaFile getMetaFileByFileFullPath(MetaFileType metaFileType, String fullPath) throws IOException {
 		fullPath = normalizeFullPath(fullPath);
+		String namespace = (fullPath.contains(File.separator)? fullPath.substring(0, fullPath.lastIndexOf(File.separator)) : "");
 		databaseDao.openDatabase(META_DATABASE_NAME);
-		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf(File.separator)));
+		String list = databaseDao.listDirectory(XML_DATABASE_NAME, namespace);
 		int version = pathFinder.getLatestVersion(list, fullPath);
 		databaseDao.closeDatabase();
 		return getMetaFileByFileFullPathAndVersion(metaFileType, fullPath, version);
@@ -117,8 +118,9 @@ public class MetaServiceImpl implements MetaService {
 	@Override
 	public Metas getMetaParametersByFileFullPath(String fullPath) throws IOException, JAXBException {
 		fullPath = normalizeFullPath(fullPath);
+		String namespace = (fullPath.contains(File.separator)? fullPath.substring(0, fullPath.lastIndexOf(File.separator)) : "");
 		databaseDao.openDatabase(XML_DATABASE_NAME);
-		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf(File.separator)));
+		String list = databaseDao.listDirectory(XML_DATABASE_NAME, namespace);
 		int version = pathFinder.getLatestVersion(list, fullPath);
 		databaseDao.closeDatabase();
 		return getMetaParametersByFileFullPathAndVersion(fullPath, version);
@@ -128,7 +130,6 @@ public class MetaServiceImpl implements MetaService {
 	@Override
 	public Metas getMetaParametersByFileFullPathAndVersion(String fullPath, int version) throws IOException, JAXBException {
 		fullPath = normalizeFullPath(fullPath);
-
 		XQueryVariable fullPathVariable = new XQueryVariable("fullPath", fullPath, XQueryType.STRING);
 		XQueryVariable versionVariable = new XQueryVariable("version", String.valueOf(version), XQueryType.STRING);
 		databaseDao.openDatabase(META_DATABASE_NAME);
@@ -275,6 +276,7 @@ public class MetaServiceImpl implements MetaService {
 	}
 
 	protected String normalizeFullPath(String fullPath) {
+		if (fullPath.charAt(0) == '\\') return fullPath;
 		fullPath = Paths.get(fullPath).toString();
 		while (fullPath.startsWith(File.separator)) fullPath = fullPath.substring(1, fullPath.length());
 		if (fullPath.endsWith(File.separator)) fullPath = fullPath.substring(0, fullPath.length() - 1);

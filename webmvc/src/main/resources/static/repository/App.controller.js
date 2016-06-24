@@ -51,16 +51,8 @@ sap.ui.define([
             };
             ws.onmessage = function (oEvent) {
                 console.log("Received: " + oEvent.data);
-                var oModel = new JSONModel(JSON.parse(oEvent.data));
-                oModel.setProperty("/artifactName", oSelectedListItem.getTitle());
-                oModel.setProperty("/artifactPath", oSelectedListItem.getDescription().checkPath());
-                oModel.setProperty("/artifactFullPath", oSelectedListItem.data("fullPath").checkPath());
-                oModel.setProperty("/version", oSelectedListItem.data("version"));
-                sap.ui.getCore().AppContext.oArtifactModel = oModel;
-                console.log("Going to artifact " + oModel.getProperty("/artifactFullPath"));
-                if (sap.ui.getCore().AppContext.oArtifactController) sap.ui.getCore().AppContext.oArtifactController.refreshView();
                 that.getRouter().navTo("artifact", {
-                    fullPath : encodeURIComponent(oModel.getProperty("/artifactFullPath"))
+                    fullPath : encodeURIComponent(oSelectedListItem.data("fullPath").checkPath())
                 });
             };
         },

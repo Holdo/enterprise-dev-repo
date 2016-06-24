@@ -71,7 +71,7 @@ public interface MetaService {
 	VersionedMetaFile getMetaFileByFileFullPathAndVersion(MetaFileType metaFileType, String fullPath, int version) throws IOException;
 
 	/**
-	 * Returns meta info from specified file
+	 * Returns meta info from specified file of the latest version
 	 *
 	 * @param fullPath path to file
 	 * @return for example fullpath namespace/foo.xsd, version 2, parameter type COMPLEXTYPE will return all complex types of foo.xsd in version 2

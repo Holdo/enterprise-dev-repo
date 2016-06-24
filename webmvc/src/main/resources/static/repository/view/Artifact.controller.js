@@ -8,8 +8,7 @@ sap.ui.define([
     "sap/m/MessageBox"
 ], function (jQuery, BaseController, Fragment, Filter, JSONModel, MessageToast, MessageBox) {
     "use strict";
-
-    var AppContext = sap.ui.getCore().AppContext;
+    
     var ArtifactController = BaseController.extend("Repository.view.Artifact", {
         onInit: function () {
             this.a = document.createElement("a");
@@ -17,38 +16,83 @@ sap.ui.define([
             this.a.style = "display: none";
 
             this._oTypesGrid = this.getView().byId("typesGrid");
+            this.getView().setModel(new JSONModel({}));
 
-            this.refreshView();
-
-            AppContext.oArtifactController = this;
+            this.getRouter().getRoute("artifact").attachPatternMatched(this._onObjectMatched, this);
         },
         onExit: function () {
             //Pls do not leave
+        },
+        _onObjectMatched: function (oEvent) {
+            var sURLPath = decodeURIComponent(oEvent.getParameter("arguments").fullPath);
+            if (sURLPath == "") {
+                console.error("ERROR: Matched empty path");
+                return;
+            }
+            console.info("Matched fullPath " + sURLPath);
+
+            var sName;
+            var sPath;
+            var sFullPath = sURLPath.invertSlashes().replace(/\\/g, "\\\\");
+
+            if (!sURLPath.includes("/")) {
+                sPath = "";
+                sName = sURLPath;
+            } else {
+                var iLastSlashIndex = sURLPath.lastIndexOf("/");
+                sPath = sURLPath.substring(0, iLastSlashIndex);
+                sName = sURLPath.substring(iLastSlashIndex + 1);
+            }
+
+            var that = this;
+            var ws = new WebSocket("ws://" + document.location.host + "/websocket/command/getArtifactMetadata");
+            ws.onopen = function () {
+                var oMessage = {
+                    fullPath : sFullPath,
+                    version : 0
+                };
+                var sMessage = JSON.stringify(oMessage);
+                console.log("Sending " + sMessage);
+                ws.send(sMessage);
+            };
+            ws.onmessage = function (oEvent) {
+                console.log("Received: " + oEvent.data);
+                var oModel = new JSONModel(JSON.parse(oEvent.data));
+                oModel.setProperty("/artifactName", sName);
+                oModel.setProperty("/artifactPath", sPath);
+                oModel.setProperty("/artifactFullPath", sFullPath);
+                oModel.setProperty("/version", 0);
+                that.getView().setModel(oModel);
+                that.refreshView();
+            };
         },
         refreshView: function () {
             var that = this;
             var oVersionsSelect = this.getView().byId("versionsSelect");
             this._oTypesGrid.destroyContent();
-            this.getView().setModel(AppContext.oArtifactModel);
+            
+            var oViewModel = this.getView().getModel();
+            
+            if (oViewModel.getProperty("/artifactPath") == "") this.getView().byId("artifactPathText").setText("root folder");
 
-            if (AppContext.oArtifactModel.getProperty("/attributes")) this._oTypesGrid.addContent(this.createTypeBox("attribute"));
-            if (AppContext.oArtifactModel.getProperty("/elements")) this._oTypesGrid.addContent(this.createTypeBox("element"));
-            if (AppContext.oArtifactModel.getProperty("/simpleTypes")) this._oTypesGrid.addContent(this.createTypeBox("simpleType"));
-            if (AppContext.oArtifactModel.getProperty("/complexTypes")) this._oTypesGrid.addContent(this.createTypeBox("complexType"));
-            if (AppContext.oArtifactModel.getProperty("/filters")) this._oTypesGrid.addContent(this.createTypeBox("filter"));
-            if (AppContext.oArtifactModel.getProperty("/listeners")) this._oTypesGrid.addContent(this.createTypeBox("listener"));
-            if (AppContext.oArtifactModel.getProperty("/operations")) this._oTypesGrid.addContent(this.createTypeBox("operation"));
-            if (AppContext.oArtifactModel.getProperty("/requests")) this._oTypesGrid.addContent(this.createTypeBox("request"));
-            if (AppContext.oArtifactModel.getProperty("/responses")) this._oTypesGrid.addContent(this.createTypeBox("response"));
+            if (oViewModel.getProperty("/complexTypes")) this._oTypesGrid.addContent(this.createTypeBox("complexType"));
+            if (oViewModel.getProperty("/elements")) this._oTypesGrid.addContent(this.createTypeBox("element"));
+            if (oViewModel.getProperty("/attributes")) this._oTypesGrid.addContent(this.createTypeBox("attribute"));
+            if (oViewModel.getProperty("/simpleTypes")) this._oTypesGrid.addContent(this.createTypeBox("simpleType"));
+            if (oViewModel.getProperty("/filters")) this._oTypesGrid.addContent(this.createTypeBox("filter"));
+            if (oViewModel.getProperty("/listeners")) this._oTypesGrid.addContent(this.createTypeBox("listener"));
+            if (oViewModel.getProperty("/operations")) this._oTypesGrid.addContent(this.createTypeBox("operation"));
+            if (oViewModel.getProperty("/requests")) this._oTypesGrid.addContent(this.createTypeBox("request"));
+            if (oViewModel.getProperty("/responses")) this._oTypesGrid.addContent(this.createTypeBox("response"));
 
-            if (AppContext.oArtifactModel.getProperty("/artifactName").endsWith(".war") ||
-                AppContext.oArtifactModel.getProperty("/artifactName").endsWith(".WAR")) {
+            if (oViewModel.getProperty("/artifactName").endsWith(".war") ||
+                oViewModel.getProperty("/artifactName").endsWith(".WAR")) {
                 var ws1 = new WebSocket("ws://" + document.location.host + "/websocket/command/getMetaFile");
                 ws1.onopen = function () {
                     var oMessage = {
                         metaFileType : "WEBXML",
-                        fullPath : AppContext.oArtifactModel.getProperty("/artifactFullPath").replace(/\\/g, "\\\\"),
-                        version : parseInt(AppContext.oArtifactModel.getProperty("/version"))
+                        fullPath : oViewModel.getProperty("/artifactFullPath").replace(/\\/g, "\\\\"),
+                        version : parseInt(oViewModel.getProperty("/version"))
                     };
                     var sMessage = JSON.stringify(oMessage);
                     console.log("Sending " + sMessage);
@@ -64,8 +108,10 @@ sap.ui.define([
 
             var ws2 = new WebSocket("ws://" + document.location.host + "/websocket/command/listFileVersions");
             ws2.onopen = function () {
+                var sFullPath = oViewModel.getProperty("/artifactFullPath");
+                if (!sFullPath.includes("\\\\")) sFullPath = sFullPath.replace(/\\/g, "\\\\");
                 var oMessage = {
-                    fullPath : AppContext.oArtifactModel.getProperty("/artifactFullPath").replace(/\\/g, "\\\\")
+                    fullPath : sFullPath
                 };
                 var sMessage = JSON.stringify(oMessage);
                 console.log("Sending " + sMessage);
@@ -73,17 +119,20 @@ sap.ui.define([
             };
             ws2.onmessage = function (oEvent) {
                 console.log("Received: " + oEvent.data);
-                AppContext.oArtifactModel.setProperty("/versions", JSON.parse(oEvent.data));
-                oVersionsSelect.setSelectedKey(AppContext.oArtifactModel.getProperty("/version"));
+                var aVersions = JSON.parse(oEvent.data);
+                oViewModel.setProperty("/versions", aVersions);
+                if (oViewModel.getProperty("/version") == 0) oVersionsSelect.setSelectedKey(aVersions[0]);
+                else oVersionsSelect.setSelectedKey(oViewModel.getProperty("/version"));
             };
         },
         handleVersionsSelectChange: function (oEvent) {
             var that = this;
+            var oViewModel = this.getView().getModel();
             var sVersion = oEvent.getParameter("selectedItem").getKey();
             var ws = new WebSocket("ws://" + document.location.host + "/websocket/command/getArtifactMetadata");
             ws.onopen = function () {
                 var oMessage = {
-                    fullPath : AppContext.oArtifactModel.getProperty("/artifactFullPath").replace(/\\/g, "\\\\"),
+                    fullPath : oViewModel.getProperty("/artifactFullPath").replace(/\\/g, "\\\\"),
                     version : parseInt(sVersion)
                 };
                 var sMessage = JSON.stringify(oMessage);
@@ -92,15 +141,16 @@ sap.ui.define([
             };
             ws.onmessage = function (oEvent) {
                 console.log("Received: " + oEvent.data);
-                AppContext.oArtifactModel.setJSON(oEvent.data, true);
-                AppContext.oArtifactModel.setProperty("/version", sVersion);
+                oViewModel.setJSON(oEvent.data, true);
+                oViewModel.setProperty("/version", sVersion);
                 that.refreshView();
             };
         },
         handleArtifactDownload: function (oEvent) {
             var that = this;
-            var name = AppContext.oArtifactModel.getProperty("/artifactName");
-            var fullPath = AppContext.oArtifactModel.getProperty("/artifactFullPath").replace(/\\/g, "\\\\");
+            var oViewModel = this.getView().getModel();
+            var name = oViewModel.getProperty("/artifactName");
+            var fullPath = oViewModel.getProperty("/artifactFullPath").replace(/\\/g, "\\\\");
             var version = this.getView().byId("versionsSelect").getSelectedKey();
             var ws = new WebSocket("ws://" + document.location.host + "/websocket/binary/download/" + version + "/" + fullPath);
             ws.onopen = function () {
@@ -162,6 +212,11 @@ sap.ui.define([
 if (!String.prototype.capitalize) {
     String.prototype.capitalize = function() {
         return this.charAt(0).toUpperCase() + this.slice(1);
+    };
+}
+if (!String.prototype.invertSlashes) {
+    String.prototype.invertSlashes = function() {
+        return this.replace(/\//g, "\\");
     };
 }
 function escapeXml(unsafe) {
