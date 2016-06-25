@@ -28,7 +28,7 @@
         <footer>
             <Toolbar>
                 <ToolbarSpacer/>
-                <Text text="Gasior, Holič, Hutta, Rybenský --- PB138 2016"/>
+                <Text text="Gasior, Holič, Hutta --- PB138 2016"/>
                 <ToolbarSpacer width="2em"/>
             </Toolbar>
         </footer>
