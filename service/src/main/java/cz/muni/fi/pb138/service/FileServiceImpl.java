@@ -200,10 +200,14 @@ public class FileServiceImpl implements FileService {
 
 
 	protected String normalizeFullPath(String fullPath) {
-		return Paths.get(fullPath).toString();
+		fullPath = Paths.get(fullPath).toString();
+		fullPath= fullPath.replaceAll("\\\\", "/");
+		return fullPath;
 	}
 
 	protected String sanitizeNamespace(String namespace) {
+		namespace = Paths.get(namespace).toString();
+		namespace= namespace.replaceAll("\\\\", "/");
 		if (namespace.startsWith("/") || namespace.startsWith("\\")) namespace = namespace.substring(1);
 		return namespace;
 	}

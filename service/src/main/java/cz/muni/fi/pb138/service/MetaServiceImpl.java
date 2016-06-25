@@ -276,8 +276,8 @@ public class MetaServiceImpl implements MetaService {
 	}
 
 	protected String normalizeFullPath(String fullPath) {
-		if (fullPath.charAt(0) == '\\') return fullPath;
 		fullPath = Paths.get(fullPath).toString();
+		fullPath= fullPath.replaceAll("\\\\", "/");
 		while (fullPath.startsWith(File.separator)) fullPath = fullPath.substring(1, fullPath.length());
 		if (fullPath.endsWith(File.separator)) fullPath = fullPath.substring(0, fullPath.length() - 1);
 		return fullPath;
