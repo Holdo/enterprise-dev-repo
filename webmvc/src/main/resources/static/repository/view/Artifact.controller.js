@@ -13,7 +13,7 @@ sap.ui.define([
         onInit: function () {
             this.a = document.createElement("a");
             document.body.appendChild(this.a);
-            this.a.style = "display: none";
+            this.a.style.cssText = "display: none";
 
             this._oTypesGrid = this.getView().byId("typesGrid");
             this.getView().setModel(new JSONModel({}));
@@ -157,11 +157,15 @@ sap.ui.define([
             };
             ws.onmessage = function (oEvent) {
                 //Download received blob
-                var objectUrl = window.URL.createObjectURL(oEvent.data);
-                that.a.href = objectUrl;
-                that.a.download = name;
-                that.a.click();
-                window.URL.revokeObjectURL(objectUrl);
+                if (navigator.appVersion.toString().indexOf('.NET') > 0) {
+                    window.navigator.msSaveBlob(oEvent.data, name);
+                } else {
+                    var objectUrl = window.URL.createObjectURL(oEvent.data);
+                    that.a.href = objectUrl;
+                    that.a.download = name;
+                    that.a.click();
+                    window.URL.revokeObjectURL(objectUrl);
+                }
             };
         },
         createTypeBox: function (sTypeName) {
@@ -224,6 +228,17 @@ if (!String.prototype.includes) {
         } else {
             return this.indexOf(search, start) !== -1;
         }
+    };
+}
+if (!String.prototype.endsWith) {
+    String.prototype.endsWith = function(searchString, position) {
+        var subjectString = this.toString();
+        if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+            position = subjectString.length;
+        }
+        position -= searchString.length;
+        var lastIndex = subjectString.indexOf(searchString, position);
+        return lastIndex !== -1 && lastIndex === position;
     };
 }
 function escapeXml(unsafe) {
