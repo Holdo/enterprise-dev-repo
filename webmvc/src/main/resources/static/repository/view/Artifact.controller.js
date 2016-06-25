@@ -164,7 +164,9 @@ sap.ui.define([
                     that.a.href = objectUrl;
                     that.a.download = name;
                     that.a.click();
-                    window.URL.revokeObjectURL(objectUrl);
+                    setTimeout(function(){
+                        window.URL.revokeObjectURL(objectUrl);
+                    }, 100);
                 }
             };
         },
