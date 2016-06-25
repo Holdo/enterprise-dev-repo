@@ -42,7 +42,7 @@ sap.ui.define([
             var ws = new WebSocket("ws://" + document.location.host + "/websocket/command/getArtifactMetadata");
             ws.onopen = function () {
                 var oMessage = {
-                    fullPath : oSelectedListItem.data("fullPath").replace(/\\/g, "\\\\"),
+                    fullPath : oSelectedListItem.data("fullPath"),
                     version : parseInt(oSelectedListItem.data("version"))
                 };
                 var sMessage = JSON.stringify(oMessage);
@@ -99,7 +99,6 @@ sap.ui.define([
                     metaParameterType : that.metaParameterType.trim().replace(/\s+/g, ''),
                     parameterName : sQuery
                 };
-                //sMessage = sMessage.replace(/\\/g, "\\\\");
                 var sMessage = JSON.stringify(oMessage);
                 console.log("Sending " + sMessage);
                 ws.send(sMessage);

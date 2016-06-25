@@ -61,7 +61,7 @@ public class MetaServiceImpl implements MetaService {
 	@Override
 	public VersionedMetaFile getMetaFileByFileFullPath(MetaFileType metaFileType, String fullPath) throws IOException {
 		fullPath = normalizeFullPath(fullPath);
-		String namespace = (fullPath.contains(File.separator)? fullPath.substring(0, fullPath.lastIndexOf(File.separator)) : "");
+		String namespace = (fullPath.contains("/")? fullPath.substring(0, fullPath.lastIndexOf("/")) : "");
 		databaseDao.openDatabase(META_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, namespace);
 		int version = pathFinder.getLatestVersion(list, fullPath);
@@ -71,6 +71,7 @@ public class MetaServiceImpl implements MetaService {
 
 	@Override
 	public VersionedMetaFile getMetaFileByFileFullPathAndVersion(MetaFileType metaFileType, String fullPath, int version) throws IOException {
+		if (version == 0) return getMetaFileByFileFullPath(metaFileType, fullPath);
 		VersionedMetaFile output = new VersionedMetaFile();
 		if (metaFileType == MetaFileType.WEBXML) {
 			databaseDao.openDatabase(META_DATABASE_NAME);
@@ -118,7 +119,7 @@ public class MetaServiceImpl implements MetaService {
 	@Override
 	public Metas getMetaParametersByFileFullPath(String fullPath) throws IOException, JAXBException {
 		fullPath = normalizeFullPath(fullPath);
-		String namespace = (fullPath.contains(File.separator)? fullPath.substring(0, fullPath.lastIndexOf(File.separator)) : "");
+		String namespace = (fullPath.contains("/")? fullPath.substring(0, fullPath.lastIndexOf("/")) : "");
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, namespace);
 		int version = pathFinder.getLatestVersion(list, fullPath);
@@ -278,8 +279,8 @@ public class MetaServiceImpl implements MetaService {
 	protected String normalizeFullPath(String fullPath) {
 		fullPath = Paths.get(fullPath).toString();
 		fullPath= fullPath.replaceAll("\\\\", "/");
-		while (fullPath.startsWith(File.separator)) fullPath = fullPath.substring(1, fullPath.length());
-		if (fullPath.endsWith(File.separator)) fullPath = fullPath.substring(0, fullPath.length() - 1);
+		while (fullPath.startsWith("/")) fullPath = fullPath.substring(1, fullPath.length());
+		if (fullPath.endsWith("/")) fullPath = fullPath.substring(0, fullPath.length() - 1);
 		return fullPath;
 	}
 

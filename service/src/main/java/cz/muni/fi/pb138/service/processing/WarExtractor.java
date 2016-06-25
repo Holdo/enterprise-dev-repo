@@ -58,6 +58,7 @@ public class WarExtractor {
 			ZipEntry ze = (ZipEntry) entries.nextElement();
 			if (ze.getName().equals(webxmlLocation)) {
 				webxml = IOUtils.toByteArray(zipFile.getInputStream(ze));
+				break;
 			}
 		}
 		zipFile.close();

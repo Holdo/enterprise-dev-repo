@@ -33,7 +33,7 @@ sap.ui.define([
 
             var sName;
             var sPath;
-            var sFullPath = sURLPath.invertSlashes().replace(/\\/g, "\\\\");
+            var sFullPath = sURLPath;
 
             if (!sURLPath.includes("/")) {
                 sPath = "";
@@ -91,7 +91,7 @@ sap.ui.define([
                 ws1.onopen = function () {
                     var oMessage = {
                         metaFileType : "WEBXML",
-                        fullPath : oViewModel.getProperty("/artifactFullPath").replace(/\\/g, "\\\\"),
+                        fullPath : oViewModel.getProperty("/artifactFullPath"),
                         version : parseInt(oViewModel.getProperty("/version"))
                     };
                     var sMessage = JSON.stringify(oMessage);
@@ -108,10 +108,8 @@ sap.ui.define([
 
             var ws2 = new WebSocket("ws://" + document.location.host + "/websocket/command/listFileVersions");
             ws2.onopen = function () {
-                var sFullPath = oViewModel.getProperty("/artifactFullPath");
-                if (!sFullPath.includes("\\\\")) sFullPath = sFullPath.replace(/\\/g, "\\\\");
                 var oMessage = {
-                    fullPath : sFullPath
+                    fullPath : oViewModel.getProperty("/artifactFullPath")
                 };
                 var sMessage = JSON.stringify(oMessage);
                 console.log("Sending " + sMessage);
@@ -132,7 +130,7 @@ sap.ui.define([
             var ws = new WebSocket("ws://" + document.location.host + "/websocket/command/getArtifactMetadata");
             ws.onopen = function () {
                 var oMessage = {
-                    fullPath : oViewModel.getProperty("/artifactFullPath").replace(/\\/g, "\\\\"),
+                    fullPath : oViewModel.getProperty("/artifactFullPath"),
                     version : parseInt(sVersion)
                 };
                 var sMessage = JSON.stringify(oMessage);
@@ -150,7 +148,7 @@ sap.ui.define([
             var that = this;
             var oViewModel = this.getView().getModel();
             var name = oViewModel.getProperty("/artifactName");
-            var fullPath = oViewModel.getProperty("/artifactFullPath").replace(/\\/g, "\\\\");
+            var fullPath = oViewModel.getProperty("/artifactFullPath");
             var version = this.getView().byId("versionsSelect").getSelectedKey();
             var ws = new WebSocket("ws://" + document.location.host + "/websocket/binary/download/" + version + "/" + fullPath);
             ws.onopen = function () {
@@ -212,11 +210,6 @@ sap.ui.define([
 if (!String.prototype.capitalize) {
     String.prototype.capitalize = function() {
         return this.charAt(0).toUpperCase() + this.slice(1);
-    };
-}
-if (!String.prototype.invertSlashes) {
-    String.prototype.invertSlashes = function() {
-        return this.replace(/\//g, "\\");
     };
 }
 function escapeXml(unsafe) {

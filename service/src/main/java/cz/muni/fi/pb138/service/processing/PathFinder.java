@@ -170,9 +170,8 @@ public class PathFinder {
 		for (String p : paths) {
 			String x = p.split(" ")[0];
 			if (x.endsWith(suffix)) {
-				Path pathX = Paths.get(x);
-				if (pathX.toString().startsWith(getPathWithoutSuffix(fullPath))) {
-					filteredPaths.add(pathX.toString());
+				if (x.startsWith(getPathWithoutSuffix(fullPath))) {
+					filteredPaths.add(x);
 				}
 			}
 		}
@@ -181,6 +180,6 @@ public class PathFinder {
 	
 	private String getPathWithoutSuffix(String fullPath) {
 		if (!fullPath.contains(".")) log.error("There is no suffix in " + fullPath);
-		return Paths.get(fullPath.substring(0, fullPath.lastIndexOf("."))).toString();
+		return fullPath.substring(0, fullPath.lastIndexOf(".")).replaceAll("\\\\", "/");
 	}
 }

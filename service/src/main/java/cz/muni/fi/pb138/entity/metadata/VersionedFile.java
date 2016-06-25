@@ -15,9 +15,9 @@ public class VersionedFile {
 	private boolean isDirectory;
 
 	public VersionedFile(String fullPath, int version, boolean isDirectory) {
-		fullPath = Paths.get(fullPath).toString();
-		this.name = fullPath.substring(fullPath.lastIndexOf(File.separator) + 1);
-		if (fullPath.contains(File.separator)) this.path = fullPath.substring(0, fullPath.lastIndexOf(File.separator));
+		fullPath = normalizeFullPath(fullPath);
+		this.name = fullPath.substring(fullPath.lastIndexOf("/") + 1);
+		if (fullPath.contains("/")) this.path = fullPath.substring(0, fullPath.lastIndexOf("/"));
 		else this.path = "";
 		this.version = version;
 		this.isDirectory = isDirectory;
@@ -48,12 +48,13 @@ public class VersionedFile {
 
 	public String getFullPath() {
 		if (path.equals("")) return name;
-		return Paths.get(path + File.separator + name).toString();
+		return path + "/" + name;
 	}
 
 	public void setFullPath(String fullPath) {
-		this.name = fullPath.substring(fullPath.lastIndexOf(File.separator) + 1);
-		this.path = fullPath.substring(0, fullPath.lastIndexOf(File.separator));
+		fullPath = normalizeFullPath(fullPath);
+		this.name = fullPath.substring(fullPath.lastIndexOf("/") + 1);
+		this.path = fullPath.substring(0, fullPath.lastIndexOf("/"));
 	}
 
 	public int getVersion() {
@@ -93,5 +94,11 @@ public class VersionedFile {
 		result = 31 * result + getVersion();
 		result = 31 * result + (isDirectory() ? 1 : 0);
 		return result;
+	}
+
+	private String normalizeFullPath(String fullPath) {
+		fullPath = Paths.get(fullPath).toString();
+		fullPath= fullPath.replaceAll("\\\\", "/");
+		return fullPath;
 	}
 }

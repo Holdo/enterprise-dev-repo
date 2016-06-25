@@ -53,7 +53,7 @@ sap.ui.define([
         },
         handleUploadButtonPress: function (oEvent) {
             if (
-                this.getView().byId("projectNameInput").getValueState() != "Success" &&
+                this.getView().byId("projectNameInput").getValueState() != "Success" ||
                 this.getView().byId("artifactFileUploader").getValueState() != "Success") {
                 MessageBox.error(
                     "Please fill all the fields correctly.",
@@ -69,7 +69,7 @@ sap.ui.define([
             binaryFileToArrayBuffer(this.file, function (fileName, arrayBuffer) {
                 var projectName = jsonModel.getProperty("/projectName");
                 var sUri = (projectName == "")? fileName : projectName + "/" + fileName;
-                var ws = new WebSocket("ws://" + document.location.host + "/websocket/binary/upload/" + sUri);
+                var ws = new WebSocket("ws://" + document.location.host + "/websocket/binary/upload/" + sUri.checkPath());
                 ws.onopen = function () {
                     ws.send(arrayBuffer);
                     MessageToast.show("Artifact uploaded");
@@ -92,4 +92,11 @@ function binaryFileToArrayBuffer(file, callback) {
         // Read in the file as text
         reader.readAsArrayBuffer(file);
     }
+}
+if (!String.prototype.checkPath) {
+    String.prototype.checkPath = function() {
+        var i = 0;
+        while (this.charAt(i) == '\\' || this.charAt(i) == "/") i++;
+        return this.slice(i).replace(/\\/g, "/");
+    };
 }

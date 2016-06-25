@@ -65,7 +65,6 @@ sap.ui.define([
             var ws = new WebSocket("ws://" + document.location.host + "/websocket/command/listDir");
             ws.onopen = function () {
                 var sMessage = "{\"namespace\" : \"" + sFullPath + "\"}";
-                sMessage = sMessage.replace(/\\/g, "\\\\");
                 console.log("Sending " + sMessage);
                 ws.send(sMessage);
             };
@@ -88,7 +87,7 @@ sap.ui.define([
                 ws = new WebSocket("ws://" + document.location.host + "/websocket/command/listDir");
                 ws.onopen = function () {
                     var oMessage = {
-                        namespace : sClickedFullPath.replace(/\\/g, "\\\\")
+                        namespace : sClickedFullPath
                     };
                     var sMessage = JSON.stringify(oMessage);
                     console.log("Sending " + sMessage);

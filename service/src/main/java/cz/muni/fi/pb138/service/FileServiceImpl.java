@@ -92,7 +92,7 @@ public class FileServiceImpl implements FileService {
 		if (file == null) throw new IOException("Invalid file: " + fullPath);
 
 		databaseDao.openDatabase(XML_DATABASE_NAME);
-		String vNamespace = fullPath.substring(0, fullPath.lastIndexOf(File.separator) + 1);
+		String vNamespace = fullPath.substring(0, fullPath.lastIndexOf("/") + 1);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, vNamespace);
 		int version = pathFinder.getLatestVersion(list, fullPath) + 1;
 
@@ -115,7 +115,7 @@ public class FileServiceImpl implements FileService {
 	public void deleteFile(String fullPath) throws IOException {
 		fullPath = normalizeFullPath(fullPath);
 		databaseDao.openDatabase(XML_DATABASE_NAME);
-		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf(File.separator)));
+		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf("/")));
 		int version = pathFinder.getLatestVersion(list, fullPath);
 		databaseDao.closeDatabase();
 		deleteFile(fullPath, version);
@@ -143,7 +143,7 @@ public class FileServiceImpl implements FileService {
 	public byte[] getFileByFullPath(String fullPath) throws IOException {
 		fullPath = normalizeFullPath(fullPath);
 		databaseDao.openDatabase(XML_DATABASE_NAME);
-		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf(File.separator)));
+		String list = databaseDao.listDirectory(XML_DATABASE_NAME, fullPath.substring(0, fullPath.lastIndexOf("/")));
 		int version = pathFinder.getLatestVersion(list, fullPath);
 		databaseDao.closeDatabase();
 		return getFileByFullPathAndVersion(fullPath, version);
@@ -164,7 +164,7 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public List<Integer> listFileVersions(String fullPath) throws IOException {
 		fullPath = normalizeFullPath(fullPath);
-		String namespace = (fullPath.contains(File.separator)? fullPath.substring(0, fullPath.lastIndexOf(File.separator)) : "");
+		String namespace = (fullPath.contains("/")? fullPath.substring(0, fullPath.lastIndexOf("/")) : "");
 		databaseDao.openDatabase(XML_DATABASE_NAME);
 		String list = databaseDao.listDirectory(XML_DATABASE_NAME, namespace);
 		databaseDao.closeDatabase();
