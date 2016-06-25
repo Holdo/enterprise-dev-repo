@@ -12,9 +12,4 @@ cz.muni.fi.pb138.entity.xsd
 cz.muni.fi.pb138.enums
 cz.muni.fi.pb138.service
 cz.muni.fi.pb138.service.processing
-cz.muni.fi.pb138.webmvc
-cz.muni.fi.pb138.webmvc.cz.muni.fi.pb138.webmvc.test
-cz.muni.fi.pb138.webmvc.rest
-cz.muni.fi.pb138.webmvc.websocket
-cz.muni.fi.pb138.webmvc.websocket.exception
 cz.muni.fi.pb138.xquery
