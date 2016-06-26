@@ -166,39 +166,39 @@ public class MetaServiceImpl implements MetaService {
 	public List<VersionedFile> getFilesFullPathsByMetaParameter(FileType fileType, MetaParameterType parameterType, String parameterName, boolean withExactMatch) throws IOException, JAXBException {
 		List<VersionedFile> output;
 		XQueryVariable nameVariable = new XQueryVariable("name", parameterName, XQueryType.STRING);
-		XQueryVariable matchVariable = new XQueryVariable("match", String.valueOf(withExactMatch), XQueryType.BOOLEAN);
+		XQueryVariable matchVariable = new XQueryVariable("exactMatch", String.valueOf(withExactMatch), XQueryType.BOOLEAN);
 		String queryResult;
 		databaseDao.openDatabase(META_DATABASE_NAME);
 		switch (fileType) {
 			case WAR:
 				if (parameterType.equals(MetaParameterType.FILTER)) {
-					queryResult = databaseDao.runXQuery(XQueryWar.GET_FILES_BY_FILTER.toString(), nameVariable);
+					queryResult = databaseDao.runXQuery(XQueryWar.GET_FILES_BY_FILTER.toString(), nameVariable,matchVariable);
 				} else if (parameterType.equals(MetaParameterType.LISTENER)) {
-					queryResult = databaseDao.runXQuery(XQueryWar.GET_FILES_BY_LISTENER.toString(), nameVariable);
+					queryResult = databaseDao.runXQuery(XQueryWar.GET_FILES_BY_LISTENER.toString(), nameVariable,matchVariable);
 				} else {
 					throw new IOException("Unknown meta parameter " + parameterType.toString());
 				}
 				break;
 			case WSDL:
 				if (parameterType.equals(MetaParameterType.OPERATION)) {
-					queryResult = databaseDao.runXQuery(XQueryWsdl.GET_FILES_BY_OPERATION.toString(), nameVariable);
+					queryResult = databaseDao.runXQuery(XQueryWsdl.GET_FILES_BY_OPERATION.toString(), nameVariable,matchVariable);
 				} else if (parameterType.equals(MetaParameterType.REQUEST)) {
-					queryResult = databaseDao.runXQuery(XQueryWsdl.GET_FILES_BY_REQUEST.toString(), nameVariable);
+					queryResult = databaseDao.runXQuery(XQueryWsdl.GET_FILES_BY_REQUEST.toString(), nameVariable,matchVariable);
 				} else if (parameterType.equals(MetaParameterType.RESPONSE)) {
-					queryResult = databaseDao.runXQuery(XQueryWsdl.GET_FILES_BY_RESPONSE.toString(), nameVariable);
+					queryResult = databaseDao.runXQuery(XQueryWsdl.GET_FILES_BY_RESPONSE.toString(), nameVariable,matchVariable);
 				} else {
 					throw new IOException("Unknown meta parameter " + parameterType.toString());
 				}
 				break;
 			case XSD:
 				if (parameterType.equals(MetaParameterType.ATTRIBUTE)) {
-					queryResult = databaseDao.runXQuery(XQueryXsd.GET_FILES_BY_ATTRIBUTE.toString(), nameVariable);
+					queryResult = databaseDao.runXQuery(XQueryXsd.GET_FILES_BY_ATTRIBUTE.toString(), nameVariable,matchVariable);
 				} else if (parameterType.equals(MetaParameterType.ELEMENT)) {
-					queryResult = databaseDao.runXQuery(XQueryXsd.GET_FILES_BY_ELEMENT.toString(), nameVariable);
+					queryResult = databaseDao.runXQuery(XQueryXsd.GET_FILES_BY_ELEMENT.toString(), nameVariable,matchVariable);
 				} else if (parameterType.equals(MetaParameterType.COMPLEXTYPE)) {
-					queryResult = databaseDao.runXQuery(XQueryXsd.GET_FILES_BY_COMPLEXTYPE.toString(), nameVariable);
+					queryResult = databaseDao.runXQuery(XQueryXsd.GET_FILES_BY_COMPLEXTYPE.toString(), nameVariable,matchVariable);
 				} else if (parameterType.equals(MetaParameterType.SIMPLETYPE)) {
-					queryResult = databaseDao.runXQuery(XQueryXsd.GET_FILES_BY_SIMPLETYPE.toString(), nameVariable);
+					queryResult = databaseDao.runXQuery(XQueryXsd.GET_FILES_BY_SIMPLETYPE.toString(), nameVariable,matchVariable);
 				} else {
 					throw new IOException("Unknown meta parameter " + parameterType.toString());
 				}

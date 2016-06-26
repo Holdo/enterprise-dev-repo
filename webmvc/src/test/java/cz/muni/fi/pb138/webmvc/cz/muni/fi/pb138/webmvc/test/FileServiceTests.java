@@ -25,10 +25,10 @@ public class FileServiceTests extends AbstractIntegrationTest {
 	private static byte[] testWSDL1file;
 	private static byte[] testWAR1file;
 
-	private String testNamespace = "src"+File.separator+"test"+File.separator+"java"+File.separator+"cz"+File.separator+"muni"+File.separator+"fi"+File.separator+"pb138"+File.separator+"webmvc"+File.separator+"testfiles";
-	private String testXSD1fullPath = testNamespace + File.separator + "test.xsd";
-	private String testWSDL1fullPath = testNamespace + File.separator + "test.wsdl";
-	private String testWAR1fullPath = testNamespace + File.separator + "test.war";
+	private String testNamespace = "src"+ "/"+"test"+"/"+"java"+"/"+"cz"+"/"+"muni"+"/"+"fi"+"/"+"pb138"+"/"+"webmvc"+"/"+"testfiles";
+	private String testXSD1fullPath = testNamespace +"/"+ "test.xsd";
+	private String testWSDL1fullPath = testNamespace + "/" + "test.wsdl";
+	private String testWAR1fullPath = testNamespace + "/" + "test.war";
 
 	@BeforeClass
 	public static void loadBinaryFiles() throws IOException {
@@ -141,7 +141,7 @@ public class FileServiceTests extends AbstractIntegrationTest {
 		assertThat(wsdls.size()).isEqualTo(4);
 
 		for (VersionedFile p : allLatest) {
-			assertThat(p.getFullPath()).startsWith(testNamespace + File.separator + "test.");
+			assertThat(p.getFullPath()).startsWith(testNamespace + "/" + "test.");
 			assertThat(p.getVersion()).isEqualTo(4);
 			assertThat(p.isDirectory()).isFalse();
 		}
@@ -149,7 +149,7 @@ public class FileServiceTests extends AbstractIntegrationTest {
 		int i = 1;
 		int j = 0;
 		for (VersionedFile p : all) {
-			assertThat(p.getFullPath()).startsWith(testNamespace + File.separator + "test.");
+			assertThat(p.getFullPath()).startsWith(testNamespace +  "/" + "test.");
 			assertThat(p.getVersion()).isEqualTo(i);
 			assertThat(p.isDirectory()).isFalse();
 			j++;
