@@ -8,21 +8,17 @@ public enum XQueryXsd {
                     "for $meta in //xsdmeta\n" +
                     "let $fullPath := $meta/pathVersionPair/fullPath\n" +
                     "let $version := $meta/pathVersionPair/version\n" +
-                    "for $name in $meta/complexType/text()\n" +
-                    "order by $fullPath\n" +
-                    "group by $fullPath, $name\n" +
-                    "return <item><type>complexType</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
+                    "for $att in $meta/complexType\n"+
+                    "return <item><type>complexType</type><name>{$att/text()}</name><fullPath>{$fullPath/text()}</fullPath>\n" +
                     "<version>{max($version)}</version></item>\n" +
                     "}</items>"),
     GET_SIMPLE_TYPES(
             "<items>{\n" +
                     "for $meta in //xsdmeta\n" +
-                    "let $fullPath := $meta/pathVersionPair/fullPath\n" +
-                    "let $version := $meta/pathVersionPair/version\n" +
-                    "for $name in $meta/simpleType/text()\n" +
-                    "order by $fullPath\n" +
-                    "group by $fullPath\n" +
-                    "return <item><type>simpleType</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
+                    "let $fullPath := $meta/pathVersionPair/fullPath " +
+                    "let $version := $meta/pathVersionPair/version " +
+                    "for $att in $meta/simpleType\n"+
+                    "return <item><type>simpleType</type><name>{$att/text()}</name><fullPath>{$fullPath/text()}</fullPath>\n" +
                     "<version>{max($version)}</version></item>\n" +
                     "}</items>"),
     GET_ELEMENTS(
@@ -30,10 +26,8 @@ public enum XQueryXsd {
                     "for $meta in //xsdmeta\n" +
                     "let $fullPath := $meta/pathVersionPair/fullPath\n" +
                     "let $version := $meta/pathVersionPair/version\n" +
-                    "for $name in $meta/element/text()\n" +
-                    "order by $fullPath\n" +
-                    "group by $fullPath\n" +
-                    "return <item><type>element</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
+                    "for $att in $meta/element\n"+
+                    "return <item><type>element</type><name>{$att/name/text()}</name><parent>{$att/parent/text()}</parent><fullPath>{$fullPath/text()}</fullPath>\n" +
                     "<version>{max($version)}</version></item>\n" +
                     "}</items>"),
     GET_ATTRIBUTES(
@@ -41,10 +35,8 @@ public enum XQueryXsd {
                     "for $meta in //xsdmeta\n" +
                     "let $fullPath := $meta/pathVersionPair/fullPath\n" +
                     "let $version := $meta/pathVersionPair/version\n" +
-                    "for $name in $meta/attribute/text()\n" +
-                    "order by $fullPath\n" +
-                    "group by $fullPath\n" +
-                    "return <item><type>attribute</type><name>{$name}</name><fullPath>{$fullPath}</fullPath>\n" +
+                    "for $att in $meta/attribute\n"+
+                    "return <item><type>attribute</type><name>{$att/name/text()}</name><parent>{$att/parent/text()}</parent><fullPath>{$fullPath/text()}</fullPath>\n" +
                     "<version>{max($version)}</version></item>\n" +
                     "}</items>"),
     //Get metas by file
@@ -71,14 +63,14 @@ public enum XQueryXsd {
                     "for $meta in //xsdmeta\n" +
                     "let $fullPath := $meta/pathVersionPair/fullPath\n" +
                     "let $version := $meta/pathVersionPair/version\n" +
-                    "where $meta/attribute/text()=$name\n" +
+                    "where $meta/attribute/name/text()=$name\n" +
                     "order by $fullPath\n" +
                     "group by $fullPath\n" +
                     "return <file><version>{max($version)}</version><fullPath>{$fullPath}</fullPath></file> else \n"+
                     "for $meta in //xsdmeta\n" +
                     "let $fullPath := $meta/pathVersionPair/fullPath\n" +
                     "let $version := $meta/pathVersionPair/version\n" +
-                    "where (functx:any-contains($name,$meta/attribute/text()))"+
+                    "where (functx:any-contains($name,$meta/attribute/name/text()))"+
                     "order by $fullPath\n" +
                     "group by $fullPath\n" +
                     "return <file><version>{max($version)}</version><fullPath>{$fullPath}</fullPath></file> "+
@@ -99,14 +91,14 @@ public enum XQueryXsd {
                     "for $meta in //xsdmeta\n" +
                     "let $fullPath := $meta/pathVersionPair/fullPath\n" +
                     "let $version := $meta/pathVersionPair/version\n" +
-                    "where $meta/element/text()=$name\n" +
+                    "where $meta/element/name/text()=$name\n" +
                     "order by $fullPath\n" +
                     "group by $fullPath\n" +
                     "return <file><version>{max($version)}</version><fullPath>{$fullPath}</fullPath></file> else \n"+
                     "for $meta in //xsdmeta\n" +
                     "let $fullPath := $meta/pathVersionPair/fullPath\n" +
                     "let $version := $meta/pathVersionPair/version\n" +
-                    "where (functx:any-contains($name,$meta/element/text()))"+
+                    "where (functx:any-contains($name,$meta/element/name/text()))"+
                     "order by $fullPath\n" +
                     "group by $fullPath\n" +
                     "return <file><version>{max($version)}</version><fullPath>{$fullPath}</fullPath></file> "+

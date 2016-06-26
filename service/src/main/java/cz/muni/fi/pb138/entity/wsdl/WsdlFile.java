@@ -2,6 +2,8 @@ package cz.muni.fi.pb138.entity.wsdl;
 
 import cz.muni.fi.pb138.entity.FileBase;
 import cz.muni.fi.pb138.entity.metadata.VersionedFile;
+import cz.muni.fi.pb138.entity.metadata.wsdlfield.Request;
+import cz.muni.fi.pb138.entity.metadata.wsdlfield.Response;
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
 
@@ -24,8 +26,8 @@ public class WsdlFile implements FileBase {
 	private VersionedFile pathVersionPair;
 	private byte[] file;
 	private List<String> operations;
-	private List<String> responses;
-	private List<String> requests;
+	private List<Response> responses;
+	private List<Request> requests;
 	private FileType type;
 
 	public WsdlFile() {
@@ -54,19 +56,19 @@ public class WsdlFile implements FileBase {
 		this.operations = operations;
 	}
 
-	public List<String> getResponses() {
+	public List<Response> getResponses() {
 		return responses;
 	}
 
-	public void setResponses(List<String> responses) {
+	public void setResponses(List<Response> responses) {
 		this.responses = responses;
 	}
 
-	public List<String> getRequests() {
+	public List<Request> getRequests() {
 		return requests;
 	}
 
-	public void setRequests(List<String> requests) {
+	public void setRequests(List<Request> requests) {
 		this.requests = requests;
 	}
 

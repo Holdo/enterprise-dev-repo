@@ -1,5 +1,7 @@
 package cz.muni.fi.pb138.entity.xsd;
 
+import cz.muni.fi.pb138.entity.metadata.xsdfield.Attribute;
+import cz.muni.fi.pb138.entity.metadata.xsdfield.Element;
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import java.util.List;
@@ -14,8 +16,8 @@ public class XsdMeta {
     
     
     private VersionedFile pathVersionPair;
-    private List<String> element;
-    private List<String> attribute;
+    private List<Element> element;
+    private List<Attribute> attribute;
     private List<String> simpleType;
     private List<String> complexType;
     private FileType type;
@@ -23,7 +25,7 @@ public class XsdMeta {
     public XsdMeta() {
     }
 
-    public XsdMeta(VersionedFile pathVersionPair, List<String> elements, List<String> attributes, List<String> simpleTypes, List<String> complexTypes) {
+    public XsdMeta(VersionedFile pathVersionPair, List<Element> elements, List<Attribute> attributes, List<String> simpleTypes, List<String> complexTypes) {
         this.pathVersionPair = pathVersionPair;
         this.element = elements;
         this.attribute = attributes;
@@ -40,11 +42,11 @@ public class XsdMeta {
         this.pathVersionPair = pathVersionPair;
     }
 
-    public List<String> getElement() {
+    public List<Element> getElement() {
         return element;
     }
 
-    public void setElement(List<String> element) {
+    public void setElement(List<Element> element) {
         this.element = element;
     }
 
@@ -64,11 +66,11 @@ public class XsdMeta {
         this.simpleType = simpleType;
     }
 
-    public List<String> getAttribute() {
+    public List<Attribute> getAttribute() {
         return attribute;
     }
 
-    public void setAttribute(List<String> attribute) {
+    public void setAttribute(List<Attribute> attribute) {
         this.attribute = attribute;
     }
 

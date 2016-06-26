@@ -1,7 +1,11 @@
 package cz.muni.fi.pb138.service.processing;
 
+import cz.muni.fi.pb138.entity.metadata.Name;
+import cz.muni.fi.pb138.entity.metadata.Parent;
 import cz.muni.fi.pb138.entity.metadata.VersionedFile;
+import cz.muni.fi.pb138.entity.metadata.xsdfield.Attribute;
 import cz.muni.fi.pb138.entity.xsd.XsdFile;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,13 +14,13 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- *
  * @author Ondřej Gasior
  */
 public class XsdExtractor {
@@ -32,32 +36,82 @@ public class XsdExtractor {
         xsdFile = new XsdFile();
         xsdFile.setFile(file);
         xsdFile.setPathVersionPair(new VersionedFile(fullPath, 1, false));
-        xsdFile.setSimpleTypes(extract("simpleType"));
-        xsdFile.setElements(extract("element"));
-        xsdFile.setAttributes(extract("attribute"));
-        xsdFile.setComplexTypes(extract("complexType"));
+        xsdFile.setSimpleTypes(extractSimpleTypes("simpleType"));
+        xsdFile.setComplexTypes(extractComplexTypes());
     }
+
+    private List<String> extractComplexTypes() throws ParserConfigurationException, IOException, SAXException {
+        List<String> output = new ArrayList<>();
+        List<cz.muni.fi.pb138.entity.metadata.xsdfield.Element> elements = new ArrayList<>();
+        List<Attribute> attributes = new ArrayList<>();
+
+        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+        docBuilderFactory.setNamespaceAware(true);
+        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+        Document doc;
+
+        doc = docBuilder.parse(new ByteArrayInputStream(file));
+
+        NodeList list = doc.getDocumentElement().getElementsByTagNameNS("*", "complexType");
+
+
+        for (int i = 0; i < list.getLength(); i++) {
+            Element type = (Element) list.item(i);
+            if (type.hasAttribute("name")) {
+                output.add(type.getAttribute("name"));
+
+
+                NodeList elementList = type.getElementsByTagNameNS("*", "element");
+                for (int j = 0; j < elementList.getLength(); j++) {
+                    Element element = (Element) elementList.item(j);
+                    String elementName = "";
+                    if (element.hasAttribute("name")) {
+                        elementName = element.getAttribute("name");
+                        elements.add(new cz.muni.fi.pb138.entity.metadata.xsdfield.Element(new Name(elementName),new Parent(type.getAttribute("name"))));
+                    }
+
+
+                }
+                NodeList attributeList = type.getElementsByTagNameNS("*", "attribute");
+                for (int k = 0; k < attributeList.getLength(); k++) {
+                    Element attribute = (Element) attributeList.item(k);
+                    String attributeName = "";
+                    if (attribute.hasAttribute("name")) {
+                        attributeName = attribute.getAttribute("name");
+                        attributes.add(new Attribute(new Name(attributeName),new Parent(type.getAttribute("name"))));
+                    }
+                }
+            }
+
+        }
+
+        xsdFile.setAttributes(attributes);
+        xsdFile.setElements(elements);
+       return output;
+
+    }
+
 
     public XsdFile getXsdFile() {
         return xsdFile;
     }
-    
-    private List<String> extract(String extractedName) throws ParserConfigurationException, IOException, SAXException {
+
+    private List<String> extractSimpleTypes(String extractedName) throws ParserConfigurationException, IOException, SAXException {
         List<String> extracted = new ArrayList<>();
-            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            docBuilderFactory.setNamespaceAware(true);
-            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc;
+        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+        docBuilderFactory.setNamespaceAware(true);
+        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+        Document doc;
 
-            doc = docBuilder.parse(new ByteArrayInputStream(file));
+        doc = docBuilder.parse(new ByteArrayInputStream(file));
 
-            NodeList list = doc.getDocumentElement().getElementsByTagNameNS("*",extractedName);
+        NodeList list = doc.getDocumentElement().getElementsByTagNameNS("*", extractedName);
 
         for (int i = 0; i < list.getLength(); i++) {
-                Element element = (Element) list.item(i);
-                if (element.hasAttribute("name")) {
-                    extracted.add(element.getAttribute("name"));
-                }
+            Element element = (Element) list.item(i);
+            if (element.hasAttribute("name")) {
+                extracted.add(element.getAttribute("name"));
+            }
         }
 
         return new ArrayList(new HashSet(extracted));

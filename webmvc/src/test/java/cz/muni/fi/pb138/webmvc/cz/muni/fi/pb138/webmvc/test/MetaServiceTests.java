@@ -194,8 +194,8 @@ public class MetaServiceTests extends AbstractIntegrationTest {
         assertThat(xsdsBySimpleType.size()).isGreaterThan(0);
 
         assertThat(wsdlsByOperation.size()).isGreaterThan(0);
-        assertThat(wsdlsByRequest.size()).isGreaterThan(0);
         assertThat(wsdlsByResponse.size()).isGreaterThan(0);
+        assertThat(wsdlsByRequest.size()).isGreaterThan(0);
     }
 
 
@@ -210,8 +210,8 @@ public class MetaServiceTests extends AbstractIntegrationTest {
         List<VersionedFile> xsdsBySimpleType = metaService.getFilesFullPathsByMetaParameter(FileType.XSD, MetaParameterType.SIMPLETYPE, "dphType", true);
 
         List<VersionedFile> wsdlsByOperation = metaService.getFilesFullPathsByMetaParameter(FileType.WSDL, MetaParameterType.OPERATION, "sayHello", true);
-        List<VersionedFile> wsdlsByRequest = metaService.getFilesFullPathsByMetaParameter(FileType.WSDL, MetaParameterType.REQUEST, "tns:SayHelloRequest", true);
-        List<VersionedFile> wsdlsByResponse = metaService.getFilesFullPathsByMetaParameter(FileType.WSDL, MetaParameterType.RESPONSE, "tns:SayHelloResponse", true);
+        List<VersionedFile> wsdlsByRequest = metaService.getFilesFullPathsByMetaParameter(FileType.WSDL, MetaParameterType.REQUEST, "SayHelloRequest", true);
+        List<VersionedFile> wsdlsByResponse = metaService.getFilesFullPathsByMetaParameter(FileType.WSDL, MetaParameterType.RESPONSE, "SayHelloResponse", true);
 
         assertThat(warsByListener.size()).isGreaterThan(0);
         assertThat(warsByFilter.size()).isGreaterThan(0);

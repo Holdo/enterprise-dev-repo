@@ -1,6 +1,8 @@
 package cz.muni.fi.pb138.entity.xsd;
 
 import cz.muni.fi.pb138.entity.metadata.Items;
+import cz.muni.fi.pb138.entity.metadata.xsdfield.Attribute;
+import cz.muni.fi.pb138.entity.metadata.xsdfield.Element;
 import cz.muni.fi.pb138.enums.FileType;
 import cz.muni.fi.pb138.enums.MetaFileType;
 import cz.muni.fi.pb138.entity.FileBase;
@@ -28,8 +30,8 @@ public class XsdFile implements FileBase {
 	private static final Logger log = LoggerFactory.getLogger(XsdFile.class);
 	private VersionedFile pathVersionPair;
 	private byte[] file;
-	private List<String> elements;
-	private List<String> attributes;
+	private List<Element> elements;
+	private List<Attribute> attributes;
 	private List<String> simpleTypes;
 	private List<String> complexTypes;
 	private FileType type;
@@ -50,19 +52,19 @@ public class XsdFile implements FileBase {
 		this.file = file;
 	}
 
-	public List<String> getElements() {
+	public List<Element> getElements() {
 		return elements;
 	}
 
-	public void setElements(List<String> elements) {
+	public void setElements(List<Element> elements) {
 		this.elements = elements;
 	}
 
-	public List<String> getAttributes() {
+	public List<Attribute> getAttributes() {
 		return attributes;
 	}
 
-	public void setAttributes(List<String> attributes) {
+	public void setAttributes(List<Attribute> attributes) {
 		this.attributes = attributes;
 	}
 

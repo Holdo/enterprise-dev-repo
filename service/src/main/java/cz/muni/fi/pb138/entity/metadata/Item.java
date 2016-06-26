@@ -9,13 +9,21 @@ public class Item
 {
     private String name;
 
+    private String parent;
+
     private String fullPath;
 
     private String type;
 
     private String version;
 
-
+    public String getParent() {
+        return parent;
+    }
+    @XmlElement (name = "parent")
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
 
     public String getName ()
     {

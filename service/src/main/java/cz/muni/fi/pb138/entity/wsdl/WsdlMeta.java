@@ -1,6 +1,8 @@
 package cz.muni.fi.pb138.entity.wsdl;
 
 import cz.muni.fi.pb138.entity.metadata.VersionedFile;
+import cz.muni.fi.pb138.entity.metadata.wsdlfield.Request;
+import cz.muni.fi.pb138.entity.metadata.wsdlfield.Response;
 import cz.muni.fi.pb138.enums.FileType;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -15,13 +17,13 @@ public class WsdlMeta {
     private FileType type;
     private VersionedFile pathVersionPair;
     private List<String> operation;
-    private List<String> response;
-    private List<String> request;
+    private List<Response> response;
+    private List<Request> request;
 
     public WsdlMeta() {
     }
 
-    public WsdlMeta(VersionedFile nameVersionPair, List<String> operations, List<String> responses, List<String> requests) {
+    public WsdlMeta(VersionedFile nameVersionPair, List<String> operations, List<Response> responses, List<Request> requests) {
         this. pathVersionPair = nameVersionPair;
         this.operation = operations;
         this.response = responses;
@@ -54,19 +56,19 @@ public class WsdlMeta {
         this.operation = operation;
     }
 
-    public List<String> getResponse() {
+    public List<Response> getResponse() {
         return response;
     }
 
-    public void setResponse(List<String> response) {
+    public void setResponse(List<Response> response) {
         this.response = response;
     }
 
-    public List<String> getRequest() {
+    public List<Request> getRequest() {
         return request;
     }
 
-    public void setRequest(List<String> request) {
+    public void setRequest(List<Request> request) {
         this.request = request;
     }
 }
