@@ -56,7 +56,13 @@ public class WsdlExtractor {
 		for (int i = 0; i < list.getLength(); i++) {
 			Element element = (Element) list.item(i);
 			if (element.hasAttribute(extractedAttribute)) {
-				extracted.add(element.getAttribute(extractedAttribute));
+				String item = element.getAttribute(extractedAttribute);
+				if(item.contains(":")) {
+					extracted.add(item.split(":")[1]);
+				} else {
+					extracted.add(item);
+				}
+
 			}
 		}
 

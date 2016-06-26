@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Calibration" targetNamespace="http://haslerrail.com/webservices/speedo/calibration/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://haslerrail.com/speedo/schema/common/" xmlns:sns="http://haslerrail.com/webservices/speedo/calibration/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://haslerrail.com/webservices/speedo/calibration/">
+			<xsd:import schemaLocation="SpeedoCommon.xsd" namespace="http://haslerrail.com/speedo/schema/common/" />
+			<xsd:element name="setAnalogCalibration" type="sns:TSetCalibration" />
+			<xsd:element name="setAnalogCalibrationResponse" type="tns:TResponseStd" />
+			<xsd:element name="getAnalogCalibration" type="sns:TGetAnalogCalibration" />
+			<xsd:element name="getAnalogCalibrationResponse" type="sns:TGetAnalogCalibrationResponse" />
+			<xsd:element name="setMotorCalibration" type="sns:TSetMotorCalibration" />
+			<xsd:element name="setMotorCalibrationResponse" type="tns:TResponseStd" />
+			<xsd:element name="getMotorCalibration" type="tns:TSessionId" />
+			<xsd:element name="getMotorCalibrationResponse" type="sns:TGetMotorCalibrationResponse" />
+			<xsd:element name="driveMotor" type="sns:TDriveMotor" />
+			<xsd:element name="driveMotorResponse" type="tns:TResponseStd" />
+			<xsd:element name="setMotorCalibrationMode" type="sns:TSetMotorCalibrationMode" />
+			<xsd:element name="setMotorCalibrationModeResponse" type="tns:TResponseStd" />
+			<xsd:element name="setAnalogCalibrationMode" type="sns:TSetAnalogCalibrationMode" />
+			<xsd:element name="setAnalogCalibrationModeResponse" type="tns:TResponseStd" />
+
+
+			<!-- Calibration Mode -->
+			<xsd:complexType name="TSetMotorCalibrationMode">
+				<xsd:sequence>
+					<xsd:element name="sessionId" type="tns:TSessionId" minOccurs="1" maxOccurs="1" />
+					<xsd:element name="motorCalibrationMode" type="sns:TMotorCalibModeEnum" default="MotorCalibrationOff"
+						minOccurs="1" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="TSetAnalogCalibrationMode">
+				<xsd:sequence>
+					<xsd:element name="sessionId" type="tns:TSessionId" minOccurs="1" maxOccurs="1" />
+					<xsd:element name="analogCalibrationMode" type="sns:TAnalogCalibModeEnum" default="AnalogCalibrationOff"
+						minOccurs="1" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<!-- Analog Calibration -->
+			<xsd:complexType name="TSetCalibration">
+				<xsd:sequence>
+					<xsd:element name="sessionId" type="tns:TSessionId" minOccurs="1" maxOccurs="1" />
+					<xsd:element name="calibrationAnalogInput" type="sns:TCalAnalogInput" minOccurs="1" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="TCalAnalogInput">
+				<!-- number is the analog input number. range defines for which analog range the calibration is carried out. command 
+					defines for which value the calibration value must be saved. -->
+				<xsd:sequence>
+					<xsd:element name="port" type="tns:TAnalogPortEnum" minOccurs="1" maxOccurs="1" />
+					<xsd:element name="inputValue" type="tns:TAnalogInputEnum" minOccurs="1" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<!-- Motor Calibration -->
+			<xsd:complexType name="TSetMotorCalibration">
+				<xsd:sequence>
+					<xsd:element name="sessionId" type="tns:TSessionId" minOccurs="1" maxOccurs="1" />
+					<xsd:element name="calibrationNeedle" type="sns:TCalNeedle" minOccurs="1" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="TCalNeedle">
+				<!-- Send a command to control the pointer and save the values. -->
+				<xsd:sequence>
+					<xsd:element name="command" type="sns:TCommandSaveEnum" minOccurs="1" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:simpleType name="TCommandSaveEnum">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="SaveMin" />
+					<xsd:enumeration value="SaveMax" />
+				</xsd:restriction>
+			</xsd:simpleType>
+
+			<!-- Drive Motor -->
+			<xsd:complexType name="TDriveMotor">
+				<xsd:sequence>
+					<xsd:element name="sessionId" type="tns:TSessionId" minOccurs="1" maxOccurs="1" />
+					<xsd:element name="movePointer" type="sns:TMovePointer" minOccurs="1" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="TMovePointer">
+				<!-- Send a command to control the pointer. -->
+				<xsd:sequence minOccurs="1" maxOccurs="1">
+					<xsd:element name="goto" type="sns:TMovePointerGoto" minOccurs="0" maxOccurs="1" />
+					<xsd:element name="manual" type="sns:TMovePointerManual" minOccurs="0" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="TMovePointerManual">
+				<!-- Send a command to control the pointer. -->
+				<xsd:sequence>
+					<xsd:element name="command" type="sns:TCommandMoveEnum" minOccurs="1" maxOccurs="1" />
+					<xsd:element name="steps" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:simpleType name="TCommandMoveEnum">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="GoForward" />
+					<xsd:enumeration value="GoBackward" />
+				</xsd:restriction>
+			</xsd:simpleType>
+
+			<xsd:complexType name="TMovePointerGoto">
+				<!-- Send a command to move the pointer to a position. -->
+				<xsd:sequence>
+					<xsd:element name="command" type="sns:TCommandGotoEnum" minOccurs="1" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:simpleType name="TCommandGotoEnum">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="GotoV0" />
+					<xsd:enumeration value="GotoVmax" />
+				</xsd:restriction>
+			</xsd:simpleType>
+
+			<!-- get calibration data -->
+			<xsd:complexType name="TGetAnalogCalibration">
+				<xsd:sequence>
+					<xsd:element name="sessionId" type="tns:TSessionId" minOccurs="1" maxOccurs="1" />
+					<xsd:element name="port" type="tns:TAnalogPortEnum" minOccurs="1" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="TGetAnalogCalibrationResponse">
+				<xsd:sequence>
+					<xsd:element name="analogCalibration" type="sns:TAnalogCalData" minOccurs="0" maxOccurs="1" />
+					<xsd:element name="error" type="tns:TResponseStd" minOccurs="1" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="TAnalogCalData">
+				<!--Stored analog data eeprom memory -->
+				<xsd:sequence>
+					<xsd:element name="valueAt0V" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1" />
+					<xsd:element name="valueAt10V" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1" />
+					<xsd:element name="valueAt0mA" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1" />
+					<xsd:element name="valueAt20mA" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="TGetMotorCalibrationResponse">
+				<xsd:sequence>
+					<xsd:element name="motorCalibration" type="sns:TMotorCalData" minOccurs="0" maxOccurs="1" />
+					<xsd:element name="error" type="tns:TResponseStd" minOccurs="1" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="TMotorCalData">
+				<!-- Stored motor/pointer data in eeprom memory -->
+				<xsd:sequence>
+					<xsd:element name="posAtZero" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1" />
+					<xsd:element name="posAtMax" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1" />
+					<xsd:element name="roenaAtZero" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1" />
+					<xsd:element name="roenaAtMax" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:simpleType name="TMotorCalibModeEnum">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="MotorCalibrationOff" />
+					<xsd:enumeration value="MotorCalibrationOn" />
+				</xsd:restriction>
+			</xsd:simpleType>
+
+			<xsd:simpleType name="TAnalogCalibModeEnum">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="AnalogCalibrationOff" />
+					<xsd:enumeration value="AnalogCalibrationCurrent" />
+					<xsd:enumeration value="AnalogCalibrationVoltage" />
+				</xsd:restriction>
+			</xsd:simpleType>
+
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="setAnalogCalibrationRequest">
+		<wsdl:part name="parameters" element="sns:setAnalogCalibration" />
+	</wsdl:message>
+	<wsdl:message name="setAnalogCalibrationResponse">
+		<wsdl:part name="parameters" element="sns:setAnalogCalibrationResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="getAnalogCalibrationRequest">
+		<wsdl:part name="parameters" element="sns:getAnalogCalibration" />
+	</wsdl:message>
+	<wsdl:message name="getAnalogCalibrationResponse">
+		<wsdl:part name="parameters" element="sns:getAnalogCalibrationResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="setMotorCalibrationRequest">
+		<wsdl:part name="parameters" element="sns:setMotorCalibration" />
+	</wsdl:message>
+	<wsdl:message name="setMotorCalibrationResponse">
+		<wsdl:part name="parameters" element="sns:setMotorCalibrationResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="getMotorCalibrationRequest">
+		<wsdl:part name="parameters" element="sns:getMotorCalibration" />
+	</wsdl:message>
+	<wsdl:message name="getMotorCalibrationResponse">
+		<wsdl:part name="parameters" element="sns:getMotorCalibrationResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="driveMotorRequest">
+		<wsdl:part name="parameters" element="sns:driveMotor" />
+	</wsdl:message>
+	<wsdl:message name="driveMotorResponse">
+		<wsdl:part name="parameters" element="sns:driveMotorResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="setMotorCalibrationModeRequest">
+		<wsdl:part name="parameters" element="sns:setMotorCalibrationMode" />
+	</wsdl:message>
+	<wsdl:message name="setMotorCalibrationModeResponse">
+		<wsdl:part name="parameters" element="sns:setMotorCalibrationModeResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="setAnalogCalibrationModeRequest">
+		<wsdl:part name="parameters" element="sns:setAnalogCalibrationMode" />
+	</wsdl:message>
+	<wsdl:message name="setAnalogCalibrationModeResponse">
+		<wsdl:part name="parameters" element="sns:setAnalogCalibrationModeResponse" />
+	</wsdl:message>
+
+
+	<wsdl:portType name="Calibration">
+		<wsdl:operation name="setAnalogCalibration">
+			<wsdl:input message="sns:setAnalogCalibrationRequest" />
+			<wsdl:output message="sns:setAnalogCalibrationResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="getAnalogCalibration">
+			<wsdl:input message="sns:getAnalogCalibrationRequest" />
+			<wsdl:output message="sns:getAnalogCalibrationResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="setMotorCalibration">
+			<wsdl:input message="sns:setMotorCalibrationRequest" />
+			<wsdl:output message="sns:setMotorCalibrationResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="getMotorCalibration">
+			<wsdl:input message="sns:getMotorCalibrationRequest" />
+			<wsdl:output message="sns:getMotorCalibrationResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="driveMotor">
+			<wsdl:input message="sns:driveMotorRequest" />
+			<wsdl:output message="sns:driveMotorResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="setMotorCalibrationMode">
+			<wsdl:input message="sns:setMotorCalibrationModeRequest" />
+			<wsdl:output message="sns:setMotorCalibrationModeResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="setAnalogCalibrationMode">
+			<wsdl:input message="sns:setAnalogCalibrationModeRequest" />
+			<wsdl:output message="sns:setAnalogCalibrationModeResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="calibration_bind" type="sns:Calibration">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+
+		<wsdl:operation name="setAnalogCalibration">
+			<soap:operation soapAction="speedo:Calibration#setAnalogCalibration" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="getAnalogCalibration">
+			<soap:operation soapAction="speedo:Calibration#getAnalogCalibration" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="setMotorCalibration">
+			<soap:operation soapAction="speedo:Calibration#setMotorCalibration" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="getMotorCalibration">
+			<soap:operation soapAction="speedo:Calibration#getMotorCalibration" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="driveMotor">
+			<soap:operation soapAction="speedo:Calibration#driveMotor" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="setMotorCalibrationMode">
+			<soap:operation soapAction="speedo:Calibration#setMotorCalibrationMode" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="setAnalogCalibrationMode">
+			<soap:operation soapAction="speedo:Calibration#setAnalogCalibrationMode" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+	</wsdl:binding>
+
+	<wsdl:service name="CalibrationService">
+		<wsdl:port binding="sns:calibration_bind" name="calibration_soap">
+			<soap:address location="http://localhost" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

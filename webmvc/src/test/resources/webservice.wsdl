@@ -1,0 +1,1207 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://service.univerzita.mederly.com" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax249="http://service.univerzita.mederly.com/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://service.univerzita.mederly.com">
+    <wsdl:documentation>x2dc79b470ecea38aca61a2bc865dea7e</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema xmlns:ax250="http://service.univerzita.mederly.com/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://service.univerzita.mederly.com">
+            <xs:import namespace="http://service.univerzita.mederly.com/xsd"/>
+            <xs:element name="znizStavEP">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="aisId" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="suma" nillable="true" type="xs:decimal"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="znizStavEPResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="zapisZamestnancaDoFis">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="zamestnanec" nillable="true" type="ax249:ZamestnanecFis"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="zamestnanec">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="fisId" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="zamestnanecResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax249:ZamestnanecFis"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="zamestnanciResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:anyType"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="vytvorKontoEP">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="aisId" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="vlozFotografiu">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="aisId" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="fotografia" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="test">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="x" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="testResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="restartResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="prislaPlatba">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="vs" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="ss" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="suma" nillable="true" type="xs:decimal"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="prislaPlatbaResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="pripravPlatobneUdaje">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="aisId" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="typPreukazu" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="pripravPlatobneUdajeResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax249:PlatobneUdaje"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="prijmiPlatbuEP">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="aisId" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="suma" nillable="true" type="xs:decimal"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="prijmiPlatbu">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="vs" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="ss" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="suma" nillable="true" type="xs:decimal"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="prijatePlatbyResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:anyType"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="preukazyResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:anyType"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="preukaz">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="aisId" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="preukazResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax249:Preukaz"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="maPreukaz">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="aisId" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="maPreukazResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="maKontoEP">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="aisId" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="maKontoEPResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="maFotografiu">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="aisId" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="maFotografiuResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="kontoEP">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="aisId" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="kontoEPResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax249:KontoEP"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="kontaEPResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:anyType"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="fotografieResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:anyType"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="fotografia">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="aisId" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="fotografiaResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="fakturujFakulte">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="fond" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="suma" nillable="true" type="xs:decimal"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="fakturujFakulteResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="dostProstriedkovEP">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="aisId" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="suma" nillable="true" type="xs:decimal"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="dostProstriedkovEPResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ahoj">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="meno" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ahojResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://service.univerzita.mederly.com/xsd">
+            <xs:complexType name="ZamestnanecFis">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="aisId" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="datumNarodenia" nillable="true" type="xs:date"/>
+                    <xs:element minOccurs="0" name="fakulta" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="fisId" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="funkcia" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="maUcetEP" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="meno" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="preukaz" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="priezvisko" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="titulPred" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="titulZa" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ustav" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PlatobneUdaje">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="datumSplatnosti" nillable="true" type="xs:date"/>
+                    <xs:element minOccurs="0" name="ks" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ss" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="suma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="ucet" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="vs" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Preukaz">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="aisId" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="blokovany" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="cisloCipu" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="fakulta" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="meno" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="platnyOd" nillable="true" type="xs:date"/>
+                    <xs:element minOccurs="0" name="priezvisko" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="vizual" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="KontoEP">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="aisId" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="suma" nillable="true" type="xs:decimal"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="ahojRequest">
+        <wsdl:part name="parameters" element="ns:ahoj"/>
+    </wsdl:message>
+    <wsdl:message name="ahojResponse">
+        <wsdl:part name="parameters" element="ns:ahojResponse"/>
+    </wsdl:message>
+    <wsdl:message name="vlozFotografiuRequest">
+        <wsdl:part name="parameters" element="ns:vlozFotografiu"/>
+    </wsdl:message>
+    <wsdl:message name="prijmiPlatbuEPRequest">
+        <wsdl:part name="parameters" element="ns:prijmiPlatbuEP"/>
+    </wsdl:message>
+    <wsdl:message name="prijatePlatbyRequest"/>
+    <wsdl:message name="prijatePlatbyResponse">
+        <wsdl:part name="parameters" element="ns:prijatePlatbyResponse"/>
+    </wsdl:message>
+    <wsdl:message name="zapisZamestnancaDoFisRequest">
+        <wsdl:part name="parameters" element="ns:zapisZamestnancaDoFis"/>
+    </wsdl:message>
+    <wsdl:message name="kontaEPRequest"/>
+    <wsdl:message name="kontaEPResponse">
+        <wsdl:part name="parameters" element="ns:kontaEPResponse"/>
+    </wsdl:message>
+    <wsdl:message name="testRequest">
+        <wsdl:part name="parameters" element="ns:test"/>
+    </wsdl:message>
+    <wsdl:message name="testResponse">
+        <wsdl:part name="parameters" element="ns:testResponse"/>
+    </wsdl:message>
+    <wsdl:message name="maKontoEPRequest">
+        <wsdl:part name="parameters" element="ns:maKontoEP"/>
+    </wsdl:message>
+    <wsdl:message name="maKontoEPResponse">
+        <wsdl:part name="parameters" element="ns:maKontoEPResponse"/>
+    </wsdl:message>
+    <wsdl:message name="fotografieRequest"/>
+    <wsdl:message name="fotografieResponse">
+        <wsdl:part name="parameters" element="ns:fotografieResponse"/>
+    </wsdl:message>
+    <wsdl:message name="kontoEPRequest">
+        <wsdl:part name="parameters" element="ns:kontoEP"/>
+    </wsdl:message>
+    <wsdl:message name="kontoEPResponse">
+        <wsdl:part name="parameters" element="ns:kontoEPResponse"/>
+    </wsdl:message>
+    <wsdl:message name="maPreukazRequest">
+        <wsdl:part name="parameters" element="ns:maPreukaz"/>
+    </wsdl:message>
+    <wsdl:message name="maPreukazResponse">
+        <wsdl:part name="parameters" element="ns:maPreukazResponse"/>
+    </wsdl:message>
+    <wsdl:message name="prijmiPlatbuRequest">
+        <wsdl:part name="parameters" element="ns:prijmiPlatbu"/>
+    </wsdl:message>
+    <wsdl:message name="fakturujFakulteRequest">
+        <wsdl:part name="parameters" element="ns:fakturujFakulte"/>
+    </wsdl:message>
+    <wsdl:message name="fakturujFakulteResponse">
+        <wsdl:part name="parameters" element="ns:fakturujFakulteResponse"/>
+    </wsdl:message>
+    <wsdl:message name="dostProstriedkovEPRequest">
+        <wsdl:part name="parameters" element="ns:dostProstriedkovEP"/>
+    </wsdl:message>
+    <wsdl:message name="dostProstriedkovEPResponse">
+        <wsdl:part name="parameters" element="ns:dostProstriedkovEPResponse"/>
+    </wsdl:message>
+    <wsdl:message name="restartRequest"/>
+    <wsdl:message name="restartResponse">
+        <wsdl:part name="parameters" element="ns:restartResponse"/>
+    </wsdl:message>
+    <wsdl:message name="zamestnanecRequest">
+        <wsdl:part name="parameters" element="ns:zamestnanec"/>
+    </wsdl:message>
+    <wsdl:message name="zamestnanecResponse">
+        <wsdl:part name="parameters" element="ns:zamestnanecResponse"/>
+    </wsdl:message>
+    <wsdl:message name="zamestnanciRequest"/>
+    <wsdl:message name="zamestnanciResponse">
+        <wsdl:part name="parameters" element="ns:zamestnanciResponse"/>
+    </wsdl:message>
+    <wsdl:message name="pripravPlatobneUdajeRequest">
+        <wsdl:part name="parameters" element="ns:pripravPlatobneUdaje"/>
+    </wsdl:message>
+    <wsdl:message name="pripravPlatobneUdajeResponse">
+        <wsdl:part name="parameters" element="ns:pripravPlatobneUdajeResponse"/>
+    </wsdl:message>
+    <wsdl:message name="prislaPlatbaRequest">
+        <wsdl:part name="parameters" element="ns:prislaPlatba"/>
+    </wsdl:message>
+    <wsdl:message name="prislaPlatbaResponse">
+        <wsdl:part name="parameters" element="ns:prislaPlatbaResponse"/>
+    </wsdl:message>
+    <wsdl:message name="vytvorKontoEPRequest">
+        <wsdl:part name="parameters" element="ns:vytvorKontoEP"/>
+    </wsdl:message>
+    <wsdl:message name="preukazyRequest"/>
+    <wsdl:message name="preukazyResponse">
+        <wsdl:part name="parameters" element="ns:preukazyResponse"/>
+    </wsdl:message>
+    <wsdl:message name="znizStavEPRequest">
+        <wsdl:part name="parameters" element="ns:znizStavEP"/>
+    </wsdl:message>
+    <wsdl:message name="znizStavEPResponse">
+        <wsdl:part name="parameters" element="ns:znizStavEPResponse"/>
+    </wsdl:message>
+    <wsdl:message name="preukazRequest">
+        <wsdl:part name="parameters" element="ns:preukaz"/>
+    </wsdl:message>
+    <wsdl:message name="preukazResponse">
+        <wsdl:part name="parameters" element="ns:preukazResponse"/>
+    </wsdl:message>
+    <wsdl:message name="fotografiaRequest">
+        <wsdl:part name="parameters" element="ns:fotografia"/>
+    </wsdl:message>
+    <wsdl:message name="fotografiaResponse">
+        <wsdl:part name="parameters" element="ns:fotografiaResponse"/>
+    </wsdl:message>
+    <wsdl:message name="maFotografiuRequest">
+        <wsdl:part name="parameters" element="ns:maFotografiu"/>
+    </wsdl:message>
+    <wsdl:message name="maFotografiuResponse">
+        <wsdl:part name="parameters" element="ns:maFotografiuResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="x2dc79b470ecea38aca61a2bc865dea7ePortType">
+        <wsdl:operation name="ahoj">
+            <wsdl:input message="ns:ahojRequest" wsaw:Action="urn:ahoj"/>
+            <wsdl:output message="ns:ahojResponse" wsaw:Action="urn:ahojResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="vlozFotografiu">
+            <wsdl:input message="ns:vlozFotografiuRequest" wsaw:Action="urn:vlozFotografiu"/>
+        </wsdl:operation>
+        <wsdl:operation name="prijmiPlatbuEP">
+            <wsdl:input message="ns:prijmiPlatbuEPRequest" wsaw:Action="urn:prijmiPlatbuEP"/>
+        </wsdl:operation>
+        <wsdl:operation name="prijatePlatby">
+            <wsdl:input message="ns:prijatePlatbyRequest" wsaw:Action="urn:prijatePlatby"/>
+            <wsdl:output message="ns:prijatePlatbyResponse" wsaw:Action="urn:prijatePlatbyResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="zapisZamestnancaDoFis">
+            <wsdl:input message="ns:zapisZamestnancaDoFisRequest" wsaw:Action="urn:zapisZamestnancaDoFis"/>
+        </wsdl:operation>
+        <wsdl:operation name="kontaEP">
+            <wsdl:input message="ns:kontaEPRequest" wsaw:Action="urn:kontaEP"/>
+            <wsdl:output message="ns:kontaEPResponse" wsaw:Action="urn:kontaEPResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="test">
+            <wsdl:input message="ns:testRequest" wsaw:Action="urn:test"/>
+            <wsdl:output message="ns:testResponse" wsaw:Action="urn:testResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="maKontoEP">
+            <wsdl:input message="ns:maKontoEPRequest" wsaw:Action="urn:maKontoEP"/>
+            <wsdl:output message="ns:maKontoEPResponse" wsaw:Action="urn:maKontoEPResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="fotografie">
+            <wsdl:input message="ns:fotografieRequest" wsaw:Action="urn:fotografie"/>
+            <wsdl:output message="ns:fotografieResponse" wsaw:Action="urn:fotografieResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="kontoEP">
+            <wsdl:input message="ns:kontoEPRequest" wsaw:Action="urn:kontoEP"/>
+            <wsdl:output message="ns:kontoEPResponse" wsaw:Action="urn:kontoEPResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="maPreukaz">
+            <wsdl:input message="ns:maPreukazRequest" wsaw:Action="urn:maPreukaz"/>
+            <wsdl:output message="ns:maPreukazResponse" wsaw:Action="urn:maPreukazResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="prijmiPlatbu">
+            <wsdl:input message="ns:prijmiPlatbuRequest" wsaw:Action="urn:prijmiPlatbu"/>
+        </wsdl:operation>
+        <wsdl:operation name="fakturujFakulte">
+            <wsdl:input message="ns:fakturujFakulteRequest" wsaw:Action="urn:fakturujFakulte"/>
+            <wsdl:output message="ns:fakturujFakulteResponse" wsaw:Action="urn:fakturujFakulteResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="dostProstriedkovEP">
+            <wsdl:input message="ns:dostProstriedkovEPRequest" wsaw:Action="urn:dostProstriedkovEP"/>
+            <wsdl:output message="ns:dostProstriedkovEPResponse" wsaw:Action="urn:dostProstriedkovEPResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="restart">
+            <wsdl:input message="ns:restartRequest" wsaw:Action="urn:restart"/>
+            <wsdl:output message="ns:restartResponse" wsaw:Action="urn:restartResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="zamestnanec">
+            <wsdl:input message="ns:zamestnanecRequest" wsaw:Action="urn:zamestnanec"/>
+            <wsdl:output message="ns:zamestnanecResponse" wsaw:Action="urn:zamestnanecResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="zamestnanci">
+            <wsdl:input message="ns:zamestnanciRequest" wsaw:Action="urn:zamestnanci"/>
+            <wsdl:output message="ns:zamestnanciResponse" wsaw:Action="urn:zamestnanciResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="pripravPlatobneUdaje">
+            <wsdl:input message="ns:pripravPlatobneUdajeRequest" wsaw:Action="urn:pripravPlatobneUdaje"/>
+            <wsdl:output message="ns:pripravPlatobneUdajeResponse" wsaw:Action="urn:pripravPlatobneUdajeResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="prislaPlatba">
+            <wsdl:input message="ns:prislaPlatbaRequest" wsaw:Action="urn:prislaPlatba"/>
+            <wsdl:output message="ns:prislaPlatbaResponse" wsaw:Action="urn:prislaPlatbaResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="vytvorKontoEP">
+            <wsdl:input message="ns:vytvorKontoEPRequest" wsaw:Action="urn:vytvorKontoEP"/>
+        </wsdl:operation>
+        <wsdl:operation name="preukazy">
+            <wsdl:input message="ns:preukazyRequest" wsaw:Action="urn:preukazy"/>
+            <wsdl:output message="ns:preukazyResponse" wsaw:Action="urn:preukazyResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="znizStavEP">
+            <wsdl:input message="ns:znizStavEPRequest" wsaw:Action="urn:znizStavEP"/>
+            <wsdl:output message="ns:znizStavEPResponse" wsaw:Action="urn:znizStavEPResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="preukaz">
+            <wsdl:input message="ns:preukazRequest" wsaw:Action="urn:preukaz"/>
+            <wsdl:output message="ns:preukazResponse" wsaw:Action="urn:preukazResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="fotografia">
+            <wsdl:input message="ns:fotografiaRequest" wsaw:Action="urn:fotografia"/>
+            <wsdl:output message="ns:fotografiaResponse" wsaw:Action="urn:fotografiaResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="maFotografiu">
+            <wsdl:input message="ns:maFotografiuRequest" wsaw:Action="urn:maFotografiu"/>
+            <wsdl:output message="ns:maFotografiuResponse" wsaw:Action="urn:maFotografiuResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="x2dc79b470ecea38aca61a2bc865dea7eSoap11Binding" type="ns:x2dc79b470ecea38aca61a2bc865dea7ePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="vlozFotografiu">
+            <soap:operation soapAction="urn:vlozFotografiu" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="ahoj">
+            <soap:operation soapAction="urn:ahoj" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="prijmiPlatbuEP">
+            <soap:operation soapAction="urn:prijmiPlatbuEP" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="prijatePlatby">
+            <soap:operation soapAction="urn:prijatePlatby" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="zapisZamestnancaDoFis">
+            <soap:operation soapAction="urn:zapisZamestnancaDoFis" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="kontaEP">
+            <soap:operation soapAction="urn:kontaEP" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="test">
+            <soap:operation soapAction="urn:test" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="maKontoEP">
+            <soap:operation soapAction="urn:maKontoEP" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="kontoEP">
+            <soap:operation soapAction="urn:kontoEP" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="fotografie">
+            <soap:operation soapAction="urn:fotografie" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="maPreukaz">
+            <soap:operation soapAction="urn:maPreukaz" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="prijmiPlatbu">
+            <soap:operation soapAction="urn:prijmiPlatbu" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="fakturujFakulte">
+            <soap:operation soapAction="urn:fakturujFakulte" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="dostProstriedkovEP">
+            <soap:operation soapAction="urn:dostProstriedkovEP" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="restart">
+            <soap:operation soapAction="urn:restart" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="zamestnanec">
+            <soap:operation soapAction="urn:zamestnanec" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="zamestnanci">
+            <soap:operation soapAction="urn:zamestnanci" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="prislaPlatba">
+            <soap:operation soapAction="urn:prislaPlatba" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="pripravPlatobneUdaje">
+            <soap:operation soapAction="urn:pripravPlatobneUdaje" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="vytvorKontoEP">
+            <soap:operation soapAction="urn:vytvorKontoEP" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="znizStavEP">
+            <soap:operation soapAction="urn:znizStavEP" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="preukazy">
+            <soap:operation soapAction="urn:preukazy" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="fotografia">
+            <soap:operation soapAction="urn:fotografia" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="preukaz">
+            <soap:operation soapAction="urn:preukaz" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="maFotografiu">
+            <soap:operation soapAction="urn:maFotografiu" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="x2dc79b470ecea38aca61a2bc865dea7eSoap12Binding" type="ns:x2dc79b470ecea38aca61a2bc865dea7ePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="vlozFotografiu">
+            <soap12:operation soapAction="urn:vlozFotografiu" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="ahoj">
+            <soap12:operation soapAction="urn:ahoj" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="prijmiPlatbuEP">
+            <soap12:operation soapAction="urn:prijmiPlatbuEP" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="prijatePlatby">
+            <soap12:operation soapAction="urn:prijatePlatby" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="zapisZamestnancaDoFis">
+            <soap12:operation soapAction="urn:zapisZamestnancaDoFis" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="kontaEP">
+            <soap12:operation soapAction="urn:kontaEP" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="test">
+            <soap12:operation soapAction="urn:test" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="maKontoEP">
+            <soap12:operation soapAction="urn:maKontoEP" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="kontoEP">
+            <soap12:operation soapAction="urn:kontoEP" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="fotografie">
+            <soap12:operation soapAction="urn:fotografie" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="maPreukaz">
+            <soap12:operation soapAction="urn:maPreukaz" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="prijmiPlatbu">
+            <soap12:operation soapAction="urn:prijmiPlatbu" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="fakturujFakulte">
+            <soap12:operation soapAction="urn:fakturujFakulte" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="dostProstriedkovEP">
+            <soap12:operation soapAction="urn:dostProstriedkovEP" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="restart">
+            <soap12:operation soapAction="urn:restart" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="zamestnanec">
+            <soap12:operation soapAction="urn:zamestnanec" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="zamestnanci">
+            <soap12:operation soapAction="urn:zamestnanci" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="prislaPlatba">
+            <soap12:operation soapAction="urn:prislaPlatba" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="pripravPlatobneUdaje">
+            <soap12:operation soapAction="urn:pripravPlatobneUdaje" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="vytvorKontoEP">
+            <soap12:operation soapAction="urn:vytvorKontoEP" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="znizStavEP">
+            <soap12:operation soapAction="urn:znizStavEP" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="preukazy">
+            <soap12:operation soapAction="urn:preukazy" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="fotografia">
+            <soap12:operation soapAction="urn:fotografia" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="preukaz">
+            <soap12:operation soapAction="urn:preukaz" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="maFotografiu">
+            <soap12:operation soapAction="urn:maFotografiu" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="x2dc79b470ecea38aca61a2bc865dea7eHttpBinding" type="ns:x2dc79b470ecea38aca61a2bc865dea7ePortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="vlozFotografiu">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/vlozFotografiu"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="vlozFotografiu"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="ahoj">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/ahoj"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="ahoj"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="ahoj"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="prijmiPlatbuEP">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/prijmiPlatbuEP"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="prijmiPlatbuEP"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="prijatePlatby">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/prijatePlatby"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="prijatePlatby"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="prijatePlatby"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="zapisZamestnancaDoFis">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/zapisZamestnancaDoFis"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="zapisZamestnancaDoFis"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="kontaEP">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/kontaEP"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="kontaEP"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="kontaEP"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="test">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/test"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="test"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="test"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="maKontoEP">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/maKontoEP"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="maKontoEP"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="maKontoEP"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="kontoEP">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/kontoEP"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="kontoEP"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="kontoEP"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="fotografie">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/fotografie"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="fotografie"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="fotografie"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="maPreukaz">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/maPreukaz"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="maPreukaz"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="maPreukaz"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="prijmiPlatbu">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/prijmiPlatbu"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="prijmiPlatbu"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="fakturujFakulte">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/fakturujFakulte"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="fakturujFakulte"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="fakturujFakulte"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="dostProstriedkovEP">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/dostProstriedkovEP"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="dostProstriedkovEP"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="dostProstriedkovEP"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="restart">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/restart"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="restart"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="restart"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="zamestnanec">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/zamestnanec"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="zamestnanec"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="zamestnanec"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="zamestnanci">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/zamestnanci"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="zamestnanci"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="zamestnanci"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="prislaPlatba">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/prislaPlatba"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="prislaPlatba"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="prislaPlatba"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="pripravPlatobneUdaje">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/pripravPlatobneUdaje"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="pripravPlatobneUdaje"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="pripravPlatobneUdaje"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="vytvorKontoEP">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/vytvorKontoEP"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="vytvorKontoEP"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="znizStavEP">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/znizStavEP"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="znizStavEP"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="znizStavEP"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="preukazy">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/preukazy"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="preukazy"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="preukazy"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="fotografia">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/fotografia"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="fotografia"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="fotografia"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="preukaz">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/preukaz"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="preukaz"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="preukaz"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="maFotografiu">
+            <http:operation location="x2dc79b470ecea38aca61a2bc865dea7e/maFotografiu"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="maFotografiu"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="maFotografiu"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="x2dc79b470ecea38aca61a2bc865dea7e">
+        <wsdl:port name="x2dc79b470ecea38aca61a2bc865dea7eHttpSoap11Endpoint" binding="ns:x2dc79b470ecea38aca61a2bc865dea7eSoap11Binding">
+            <soap:address location="http://pis-ws.fiit.stuba.sk:80/Pis-system2/services/x2dc79b470ecea38aca61a2bc865dea7e.x2dc79b470ecea38aca61a2bc865dea7eHttpSoap11Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="x2dc79b470ecea38aca61a2bc865dea7eHttpSoap12Endpoint" binding="ns:x2dc79b470ecea38aca61a2bc865dea7eSoap12Binding">
+            <soap12:address location="http://pis-ws.fiit.stuba.sk:80/Pis-system2/services/x2dc79b470ecea38aca61a2bc865dea7e.x2dc79b470ecea38aca61a2bc865dea7eHttpSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="x2dc79b470ecea38aca61a2bc865dea7eHttpEndpoint" binding="ns:x2dc79b470ecea38aca61a2bc865dea7eHttpBinding">
+            <http:address location="http://pis-ws.fiit.stuba.sk:80/Pis-system2/services/x2dc79b470ecea38aca61a2bc865dea7e.x2dc79b470ecea38aca61a2bc865dea7eHttpEndpoint/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
