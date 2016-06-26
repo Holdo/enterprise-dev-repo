@@ -1,42 +1,34 @@
 package cz.muni.fi.pb138.entity.metadata.wsdlfield;
 
-import cz.muni.fi.pb138.entity.metadata.Name;
-import cz.muni.fi.pb138.entity.metadata.Parent;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlValue;
-
 /**
  * @author Ondřej Gasior
  */
 public class Request {
 
-    private Name name;
-    private Parent parent;
+    private String name;
+    private String parent;
 
     public Request() {
     }
 
-    public Request(Name name, Parent parent) {
+    public Request(String name, String parent) {
         this.name = name;
         this.parent = parent;
     }
 
-    public Name getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Name name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Parent getParent() {
+    public String getParent() {
         return parent;
     }
 
-    public void setParent(Parent parent) {
+    public void setParent(String parent) {
         this.parent = parent;
     }
 }

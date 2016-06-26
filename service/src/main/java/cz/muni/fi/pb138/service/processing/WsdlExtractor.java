@@ -1,11 +1,8 @@
 package cz.muni.fi.pb138.service.processing;
 
-import cz.muni.fi.pb138.entity.metadata.Name;
-import cz.muni.fi.pb138.entity.metadata.Parent;
 import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import cz.muni.fi.pb138.entity.metadata.wsdlfield.Request;
 import cz.muni.fi.pb138.entity.metadata.wsdlfield.Response;
-import cz.muni.fi.pb138.entity.metadata.xsdfield.Attribute;
 import cz.muni.fi.pb138.entity.wsdl.WsdlFile;
 
 import java.io.ByteArrayInputStream;
@@ -82,7 +79,7 @@ public class WsdlExtractor {
 						if(requestName.contains(":")) {
 							requestName = requestName.split(":")[1];
 						}
-						requests.add(new Request(new Name(requestName),new Parent(item)));
+						requests.add(new Request(requestName,item));
 					}
 
 
@@ -96,7 +93,7 @@ public class WsdlExtractor {
 						if(responseName.contains(":")) {
 							responseName = responseName.split(":")[1];
 						}
-						responses.add(new Response(new Name(responseName),new Parent(item)));
+						responses.add(new Response(responseName,item));
 					}
 				}
 			}

@@ -1,7 +1,5 @@
 package cz.muni.fi.pb138.service.processing;
 
-import cz.muni.fi.pb138.entity.metadata.Name;
-import cz.muni.fi.pb138.entity.metadata.Parent;
 import cz.muni.fi.pb138.entity.metadata.VersionedFile;
 import cz.muni.fi.pb138.entity.metadata.xsdfield.Attribute;
 import cz.muni.fi.pb138.entity.xsd.XsdFile;
@@ -67,7 +65,7 @@ public class XsdExtractor {
                     String elementName = "";
                     if (element.hasAttribute("name")) {
                         elementName = element.getAttribute("name");
-                        elements.add(new cz.muni.fi.pb138.entity.metadata.xsdfield.Element(new Name(elementName),new Parent(type.getAttribute("name"))));
+                        elements.add(new cz.muni.fi.pb138.entity.metadata.xsdfield.Element(elementName,type.getAttribute("name")));
                     }
 
 
@@ -78,7 +76,7 @@ public class XsdExtractor {
                     String attributeName = "";
                     if (attribute.hasAttribute("name")) {
                         attributeName = attribute.getAttribute("name");
-                        attributes.add(new Attribute(new Name(attributeName),new Parent(type.getAttribute("name"))));
+                        attributes.add(new Attribute(attributeName,type.getAttribute("name")));
                     }
                 }
             }
