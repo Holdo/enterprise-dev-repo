@@ -110,7 +110,7 @@ sap.ui.define([
             } else if (iContentSize == 3) {
                 this._oTypesGrid.setDefaultSpan("XL4 L4 M6 S12");
             } else {
-                //already set in XMLView
+                this._oTypesGrid.setDefaultSpan("XL3 L4 M6 S12");
             }
 
             if (oViewModel.getProperty("/artifactName").endsWith(".war") ||

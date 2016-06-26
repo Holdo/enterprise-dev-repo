@@ -115,7 +115,15 @@ sap.ui.define([
                     resultData: JSON.parse(oEvent.data)
                 };
                 that._searchOverlay.setModel(new JSONModel(oData));
-                that._searchOverlay.open();
+
+                var overflowButton = that.getView().byId("searchOverflowToolbar-overflowButton");
+                if (overflowButton.getProperty("pressed")) {
+                    setTimeout(function() {
+                        that._searchOverlay.open();
+                    }, 250);
+                } else {
+                    that._searchOverlay.open();
+                }
             };
         },
         handlePressMetaTypeSelector: function (oEvent) {
