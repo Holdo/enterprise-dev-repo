@@ -127,8 +127,17 @@ sap.ui.define([
                 this.getView().addDependent(this._searchTypeMenu);
             }
 
-            var eDock = sap.ui.core.Popup.Dock;
-            this._searchTypeMenu.open(this._bKeyboard, oMetaTypeSelector, eDock.BeginTop, eDock.BeginBottom, oMetaTypeSelector);
+            var overflowButton = this.getView().byId("searchOverflowToolbar-overflowButton");
+            if (overflowButton.getProperty("pressed")) {
+                var that = this;
+                setTimeout(function() {
+                    var eDock = sap.ui.core.Popup.Dock;
+                    that._searchTypeMenu.open(that._bKeyboard, overflowButton, eDock.BeginTop, eDock.BeginBottom, overflowButton);
+                }, 250);
+            } else {
+                var eDock = sap.ui.core.Popup.Dock;
+                this._searchTypeMenu.open(this._bKeyboard, oMetaTypeSelector, eDock.BeginTop, eDock.BeginBottom, oMetaTypeSelector);
+            }
         },
         handleSearchTypeMenuItemPress: function (oEvent) {
             if (oEvent.getParameter("item").getSubmenu()) return;

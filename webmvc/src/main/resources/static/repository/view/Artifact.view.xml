@@ -23,7 +23,7 @@
                     </VBox>
                 </content>
             </Panel>
-            <l:Grid id="typesGrid" defaultSpan="XL4 L4 M4 S4" position="Center" class="sapUiResponsiveMargin"/>
+            <l:Grid id="typesGrid" defaultSpan="XL3 L4 M6 S12" position="Center" class="sapUiResponsiveMargin"/>
         </content>
         <footer>
             <Toolbar>

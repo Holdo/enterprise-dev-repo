@@ -66,6 +66,8 @@ oApplication = { // Application is an object
         style.appendChild(document.createTextNode(".sapMGlobalBackgroundColor" + sCss));
         style.appendChild(document.createTextNode(".sapUiGlobalBackgroundColor" + sCss));
         style.appendChild(document.createTextNode(".sapUiBody" + sCss));
+        style.appendChild(document.createTextNode(".sapUiUfdShellSearch" + "{width:auto!important;max-width:inherit!important;display:inherit!important;}"));
+        //style.appendChild(document.createTextNode(".sapUiUfdShellHeadCenter" + "{min-width:29.375em!important;}"));
         document.head.appendChild(style);
         oApplication.app.placeAt("content");
     },

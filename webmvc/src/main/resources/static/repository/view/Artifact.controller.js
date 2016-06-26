@@ -75,15 +75,43 @@ sap.ui.define([
             
             if (oViewModel.getProperty("/artifactPath") == "") this.getView().byId("artifactPathText").setText("root folder");
 
-            if (oViewModel.getProperty("/complexTypes")) this._oTypesGrid.addContent(this.createTypeBox("complexType"));
-            if (oViewModel.getProperty("/elements")) this._oTypesGrid.addContent(this.createTypeBox("element"));
-            if (oViewModel.getProperty("/attributes")) this._oTypesGrid.addContent(this.createTypeBox("attribute"));
-            if (oViewModel.getProperty("/simpleTypes")) this._oTypesGrid.addContent(this.createTypeBox("simpleType"));
-            if (oViewModel.getProperty("/filters")) this._oTypesGrid.addContent(this.createTypeBox("filter"));
-            if (oViewModel.getProperty("/listeners")) this._oTypesGrid.addContent(this.createTypeBox("listener"));
-            if (oViewModel.getProperty("/operations")) this._oTypesGrid.addContent(this.createTypeBox("operation"));
-            if (oViewModel.getProperty("/requests")) this._oTypesGrid.addContent(this.createTypeBox("request"));
-            if (oViewModel.getProperty("/responses")) this._oTypesGrid.addContent(this.createTypeBox("response"));
+            var bCompact;
+            if (oViewModel.getProperty("/elements")) {
+                bCompact = !!(oViewModel.getProperty("/complexTypes").length > 6 ||
+                oViewModel.getProperty("/simpleTypes").length > 6 ||
+                oViewModel.getProperty("/attributes").length > 6 ||
+                oViewModel.getProperty("/elements").length > 6);
+                //Create boxes
+                if (oViewModel.getProperty("/complexTypes")) this._oTypesGrid.addContent(this.createTypeBox("complexType", bCompact));
+                if (oViewModel.getProperty("/simpleTypes")) this._oTypesGrid.addContent(this.createTypeBox("simpleType", bCompact));
+                if (oViewModel.getProperty("/attributes")) this._oTypesGrid.addContent(this.createNameParentTypeBox("attribute", bCompact));
+                if (oViewModel.getProperty("/elements")) this._oTypesGrid.addContent(this.createNameParentTypeBox("element", bCompact));
+            } else if (oViewModel.getProperty("/listeners")) {
+                bCompact = !!(oViewModel.getProperty("/filters").length > 6 ||
+                oViewModel.getProperty("/listeners").length > 6);
+                //Create boxes
+                if (oViewModel.getProperty("/filters"))     this._oTypesGrid.addContent(this.createTypeBox("filter", bCompact));
+                if (oViewModel.getProperty("/listeners"))     this._oTypesGrid.addContent(this.createTypeBox("listener", bCompact));
+            } else if (oViewModel.getProperty("/operations")) {
+                bCompact = !!(oViewModel.getProperty("/operations").length > 6 ||
+                oViewModel.getProperty("/requests").length > 6 ||
+                oViewModel.getProperty("/responses").length > 6);
+                //Create boxes
+                if (oViewModel.getProperty("/operations")) this._oTypesGrid.addContent(this.createTypeBox("operation", bCompact));
+                if (oViewModel.getProperty("/requests")) this._oTypesGrid.addContent(this.createNameParentTypeBox("request", bCompact));
+                if (oViewModel.getProperty("/responses")) this._oTypesGrid.addContent(this.createNameParentTypeBox("response", bCompact));
+            }
+
+            var iContentSize = this._oTypesGrid.getContent().length;
+            if (iContentSize == 1) {
+                this._oTypesGrid.setDefaultSpan("XL12 L12 M12 S12");
+            } else if (iContentSize == 2) {
+                this._oTypesGrid.setDefaultSpan("XL6 L6 M6 S12");
+            } else if (iContentSize == 3) {
+                this._oTypesGrid.setDefaultSpan("XL4 L4 M6 S12");
+            } else {
+                //already set in XMLView
+            }
 
             if (oViewModel.getProperty("/artifactName").endsWith(".war") ||
                 oViewModel.getProperty("/artifactName").endsWith(".WAR")) {
@@ -170,15 +198,33 @@ sap.ui.define([
                 }
             };
         },
-        createTypeBox: function (sTypeName) {
+        createTypeBox: function (sTypeName, bCompact) {
             var oTypeBox = new sap.m.VBox(sTypeName + "TypeBox");
             var oPanel = new sap.m.Panel();
             var oCenteringBox = new sap.m.HBox({justifyContent : "Center"});
             var oText = new sap.m.Text({text : sTypeName.capitalize() + "s"}).addStyleClass("sapMH5FontSize");
-            var oList = new sap.m.List({growing : "true", growingThreshold : 3}).bindAggregation(
+            var oList = new sap.m.List({growing : "true", growingThreshold : 6}).bindAggregation(
                 "items", "/" + sTypeName + "s",
                 new sap.m.StandardListItem({type : "Inactive", title : "{" + sTypeName + "}"}),
                 new sap.ui.model.Sorter(sTypeName, false));
+            if (bCompact) oList.addStyleClass("sapUiSizeCompact");
+            oCenteringBox.addItem(oText);
+            oPanel.addContent(oCenteringBox);
+            oTypeBox.addItem(oPanel);
+            oTypeBox.addItem(oList);
+
+            return oTypeBox;
+        },
+        createNameParentTypeBox: function (sTypeName, bCompact) {
+            var oTypeBox = new sap.m.VBox(sTypeName + "TypeBox");
+            var oPanel = new sap.m.Panel();
+            var oCenteringBox = new sap.m.HBox({justifyContent : "Center"});
+            var oText = new sap.m.Text({text : sTypeName.capitalize() + "s"}).addStyleClass("sapMH5FontSize");
+            var oList = new sap.m.List({growing : "true", growingThreshold : 6}).bindAggregation(
+                "items", "/" + sTypeName + "s",
+                new sap.m.StandardListItem({type : "Inactive", title : "{name}", info : "{parent}", infoState : sap.ui.core.ValueState.Warning}),
+                new sap.ui.model.Sorter("name", false));
+            if (bCompact) oList.addStyleClass("sapUiSizeCompact");
             oCenteringBox.addItem(oText);
             oPanel.addContent(oCenteringBox);
             oTypeBox.addItem(oPanel);

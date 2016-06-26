@@ -32,24 +32,26 @@
                                  press="handleUserItemPressed"/>
         </u:user>
         <u:search>
-            <HBox>
+            <OverflowToolbar id="searchOverflowToolbar">
+                <ToolbarSpacer/>
                 <SearchField class="sapUiSmallMarginEnd" search="handleSearchPressed">
                     <layoutData>
-                        <FlexItemData minWidth="15em"/>
+                        <ToolbarLayoutData minWidth="10em" maxWidth="15em" shrinkable="true"/>
                     </layoutData>
                 </SearchField>
                 <Button id="metaTypeSelector" class="sapUiSmallMarginBegin" text="Search type"
                         press="handlePressMetaTypeSelector" icon="sap-icon://detail-view">
                     <layoutData>
-                        <FlexItemData shrinkFactor="2"/>
+                        <ToolbarLayoutData shrinkable="true"/>
                     </layoutData>
                 </Button>
                 <CheckBox id="exactSearchCheckBox" text="Exact search" selected="true">
                     <layoutData>
-                       <FlexItemData shrinkFactor="1"/>
+                        <ToolbarLayoutData shrinkable="true"/>
                     </layoutData>
                 </CheckBox>
-            </HBox>
+                <ToolbarSpacer/>
+            </OverflowToolbar>
         </u:search>
         <u:paneContent>
             <Text text="Hello :)"/>
