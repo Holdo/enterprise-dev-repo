@@ -3,6 +3,7 @@ package cz.muni.fi.pb138.entity.metadata;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlValue;
 
 /**
  * Created by gasior on 26.06.2016.
@@ -10,7 +11,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Parent {
-    @XmlElement(name = "parent")
+    @XmlValue
     private String parent;
 
     public String getParent() {
