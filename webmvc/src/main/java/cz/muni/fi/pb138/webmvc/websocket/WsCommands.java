@@ -59,17 +59,23 @@ public class WsCommands {
 	/**
 	 * Search on database metadata
 	 *
-	 * @param args map should contain parameterName to search for of metaParameterType and fileType
+	 * @param args map should contain parameterName to search for of metaParameterType and fileType,
+	 *             also exactSearch boolean to specify exact / similarity search type
 	 * @return search result as list of latest versions where search hit
 	 * @throws IOException
 	 * @throws JAXBException
 	 */
-	public List<VersionedFile> search(Map<String, String> args) throws IOException, JAXBException {
-		log.debug("Searching for {} of {} type in {} files", args.get("parameterName"), args.get("metaParameterType"), args.get("fileType"));
+	public List<VersionedFile> search(Map<String, Object> args) throws IOException, JAXBException {
+		String fileType = (String) args.get("fileType");
+		String metaParameterType = (String) args.get("metaParameterType");
+		fileType = fileType.toUpperCase();
+		metaParameterType = metaParameterType.toUpperCase();
+		log.debug("Searching for {} of {} type in {} files with exact search {}",
+				args.get("parameterName"), metaParameterType, fileType, args.get("exactSearch"));
 		return metaService.getFilesFullPathsByMetaParameter(
-				FileType.valueOf(args.get("fileType").toUpperCase()),
-				MetaParameterType.valueOf(args.get("metaParameterType").toUpperCase()),
-				args.get("parameterName"), false);
+				FileType.valueOf(fileType),
+				MetaParameterType.valueOf(metaParameterType),
+				(String ) args.get("parameterName"), (boolean) args.get("exactSearch"));
 	}
 
 	/**

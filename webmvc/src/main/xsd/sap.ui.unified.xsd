@@ -222,6 +222,16 @@ If one day is assigned to more than one Type, only the first one will be used.</
 </xsd:sequence>
 </xsd:complexType>
 </xsd:element>
+<xsd:element name="disabledDates" minOccurs="0">
+<xsd:annotation>
+<xsd:documentation>Date Ranges for disabled dates</xsd:documentation>
+</xsd:annotation>
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="n1:DateRange" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
 </xsd:sequence>
 <xsd:attribute name="intervalSelection" type="xsd:boolean">
 <xsd:annotation>
@@ -262,6 +272,35 @@ If not set, the calendar type of the global configuration is used.</xsd:document
 <xsd:annotation>
 <xsd:documentation>If set, the days are also displayed in this calendar type
 If not set, the dates are only displayed in the primary calendar type</xsd:documentation>
+</xsd:annotation>
+</xsd:attribute>
+<xsd:attribute name="width" type="n0:_CSSSizeType">
+<xsd:annotation>
+<xsd:documentation>Width of Calendar
+
+&lt;b&gt;Note:&lt;/b&gt; There is a theme depending minimum width, so the calendar can not be set smaller.</xsd:documentation>
+</xsd:annotation>
+</xsd:attribute>
+<xsd:attribute name="minDate" type="xsd:string">
+<xsd:annotation>
+<xsd:documentation>Minimum date that can be shown and selected in the Calendar. This must be a JavaScript date object.
+
+&lt;b&gt;Note:&lt;/b&gt; if the date is inside of a month the complete month is displayed,
+but dates outside the valid range can not be selected.
+
+&lt;b&gt;Note:&lt;/b&gt; If the &lt;code&gt;minDate&lt;/code&gt; is set to be after the &lt;code&gt;maxDate&lt;/code&gt;,
+the &lt;code&gt;maxDate&lt;/code&gt; is set to the end of the month of the &lt;code&gt;minDate&lt;/code&gt;.</xsd:documentation>
+</xsd:annotation>
+</xsd:attribute>
+<xsd:attribute name="maxDate" type="xsd:string">
+<xsd:annotation>
+<xsd:documentation>Maximum date that can be shown and selected in the Calendar. This must be a JavaScript date object.
+
+&lt;b&gt;Note:&lt;/b&gt; if the date is inside of a month the complete month is displayed,
+but dates outside the valid range can not be selected.
+
+&lt;b&gt;Note:&lt;/b&gt; If the &lt;code&gt;maxDate&lt;/code&gt; is set to be before the &lt;code&gt;minDate&lt;/code&gt;,
+the &lt;code&gt;minDate&lt;/code&gt; is set to the begin of the month of the &lt;code&gt;maxDate&lt;/code&gt;.</xsd:documentation>
 </xsd:annotation>
 </xsd:attribute>
 <xsd:attribute name="ariaLabelledBy" type="xsd:string">
@@ -347,11 +386,6 @@ on phones the maximum rendered number of days is 8.</xsd:documentation>
 <xsd:annotation>
 <xsd:documentation>If set the day names are shown in a separate line.
 If not set the day names are shown inside the single days.</xsd:documentation>
-</xsd:annotation>
-</xsd:attribute>
-<xsd:attribute name="width" type="n0:_CSSSizeType">
-<xsd:annotation>
-<xsd:documentation>Width of Calendar</xsd:documentation>
 </xsd:annotation>
 </xsd:attribute>
 <xsd:attribute name="pickerPopup" type="xsd:boolean">
@@ -472,6 +506,22 @@ The month of this Date will be the first month in the displayed row.</xsd:docume
 <xsd:documentation>If set, the yearPicker opens on a popup</xsd:documentation>
 </xsd:annotation>
 </xsd:attribute>
+<xsd:attribute name="minDate" type="xsd:string">
+<xsd:annotation>
+<xsd:documentation>Minimum date that can be shown and selected in the Calendar. This must be a JavaScript date object.
+
+&lt;b&gt;Note:&lt;/b&gt; If the &lt;code&gt;minDate&lt;/code&gt; is set to be after the &lt;code&gt;maxDate&lt;/code&gt;,
+the &lt;code&gt;maxDate&lt;/code&gt; is set to the end of the month of the &lt;code&gt;minDate&lt;/code&gt;.</xsd:documentation>
+</xsd:annotation>
+</xsd:attribute>
+<xsd:attribute name="maxDate" type="xsd:string">
+<xsd:annotation>
+<xsd:documentation>Maximum date that can be shown and selected in the Calendar. This must be a JavaScript date object.
+
+&lt;b&gt;Note:&lt;/b&gt; If the &lt;code&gt;maxDate&lt;/code&gt; is set to be before the &lt;code&gt;minDate&lt;/code&gt;,
+the &lt;code&gt;minDate&lt;/code&gt; is set to the begin of the month of the &lt;code&gt;maxDate&lt;/code&gt;.</xsd:documentation>
+</xsd:annotation>
+</xsd:attribute>
 <xsd:attribute name="ariaLabelledBy" type="xsd:string">
 <xsd:annotation>
 <xsd:documentation>Association to controls / IDs which label this control (see WAI-ARIA attribute aria-labelledby).</xsd:documentation>
@@ -558,9 +608,18 @@ If the interval type is &lt;code&gt;Month&lt;/code&gt;, days are shown.</xsd:doc
 </xsd:attribute>
 <xsd:attribute name="showIntervalHeaders" type="xsd:boolean">
 <xsd:annotation>
-<xsd:documentation>If set, interval headers are shown even if no &lt;code&gt;intervalHeaders&lt;/code&gt; are assigned to the visible time frame.
+<xsd:documentation>If set, interval headers are shown like specified in &lt;code&gt;showEmptyIntervalHeaders&lt;/code&gt;.
 
 If not set, no interval headers are shown even if &lt;code&gt;intervalHeaders&lt;/code&gt; are assigned.</xsd:documentation>
+</xsd:annotation>
+</xsd:attribute>
+<xsd:attribute name="showEmptyIntervalHeaders" type="xsd:boolean">
+<xsd:annotation>
+<xsd:documentation>If set, interval headers are shown even if no &lt;code&gt;intervalHeaders&lt;/code&gt; are assigned to the visible time frame.
+
+If not set, no interval headers are shown if no &lt;code&gt;intervalHeaders&lt;/code&gt; are assigned.
+
+&lt;b&gt;Note:&lt;/b&gt; This property is only used if &lt;code&gt;showIntervalHeaders&lt;/code&gt; is set to true.</xsd:documentation>
 </xsd:annotation>
 </xsd:attribute>
 <xsd:attribute name="nonWorkingDays" type="xsd:string">
@@ -609,6 +668,14 @@ the periodic update should be triggered only by this container control. Then the
 call &lt;code&gt;updateCurrentTimeVisualization&lt;/code&gt; of the &lt;code&gt;CalendarRow&lt;/code&gt; to update the visualization.</xsd:documentation>
 </xsd:annotation>
 </xsd:attribute>
+<xsd:attribute name="appointmentsReducedHeight" type="xsd:boolean">
+<xsd:annotation>
+<xsd:documentation>If set the appointments without text (only title) are rendered with a smaller height.
+
+&lt;b&gt;Note:&lt;/b&gt; On phone devices this property is ignored, appointments are always rendered in full height
+to allow touching.</xsd:documentation>
+</xsd:annotation>
+</xsd:attribute>
 <xsd:attribute name="ariaLabelledBy" type="xsd:string">
 <xsd:annotation>
 <xsd:documentation>Association to controls / IDs which label this control (see WAI-ARIA attribute aria-labelledby).</xsd:documentation>
@@ -628,6 +695,11 @@ call &lt;code&gt;updateCurrentTimeVisualization&lt;/code&gt; of the &lt;code&gt;
 <xsd:annotation>
 <xsd:documentation>The &lt;code&gt;CalendarRow&lt;/code&gt; should be left while navigating. (Arrow up or arrow down.)
 The caller should determine the next control to be focused</xsd:documentation>
+</xsd:annotation>
+</xsd:attribute>
+<xsd:attribute name="intervalSelect" type="xsd:string">
+<xsd:annotation>
+<xsd:documentation>Fired if an interval was selected</xsd:documentation>
 </xsd:annotation>
 </xsd:attribute>
 </xsd:extension>
@@ -707,6 +779,22 @@ A day must be divisible by this interval size. One interval must not include mor
 <xsd:attribute name="pickerPopup" type="xsd:boolean">
 <xsd:annotation>
 <xsd:documentation>If set, the day-, month- and yearPicker opens on a popup</xsd:documentation>
+</xsd:annotation>
+</xsd:attribute>
+<xsd:attribute name="minDate" type="xsd:string">
+<xsd:annotation>
+<xsd:documentation>Minimum date that can be shown and selected in the Calendar. This must be a JavaScript date object.
+
+&lt;b&gt;Note:&lt;/b&gt; If the &lt;code&gt;minDate&lt;/code&gt; is set to be after the &lt;code&gt;maxDate&lt;/code&gt;,
+the &lt;code&gt;maxDate&lt;/code&gt; is set to the end of the month of the &lt;code&gt;minDate&lt;/code&gt;.</xsd:documentation>
+</xsd:annotation>
+</xsd:attribute>
+<xsd:attribute name="maxDate" type="xsd:string">
+<xsd:annotation>
+<xsd:documentation>Maximum date that can be shown and selected in the Calendar. This must be a JavaScript date object.
+
+&lt;b&gt;Note:&lt;/b&gt; If the &lt;code&gt;maxDate&lt;/code&gt; is set to be before the &lt;code&gt;minDate&lt;/code&gt;,
+the &lt;code&gt;minDate&lt;/code&gt; is set to the begin of the month of the &lt;code&gt;maxDate&lt;/code&gt;.</xsd:documentation>
 </xsd:annotation>
 </xsd:attribute>
 <xsd:attribute name="ariaLabelledBy" type="xsd:string">
@@ -1732,6 +1820,16 @@ If one day is assigned to more than one Type, only the first one will be used.</
 </xsd:sequence>
 </xsd:complexType>
 </xsd:element>
+<xsd:element name="disabledDates" minOccurs="0">
+<xsd:annotation>
+<xsd:documentation>Date Ranges for disabled dates</xsd:documentation>
+</xsd:annotation>
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="n1:DateRange" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
 </xsd:sequence>
 <xsd:attribute name="date" type="xsd:string">
 <xsd:annotation>
@@ -1776,6 +1874,11 @@ If not set, the calendar type of the global configuration is used.</xsd:document
 <xsd:annotation>
 <xsd:documentation>If set, the days are also displayed in this calendar type
 If not set, the dates are only displayed in the primary calendar type</xsd:documentation>
+</xsd:annotation>
+</xsd:attribute>
+<xsd:attribute name="width" type="n0:_CSSSizeType">
+<xsd:annotation>
+<xsd:documentation>Width of Month</xsd:documentation>
 </xsd:annotation>
 </xsd:attribute>
 <xsd:attribute name="ariaLabelledBy" type="xsd:string">
@@ -1827,6 +1930,12 @@ If not set, the calendar type of the global configuration is used.</xsd:document
 <xsd:attribute name="select" type="xsd:string">
 <xsd:annotation>
 <xsd:documentation>Month selection changed</xsd:documentation>
+</xsd:annotation>
+</xsd:attribute>
+<xsd:attribute name="pageChange" type="xsd:string">
+<xsd:annotation>
+<xsd:documentation>If less than 12 months are displayed the &lt;code&gt;pageChange&lt;/code&gt; event is fired
+if the displayed months are changed by user navigation.</xsd:documentation>
 </xsd:annotation>
 </xsd:attribute>
 </xsd:extension>
@@ -2045,6 +2154,11 @@ If not set, the calendar type of the global configuration is used.</xsd:document
 <xsd:attribute name="select" type="xsd:string">
 <xsd:annotation>
 <xsd:documentation>Month selection changed</xsd:documentation>
+</xsd:annotation>
+</xsd:attribute>
+<xsd:attribute name="pageChange" type="xsd:string">
+<xsd:annotation>
+<xsd:documentation>The &lt;code&gt;pageChange&lt;/code&gt; event is fired if the displayed years are changed by user navigation.</xsd:documentation>
 </xsd:annotation>
 </xsd:attribute>
 </xsd:extension>

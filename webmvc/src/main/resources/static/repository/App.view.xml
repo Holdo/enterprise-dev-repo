@@ -1,7 +1,7 @@
 <mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified" xmlns:core="sap.ui.core"
           xmlns:l="sap.ui.layout"
           controllerName='Repository.App' class="viewPadding">
-    <u:Shell id="myShell" icon="baseXlogo.png">
+    <u:Shell id="myShell" icon="baseXlogo.png" searchVisible="true">
         <u:headItems>
             <u:ShellHeadItem
                     tooltip="Configuration"
@@ -32,11 +32,24 @@
                                  press="handleUserItemPressed"/>
         </u:user>
         <u:search>
-            <l:HorizontalLayout>
-                <SearchField class="sapUiMediumMarginEnd" search="handleSearchPressed"/>
-                <Button id="metaTypeSelector" class="sapUiMediumMarginBegin" text="Select search type"
-                        press="handlePressMetaTypeSelector"/>
-            </l:HorizontalLayout>
+            <HBox>
+                <SearchField class="sapUiSmallMarginEnd" search="handleSearchPressed">
+                    <layoutData>
+                        <FlexItemData minWidth="15em"/>
+                    </layoutData>
+                </SearchField>
+                <Button id="metaTypeSelector" class="sapUiSmallMarginBegin" text="Search type"
+                        press="handlePressMetaTypeSelector" icon="sap-icon://detail-view">
+                    <layoutData>
+                        <FlexItemData shrinkFactor="2"/>
+                    </layoutData>
+                </Button>
+                <CheckBox id="exactSearchCheckBox" text="Exact search" selected="true">
+                    <layoutData>
+                       <FlexItemData shrinkFactor="1"/>
+                    </layoutData>
+                </CheckBox>
+            </HBox>
         </u:search>
         <u:paneContent>
             <Text text="Hello :)"/>

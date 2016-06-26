@@ -4,7 +4,7 @@
     <u:ShellOverlay shell="myShell" closed="handleShellOverlayClosed">
         <u:search>
             <l:HorizontalLayout>
-                <Label text="Your Search:" class="sapUiTinyMarginEnd" design="Bold"/>
+                <Label text="Your {= ${/exactSearch} === true ? 'exact' : 'similarity' } search:" class="sapUiTinyMarginEnd" design="Bold"/>
                 <Text text="{/metaParameterType} &quot;{/searchFieldContent}&quot; in {/fileType} files"/>
             </l:HorizontalLayout>
         </u:search>

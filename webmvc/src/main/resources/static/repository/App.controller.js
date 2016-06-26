@@ -69,7 +69,7 @@ sap.ui.define([
         },
         handleSearchPressed: function(oEvent) {
             var oMetaTypeSelector = this.getView().byId("metaTypeSelector");
-            if (oMetaTypeSelector.getText() == "Select search type") {
+            if (oMetaTypeSelector.getText() == "Search type") {
                 oMetaTypeSelector.setType("Reject");
                 MessageBox.error(
                     "Please select the search type to search.",
@@ -83,6 +83,7 @@ sap.ui.define([
 
             var sQuery = oEvent.getParameter("query");
             if(sQuery == "") return;
+            var bExactSearch = this.getView().byId("exactSearchCheckBox").getSelected();
 
             // create Overlay only once
             if (!this._searchOverlay) {
@@ -97,7 +98,8 @@ sap.ui.define([
                 var oMessage = {
                     fileType : that.fileType.trim().replace(/\s+/g, ''),
                     metaParameterType : that.metaParameterType.trim().replace(/\s+/g, ''),
-                    parameterName : sQuery
+                    parameterName : sQuery,
+                    exactSearch : bExactSearch
                 };
                 var sMessage = JSON.stringify(oMessage);
                 console.log("Sending " + sMessage);
@@ -109,6 +111,7 @@ sap.ui.define([
                     searchFieldContent: sQuery,
                     fileType : that.fileType,
                     metaParameterType : that.metaParameterType,
+                    exactSearch : bExactSearch,
                     resultData: JSON.parse(oEvent.data)
                 };
                 that._searchOverlay.setModel(new JSONModel(oData));

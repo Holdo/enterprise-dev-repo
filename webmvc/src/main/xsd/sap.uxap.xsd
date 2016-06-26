@@ -71,6 +71,20 @@ This enables it to hold any amount of information and still be usable on a mobil
 <xsd:documentation>An ObjectPageLayout is the layout control, used to put together all parts of an Object page - Header, Navigation bar and Sections/Subsections.</xsd:documentation>
 </xsd:annotation>
 </xsd:element>
+<xsd:element name="ObjectPageLazyLoader" type="n3:_ObjectPageLazyLoaderType" substitutionGroup="n0:Element">
+<xsd:annotation>
+<xsd:documentation>ObjectPageLazyLoader is a helper element that enables a "stashed"-based lazy loading approach for the content of
+the sap.uxap.ObjectPageSubSection control. ObjectPageLazyLoader is intended to be used in a declarative way only
+(e.g. in a view) with the "stashed" property set to "true", and is recommended to be used only once per
+subsection as its sole content.
+
+ObjectPageLazyLoader utilizes UI5's stashing mechanism and is a lightweight alternative to the native block-based
+Lazy Loading of the Object Page. Wrapping the content of a subsection in an ObjectPageLazyLoader with "stashed=true"
+will make the said content unstash automatically as the user scrolls.
+
+Note: Subsections are required to have an ID when used with ObjectPageLazyLoader.</xsd:documentation>
+</xsd:annotation>
+</xsd:element>
 <xsd:element name="ObjectPageSection" type="n3:_ObjectPageSectionType" substitutionGroup="n3:ObjectPageSectionBase">
 <xsd:annotation>
 <xsd:documentation>An ObjectPageSection is the top-level information container of an Object page. Its purpose is to aggregate Subsections.
@@ -284,6 +298,16 @@ You can use ObjectPageHeaderLayoutData to display a visual separator.</xsd:docum
 <xsd:element ref="n0:Control" minOccurs="0"/>
 <xsd:any processContents="lax" namespace="http://www.w3.org/1999/xhtml"/>
 </xsd:choice>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="sideContentButton" minOccurs="0">
+<xsd:annotation>
+<xsd:documentation>A button that is used for opening the side content of the page or some additional content.</xsd:documentation>
+</xsd:annotation>
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="n1:Button" minOccurs="0"/>
 </xsd:sequence>
 </xsd:complexType>
 </xsd:element>
@@ -615,6 +639,39 @@ For more information about SAPUI5 flexibility, refer to the Developer Guide.</xs
 <xsd:documentation>The event is fired when the Edit Header button is pressed</xsd:documentation>
 </xsd:annotation>
 </xsd:attribute>
+<xsd:attribute name="tabSelect" type="xsd:string">
+<xsd:annotation>
+<xsd:documentation>The event is fired when the selected tab changes.
+&lt;b&gt;Note:&lt;/b&gt; Event is fired only when IconTabBar is used for navigation.</xsd:documentation>
+</xsd:annotation>
+</xsd:attribute>
+</xsd:extension>
+</xsd:complexContent>
+</xsd:complexType>
+<!--type definition for UIElement 'sap.uxap.ObjectPageLazyLoader'-->
+<xsd:complexType name="_ObjectPageLazyLoaderType">
+<xsd:complexContent>
+<xsd:extension base="n0:_ElementType">
+<xsd:sequence>
+<!--default aggregation 'content'-->
+<xsd:choice minOccurs="0" maxOccurs="unbounded">
+<xsd:element ref="n0:Control"/>
+<xsd:any processContents="lax" namespace="http://www.w3.org/1999/xhtml"/>
+</xsd:choice>
+<xsd:element name="content" minOccurs="0">
+<xsd:annotation>
+<xsd:documentation>Controls to be displayed after this element is unstashed</xsd:documentation>
+</xsd:annotation>
+<xsd:complexType>
+<xsd:sequence>
+<xsd:choice minOccurs="0" maxOccurs="unbounded">
+<xsd:element ref="n0:Control" minOccurs="0"/>
+<xsd:any processContents="lax" namespace="http://www.w3.org/1999/xhtml"/>
+</xsd:choice>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
 </xsd:extension>
 </xsd:complexContent>
 </xsd:complexType>

@@ -970,6 +970,11 @@ As input-parameter, it can be a Hexadecimal string (#FFFFFF), a RGB-string rgb(2
 As output-parameter it is a RGB-string containing the current color.</xsd:documentation>
 </xsd:annotation>
 </xsd:attribute>
+<xsd:attribute name="mode" type="n3:_ColorPickerModeType">
+<xsd:annotation>
+<xsd:documentation>Determines the mode the ColorPicker works with - Hue Saturation and Value (HSV) or Hue Saturation and Lightness (HSL)</xsd:documentation>
+</xsd:annotation>
+</xsd:attribute>
 <xsd:attribute name="change" type="xsd:string">
 <xsd:annotation>
 <xsd:documentation>Value was changed. This event is fired if the value has changed by an user action.</xsd:documentation>
@@ -4053,6 +4058,20 @@ The values of the attributes top and bottom are ignored when this feature is act
 <xsd:enumeration value="Default">
 <xsd:annotation>
 <xsd:documentation>default style (no special styling).</xsd:documentation>
+</xsd:annotation>
+</xsd:enumeration>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="_ColorPickerModeType">
+<xsd:restriction base="xsd:string">
+<xsd:enumeration value="HSV">
+<xsd:annotation>
+<xsd:documentation>Color picker works with HSV values.</xsd:documentation>
+</xsd:annotation>
+</xsd:enumeration>
+<xsd:enumeration value="HSL">
+<xsd:annotation>
+<xsd:documentation>Color picker works with HSL values.</xsd:documentation>
 </xsd:annotation>
 </xsd:enumeration>
 </xsd:restriction>
