@@ -46,7 +46,7 @@ public class PathFinder {
 
 		int version = 0;
 		for (String p : filteredPaths) {
-			if (p.startsWith(noSuffixPath)) {
+			if (p.startsWith(noSuffixPath + "_")) {
 				String x = p.substring(noSuffixPath.length() + 1);
 				String[] y = x.split("\\.");
 				if (version < Integer.valueOf(y[0])) {
@@ -170,7 +170,7 @@ public class PathFinder {
 		for (String p : paths) {
 			String x = p.split(" ")[0];
 			if (x.endsWith(suffix)) {
-				if (x.startsWith(getPathWithoutSuffix(fullPath))) {
+				if (x.startsWith(getPathWithoutSuffix(fullPath) + "_")) {
 					filteredPaths.add(x);
 				}
 			}

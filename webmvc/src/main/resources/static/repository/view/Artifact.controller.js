@@ -223,7 +223,7 @@ sap.ui.define([
             var oList = new sap.m.List({growing : "true", growingThreshold : 6}).bindAggregation(
                 "items", "/" + sTypeName + "s",
                 new sap.m.StandardListItem({type : "Inactive", title : "{name}", info : "{parent}", infoState : sap.ui.core.ValueState.Warning}),
-                new sap.ui.model.Sorter("name", false));
+                [new sap.ui.model.Sorter("name", false), new sap.ui.model.Sorter("parent", false)]);
             if (bCompact) oList.addStyleClass("sapUiSizeCompact");
             oCenteringBox.addItem(oText);
             oPanel.addContent(oCenteringBox);
