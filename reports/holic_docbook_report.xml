@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article class="techreport" version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <info>
+    <title>Final report - Web repository for development artifacts</title>
+
+    <author>
+      <personname><firstname>Michal</firstname><surname>Holic</surname></personname>
+
+      <affiliation>
+        <orgname>PB138 - Modern markup languages and their
+        applications</orgname>
+      </affiliation>
+    </author>
+
+    <pubdate>28.06.2016</pubdate>
+  </info>
+
+  <section>
+    <title>Project &amp; work description</title>
+
+    <para>As a <emphasis role="bold">team leader</emphasis> I was responsible
+    for organising the project throughout the whole development life-cycle.
+    This included creating <emphasis role="bold">GitHub repository</emphasis>
+    and <emphasis role="bold">multi-module Maven project</emphasis> along with
+    the foundations of the <emphasis role="bold">architecture and
+    UML</emphasis>. The goal was to use modern, but standard technologies. The
+    following figure illustrates a <emphasis role="bold">component UML
+    diagram</emphasis> which I made:</para>
+
+    <para><figure>
+        <title>Architecture design</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata align="left" contentwidth="771"
+                       fileref="https://cloud.githubusercontent.com/assets/10115368/16357342/221be8f4-3af4-11e6-844b-7a66517eb0cc.png"
+                       valign="middle"/>
+          </imageobject>
+        </mediaobject>
+      </figure></para>
+
+    <para>I chose <emphasis role="bold">Spring</emphasis> as a java container
+    because nobody from my team had previous experience with Java l EE, but
+    they had experience with Spring. <emphasis role="bold">BaseX</emphasis>
+    looked like a faster and better scalable XML database alternative of
+    eXistdb. I also created the <emphasis role="bold">logical pair-database
+    architecture</emphasis> to differentiate between actual artifacts and
+    their extracted metadata. <emphasis role="bold">WebSocket</emphasis> was
+    chosen as a protocol instead of REST because REST does not support binary
+    data transfers.</para>
+
+    <para>The main piece of work I did was frontend based on <emphasis
+    role="bold">OpenUI5</emphasis> MVC framework with following
+    settings:<itemizedlist>
+        <listitem>
+          <para><emphasis role="bold">M</emphasis> - JSON data model
+          supporting two-way binding</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">V</emphasis> - XML document view
+          supported by <link
+          xlink:href="https://github.com/Holdo/enterprise-dev-repo/tree/master/webmvc/src/main/xsd">XSDs</link></para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">C</emphasis> - Javascript controller
+          with reactive programming support</para>
+        </listitem>
+      </itemizedlist>The final frontend is responsive and tested in Internet
+    Explorer 11, Mozilla Firefox and Google Chrome. Some additional javascript
+    libraries were used like <emphasis role="bold">highlight.js</emphasis> for
+    highlighting XML text and <emphasis role="bold">spin.js</emphasis> for
+    showing a spinner to the user while loading OpenUI5 asynchronously.</para>
+
+    <para>As a team leader I was also there to help my team members, sometimes
+    doing some java work and well... a lot of refactoring and bug fixing.
+    Unfortunately one of my team members, Tomáš Rybenský, was unable to find
+    time for the project and raised the white flag.</para>
+  </section>
+</article>
