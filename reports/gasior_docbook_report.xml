@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article class="techreport" version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <info>
+    <title>Final report - Web repository for development artifacts</title>
+
+    <author>
+      <personname><firstname>Ondrej</firstname><surname>Gasior</surname></personname>
+
+      <affiliation>
+        <orgname>PB138 - Modern markup languages and their
+        applications</orgname>
+      </affiliation>
+    </author>
+
+    <pubdate>28.06.2016</pubdate>
+  </info>
+
+  <section>
+    <title>My contribution</title>
+
+    <para>I was responsible for creating API for backend that offers necessary
+    operations in order to handle versioned repository for supported types of
+    artifacts and implementing related functionality using prepared BaseX
+    database. Key functionality was covered by unit tests in order to explore
+    bugs during very frequent changes. That required:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Publish interface supporting operations over repository</para>
+      </listitem>
+    </itemizedlist>
+
+    <para><itemizedlist>
+        <listitem>
+          <para>Extract metadata</para>
+
+          <itemizedlist>
+            <listitem>
+              <para><emphasis role="bold">XSD</emphasis> files - extract
+              simple types, complex types and its elements and
+              attributes</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">WSDL</emphasis> files - extract
+              operations with its requests and responses</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">WAR </emphasis>files - extract
+              web.xml and its informations about listeners and filters</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Parse metadata to XML and store them into database</para>
+        </listitem>
+
+        <listitem>
+          <para>Implement querying the database and transforming results into
+          Java objects</para>
+        </listitem>
+
+        <listitem>
+          <para>Validate the functionality with using unit test</para>
+        </listitem>
+      </itemizedlist></para>
+
+    <para>There were used several technologies during the development. DOM,
+    SAXON for extracting the metadata, JAXB for (un)marshalling to/from XML
+    and XQuery in order to query database.</para>
+
+    <para>The result is a product of many refactorings and hours of
+    negotiations with the team leader, however it is tested and hopefully it
+    meets requirements.</para>
+  </section>
+</article>
