@@ -101,8 +101,8 @@ public class XsdExtractor {
         }
 
 
-        xsdFile.setAttributes(attributes);
-        xsdFile.setElements(elements);
+        xsdFile.setAttributes(new ArrayList(new HashSet(attributes)));
+        xsdFile.setElements(new ArrayList(new HashSet(elements)));
         return output;
 
     }

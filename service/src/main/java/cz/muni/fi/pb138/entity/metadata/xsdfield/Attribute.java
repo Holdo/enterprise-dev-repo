@@ -31,4 +31,23 @@ public class Attribute {
 	public void setParent(String parent) {
 		this.parent = parent;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Attribute attribute = (Attribute) o;
+
+		if (!name.equals(attribute.name)) return false;
+		return parent.equals(attribute.parent);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = name.hashCode();
+		result = 31 * result + parent.hashCode();
+		return result;
+	}
 }
