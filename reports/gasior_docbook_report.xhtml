@@ -1,6 +1,10 @@
-<html><head>
-      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <style>body {
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+        <style>body {
     font-family: sans-serif;
     font-size: 10pt;
     color: black;
@@ -402,4 +406,71 @@ hr.footnote-hr {
 .hl-doctype {
     color: #008080;
 }
-</style> <title>Final report - Web repository for development artifacts</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="article"><div class="titlepage"><div><div><h1 class="title"><a name="d0e1"></a>Final report - Web repository for development artifacts</h1></div><div><div class="author"><h3 class="author"><span class="firstname">Ondrej</span> <span class="surname">Gasior</span></h3><div class="affiliation"><span class="orgname">PB138 - Modern markup languages and their applications<br></span></div></div></div><div><p class="pubdate">28.06.2016</p></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#d0e16">1. My contribution</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e16"></a>1.&nbsp;My contribution</h2></div></div></div><p>I was responsible for creating API for backend that offers necessary operations in order to handle versioned repository for supported types of artifacts and implementing related functionality using prepared BaseX database. Key functionality was covered by unit tests in order to explore bugs during very frequent changes. That required:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Publish interface supporting operations over repository</p></li></ul></div><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Extract metadata</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem"><p><span class="bold"><strong>XSD</strong></span> files - extract simple types, complex types and its elements and attributes</p></li><li class="listitem"><p><span class="bold"><strong>WSDL</strong></span> files - extract operations with its requests and responses</p></li><li class="listitem"><p><span class="bold"><strong>WAR </strong></span>files - extract web.xml and its informations about listeners and filters</p></li></ul></div></li><li class="listitem"><p>Parse metadata to XML and store them into database</p></li><li class="listitem"><p>Implement querying the database and transforming results into Java objects</p></li><li class="listitem"><p>Validate the functionality with using unit test</p></li></ul></div><p>There were used several technologies during the development. DOM, SAXON for extracting the metadata, JAXB for (un)marshalling to/from XML and XQuery in order to query database.</p><p>The result is a product of many refactorings and hours of negotiations with the team leader, however it is tested and hopefully it meets requirements.</p></div></div></body></html>
+
+        </style>
+        <title>Final report - Web repository for development artifacts</title>
+        <meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
+    </head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="article">
+    <div class="titlepage">
+        <div>
+            <div><h1 class="title"><a name="d0e1"></a>Final report - Web repository for development artifacts</h1></div>
+            <div>
+                <div class="author"><h3 class="author"><span class="firstname">Ondrej</span> <span class="surname">Gasior</span>
+                </h3>
+                    <div class="affiliation"><span class="orgname">PB138 - Modern markup languages and their applications<br></span>
+                    </div>
+                </div>
+            </div>
+            <div><p class="pubdate">28.06.2016</p></div>
+        </div>
+        <hr>
+    </div>
+    <div class="toc"><p><b>Table of Contents</b></p>
+        <dl class="toc">
+            <dt><span class="section"><a href="#d0e16">1. My contribution</a></span></dt>
+        </dl>
+    </div>
+    <div class="section">
+        <div class="titlepage">
+            <div>
+                <div><h2 class="title" style="clear: both"><a name="d0e16"></a>1.&nbsp;My contribution</h2></div>
+            </div>
+        </div>
+        <p>I was responsible for creating API for backend that offers necessary operations in order to handle versioned
+            repository for supported types of artifacts and implementing related functionality using prepared BaseX
+            database. Key functionality was covered by unit tests in order to explore bugs during very frequent changes.
+            That required:</p>
+        <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+                <li class="listitem"><p>Publish interface supporting operations over repository</p></li>
+            </ul>
+        </div>
+        <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+                <li class="listitem"><p>Extract metadata</p>
+                    <div class="itemizedlist">
+                        <ul class="itemizedlist" style="list-style-type: circle; ">
+                            <li class="listitem"><p><span class="bold"><strong>XSD</strong></span> files - extract
+                                simple types, complex types and its elements and attributes</p></li>
+                            <li class="listitem"><p><span class="bold"><strong>WSDL</strong></span> files - extract
+                                operations with its requests and responses</p></li>
+                            <li class="listitem"><p><span class="bold"><strong>WAR </strong></span>files - extract
+                                web.xml and its informations about listeners and filters</p></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="listitem"><p>Parse metadata to XML and store them into database</p></li>
+                <li class="listitem"><p>Implement querying the database and transforming results into Java objects</p>
+                </li>
+                <li class="listitem"><p>Validate the functionality with using unit test</p></li>
+            </ul>
+        </div>
+        <p>There were used several technologies during the development. DOM, SAXON for extracting the metadata, JAXB for
+            (un)marshalling to/from XML and XQuery in order to query database.</p>
+        <p>The result is a product of many refactorings and hours of negotiations with the team leader, however it is
+            tested and hopefully it meets requirements.</p></div>
+</div>
+</body>
+</html>
