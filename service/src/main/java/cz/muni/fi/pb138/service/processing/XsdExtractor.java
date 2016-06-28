@@ -65,7 +65,7 @@ public class XsdExtractor {
                     String elementName = "";
                     if (element.hasAttribute("name")) {
                         elementName = element.getAttribute("name");
-                        elements.add(new cz.muni.fi.pb138.entity.metadata.xsdfield.Element(elementName,type.getAttribute("name")));
+                        elements.add(new cz.muni.fi.pb138.entity.metadata.xsdfield.Element(elementName, type.getAttribute("name")));
                     }
 
 
@@ -76,16 +76,34 @@ public class XsdExtractor {
                     String attributeName = "";
                     if (attribute.hasAttribute("name")) {
                         attributeName = attribute.getAttribute("name");
-                        attributes.add(new Attribute(attributeName,type.getAttribute("name")));
+                        attributes.add(new Attribute(attributeName, type.getAttribute("name")));
                     }
                 }
             }
 
         }
+        list = doc.getDocumentElement().getElementsByTagNameNS("*", "element");
+        for (int i = 0; i < list.getLength(); i++) {
+
+            Element element = (Element) list.item(i);
+            String parent = element.getParentNode().getNodeName();
+
+            if (parent.contains(":")) {
+                parent = parent.split(":")[1];
+            }
+            if (parent.equals("schema")) {
+                String elementName = "";
+                if (element.hasAttribute("name")) {
+                    elementName = element.getAttribute("name");
+                    elements.add(new cz.muni.fi.pb138.entity.metadata.xsdfield.Element(elementName, "-"));
+                }
+            }
+        }
+
 
         xsdFile.setAttributes(attributes);
         xsdFile.setElements(elements);
-       return output;
+        return output;
 
     }
 
