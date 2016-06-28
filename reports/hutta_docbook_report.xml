@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <info>
+    <title>Project report: Web repository for development artifacts</title>
+
+    <author>
+      <personname><firstname>Peter</firstname><surname>Hutta</surname></personname>
+
+      <affiliation>
+        <orgname>PB138 - Modern markup languages and their application
+        </orgname>
+      </affiliation>
+    </author>
+
+    <pubdate>27.06.2016</pubdate>
+  </info>
+
+  <section>
+    <title>Work description</title>
+
+    <para>My task in team was to create persistence layer and data access
+    objects (DAO). We have decided to use BaseX XML database as a better (in
+    our case) alternative of eXistdb. I can't consider myself experienced java
+    developer, I have never had experience with most of the technologies we
+    have used. That is why I have been given a role of junior developer. Most
+    of my work I haven't commit directly to the master branch but instead I
+    have used pull requests. </para>
+
+    <para>I was also responsible for managing documentation, updating web
+    ApiDoc and updating Github wiki. I have corrected and unified JavaDoc
+    comments. Then I have been uploading generated result to our GitHub page
+    every time api has changed. Unfortunately, due to my difficult finals,
+    lack of time and work on several other projects I wasn't able fully
+    complete my responsibilities. So instead creating persistence layer I
+    ended up doing auxiliary work, work like writing small pieces of code,
+    XQuery expressions etc.</para>
+
+    <para>This was first time I was working on a team project of this size.
+    Next time I would have chosen project appropriately to my time and my
+    knowledge. </para>
+  </section>
+</article>
