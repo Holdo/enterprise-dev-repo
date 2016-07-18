@@ -20,6 +20,12 @@ How to run
 
 5. `mvn spring-boot:run`
 
+6. Open in web browser* [http://localhost:8080/](http://localhost:8080/)
+
+7. You can try uploading some of our [test* files](https://github.com/Holdo/enterprise-dev-repo/tree/master/webmvc/src/test/resources)
+
+\* at least Internet Explorer 11 because of WebSockets API (SockJS was not used)
+
 Developers
 ----
 
